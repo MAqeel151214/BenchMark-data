@@ -1,0 +1,379 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-06A",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Scientific Research — Experimental Design, Controls, Bias Mitigation, Statistical Power",
+    "generated_at": "2026-04-25T13:03:39+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-06A-001",
+      "category": "PRAXIS",
+      "subcategory": "Experimental Design",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A speleobiologist wants to evaluate two factors affecting biomass yield (mg) of a cave-dwelling bacterium (Strain 47) in simulated cave microenvironments: (1) nutrient agar type (Standard vs Enriched), and (2) UV exposure (None vs Low). The study will use a 2×2 factorial completely randomized design. From preliminary culturing, the pooled standard deviation of biomass across all conditions is estimated as σ = 0.8 mg. The minimum scientifically meaningful difference for either main effect is δ = 1.0 mg. Using the two-sample formula: n = (Z_α/2 + Z_β)² × 2σ² / δ², with α = 0.05 (two-tailed) and power = 0.90, compute the minimum number of simulated microenvironments (experimental units) needed per treatment combination. Then describe your randomization strategy and identify one variable you would block on. Provide the total number of experimental units required. Show all calculation steps.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the step-by-step power calculation.",
+        "State the total number of experimental units.",
+        "Describe the randomization and blocking in no more than 100 words."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify critical values from the standard normal distribution: Z_α/2 = Z_0.025 ≈ 1.96 and Z_β = Z_0.10 ≈ 1.282 for 90% power.",
+          "Step 2: Substitute into the formula: n = (1.96 + 1.282)² × 2 × (0.8)² / (1.0)² = (3.242)² × 2 × 0.64 / 1 = 10.5106 × 1.28 = 13.45.",
+          "Step 3: Round up to the next integer because sample size must be a whole number and the computed power must be at least 90%: n = 14 per treatment combination.",
+          "Step 4: With 4 treatment combinations in the 2×2 factorial, total experimental units = 14 × 4 = 56.",
+          "Step 5: Randomization should assign the 56 microenvironments to the 4 treatment combinations using a random number generator or randomization schedule, ensuring exactly 14 units per combination.",
+          "Step 6: A sensible blocking variable is batch of nutrient agar or week of experiment, to account for preparation-time variation that could otherwise inflate error variance."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Rounding n down to 13 instead of up, yielding 52 total units and insufficient power.",
+          "Using Z_β = 0.84 for 80% power instead of 1.282 for 90% power.",
+          "Forgetting to multiply by the number of treatment combinations (4), reporting only 14 total experimental units.",
+          "Describing blocking on a variable that is actually a factor in the design (e.g., UV exposure) rather than a nuisance variable."
+        ],
+        "required_knowledge": [
+          "Sample size formula for two independent means",
+          "Critical values from the standard normal distribution",
+          "Factorial experimental design structure",
+          "Principles of blocking and randomization"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["power-analysis", "factorial-design", "sample-size", "blocking"]
+    },
+    {
+      "task_id": "S-PRAX-06A-002",
+      "category": "PRAXIS",
+      "subcategory": "Controls and Confounders",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A sleep researcher wants to determine whether a novel melatonin supplement (Melatonin-X) improves sleep efficiency in shift workers compared to placebo. Three known confounders must be controlled: (i) baseline sleep efficiency, (ii) age, and (iii) habitual caffeine intake. Four proposed study designs are presented below. Which design most appropriately controls for all three confounders while maintaining internal validity?\n\nA. Recruit 200 shift workers via social media. Allow volunteers to self-select into the supplement group if they are willing to take pills; those who refuse serve as controls. Measure sleep efficiency with self-reported diaries at baseline and 4 weeks. Adjust for age in the final regression model.\n\nB. Enroll 200 shift workers and stratify randomization by caffeine intake category (low/medium/high). Do not record baseline sleep efficiency. Use wrist actigraphy to measure sleep efficiency. Exclude workers over age 50 to reduce variance.\n\nC. Enroll 200 shift workers. Pair participants by age (±3 years) and baseline sleep efficiency (±5%). Within each matched pair, randomly assign one to Melatonin-X and one to placebo. Exclude heavy caffeine users (>400 mg/day). Use wrist actigraphy to measure sleep efficiency.\n\nD. Enroll 200 shift workers and randomize to Melatonin-X or placebo. Provide all participants with a standardized caffeine-restriction protocol (max 200 mg/day) but do not monitor compliance. Use polysomnography in a sleep lab for 3 nights. Match pairs post-hoc by age and baseline sleep efficiency during analysis.\n\nSelect the single best option (A, B, C, or D).",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Respond with a single letter: A, B, C, or D.",
+        "No explanation is required."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Option A fails because self-selection creates selection bias, there is no randomization, and self-reported diaries introduce measurement bias; adjusting for age post-hoc does not fix the fundamental allocation bias.",
+          "Step 2: Option B fails because it does not control for baseline sleep efficiency (a major confounder) and excluding workers over 50 restricts generalizability without controlling for age as a confounder across the full range.",
+          "Step 3: Option D fails because unmonitored caffeine restriction creates a performance bias and differential compliance; post-hoc matching is inferior to prospective matching and cannot fully correct for confounding.",
+          "Step 4: Option C correctly uses prospective matched-pair randomization by age and baseline sleep efficiency, excludes the extreme confounding tail of caffeine intake, and uses objective actigraphy, thereby best controlling all three stated confounders."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting D because polysomnography is considered a 'gold standard' measure, while ignoring the fatal unmonitored compliance flaw.",
+          "Selecting B because stratification by caffeine appears rigorous, while missing that baseline sleep efficiency is entirely ignored.",
+          "Selecting A because regression adjustment is incorrectly assumed to fix self-selection bias.",
+          "Mistaking the exclusion of heavy caffeine users in C for a methodological flaw rather than a valid design choice to control a confounder."
+        ],
+        "required_knowledge": [
+          "Matched-pair randomized designs",
+          "Selection bias and self-selection",
+          "Prospective vs post-hoc matching",
+          "Objective measurement vs self-report",
+          "Compliance monitoring in clinical trials"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["confounders", "matched-pair", "internal-validity", "shift-work"]
+    },
+    {
+      "task_id": "S-PRAX-06A-003",
+      "category": "PRAXIS",
+      "subcategory": "Bias Identification and Mitigation",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A wearable technology company conducted a study to test whether their new blue-light-filtering glasses reduce digital eye strain in software engineers. They recruited 60 volunteers from their own engineering department. Because the glasses were in limited supply, the first 35 volunteers who signed up received the glasses (treatment group); the remaining 25 served as the control group. Eye strain was measured by a self-reported 1–10 comfort scale at baseline and after two weeks of use. Five engineers in the treatment group stopped wearing the glasses because they caused headaches and were excluded from the final analysis. The treatment group (n=30) showed a mean improvement of 1.3 points versus 0.2 points in controls (n=25; p = 0.03). The company concluded that the glasses are effective for all office workers and launched a marketing campaign.\n\nIdentify at least four specific methodological flaws in this study. For each flaw, name the specific type of bias or error introduced and explain how it undermines the conclusion.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "List at least four distinct flaws.",
+        "Each flaw must include the specific bias/error name and a one-sentence explanation of its impact."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Selection bias: non-random allocation (first-come-first-served within one company department) creates groups that may differ systematically in motivation, workload, or baseline eye strain, undermining comparability.",
+          "Step 2: Performance and detection bias: participants were not blinded to treatment assignment; those receiving glasses may report improvement due to expectation (placebo effect), and the company conducting the study has a conflict of interest in outcome assessment.",
+          "Step 3: Attrition/survivorship bias: excluding the 5 dropouts who experienced headaches from the treatment group artificially inflates the apparent benefit; an intention-to-treat analysis is required to preserve randomization-based comparability.",
+          "Step 4: Measurement bias: a self-reported comfort scale is subjective and susceptible to response bias, especially without blinding or objective biometric measurement.",
+          "Step 5: Confounding and limited generalizability: the sample consists only of engineers from a single department with unknown ergonomic setups; the result cannot be generalized to 'all office workers' due to selection and spectrum bias.",
+          "Step 6: Insufficient control for baseline differences: no matching or stratification was used, and the unequal group sizes (35 vs 25) suggest potential covariate imbalance that randomization would not guarantee in such a small sample."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Labeling the small sample size as a flaw without specifying that the core issue is lack of randomization leading to unmeasured confounding.",
+          "Stating 'publication bias' as a flaw in a single unpublished company study, confusing reporting bias with study-design bias.",
+          "Identifying the p-value as 'not significant enough' rather than explaining that the significance is rendered meaningless by the multiple biases present.",
+          "Confounding attrition bias with 'small sample size' rather than explaining differential exclusion related to adverse effects."
+        ],
+        "required_knowledge": [
+          "Randomization as a basis for causal inference",
+          "Selection bias, attrition bias, and performance bias",
+          "Intention-to-treat principle",
+          "Subjectivity of self-reported outcomes",
+          "External validity and generalizability"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["bias-identification", "flawed-study", "attrition-bias", "selection-bias"]
+    },
+    {
+      "task_id": "S-PRAX-06A-004",
+      "category": "PRAXIS",
+      "subcategory": "Statistical Power and Significance",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A research team conducts a pilot Phase I trial of an experimental gene therapy for an ultra-rare lysosomal storage disorder. Only 12 patients worldwide met the eligibility criteria during the recruitment window; 6 were randomized to gene therapy and 6 to placebo. After 6 months, the therapy group showed a 35% reduction in the disease biomarker compared to placebo (two-sample t-test, p = 0.03, Cohen's d = 1.4). The researchers issued a press release stating: 'This pilot study provides strong evidence of efficacy. We believe a confirmatory trial is unnecessary and advocate for accelerated regulatory approval.'\n\nEvaluate the researchers' claim. Answer True if their conclusion is scientifically justified, or False if it is not. Then provide a rigorous justification with at least three distinct statistical or methodological arguments.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Begin your answer with either True or False.",
+        "Provide at least three distinct arguments.",
+        "Each argument must cite a specific statistical or methodological concept."
+      ],
+      "ground_truth": {
+        "answer": "False",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: False. With only 6 participants per group, the study is severely underpowered for a reliable estimate; although the observed effect size is large, the sampling variance is enormous, yielding a wide 95% confidence interval for Cohen's d (approximately 0.1 to 2.7), meaning the true effect could be negligible.",
+          "Step 2: A single small pilot study has a high probability of being a false positive, especially in rare diseases where effect sizes are often overestimated due to regression to the mean and selective reporting of positive pilots.",
+          "Step 3: Phase I trials are designed to assess safety and tolerability, not efficacy; using a Phase I pilot for efficacy claims conflates trial phases and ignores the need for pre-registered primary endpoints and replication in an adequately powered Phase III trial.",
+          "Step 4: The clinical relevance of a biomarker reduction is unvalidated; surrogate endpoints in rare diseases often fail to translate to patient-centered outcomes, and claiming 'strong evidence' on biomarker data alone overstates the inference."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Answering True based on the large Cohen's d and 'statistically significant' p-value without considering sample size or confidence interval width.",
+          "Arguing that p = 0.03 is 'not significant enough' (e.g., requesting p < 0.01) rather than explaining that significance in a tiny sample is unreliable due to high variance.",
+          "Citing 'placebo effect' without a statistical argument about variance, precision, or false positive rates.",
+          "Conflating clinical significance with statistical significance without addressing the imprecision of the effect estimate."
+        ],
+        "required_knowledge": [
+          "Statistical power and its relationship to sample size",
+          "Confidence intervals for effect sizes",
+          "Phase I vs Phase III clinical trial objectives",
+          "False positive rates in underpowered studies",
+          "Surrogate endpoints and clinical relevance"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["statistical-significance", "pilot-study", "clinical-trials", "effect-size"]
+    },
+    {
+      "task_id": "S-PRAX-06A-005",
+      "category": "PRAXIS",
+      "subcategory": "Experimental Design",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A pediatric pulmonologist wants to test whether a new bronchodilator inhaler (Inh-X) improves peak expiratory flow (PEF, L/min) in adolescent asthma patients compared to the standard inhaler (Inh-S). The following confounders and design constraints are known: (i) baseline PEF varies widely among patients; (ii) asthma severity differs (mild, moderate, severe); (iii) inhaler technique proficiency affects drug delivery; and (iv) outdoor pollen count fluctuates seasonally and affects airway responsiveness. Four study designs are proposed. Which design best controls for all four issues while maintaining ethical and scientific validity?\n\nA. Parallel-group RCT. Randomize 240 patients to Inh-X or Inh-S. Stratify randomization by asthma severity. Run the entire trial during the low-pollen winter months only. Provide no inhaler technique coaching. Compare mean PEF change with an unpaired t-test.\n\nB. 2-period crossover RCT. Each patient receives Inh-X for 4 weeks, then after a 1-week washout receives Inh-S for 4 weeks (order randomized). Block by pollen-count week. Provide technique coaching at the start of each period. Analyze with a paired t-test.\n\nC. Matched-pair parallel RCT. Pair patients by baseline PEF (±10%) and asthma severity. Within each pair, randomly assign one to Inh-X and one to Inh-S. Provide standardized technique coaching to all patients. Run the trial across all seasons. Block randomization by pollen-count quartile. Analyze with a paired t-test on within-pair PEF differences.\n\nD. 4×4 Latin-square design. Each patient receives 4 treatments over 4 periods: Inh-X, Inh-S, placebo inhaler, sham inhaler. Each period lasts 4 weeks with a 1-week washout. Patients are rows, periods are columns, and treatments are balanced. Analyze with ANOVA.\n\nSelect the single best option (A, B, C, or D).",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Respond with a single letter: A, B, C, or D.",
+        "No explanation is required."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Option A is flawed because restricting the trial to low-pollen winter sacrifices external validity and fails to control for inhaler technique, which acts as a performance confounder; the unpaired t-test also ignores the stratification.",
+          "Step 2: Option B is flawed because a 1-week washout between bronchodilators in asthma is insufficient to eliminate carryover effects; asthma is a chronic condition and airway responsiveness persists beyond 1 week, violating a core crossover assumption.",
+          "Step 3: Option D is flawed because exposing adolescent asthma patients to 4-week periods of placebo and sham inhalers is unethical (withholding effective treatment) and clinically unstable; additionally, a Latin square does not address the confounders more effectively than a simpler design, and the short washouts still risk carryover.",
+          "Step 4: Option C correctly uses prospective matching on the two strongest patient-level confounders (baseline PEF and severity), standardizes inhaler technique to reduce performance variation, distributes seasonal pollen exposure evenly via blocking, and uses an appropriate paired analysis without carryover risk."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting B because crossover designs control for between-subject variance, while missing the critical carryover flaw from an insufficient washout in a chronic disease like asthma.",
+          "Selecting D because Latin squares are sophisticated, while ignoring the ethical problem of placebo/sham periods in adolescents with asthma and the clinical instability it causes.",
+          "Selecting A because running in a single season seems to 'control' pollen, not recognizing that it destroys generalizability and does not address technique confounding.",
+          "Failing to recognize that blocking by pollen quartile in C is superior to eliminating seasons in A because it preserves external validity while controlling the confounder."
+        ],
+        "required_knowledge": [
+          "Crossover trial assumptions and washout periods",
+          "Matched-pair randomized designs",
+          "Latin square designs and ethical constraints",
+          "Blocking and stratification",
+          "Carryover effects in chronic diseases",
+          "External validity vs internal validity tradeoffs"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["crossover-design", "carryover-effects", "matched-pair", "pediatric-asthma", "latin-square"]
+    },
+    {
+      "task_id": "S-PRAX-06A-006",
+      "category": "PRAXIS",
+      "subcategory": "Controls and Confounders",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A materials scientist is testing whether a novel anti-corrosion coating (Coating-Z) protects steel rebar in alkaline concrete pore solution better than the industry-standard epoxy (Coating-E). The laboratory has 6 environmental exposure chambers. Each chamber contains 3 vertical racks (top, middle, bottom). Each rack holds exactly 4 rebar specimens. The scientist knows the following sources of variation exist: (1) chamber-to-chamber humidity drift, (2) rack position within a chamber (temperature and condensation drip patterns differ), and (3) batch-to-batch variation in the concrete pore solution. The response variable is weeks until corrosion initiation.\n\nDesign the complete experiment. Your answer must specify: (a) the study design name and structure; (b) all control groups required (positive, negative, vehicle, sham as applicable); (c) how each of the three sources of variation is addressed through blocking, randomization, or restriction; (d) the exact allocation of the 72 available specimen slots; and (e) the appropriate statistical analysis. Provide your answer in no more than 250 words.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Include all five required components (a–e).",
+        "Do not exceed 250 words.",
+        "Show the arithmetic for the allocation."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Design: Randomized complete block design with chambers as blocks and racks as sub-blocks (a split-plot or nested block structure). With 72 specimens = 6 chambers × 3 racks × 4 specimens, and 4 treatment groups, each rack can hold exactly one specimen per treatment.",
+          "Step 2: Control groups: (i) Coating-Z (novel treatment), (ii) Coating-E (standard positive control), (iii) bare untreated steel (negative control), and (iv) solvent-only vehicle control (to isolate the solvent effect from the active coating).",
+          "Step 3: Addressing variation: (1) Chamber humidity drift is addressed by treating chamber as a blocking factor (random effect). (2) Rack position is addressed by treating rack as a sub-block; each rack receives all 4 treatments, so rack effects are balanced across treatments. (3) Batch variation in pore solution is addressed by preparing a single large homogeneous batch for all specimens; if multiple batches are unavoidable, ensure each chamber receives the same mix of batches or block by batch.",
+          "Step 4: Allocation: 72 specimens / 4 treatments = 18 per treatment. Within each chamber (12 specimens), assign 3 specimens of each treatment, one per rack. Within each rack (4 positions), randomly assign the 4 treatments to the 4 positions using a randomization schedule.",
+          "Step 5: Statistical analysis: A linear mixed-effects model (or split-plot ANOVA) with fixed effect for Coating and random effects for Chamber and Rack(Chamber), followed by appropriate post-hoc comparisons (e.g., Tukey HSD) to compare Coating-Z vs Coating-E."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Failing to include a vehicle control, only comparing Coating-Z to Coating-E and bare steel.",
+          "Treating rack position as a covariate rather than a block, leading to incorrect degrees of freedom and residual structure.",
+          "Using a completely randomized design ignoring the nested structure, which inflates error variance and loses efficiency.",
+          "Allocating treatments unevenly across racks (e.g., putting all Coating-Z on top racks), creating confounding with rack position.",
+          "Proposing a simple two-sample t-test instead of a model that accounts for the hierarchical blocking structure."
+        ],
+        "required_knowledge": [
+          "Nested block designs and split-plot structures",
+          "Types of experimental controls (positive, negative, vehicle)",
+          "Randomization within blocks",
+          "Mixed-effects models for hierarchical data",
+          "Balanced experimental allocation"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["experimental-design", "blocking", "controls", "split-plot", "materials-science"]
+    },
+    {
+      "task_id": "S-PRAX-06A-007",
+      "category": "PRAXIS",
+      "subcategory": "Bias Identification and Mitigation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "A multicenter Phase III randomized controlled trial (n = 800) investigated a novel probiotic (Probio-L) for reducing post-operative infection after colorectal surgery. Patients were allocated to Probio-L or placebo based on hospital admission date (odd days = Probio-L, even days = placebo). Surgeons could not be blinded because Probio-L darkened stool color. The primary endpoint was a composite of surgical site infection (SSI) or septicemia within 30 days. During analysis, 60 patients in the Probio-L arm were excluded for 'protocol violations' (primarily missed doses), whereas only 15 in the placebo arm were excluded. The per-protocol analysis showed 8% composite infection in Probio-L vs 14% in placebo (p = 0.02, NNT = 17). An interim analysis was conducted after 400 patients, and the trial was stopped early for efficacy. The authors concluded that Probio-L causally prevents post-operative infection and stated that 'randomization guarantees no confounding.'\n\nEvaluate this trial. Identify at least six distinct methodological flaws. For each flaw, name the specific bias or error, explain how it undermines the causal claim, and state how a rigorous trial would correct it.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Identify at least six distinct flaws.",
+        "For each flaw, provide: (1) name of bias/error, (2) explanation of impact, (3) proposed correction.",
+        "Address the authors' claim about randomization explicitly."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Allocation bias: odd/even day allocation is predictable and quasi-random, not truly random; surgeons could manipulate admission timing, introducing selection bias. Correction: use centralized computer-generated randomization with allocation concealment.",
+          "Step 2: Performance and detection bias: lack of surgeon blinding means differential administration of co-antibiotics, differential wound care, and differential ascertainment of SSI (which involves subjective clinical judgment). Correction: blind outcome assessors (independent adjudication) and use objective microbiological endpoints where possible.",
+          "Step 3: Attrition bias: differential exclusion (60 vs 15) in a per-protocol analysis biases results toward efficacy because sicker or non-compliant patients were removed from the treatment arm. Correction: perform intention-to-treat analysis including all randomized patients according to their original assignment.",
+          "Step 4: Stopping early for efficacy after an interim look: inflates Type I error and produces overestimated effect sizes (optional stopping bias). Correction: use pre-specified alpha-spending functions (e.g., O'Brien-Fleming) and continue to the planned sample size unless stopping boundaries are crossed with extreme evidence.",
+          "Step 5: Composite endpoint bias: combining SSI (common, less severe) with septicemia (rare, severe) masks the true effect; Probio-L may reduce mild SSIs without affecting septicemia, misleading clinicians about patient-important outcomes. Correction: power the trial for the most patient-important component (e.g., septicemia) or analyze components separately with multiplicity correction.",
+          "Step 6: Confounding by center and lack of stratification: although randomization balances confounders on average, multicenter trials require stratification or blocking by center to prevent chance imbalance and account for center-level surgical practice effects. Correction: stratify randomization by center and include center as a random effect in the analysis.",
+          "Step 7: Misunderstanding of randomization: randomization eliminates systematic confounding in expectation but does not guarantee balance in any single trial, nor does it protect against the performance, detection, and attrition biases listed above. Correction: authors should acknowledge that randomization is necessary but not sufficient for internal validity."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming that the lack of patient blinding is the main flaw, when the unblinded surgeons are the more critical source of performance and detection bias in surgical trials.",
+          "Identifying 'small sample size' as a flaw; n=800 is adequately powered, so this reveals a fundamental misunderstanding of the problem.",
+          "Stating that composite endpoints are always invalid; the specific flaw is mixing common mild events with rare severe events, which can mislead clinical interpretation.",
+          "Failing to recognize that odd/even allocation is a specific form of allocation bias rather than true randomization with concealment.",
+          "Attributing the 60 vs 15 exclusions to 'random chance' rather than differential attrition likely related to treatment toxicity or compliance."
+        ],
+        "required_knowledge": [
+          "Randomization methods and allocation concealment",
+          "Intention-to-treat vs per-protocol analysis",
+          "Interim analyses and alpha spending",
+          "Composite endpoints in clinical trials",
+          "Blinding and independent outcome adjudication",
+          "Multicenter trial design and center effects",
+          "Performance bias and detection bias distinction"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["clinical-trials", "allocation-bias", "intention-to-treat", "interim-analysis", "composite-endpoint"]
+    }
+  ]
+}

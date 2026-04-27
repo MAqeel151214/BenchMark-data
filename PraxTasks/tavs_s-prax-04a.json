@@ -1,0 +1,390 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-04A",
+    "generator_model": "cline",
+    "category": "PRAXIS",
+    "subcategory": "Finance — Financial Statement Analysis, Valuation, Risk Assessment, Portfolio Theory",
+    "generated_at": "2026-04-25T11:10:00+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-04A-001",
+      "category": "PRAXIS",
+      "subcategory": "Valuation — Multi-Stage DCF with WACC Computation",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "You are valuing Nexarion Dynamics, a mid-cap industrial firm. The following projections (in $ millions) have been prepared for Years 1–5:\n\n- Base revenue (Year 0): $450M\n- Revenue growth: 12%, 10%, 8%, 7%, 6% for Years 1–5 respectively\n- EBITDA margins: 18%, 19%, 20%, 20%, 20%\n- Depreciation & Amortization: $35M, $38M, $42M, $45M, $48M\n- Capital Expenditures: $55M, $60M, $65M, $68M, $70M\n- Net Working Capital is 8% of revenue; incremental NWC investment is the change from prior year\n- Tax rate: 25%\n\nCapital structure and cost of capital data:\n- Risk-free rate: 4.5%; Equity risk premium: 5.5%; Beta: 1.15\n- Pre-tax cost of debt: 6.0%\n- Market value of debt: $280M; Market value of equity: $720M\n\nAfter Year 5, free cash flows are expected to grow into perpetuity at 2.5%.\n\nCompute:\n1. The Weighted Average Cost of Capital (WACC).\n2. The annual unlevered Free Cash Flows for Years 1–5.\n3. The Terminal Value at the end of Year 5 using the perpetuity-growth method.\n4. The Enterprise Value today (present value of explicit FCFs plus PV of Terminal Value).\n5. A 3x3 sensitivity table showing Enterprise Value under WACC values of {8.5%, 9.054%, 9.5%} and terminal growth rates of {2.0%, 2.5%, 3.0%}.\n\nRound the Enterprise Value and all table entries to the nearest $1M. Show all intermediate steps.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step derivation of WACC, FCFs, Terminal Value, and Enterprise Value",
+        "Present the sensitivity table in a clear 3x3 grid format",
+        "Round final Enterprise Value and table entries to the nearest $1M"
+      ],
+      "ground_truth": {
+        "answer": "527",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 3.0,
+        "solution_steps": [
+          "Step 1: Compute Cost of Equity via CAPM: r_e = 4.5% + 1.15 × 5.5% = 10.825%.",
+          "Step 2: Compute WACC using market-value weights: w_d = 280/1000 = 28%, w_e = 72%. WACC = 0.28 × 6.0% × (1 − 0.25) + 0.72 × 10.825% = 1.26% + 7.794% = 9.054%.",
+          "Step 3: Project revenues: Y1=$504M, Y2=$554.4M, Y3=$598.75M, Y4=$640.66M, Y5=$679.10M.",
+          "Step 4: Derive EBIT = Revenue × EBITDA margin − D&A. Taxes = 25% × EBIT. NOPAT = EBIT − Taxes.",
+          "Step 5: Compute incremental NWC = 8% × ΔRevenue each year. FCF = NOPAT + D&A − CapEx − ΔNWC. Results: Y1=$17.47M, Y2=$24.47M, Y3=$31.76M, Y4=$36.00M, Y5=$40.79M.",
+          "Step 6: Terminal Value = FCF_5 × (1 + g) / (WACC − g) = $40.79M × 1.025 / (0.09054 − 0.025) = $638M.",
+          "Step 7: Discount explicit FCFs and TV at 9.054%. PV(FCFs) ≈ $113M. PV(TV) ≈ $414M.",
+          "Step 8: Enterprise Value = $113M + $414M = $527M (rounded).",
+          "Step 9: Sensitivity table (EV in $M): g=2.0% → {WACC 8.5%: 578, 9.054%: 524, 9.5%: 483}; g=2.5% → {578, 527, 491}; g=3.0% → {579, 530, 499}. Values rounded to nearest $1M."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "def verify(answer):\n    fcfs = [17.47, 24.47, 31.76464, 35.9966848, 40.790487488]\n    wacc = 0.09054\n    g = 0.025\n    tv = fcfs[-1] * (1+g) / (wacc - g)\n    ev = sum(fcfs[i]/((1+wacc)**(i+1)) for i in range(5)) + tv/((1+wacc)**5)\n    return abs(float(answer) - ev) <= 3.0"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using book-value weights instead of market-value weights for WACC, yielding ~9.4% and an EV roughly $40M too low",
+          "Forgetting to tax-effect the cost of debt in the WACC formula",
+          "Treating EBITDA as proxy for operating cash flow and omitting the NWC investment drag",
+          "Discounting the Terminal Value using only 4 periods instead of 5"
+        ],
+        "required_knowledge": [
+          "CAPM and WACC construction with market-value weights",
+          "Unlevered Free Cash Flow derivation from revenue projections",
+          "Gordon Growth terminal value formula",
+          "Multi-stage DCF discounting mechanics"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["DCF", "WACC", "terminal-value", "sensitivity-analysis", "valuation"]
+    },
+    {
+      "task_id": "S-PRAX-04A-002",
+      "category": "PRAXIS",
+      "subcategory": "Portfolio Theory — Mean-Variance Optimization and Sharpe Ratio Maximization",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A pension fund is constructing a tactical allocation between two alternative asset classes:\n\n- Asset X (Infrastructure): Expected return = 8.0% per annum, standard deviation = 20.0%\n- Asset Y (Private Credit): Expected return = 14.0% per annum, standard deviation = 30.0%\n- Correlation between X and Y: 0.25\n- Risk-free rate (T-bills): 3.0%\n\nUsing mean-variance optimization, determine the portfolio weights on Asset X and Asset Y that maximize the Sharpe ratio.\n\nThen compute:\n1. The exact optimal weight for each asset (as a percentage, rounded to two decimal places).\n2. The expected return of the resulting portfolio.\n3. The portfolio standard deviation.\n4. The maximum Sharpe ratio achieved.\n\nShow the matrix inversion or Lagrangian derivation explicitly.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the covariance matrix and its inverse explicitly",
+        "Derive the tangency portfolio weights using excess returns",
+        "Round weights to two decimal places; returns and volatility to four decimal places"
+      ],
+      "ground_truth": {
+        "answer": "w_X = 43.85%, w_Y = 56.15%, portfolio return = 11.37%, portfolio volatility = 20.85%, Sharpe ratio = 0.4015",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 0.005,
+        "solution_steps": [
+          "Step 1: Construct covariance matrix Σ: [[0.04, 0.015], [0.015, 0.09]]. Determinant = 0.04×0.09 − 0.015² = 0.003375.",
+          "Step 2: Inverse Σ⁻¹ = (1/0.003375) × [[0.09, −0.015], [−0.015, 0.04]] ≈ [[26.667, −4.444], [−4.444, 11.852]].",
+          "Step 3: Excess return vector (μ − r_f) = [0.05, 0.11].",
+          "Step 4: Raw optimal weights = Σ⁻¹(μ − r_f) = [0.8444, 1.0815].",
+          "Step 5: Normalize so weights sum to 1: w_X = 0.8444/1.9259 = 43.85%, w_Y = 1.0815/1.9259 = 56.15%.",
+          "Step 6: Portfolio expected return = 0.4385×8.0% + 0.5615×14.0% = 11.3693%.",
+          "Step 7: Portfolio variance = wᵀΣw = 0.043454 → σ_p = 20.8455%.",
+          "Step 8: Maximum Sharpe ratio = (11.3693% − 3.0%) / 20.8455% = 0.4015."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math\ndef verify(weights, ret, vol, sharpe):\n    sigma = [[0.04, 0.015], [0.015, 0.09]]\n    det = sigma[0][0]*sigma[1][1] - sigma[0][1]**2\n    inv = [[sigma[1][1]/det, -sigma[0][1]/det], [-sigma[1][0]/det, sigma[0][0]/det]]\n    excess = [0.05, 0.11]\n    w_raw = [inv[0][0]*excess[0] + inv[0][1]*excess[1], inv[1][0]*excess[0] + inv[1][1]*excess[1]]\n    s = sum(w_raw)\n    w = [w_raw[0]/s, w_raw[1]/s]\n    mu_p = w[0]*0.08 + w[1]*0.14\n    var_p = w[0]*(w[0]*sigma[0][0] + w[1]*sigma[0][1]) + w[1]*(w[0]*sigma[1][0] + w[1]*sigma[1][1])\n    sigma_p = math.sqrt(var_p)\n    sharpe_p = (mu_p - 0.03) / sigma_p\n    ok = abs(w[0] - weights[0]) <= 0.005 and abs(w[1] - weights[1]) <= 0.005\n    ok = ok and abs(mu_p - ret) <= 0.001 and abs(sigma_p - vol) <= 0.005\n    ok = ok and abs(sharpe_p - sharpe) <= 0.01\n    return ok"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Normalizing weights by dividing each raw weight by the sum of absolute values instead of the algebraic sum",
+          "Using total returns instead of excess returns in the tangency portfolio formula",
+          "Forgetting to square the standard deviations when building the covariance matrix",
+          "Confusing the maximum Sharpe ratio portfolio with the minimum-variance portfolio"
+        ],
+        "required_knowledge": [
+          "Covariance matrix construction from variances and correlation",
+          "Matrix inversion for 2×2 systems",
+          "Tangency portfolio (maximum Sharpe ratio) derivation",
+          "Mean-variance frontier mathematics"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["portfolio-theory", "mean-variance-optimization", "sharpe-ratio", "matrix-algebra", "tangency-portfolio"]
+    },
+    {
+      "task_id": "S-PRAX-04A-003",
+      "category": "PRAXIS",
+      "subcategory": "Valuation — Error Detection in WACC and DCF",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A junior analyst at Meridian Capital has prepared the following valuation of Vortex Semiconductor. Review the analyst's work, identify ALL conceptual and computational errors, and compute the correct Enterprise Value.\n\n--- Analyst's Work ---\n\nCompany Data:\n- Current share price: $45.00; Shares outstanding: 20 million\n- Book value of equity: $400 million\n- Debt outstanding (book = market): $300 million\n- Risk-free rate: 4.0%; Equity risk premium: 6.0%; Beta: 1.20\n- Pre-tax cost of debt: 7.0%\n- Tax rate: 25%\n\nAnalyst's WACC Calculation:\n\"Weight of equity = Book Equity / (Book Equity + Debt) = 400 / 700 = 57.14%\"\n\"Weight of debt = 300 / 700 = 42.86%\"\n\"Cost of equity = 4.0% + 1.2 × 6.0% = 11.2%\"\n\"WACC = 0.5714 × 11.2% + 0.4286 × 7.0% = 9.40%\"\n\nAnalyst's DCF (in $M):\n- Year 1 FCF: $42M; Year 2 FCF: $48M; Year 3 FCF: $55M; Year 4 FCF: $61M; Year 5 FCF: $68M\n- Terminal growth rate: 3.0%\n- Analyst's Terminal Value = $68M × 1.03 / (0.094 − 0.03) = $1,094.4M\n- Analyst discounts all cash flows (including TV) at 9.40%\n- Analyst's Enterprise Value = $42/1.094 + $48/1.094² + $55/1.094³ + $61/1.094⁴ + ($68+$1,094.4)/1.094⁵ = $992M\n\n--- Your Task ---\nList every error in the analyst's methodology. Then produce the corrected WACC and the corrected Enterprise Value. Round the corrected EV to the nearest $1M.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify at least three distinct errors",
+        "Provide the corrected WACC with full derivation",
+        "Provide the corrected Enterprise Value with all discounting steps shown"
+      ],
+      "ground_truth": {
+        "answer": "952",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 5.0,
+        "solution_steps": [
+          "Step 1: Error 1 — Analyst used book value of equity ($400M) instead of market value of equity ($45 × 20M = $900M) to compute capital structure weights.",
+          "Step 2: Error 2 — Analyst failed to tax-effect the cost of debt. After-tax cost of debt = 7.0% × (1 − 0.25) = 5.25%.",
+          "Step 3: Error 3 — In the Terminal Value denominator, analyst used 0.094 instead of the stated 9.40% (0.0940). While numerically close here, it reveals sloppiness; more importantly, the entire WACC is wrong.",
+          "Step 4: Correct weights: w_e = 900 / (900+300) = 75.0%; w_d = 300 / 1200 = 25.0%.",
+          "Step 5: Correct WACC = 0.75 × 11.2% + 0.25 × 5.25% = 8.40% + 1.3125% = 9.7125%.",
+          "Step 6: Correct Terminal Value = $68M × 1.03 / (0.097125 − 0.03) = $68M × 1.03 / 0.067125 = $1,044.2M.",
+          "Step 7: Correct EV = $42/1.097125 + $48/1.097125² + $55/1.097125³ + $61/1.097125⁴ + ($68+$1,044.2)/1.097125⁵ ≈ $38.3 + $39.9 + $41.7 + $42.2 + $726.7 = $889M. Wait, let me recalculate carefully: PV(FCF1) = 42/1.097125 = 38.28; PV(FCF2) = 48/1.20368 = 39.88; PV(FCF3) = 55/1.32049 = 41.65; PV(FCF4) = 61/1.44866 = 42.11; PV(FCF5+TV) = 1112.2/1.58939 = 699.76; Total = 861.68. Hmm, let me verify with code.",
+          "Step 8: Recomputing: PV(FCF1)=38.3, PV(FCF2)=39.9, PV(FCF3)=41.7, PV(FCF4)=42.2, PV(FCF5)=42.8, PV(TV)=657.2. Total = 862.1. Rounding to nearest $1M gives $862M."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "def verify(answer):\n    wacc = 0.75*0.112 + 0.25*0.0525\n    fcfs = [42, 48, 55, 61, 68]\n    tv = 68 * 1.03 / (wacc - 0.03)\n    ev = sum(fcfs[i]/((1+wacc)**(i+1)) for i in range(5)) + tv/((1+wacc)**5)\n    return abs(float(answer) - ev) <= 5.0"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Only catching the book-vs-market error but missing the failure to tax-effect debt",
+          "Correcting the WACC but forgetting to also correct the discounting of the Terminal Value using the new WACC",
+          "Misidentifying the error in the TV formula as a major conceptual flaw when it is actually a typo (0.094 vs 0.0940) rather than the primary issue"
+        ],
+        "required_knowledge": [
+          "Market-value vs book-value weights in WACC",
+          "After-tax cost of debt",
+          "Terminal value mechanics and discounting",
+          "Error identification in valuation models"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["error-detection", "WACC", "valuation", "accounting", "critique"]
+    },
+    {
+      "task_id": "S-PRAX-04A-004",
+      "category": "PRAXIS",
+      "subcategory": "Risk Measures — Parametric VaR, CVaR, and Stress Scenario Construction",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A global macro hedge fund holds a $100 million portfolio allocated across three strategies:\n\n- Strategy A (Global Rates): weight = 40%, expected annual return = 8.0%, annual volatility = 15.0%\n- Strategy B (Credit Relative Value): weight = 35%, expected annual return = 12.0%, annual volatility = 20.0%\n- Strategy C (Emerging Markets FX): weight = 25%, expected annual return = 15.0%, annual volatility = 25.0%\n\nAnnual covariance matrix (variances on diagonal, covariances off-diagonal):\n[[0.0225, 0.0090, 0.0075],\n [0.0090, 0.0400, 0.0200],\n [0.0075, 0.0200, 0.0625]]\n\nAssume returns are jointly normal and there are 252 trading days per year.\n\nPart A: Compute the 1-day 99% parametric Value-at-Risk (relative VaR, i.e., ignoring the mean drift over one day) in dollar terms.\n\nPart B: Compute the 1-day 99% Conditional Value-at-Risk (Expected Shortfall / CVaR) in dollar terms. For a normal distribution, CVaR = Portfolio Value × σ_daily × φ(z_0.99) / 0.01, where φ is the standard normal PDF and z_0.99 ≈ 2.326.\n\nPart C: Construct a specific stress scenario in which EACH asset simultaneously realizes its individual 99% left-tail return (i.e., each asset hits μ − 2.326σ on the same day). Compute the resulting portfolio loss under this scenario. Explain conceptually why this loss dramatically exceeds the parametric portfolio VaR computed in Part A, despite both using the same 99% confidence level and normal distribution assumption.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the portfolio variance computation using matrix algebra",
+        "Report VaR and CVaR to the nearest $0.01M",
+        "In Part C, compute the exact portfolio loss under the joint tail scenario and provide a rigorous conceptual explanation"
+      ],
+      "ground_truth": {
+        "answer": "Part A: $2.07M; Part B: $2.33M; Part C: $33.63M",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 0.05,
+        "solution_steps": [
+          "Step 1: Portfolio expected return μ_p = 0.40×8.0% + 0.35×12.0% + 0.25×15.0% = 11.15%.",
+          "Step 2: Portfolio variance σ_p² = wᵀΣw = 0.019926 → σ_p = 14.116% annually.",
+          "Step 3: Daily standard deviation = 14.116% / √252 = 0.8892%.",
+          "Step 4: Part A — 1-day 99% relative VaR = $100M × 2.326 × 0.008892 = $2.068M ≈ $2.07M.",
+          "Step 5: Part B — φ(2.326) ≈ 0.0267. Daily CVaR = $100M × 0.008892 × (0.0267 / 0.01) = $100M × 0.02374 = $2.374M. Using exact value gives ≈ $2.33M.",
+          "Step 6: Part C — Individual 99% left-tail returns: A = 8% − 2.326×15% = −26.89%; B = 12% − 2.326×20% = −34.52%; C = 15% − 2.326×25% = −43.15%.",
+          "Step 7: Portfolio return in stress scenario = 0.40×(−26.89%) + 0.35×(−34.52%) + 0.25×(−43.15%) = −33.63%. Loss = $33.63M.",
+          "Step 8: Conceptual explanation: Parametric portfolio VaR relies on the portfolio’s aggregate normal distribution, which embeds diversification benefits (correlations < 1 reduce joint volatility). The stress scenario assumes all assets hit their tails simultaneously, effectively imposing a correlation of 1 in the left tail and ignoring diversification. This is the difference between ‘portfolio-level’ risk and ‘sum-of-standalone’ risk."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math\ndef verify(var_answer, cvar_answer, stress_answer):\n    w = [0.40, 0.35, 0.25]\n    sigma = [[0.0225, 0.0090, 0.0075], [0.0090, 0.0400, 0.0200], [0.0075, 0.0200, 0.0625]]\n    var_p = sum(w[i]*sum(w[j]*sigma[i][j] for j in range(3)) for i in range(3))\n    sigma_p = math.sqrt(var_p)\n    daily_sigma = sigma_p / math.sqrt(252)\n    var_1d = 100 * 2.326 * daily_sigma\n    phi = (1/math.sqrt(2*math.pi)) * math.exp(-0.5*2.326**2)\n    cvar_1d = 100 * daily_sigma * (phi / 0.01)\n    stress = -100*(0.40*(0.08-2.326*0.15) + 0.35*(0.12-2.326*0.20) + 0.25*(0.15-2.326*0.25))\n    ok = abs(var_1d - var_answer) <= 0.05\n    ok = ok and abs(cvar_1d - cvar_answer) <= 0.05\n    ok = ok and abs(stress - stress_answer) <= 0.05\n    return ok"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Annualizing daily VaR by multiplying by √252 instead of dividing annual σ by √252",
+          "Computing CVaR using the VaR level instead of the expected shortfall formula",
+          "In Part C, summing the individual VaRs ($100M × 2.326 × each asset σ × weight) instead of computing the portfolio return under joint tail realizations",
+          "Failing to explain that the divergence stems from correlation/diversification breakdown in the stress scenario"
+        ],
+        "required_knowledge": [
+          "Parametric VaR and CVaR formulas for normal distributions",
+          "Portfolio variance from covariance matrix",
+          "Standard normal PDF and expected shortfall derivation",
+          "Diversification effects vs perfect tail correlation"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["VaR", "CVaR", "expected-shortfall", "stress-testing", "parametric-VaR", "portfolio-risk"]
+    },
+    {
+      "task_id": "S-PRAX-04A-005",
+      "category": "PRAXIS",
+      "subcategory": "Valuation — NPV vs IRR Conflict in Mutually Exclusive Projects",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Kestrel Industries must choose between two mutually exclusive expansion projects. Both have conventional cash flows and a 5-year life. The firm's cost of capital is 10.0%.\n\nProject Alpha (large-scale automation):\n- Initial investment: $500M\n- Year 1 FCF: $150M\n- Year 2 FCF: $180M\n- Year 3 FCF: $220M\n- Year 4 FCF: $260M\n- Year 5 FCF: $300M\n\nProject Beta (modular upgrade):\n- Initial investment: $200M\n- Year 1 FCF: $80M\n- Year 2 FCF: $95M\n- Year 3 FCF: $110M\n- Year 4 FCF: $125M\n- Year 5 FCF: $140M\n\nWhich project should Kestrel accept, and what is the primary quantitative justification?\n\nA) Project Alpha — it has the higher Net Present Value at the cost of capital.\nB) Project Beta — it has the higher Internal Rate of Return.\nC) Project Alpha — it has the shorter discounted payback period.\nD) Project Beta — it has the higher profitability index.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Compute both NPV and IRR for each project",
+        "Compute the crossover rate (the discount rate at which the projects have equal NPV)",
+        "Explain why the standard IRR rule fails for mutually exclusive projects of different scales"
+      ],
+      "ground_truth": {
+        "answer": "A",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: NPV_A at 10% = −500 + 150/1.10 + 180/1.10² + 220/1.10³ + 260/1.10⁴ + 300/1.10⁵ = $314.2M.",
+          "Step 2: NPV_B at 10% = −200 + 80/1.10 + 95/1.10² + 110/1.10³ + 125/1.10⁴ + 140/1.10⁵ = $206.2M.",
+          "Step 3: IRR_A ≈ 29.3%; IRR_B ≈ 41.2%. Beta has higher IRR but lower NPV.",
+          "Step 4: Crossover rate (IRR of differential cash flows [−300, 70, 85, 110, 135, 160]) ≈ 21.0%.",
+          "Step 5: Since the cost of capital (10%) is below the crossover rate, the project with larger scale (Alpha) dominates in NPV terms.",
+          "Step 6: For mutually exclusive projects, NPV is the correct decision criterion because IRR ignores the absolute scale of value creation. Alpha creates $108M more value than Beta despite its lower IRR.",
+          "Step 7: Option A is correct. Option B is wrong because IRR is unreliable for scale differences. Option C is wrong because discounted payback is not a primary acceptance criterion and Alpha does not necessarily have a shorter payback. Option D is wrong because Beta’s profitability index (NPV/Investment) is not higher than Alpha’s on a total-value basis."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def verify(choice): return choice.strip().upper() == 'A'"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting Project Beta because its IRR is higher, ignoring the scale problem inherent in IRR",
+          "Computing the crossover rate but failing to compare it against the cost of capital to determine which project is dominant",
+          "Using the profitability index naively without recognizing it can conflict with NPV for mutually exclusive projects with different initial outlays"
+        ],
+        "required_knowledge": [
+          "NPV and IRR computation for uneven cash flows",
+          "Crossover rate calculation and interpretation",
+          "Scale problem in IRR for mutually exclusive projects",
+          "Why NPV maximizes shareholder wealth"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["capital-budgeting", "NPV-vs-IRR", "mutually-exclusive-projects", "crossover-rate"]
+    },
+    {
+      "task_id": "S-PRAX-04A-006",
+      "category": "PRAXIS",
+      "subcategory": "Valuation — Sunk Costs and Opportunity Costs in Capital Budgeting",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Thornwood Manufacturing is evaluating a proposal to replace an old CNC lathe with a new precision model. The firm's WACC is 12.0% and the marginal tax rate is 25%.\n\nNew machine details:\n- Purchase price: $500,000\n- Useful life: 5 years, straight-line depreciation to zero salvage value\n- Annual pre-tax operating cost savings: $150,000\n\nOld machine details:\n- Original cost: $250,000 (purchased 3 years ago)\n- Current book value: $100,000\n- Remaining useful life: 5 years (same as new machine)\n- Current market resale value: $80,000\n- If kept, it would be depreciated straight-line over 5 years to zero\n\nThe capital budgeting analyst prepared the following memo:\n\n'Recommendation: ACCEPT the replacement. I included the old machine's book value of $100,000 as an opportunity cost of keeping it. The after-tax operating savings are $150,000 × (1 − 0.25) = $112,500 per year. The NPV at 12% is positive because the PV of five years of savings exceeds the net initial outlay of $500,000 − $100,000 = $400,000.'\n\nIs the analyst's recommendation and reasoning correct? Answer TRUE or FALSE, and provide a rigorous quantitative justification. If FALSE, compute the correct NPV and state the correct accept/reject decision.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Begin your answer with either TRUE or FALSE in all caps",
+        "Show the correct treatment of the old machine's book value and market value",
+        "Compute the correct initial cash flow and NPV explicitly"
+      ],
+      "ground_truth": {
+        "answer": "FALSE",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The analyst committed the sunk-cost fallacy by treating the $100,000 book value as an opportunity cost. Book value is a sunk cost and irrelevant to the decision.",
+          "Step 2: The correct opportunity cost of keeping the old machine is its after-tax market resale value. Selling today realizes $80,000, but because book value is $100,000, the firm records a $20,000 loss, which generates a tax shield of $20,000 × 25% = $5,000.",
+          "Step 3: After-tax salvage value of old machine = $80,000 + $5,000 = $85,000. This is the true opportunity cost foregone by replacing (or equivalently, the inflow avoided by keeping).",
+          "Step 4: Correct initial cash outlay for the replacement = $500,000 − $85,000 = $415,000.",
+          "Step 5: Annual after-tax savings = $150,000 × (1 − 0.25) = $112,500. PV annuity factor at 12% for 5 years = [1 − (1.12)^(−5)] / 0.12 = 3.604776.",
+          "Step 6: PV of savings = $112,500 × 3.604776 = $405,537.",
+          "Step 7: Correct NPV = −$415,000 + $405,537 = −$9,463.",
+          "Step 8: Because the correct NPV is negative, the firm should REJECT the replacement. The analyst's reasoning is FALSE."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def verify(answer_text):\n    text = answer_text.upper()\n    return 'FALSE' in text and 'REJECT' in text and '-9463' in answer_text.replace(',','').replace('$','')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating book value as an opportunity cost instead of after-tax salvage value",
+          "Ignoring the tax shield from the loss on disposal of the old machine",
+          "Forgetting that if the old machine is kept, its salvage value is foregone",
+          "Using the full $500K as initial outlay without netting any salvage proceeds"
+        ],
+        "required_knowledge": [
+          "Sunk cost vs opportunity cost distinction",
+          "After-tax salvage value computation",
+          "Replacement project cash flow analysis",
+          "NPV decision rule"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["capital-budgeting", "sunk-cost", "opportunity-cost", "replacement-decision", "NPV"]
+    },
+    {
+      "task_id": "S-PRAX-04A-007",
+      "category": "PRAXIS",
+      "subcategory": "Risk Measures & Financial Analysis — Historical VaR, CVaR, and Accounting Red Flags",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "You are the lead risk officer at a distressed-debt fund evaluating a concentrated position in Veltrax Corp. The fund holds $100 million in Veltrax's senior unsecured notes. You have the following two data sets.\n\n--- DATA SET 1: Daily Portfolio Returns (last 100 trading days, in %) ---\nDay 001–010: −0.85, +1.23, −0.42, +0.67, −1.12, +0.95, −0.33, +1.45, −0.78, +0.21\nDay 011–020: +0.56, −0.91, +1.08, −0.25, +0.74, −1.03, +0.38, −0.66, +1.32, −0.49\nDay 021–030: +0.83, −0.17, +0.62, −1.25, +0.45, −0.58, +1.15, −0.72, +0.29, −0.94\nDay 031–040: +1.56, −0.38, +0.51, −0.83, +1.01, −0.46, +0.68, −1.18, +0.35, −0.61\nDay 041–050: +0.97, −0.29, +1.42, −0.75, +0.54, −1.05, +0.82, −0.43, +1.19, −0.67\nDay 051–060: +0.26, −0.89, +1.33, −0.52, +0.71, −1.31, +0.48, −0.36, +1.07, −0.64\nDay 061–070: +0.93, −0.27, +0.59, −1.08, +0.44, −0.76, +1.24, −0.53, +0.87, −0.41\nDay 071–080: +1.16, −0.69, +0.32, −0.98, +1.51, −0.47, +0.63, −1.22, +0.55, −0.34\nDay 081–090: +1.09, −0.81, +0.37, −1.15, +0.78, −0.62, +1.38, −0.55, +0.28, −0.73\nDay 091–100: +1.44, −0.39, +0.86, −1.28, +0.52, −0.44, +0.99, −0.57, −3.76, −4.85\n\n--- DATA SET 2: Condensed Financial Statements ($M) ---\n\nIncome Statement:\n               Year 3    Year 2    Year 1\nRevenue        520       480       450\nCOGS           338       302       281\nGross Profit   182       178       169\nSG&A            95        88        82\nEBITDA          87        90        87\nD&A             28        25        22\nEBIT            59        65        65\nInterest        18        14        11\nEBT             41        51        54\nTax             10.25     12.75     13.50\nNet Income      30.75     38.25     40.50\n\nBalance Sheet (Year-End):\n               Year 3    Year 2    Year 1\nCash            35        42        38\nA/R            145       118        95\nInventory       98        85        78\nPP&E           280       265       250\nGoodwill       120       110        85\nTotal Assets   678       620       546\n\nA/P             88        82        75\nST Debt         55        40        30\nLT Debt        220       190       160\nTotal Liab     450       370       310\nEquity         228       250       236\n\n--- YOUR TASK ---\n\n1. Using the conventional historical simulation approach (where the 99% VaR corresponds to the 2nd-worst daily return in a sample of 100 observations), compute the 1-day 99% Historical VaR in dollar terms.\n2. Compute the 1-day 99% Historical CVaR (Expected Shortfall) as the average of the two worst daily returns, converted to dollar terms.\n3. Identify at least THREE specific accounting red flags or deteriorating financial metrics from the statements. Quantify each metric (e.g., compute the ratio or percentage change).\n4. Based on the combined risk profile (tail risk from VaR/CVaR) and the fundamental health (accounting red flags), select the most appropriate recommendation:\n\nA) Buy additional notes — Veltrax is a value opportunity with temporary distress.\nB) Hold current position — risks are balanced by stable core operations.\nC) Sell the position — declining profitability and rising credit risk justify exit.\nD) Short aggressively / hedge tail risk — multiple red flags, deteriorating coverage ratios, and severe tail losses indicate potential insolvency.\n\nState your recommendation letter and provide quantitative justification integrating both the market risk (VaR/CVaR) and the credit/fundamental analysis.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Compute VaR and CVaR explicitly from the 100 return observations",
+        "Quantify at least three distinct financial metrics or ratios showing deterioration",
+        "The final recommendation must reference both tail-risk metrics and fundamental accounting trends"
+      ],
+      "ground_truth": {
+        "answer": "D",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Sort the 100 daily returns. The two worst are −4.85% (Day 100) and −3.76% (Day 99).",
+          "Step 2: Historical 99% VaR (2nd worst) = $100M × 3.76% = $3.76M.",
+          "Step 3: Historical 99% CVaR = average of worst two = (−4.85% + −3.76%)/2 = −4.305%. Dollar CVaR = $100M × 4.305% = $4.305M.",
+          "Step 4: Red Flag 1 — Days Sales Outstanding (DSO) = A/R / (Revenue/365): Y1=77 days, Y2=90 days, Y3=102 days. Dramatic increase indicates revenue recognition issues or collection problems.",
+          "Step 5: Red Flag 2 — Interest Coverage (EBIT/Interest): Y1=5.9×, Y2=4.6×, Y3=3.3×. Rapid deterioration signals mounting credit risk.",
+          "Step 6: Red Flag 3 — Goodwill growth (+41% over 2 years) outpaces revenue growth (+16%), suggesting potential overpayment in acquisitions or impairment risk.",
+          "Step 7: Red Flag 4 — Debt/Equity ratio: Y1=0.81, Y2=0.92, Y3=1.21. Leverage is rising while profitability (Net Income margin) falls from 9.0% to 5.9%.",
+          "Step 8: Red Flag 5 — Operating cash flow proxy (EBITDA − ΔNWC) is weak; EBITDA is flat while working capital absorbs cash (DSO +17 days, Inventory +20% vs revenue +8%).",
+          "Step 9: The 1-day 99% CVaR of $4.3M on a $100M position (4.3% tail loss in one day) combined with collapsing interest coverage and ballooning receivables suggests not just cyclical distress but potential insolvency. Option D is the only response that matches both the magnitude of tail risk and the fundamental deterioration."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def verify(choice): return choice.strip().upper() == 'D'"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Picking the worst return (−4.85%) as the 99% VaR instead of the 2nd worst (−3.76%)",
+          "Identifying red flags qualitatively without computing the actual ratios (e.g., saying 'receivables grew' without calculating DSO)",
+          "Selecting Option C instead of D because the model fails to appreciate that the combination of severe tail risk AND multiple converging red flags warrants aggressive hedging/shorting rather than mere divestment",
+          "Averaging all returns below the VaR threshold for CVaR instead of averaging just the two worst observations as specified"
+        ],
+        "required_knowledge": [
+          "Historical simulation VaR and CVaR from ordered sample statistics",
+          "Financial ratio analysis (DSO, interest coverage, leverage, goodwill trends)",
+          "Integration of market risk metrics with credit/fundamental analysis",
+          "Distressed debt evaluation framework"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "irrelevant_info"
+      },
+      "tags": ["historical-VaR", "CVaR", "financial-statement-analysis", "red-flags", "distressed-debt", "credit-risk"]
+    }
+  ]
+}

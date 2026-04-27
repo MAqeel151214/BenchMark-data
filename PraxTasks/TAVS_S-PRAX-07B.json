@@ -1,0 +1,408 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-07B",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Data Analysis — Statistical Interpretation, Data Visualization Critique, Misleading Statistics",
+    "generated_at": "2026-04-25T08:54:45Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-07B-001",
+      "category": "PRAXIS",
+      "subcategory": "Hypothesis Testing Interpretation",
+      "bloom_level": "Understand",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 3,
+      "prompt": "A pharmaceutical company tests a new migraine drug against a placebo. They report: \"Our two-sided t-test yielded p = 0.032. Therefore, there is only a 3.2% probability that the null hypothesis (no difference between drug and placebo) is true. Since 3.2% < 5%, the null hypothesis is very likely false.\" They also state: \"The 95% confidence interval for the mean difference in pain reduction is [0.4, 3.8] points on a 10-point scale. This means there is a 95% probability that the true mean difference lies between 0.4 and 3.8.\" The company further claims: \"Because p = 0.032 is significant at α = 0.05 but not at α = 0.01, the drug has a clinically meaningful effect.\"\n\nWhich of the following statements correctly identifies ALL the errors in the company's interpretation?\n\nA. The p-value interpretation is wrong (p is not P(null is true)), and the CI interpretation is wrong (frequentist CIs do not give probability of parameters), but the claim about clinical meaningfulness is actually correct because lower p-values indicate larger effects.\n\nB. The p-value interpretation is wrong because p = 0.032 means that IF the null hypothesis were true, the probability of observing a test statistic at least as extreme as the one observed is 3.2%. The CI interpretation is wrong because before data collection, a 95% CI procedure captures the true parameter 95% of the time; after observing [0.4, 3.8], the true parameter is either in it or not. The clinical meaningfulness claim is wrong because statistical significance does not imply clinical significance — the interval includes values near zero that may not be clinically meaningful.\n\nC. The p-value interpretation is wrong because p = 0.032 is actually the probability of the alternative hypothesis being false. The CI interpretation is correct as stated because Bayesian and frequentist interpretations coincide for large samples. The clinical meaningfulness claim is wrong only because they should have used α = 0.01.\n\nD. All three company statements are actually correct under the Neyman-Pearson framework, provided the sample size was sufficiently large (n > 30).",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "No external resources or calculations are needed."
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The p-value is the probability of observing data at least as extreme as the observed data, assuming the null hypothesis is true. It is NOT the probability that the null hypothesis is true. This is a fundamental misinterpretation known as the 'fallacy of the transposed conditional'.",
+          "Step 2: A 95% frequentist confidence interval [0.4, 3.8] means that the procedure used to generate the interval will contain the true parameter 95% of the time over repeated samples. Once the interval is computed, the true parameter is either inside it or not; we cannot say there is a 95% probability that the parameter is in this specific interval without invoking a Bayesian credible interval.",
+          "Step 3: Statistical significance (p < 0.05) does not entail clinical or practical significance. The CI [0.4, 3.8] includes values close to zero (0.4 on a 10-point scale is a 4% improvement) that may not be clinically meaningful to patients. A result can be statistically significant due to large sample size while having a trivial effect size.",
+          "Step 4: Option B correctly identifies all three errors. Option A incorrectly states that lower p-values indicate larger effects (p-values depend on sample size and effect size). Option C incorrectly claims p-value is P(alternative false) and incorrectly conflates Bayesian credible intervals with frequentist confidence intervals. Option D is incorrect because the Neyman-Pearson framework does not validate any of the three misinterpretations."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing p-value with the posterior probability of the null hypothesis (transposed conditional fallacy)",
+          "Treating frequentist confidence intervals as Bayesian credible intervals",
+          "Assuming statistical significance implies practical/clinical significance without examining effect size and confidence interval bounds"
+        ],
+        "required_knowledge": [
+          "Definition and proper interpretation of p-values under frequentist inference",
+          "Definition and interpretation of frequentist confidence intervals",
+          "Distinction between statistical significance and practical/clinical significance"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 3
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["hypothesis-testing", "p-value-misinterpretation", "confidence-interval", "clinical-significance"]
+    },
+    {
+      "task_id": "S-PRAX-07B-002",
+      "category": "PRAXIS",
+      "subcategory": "Simpson's Paradox and Aggregation",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "A regional health authority compares two hospitals, Meridian General and Crestview Memorial, on their surgical success rates for two procedures: elective knee replacement and emergency hip repair. The data for the past year are:\n\nMeridian General:\n- Knee replacement: 840 successes out of 900 attempts (success rate: 93.3%)\n- Hip repair: 150 successes out of 300 attempts (success rate: 50.0%)\n- Overall: 990 successes out of 1200 attempts\n\nCrestview Memorial:\n- Knee replacement: 640 successes out of 700 attempts (success rate: 91.4%)\n- Hip repair: 360 successes out of 600 attempts (success rate: 60.0%)\n- Overall: 1000 successes out of 1300 attempts\n\nThe health authority ranks hospitals by overall success rate. Based on this ranking, they plan to divert emergency hip repair patients from the lower-ranked hospital to the higher-ranked one to improve system-wide outcomes.\n\n(a) Compute the overall success rate for each hospital and identify which hospital is ranked higher by this metric.\n(b) For each procedure type individually, determine which hospital has the higher success rate.\n(c) Explain the statistical mechanism that causes the hospital with the lower overall success rate to have higher success rates on BOTH procedure types individually. Name this phenomenon.\n(d) If the health authority transfers ALL emergency hip repair patients (currently 300 at Meridian + 600 at Crestview = 900 total) to the hospital that currently performs better on hip repairs, and we assume the receiving hospital maintains its current hip repair success rate while handling the increased volume, how many total successful hip repairs would there be system-wide? Compare this to the current system-wide total of successful hip repairs and determine whether the proposed policy actually improves outcomes.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all calculations explicitly.",
+        "Final answer must include: (a) the two overall rates, (b) which hospital is better for each procedure, (c) the name of the phenomenon and a brief explanation, (d) the numerical comparison of current vs. projected successful hip repairs with a yes/no on whether outcomes improve."
+      ],
+      "ground_truth": {
+        "answer": "(a) Meridian: 82.5%, Crestview: 76.9%. Meridian is ranked higher by overall rate. (b) Meridian is better at knee replacement (93.3% > 91.4%); Crestview is better at hip repair (60.0% > 50.0%). (c) Simpson's paradox. (d) Current: 510 successful hip repairs. Projected: 540 successful hip repairs. Yes, outcomes improve by 30 surgeries.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute overall success rates. Meridian General: 990/1200 = 0.825 = 82.5%. Crestview Memorial: 1000/1300 ≈ 0.7692 = 76.9%. By overall rate, Meridian is ranked higher (82.5% > 76.9%).",
+          "Step 2: Procedure-specific comparison. Knee replacement: Meridian 840/900 = 93.3%, Crestview 640/700 = 91.4%. Meridian is better. Hip repair: Meridian 150/300 = 50.0%, Crestview 360/600 = 60.0%. Crestview is better.",
+          "Step 3: Simpson's paradox explanation. Meridian handles a much larger proportion of the easier procedure (knee replacement: 900/1200 = 75% of its cases) compared to Crestview (700/1300 ≈ 53.8% of its cases). Conversely, Crestview handles a larger share of the harder procedure (hip repair: 600/1300 ≈ 46.2% vs. Meridian 300/1200 = 25%). The aggregate outcome is confounded by the procedure mix (case severity/ difficulty). The hospital doing more of the difficult work appears worse overall despite being better at the difficult work.",
+          "Step 4: Current system-wide successful hip repairs: 150 + 360 = 510. Crestview has the better hip repair rate (60.0%). Transferring all 900 hip repair patients to Crestview at 60% success rate: 900 × 0.60 = 540 successful hip repairs.",
+          "Step 5: Comparison: 540 > 510. The policy improves hip repair outcomes by 30 successful surgeries. Note: This part (d) is designed to test whether the solver recognizes that despite the paradox, the policy decision on hip repairs specifically is still sound because Crestview genuinely has the better hip repair rate."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Failing to notice that Meridian actually has the higher overall rate (82.5% vs 76.9%), leading to confusion about which hospital is 'ranked higher'",
+          "Confusing Simpson's paradox with confounding in general without explaining the role of the differing procedure proportions",
+          "Forgetting to add the 300 Meridian hip repairs when calculating projected outcomes, only calculating for the 600 Crestview patients",
+          "Answering 'no' to part (d) because of the paradox, without realizing the transfer policy targets the specific procedure where Crestview is genuinely superior"
+        ],
+        "required_knowledge": [
+          "Simpson's paradox: reversal of association when data is aggregated across subgroups",
+          "Weighted averages and how subgroup proportions affect aggregate rates",
+          "Ability to distinguish aggregate outcomes from subgroup-specific outcomes"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["simpsons-paradox", "aggregation-bias", "confounding", "healthcare-data"]
+    },
+    {
+      "task_id": "S-PRAX-07B-003",
+      "category": "PRAXIS",
+      "subcategory": "Data Visualization Critique",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A beverage company, HydroPulse, presents the following bar chart description in its annual shareholder report to argue that its new electrolyte drink has \"dramatically closed the market-share gap\" with its rival, VoltFlow:\n\nCHART DESCRIPTION: \"Quarterly Market Share (%) — HydroPulse vs. VoltFlow\"\n- The Y-axis is labeled \"Market Share (%)\" and ranges from 34% to 42%.\n- Q1: HydroPulse bar at 35%, VoltFlow bar at 41%.\n- Q2: HydroPulse bar at 36%, VoltFlow bar at 40%.\n- Q3: HydroPulse bar at 37%, VoltFlow bar at 39%.\n- Q4: HydroPulse bar at 38%, VoltFlow bar at 38%.\n- The bars for VoltFlow are colored in a pale gray, while HydroPulse bars are in bright red.\n- A bold red arrow is drawn from the Q1 HydroPulse bar to the Q4 HydroPulse bar with the text \"+8.6% GROWTH\".\n- The chart caption reads: \"HydroPulse surges ahead with stunning growth while VoltFlow collapses.\"\n\nWhich of the following statements provides the most complete and accurate critique of this chart?\n\nA. The chart is misleading because it uses different colors for the two companies, which violates the principle of color consistency; all bars should be the same color to avoid bias.\n\nB. The chart is misleading primarily because the Y-axis starts at 34% instead of 0%, which visually exaggerates the difference between the two companies. The \"+8.6% GROWTH\" label is incorrect because (38 − 35) / 35 = 8.57%, which should be rounded to 8.6%, so the growth figure is actually accurate; the main issue is the truncated axis.\n\nC. The chart is misleading because (1) the Y-axis starts at 34%, truncating the axis and making a 6-percentage-point gap in Q1 appear much larger visually than it is proportionally; (2) the \"+8.6% GROWTH\" label uses percentage change but market share is measured in percentage points, and the relative growth of HydroPulse is (38/35 − 1) = 8.6%, but the absolute gain is only 3 percentage points; more importantly, VoltFlow's 3-percentage-point decline is labeled \"collapses\" while HydroPulse's identical 3-percentage-point gain is labeled \"surges\"; (3) the chart ignores the total market size and whether a third competitor's share changed; and (4) the visual design (pale gray vs. bright red) distracts from the fact that both companies converged to equality by Q4, which is better described as convergence than a collapse.\n\nD. The chart is accurate and fair because both companies' market shares are plotted on the same scale, the data values are clearly labeled, and the convergence to 38% each in Q4 is visually apparent. The use of color and arrows is standard marketing practice and does not constitute statistical misrepresentation.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "No external resources needed."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Truncated Y-axis analysis. Starting the Y-axis at 34% instead of 0% makes the 6-point gap in Q1 (41% vs 35%) appear visually as if VoltFlow has roughly 15-20% more share than HydroPulse, when in reality the proportional difference is only about 17% relative to HydroPulse's share, but more importantly the gap is small in absolute terms (6 points out of 100). The visual height ratio is dramatically distorted.",
+          "Step 2: Growth labeling critique. The +8.6% growth figure is mathematically (38−35)/35 ≈ 8.57%, rounded to 8.6%. While the arithmetic is correct, presenting this as 'stunning growth' for a market share change of 3 percentage points is misleading framing. Meanwhile, VoltFlow lost 3 percentage points (from 41% to 38%), which is a −7.3% relative change, yet is described as 'collapses' — the rhetorical asymmetry for identical absolute changes is a deliberate manipulation.",
+          "Step 3: Missing context. The chart only shows two competitors. If total market share sums to 100%, a third competitor's share is omitted. In Q1, the implied third share is 24%; in Q4, it is also 24%. But this omitted competitor's dynamics matter for interpretation. More importantly, market size could have grown or shrunk, making percentage points more or less valuable.",
+          "Step 4: Option A is incorrect because different colors for different series is standard and not inherently misleading; the issue is the brightness asymmetry (pale gray vs. bright red) combined with the other distortions, not the mere fact of different colors. Option B incorrectly says the growth figure is the main issue; it misses the rhetorical asymmetry, the percentage-point vs. percentage-change confusion, and the omitted third party. Option D is clearly wrong as it defends the chart as accurate and fair. Option C provides the most comprehensive critique."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting B because it identifies the truncated axis but missing the rhetorical asymmetry and omitted variable issues",
+          "Selecting A because of a superficial understanding that 'different colors are bad' without recognizing that color differentiation is normal; the actual issue is the visual hierarchy created by bright vs. pale colors",
+          "Failing to notice that the absolute changes are symmetric (+3 vs −3 percentage points) while the language is asymmetric ('surges' vs 'collapses')"
+        ],
+        "required_knowledge": [
+          "Effects of truncated axes on visual perception of differences",
+          "Percentage points vs. percent change",
+          "Principles of fair data visualization and rhetorical framing",
+          "Omitted variable bias in market share analysis"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 7
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["misleading-visualization", "truncated-axis", "percentage-points", "rhetorical-framing"]
+    },
+    {
+      "task_id": "S-PRAX-07B-004",
+      "category": "PRAXIS",
+      "subcategory": "Regression Output Interpretation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A junior data analyst at an agricultural research station presents the following linear regression analysis to the station director. The analyst claims that the model proves nitrogen fertilizer is harmful to wheat yield and that the station should stop using it.\n\nREGRESSION OUTPUT: Predicting Wheat Yield (bushels/acre)\n\nVariable               Coefficient   Std Error   t-stat   p-value\nIntercept              45.20         2.10        21.52    <0.001\nNitrogen (kg/acre)     −1.35         0.42        −3.21    0.002\nPhosphorus (kg/acre)    2.80         0.35         8.00    <0.001\nSoil pH                 3.15         1.80         1.75    0.084\nRainfall (cm)           0.50         0.10         5.00    <0.001\n\nModel fit: R² = 0.78, Adjusted R² = 0.76\nF(4, 95) = 84.3, p < 0.001\nSample size: n = 100 farms\n\nThe analyst's written conclusion: \"The negative coefficient on Nitrogen (−1.35, p = 0.002) is statistically significant at α = 0.01. This proves that adding nitrogen fertilizer reduces wheat yield by 1.35 bushels for every additional kilogram applied. The extremely low p-value means we are 99.8% confident that nitrogen is harmful. Since soil pH is not significant (p = 0.084 > 0.05), it has no effect on yield and can be ignored in policy decisions. Finally, R² = 0.78 means our model predictions are 78% accurate, so we can trust these conclusions completely.\"\n\nIdentify and explain ALL statistical and logical errors in the analyst's interpretation. For each error, state what the correct interpretation should be. Your response should address: (1) the causal claim about nitrogen, (2) the probabilistic interpretation of the p-value, (3) the interpretation of the non-significant soil pH coefficient, and (4) the interpretation of R².",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "List exactly four errors corresponding to the four numbered points.",
+        "For each error, provide the incorrect claim and the correct interpretation.",
+        "No external resources needed."
+      ],
+      "ground_truth": {
+        "answer": "Error 1 (Causation): The analyst claims the negative coefficient 'proves' nitrogen is harmful. This is wrong because regression coefficients in observational data show association, not causation. The negative coefficient may reflect confounding — for example, farmers might apply more nitrogen to poorer-quality soils, or nitrogen and phosphorus may be correlated. Correct: The coefficient indicates that, holding other model variables constant, farms with higher nitrogen application are associated with 1.35 fewer bushels per acre, but this does not establish causality.\n\nError 2 (P-value): The analyst claims 'we are 99.8% confident that nitrogen is harmful.' This is wrong. A p-value of 0.002 means that IF the null hypothesis were true (true coefficient = 0) and the model assumptions hold, the probability of observing a t-statistic as extreme as −3.21 is 0.2%. It is NOT the probability that the null is false, nor is it a confidence level about the harmfulness of nitrogen.\n\nError 3 (Non-significance): The analyst says soil pH 'has no effect on yield' because p = 0.084 > 0.05. This is the 'absence of evidence is not evidence of absence' fallacy. A non-significant result means the data do not provide sufficient evidence to reject the null at α = 0.05, but the true effect could still be meaningful (the coefficient is 3.15). The 95% CI for soil pH is approximately 3.15 ± 1.96×1.80 = [−0.38, 6.68], which includes substantively important values. Correct: We failed to detect a significant effect; we cannot conclude there is no effect.\n\nError 4 (R²): The analyst says 'R² = 0.78 means our model predictions are 78% accurate.' This is wrong. R² measures the proportion of variance in the dependent variable explained by the independent variables in the sample. It does not measure prediction accuracy, nor does it validate causal conclusions. A high R² can coexist with omitted variable bias, overfitting, or non-normal residuals. Correct: 78% of the variance in wheat yield is accounted for by the model predictors in this sample, but this says nothing about out-of-sample prediction accuracy or causal validity.",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Error on causation. Multiple regression on observational data controls only for included covariates. Unmeasured confounders, reverse causality, or collider bias could explain the negative nitrogen coefficient. For instance, if high-nitrogen farms are also high-pesticide farms and pesticide is unmeasured, the nitrogen coefficient absorbs this effect.",
+          "Step 2: Error on p-value. The p-value is P(data | null true), not P(null true | data). To obtain a posterior probability, one would need a prior and Bayesian analysis. The '99.8% confident' language is a double inversion fallacy.",
+          "Step 3: Error on non-significance. With n=100, the power to detect a coefficient of 3.15 with SE=1.80 is modest. The confidence interval includes zero but also includes values up to 6.68 bushels per pH unit — a potentially large agronomic effect. Failing to reject the null is not rejecting the alternative.",
+          "Step 4: Error on R². R² is in-sample explanatory power, not accuracy. If the model is overfitted, R² is inflated. If residuals are heteroskedastic or autocorrelated, predictions can be poor despite high R². Also, R² does not indicate correct model specification."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Only identifying 2-3 of the 4 errors while missing one (commonly the R² misinterpretation or the non-significance fallacy)",
+          "Correctly identifying the errors but providing weak or incorrect corrections (e.g., saying p-value means 'there is a 0.2% chance of being wrong' rather than the correct frequentist definition)",
+          "Claiming that the negative nitrogen coefficient MUST be due to multicollinearity without evidence, or suggesting randomization that wasn't mentioned"
+        ],
+        "required_knowledge": [
+          "Association vs. causation in observational studies",
+          "Correct frequentist interpretation of p-values",
+          "Type II errors and the interpretation of non-significant results",
+          "Proper interpretation of R² and its limitations"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["regression-interpretation", "causality", "p-value-fallacy", "r-squared-misinterpretation", "non-significance"]
+    },
+    {
+      "task_id": "S-PRAX-07B-005",
+      "category": "PRAXIS",
+      "subcategory": "Simpson's Paradox and Aggregation",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A university's admissions office is accused of gender bias. The following table shows admission rates by gender for two departments, Natural Sciences (NS) and Humanities (HU):\n\nAggregate Data:\n- Male applicants: 900 admitted out of 1800 total → 50.0% admission rate\n- Female applicants: 360 admitted out of 900 total → 40.0% admission rate\n\nDisaggregated by Department:\nNatural Sciences (NS):\n- Male: 800 admitted / 1200 applied → 66.7%\n- Female: 300 admitted / 450 applied → 66.7%\n\nHumanities (HU):\n- Male: 100 admitted / 600 applied → 16.7%\n- Female: 60 admitted / 450 applied → 13.3%\n\nA university spokesperson claims: \"There is no bias. In Natural Sciences, men and women are admitted at identical rates (66.7%). In Humanities, the difference is small (16.7% vs. 13.3%) and not statistically significant at α = 0.05 if we perform a two-proportion z-test on the Humanities data alone (z ≈ 1.43, p ≈ 0.15). The aggregate gap is explained by women applying disproportionately to the more competitive Humanities department.\"\n\nA critic responds: \"This is a classic Simpson's paradox defense. But the Humanities disparity, while not significant at α = 0.05, has a 95% confidence interval for the difference in proportions of approximately [−0.011, +0.071]. The upper bound suggests a 7.1 percentage point advantage for men, which is substantial. Moreover, the z-test assumes independent observations, which may fail if admissions committees share members across departments. Finally, if we use a one-sided test (testing specifically whether men are admitted at higher rates), p ≈ 0.076, which some would call 'marginally significant.'\"\n\nEvaluate BOTH arguments rigorously. Specifically:\n(a) Verify the z-statistic and p-value for the two-proportion z-test on Humanities data (p̂_M = 100/600, p̂_F = 60/450). Show your work.\n(b) Compute the 95% CI for the difference in Humanities admission proportions (p_M − p_F) using the standard error formula: SE = sqrt[ p̂_M(1−p̂_M)/n_M + p̂_F(1−p̂_F)/n_F ]. Verify whether the critic's CI is correct.\n(c) Does the spokesperson's argument successfully refute the accusation of bias? Consider: (i) the meaning of the non-significant z-test, (ii) whether Simpson's paradox alone absolves the university, and (iii) whether the critic's objections about test assumptions and one-sided vs. two-sided testing are relevant.\n(d) Suppose the university creates a third department, Engineering (EN), with admission rates of 80% for men (400/500) and 85% for women (170/200). Recompute the overall admission rates including this third department. Does the overall gender gap increase, decrease, or reverse? Show your calculation.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all calculations explicitly in parts (a), (b), and (d).",
+        "Part (c) must include a clear yes/no conclusion on whether the spokesperson's argument successfully refutes bias, with justification.",
+        "Part (d) must include the new overall rates for men and women and state the direction of change in the gap."
+      ],
+      "ground_truth": {
+        "answer": "(a) Pooled p̂ = 160/1050 = 0.15238. SE_pooled = sqrt[0.15238*(1−0.15238)*(1/600 + 1/450)] = sqrt[0.12913*(0.003889)] = sqrt[0.0005022] = 0.02241. z = (0.1667 − 0.1333)/0.02241 = 0.0334/0.02241 = 1.49. Two-tailed p = 2*(1 − Φ(1.49)) ≈ 2*0.0681 = 0.136. (Slight variation from critic's 1.43 due to rounding; both are in the p≈0.14−0.15 range.) (b) SE_unpooled = sqrt[(0.1667*0.8333/600) + (0.1333*0.8667/450)] = sqrt[0.0002315 + 0.0002568] = sqrt[0.0004883] = 0.02210. 95% CI: 0.0334 ± 1.96*0.02210 = 0.0334 ± 0.0433 = [−0.0099, +0.0767]. The critic's approximate CI [−0.011, +0.071] is reasonably close. (c) No, the spokesperson's argument does not fully refute bias. Non-significance does not prove zero effect; the CI includes meaningful positive differences. Simpson's paradox explains the aggregate gap structurally but does not preclude bias within departments. The critic's point about shared committee members affecting independence is valid, as is the note about one-sided testing being more appropriate if the accusation is directional. (d) New male total: 1800 + 500 = 2300 applied, 900 + 400 = 1300 admitted → 1300/2300 = 56.5%. New female total: 900 + 200 = 1100 applied, 360 + 170 = 530 admitted → 530/1100 = 48.2%. The gap DECREASES from 10 percentage points to 8.3 percentage points but does not reverse; men's overall rate remains higher.",
+        "answer_type": "rubric",
+        "tolerance": 0.005,
+        "solution_steps": [
+          "Step 1 (a): Two-proportion z-test calculation. Pooled proportion: (100 + 60) / (600 + 450) = 160/1050 ≈ 0.15238. Standard error under null: sqrt[0.15238 * (1 − 0.15238) * (1/600 + 1/450)] = sqrt[0.15238 * 0.84762 * 0.0038889] ≈ sqrt[0.0005022] ≈ 0.02241. Sample proportions: p̂_M = 100/600 = 0.1667, p̂_F = 60/450 = 0.1333. z = (0.1667 − 0.1333) / 0.02241 ≈ 1.490. Two-tailed p-value ≈ 0.136.",
+          "Step 2 (b): Unpooled standard error for confidence interval: sqrt[(0.1667*0.8333/600) + (0.1333*0.8667/450)] = sqrt[0.0002315 + 0.0002568] = sqrt[0.0004883] ≈ 0.02210. Margin of error: 1.96 * 0.02210 ≈ 0.0433. Difference: 0.0333. 95% CI: [−0.010, +0.0766]. The critic's interval is approximately correct.",
+          "Step 3 (c): The spokesperson's argument is structurally valid regarding Simpson's paradox — the aggregate disparity is fully explained by differential application rates to departments with different baseline admission rates. However, 'explained by structure' is not equivalent to 'no bias.' Non-significance in Humanities does not establish that the true difference is zero; the confidence interval includes a 7.6 percentage point male advantage. Furthermore, if admissions committees overlap, observations are not independent and the z-test is anti-conservative (p-value too small) or the effective sample size is reduced. The one-sided test (p ≈ 0.068) is arguably more appropriate if the hypothesis is directional, though conventional practice favors two-sided tests. Overall, the spokesperson overstates the exculpatory force of the statistical evidence.",
+          "Step 4 (d): With Engineering added: Men: 1800 + 500 = 2300 applied. Admitted: 900 + 400 = 1300. Rate: 1300/2300 = 56.52%. Women: 900 + 200 = 1100 applied. Admitted: 360 + 170 = 530. Rate: 530/1100 = 48.18%. The gap is now 8.34 percentage points (56.5% − 48.2%) in favor of men, compared to 10 points originally. The gap DECREASES but does not reverse, because men still apply more to the easier NS department (1200/2300 = 52.2% of male apps) than women (450/1100 = 40.9% of female apps), and the new Engineering department admits women at a higher rate but women apply at lower volume there."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly calculating the pooled proportion for the z-test by averaging the two sample proportions rather than using the total successes over total trials",
+          "Interpreting the non-significant p-value as proof of no effect (spokesperson's error) rather than insufficient evidence to reject the null",
+          "Claiming Simpson's paradox 'proves' there is no bias, when paradoxical decomposition only shows that aggregate statistics are confounded by grouping; it does not preclude within-group bias",
+          "Arithmetic errors in part (d) by forgetting to include the original departments when computing new totals"
+        ],
+        "required_knowledge": [
+          "Two-proportion z-test: pooled standard error formula and test statistic",
+          "Confidence interval for difference of proportions using unpooled standard error",
+          "Simpson's paradox and the limitations of structural explanations for eliminating bias claims",
+          "Composition effects and how adding strata changes aggregate rates"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["simpsons-paradox", "two-proportion-z-test", "confidence-interval", "admissions-bias", "observational-data"]
+    },
+    {
+      "task_id": "S-PRAX-07B-006",
+      "category": "PRAXIS",
+      "subcategory": "Causal Claims from Observational Data",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A widely cited observational study in urban epidemiology examined the relationship between tree canopy coverage and asthma rates across 150 census tracts in a major metropolitan area. The study's headline conclusion: \"Increasing tree canopy by 10 percentage points reduces childhood asthma prevalence by 2.3 percentage points (95% CI: [−3.1, −1.5], p < 0.001), suggesting municipal tree-planting programs are a cost-effective public health intervention.\"\n\nThe study design and control variables are described as follows:\n- Outcome: Prevalence of childhood asthma diagnoses (ages 5–12) in each census tract.\n- Exposure: Percentage of tract area covered by tree canopy, measured via satellite imagery.\n- Control variables included in the multivariate OLS regression: median household income, population density, average PM2.5 concentration, percentage of tract that is parkland, and average housing age.\n\nThe peer review report raised three concerns:\n(i) Tree canopy is correlated with housing age (older neighborhoods have mature trees) and older housing stock is associated with higher mold exposure, which affects asthma. Housing age was controlled linearly, but the true relationship between housing age and asthma may be nonlinear (e.g., U-shaped: very new and very old housing both have issues).\n(ii) The study did not control for proximity to major roadways, which affects both asthma (via traffic-related air pollution and noise stress) and tree canopy (municipalities plant fewer trees along high-traffic corridors due to maintenance costs and safety clearances).\n(iii) The study used cross-sectional data from a single year. If families with asthmatic children move away from high-pollen areas (which tend to have more trees) after diagnosis, the observed association could reflect reverse causation or residential sorting rather than a causal effect of trees.\n\nWhich of the following evaluations of the study's causal claim is most accurate?\n\nA. The claim is well-supported because the p-value is very small (< 0.001), the confidence interval excludes zero, and the study controlled for the major confounders income, pollution, and density. The peer review concerns are speculative and do not undermine the main finding.\n\nB. The claim is unsupported because all three peer review concerns identify fatal flaws. Concern (i) means the linear control for housing age is misspecified, leaving residual confounding. Concern (ii) means roadway proximity is an unmeasured confounder that biases the tree-canopy coefficient away from the true causal effect. Concern (iii) means reverse causation or residential sorting generates a spurious association. Because the study is observational, no causal conclusion is ever possible regardless of controls.\n\nC. The claim overreaches the evidence. Concern (i) identifies possible misspecification bias: if housing age has a nonlinear effect on asthma, the linear control does not fully block the backdoor path through housing age, leaving residual confounding. Concern (ii) identifies a plausible unmeasured confounder (roadway proximity) that affects both tree canopy and asthma through mechanisms not fully captured by PM2.5 alone (e.g., ultrafine particles, noise stress). Concern (iii) identifies a threat from residential sorting or reverse causation that cross-sectional data cannot rule out. While the association may be real, the magnitude and sign of the coefficient cannot be interpreted causally without addressing these threats, preferably via a quasi-experimental design (e.g., comparing asthma trends before and after exogenous tree-planting initiatives) or longitudinal data with individual-level residential history.\n\nD. The claim is correct in magnitude but wrong in direction. Because trees produce pollen, which is a known asthma trigger, the true causal effect of tree canopy should increase asthma rates. The negative coefficient in the study must be entirely due to confounding by income (wealthier areas have more trees and better healthcare, leading to underdiagnosis of asthma). Controlling for income should have removed this, but since the coefficient remains negative, the model must be misspecified.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "No external resources needed."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Evaluate Option A. A small p-value and CI excluding zero establish statistical significance, not causal significance. Controlling for observed confounders does not guarantee unbiased causal estimates if there is unmeasured confounding, misspecification, or reverse causation. Option A incorrectly equates statistical significance with causal validity and dismisses the peer review concerns without engagement.",
+          "Step 2: Evaluate Option B. While all three concerns are legitimate threats, Option B goes too far in asserting that 'no causal conclusion is ever possible' from observational data. Modern epidemiology and econometrics use causal inference frameworks (DAGs, instrumental variables, difference-in-differences, regression discontinuity) to draw causal conclusions from observational data under specific assumptions. The concerns are serious but not necessarily 'fatal' if addressed with appropriate methods. Option B's absolutism is methodologically incorrect.",
+          "Step 3: Evaluate Option C. This option correctly identifies that each concern represents a specific threat to causal interpretation without overstating their decisiveness. (i) Nonlinear confounder misspecification: if housing age is U-shaped and controlled linearly, residual variation in housing age correlates with both tree canopy and asthma, biasing the coefficient. (ii) Unmeasured confounding: roadway proximity is a classic confounder correlated with exposure and outcome independently of measured covariates. (iii) Reverse causation/residential sorting: cross-sectional designs cannot establish temporal order. Option C correctly recommends quasi-experimental or longitudinal designs to strengthen causal claims. This is the most nuanced and accurate evaluation.",
+          "Step 4: Evaluate Option D. Option D assumes trees must increase asthma due to pollen, ignoring that trees also reduce air pollution, mitigate heat island effects, and reduce stress — all of which may decrease asthma. It also makes an unfounded claim about underdiagnosis in wealthy areas. The direction of the causal effect is an empirical question, not something that can be deduced a priori. Option D is incorrect."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting A because of the strong statistical significance (p < 0.001) without recognizing that significance does not imply causation in observational data",
+          "Selecting B because of a blanket skepticism about observational studies, failing to acknowledge that causal inference from observational data is possible under specific identifying assumptions",
+          "Selecting D because of a surface-level biological argument (trees → pollen → asthma) without considering the complex pathways and without recognizing that the peer review concerns are about internal validity, not the sign of the effect"
+        ],
+        "required_knowledge": [
+          "Causal inference in observational studies: confounding, misspecification, reverse causation, residential sorting",
+          "Limitations of cross-sectional data for causal claims",
+          "Difference between statistical significance and causal identification",
+          "Role of quasi-experimental designs in strengthening causal claims"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["causal-inference", "observational-study", "confounding", "misspecification", "reverse-causation"]
+    },
+    {
+      "task_id": "S-PRAX-07B-007",
+      "category": "PRAXIS",
+      "subcategory": "Data Visualization Critique and Hypothesis Testing",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "A financial technology startup, CryptoVault, releases a dual-axis line chart to investors with the following description:\n\nCHART DESCRIPTION: \"Correlation Between User Growth and Platform Security Incidents — 2021–2025\"\n- Left Y-axis (0 to 500,000): Monthly active users (MAU), plotted as a solid blue line.\n- Right Y-axis (0 to 50): Number of reported security incidents (hacks, breaches, phishing), plotted as a dashed red line.\n- X-axis: Years 2021, 2022, 2023, 2024, 2025 (note: 2025 has data for January–March only, but the x-axis spacing is uniform).\n- Data points for MAU: 2021: 50,000; 2022: 120,000; 2023: 210,000; 2024: 380,000; 2025 (Q1): 450,000.\n- Data points for Security Incidents: 2021: 42; 2022: 38; 2023: 35; 2024: 28; 2025 (Q1): 25.\n- The CEO states in the report: \"Our chart reveals a stunning negative correlation (r ≈ −0.97) between user growth and security incidents. This proves that scaling our user base actually IMPROVES security — likely through network effects that strengthen our defense protocols. We project that by Q4 2025, with 600,000 users, incidents will drop to approximately 15 per year.\"\n\nA skeptical analyst examines the raw data and notes:\n(1) The correlation coefficient r = −0.97 was computed on the five (year, value) pairs without accounting for the fact that 2025 is only Q1 data.\n(2) The company implemented a new security vendor in Q2 2023, which coincided with a policy change to stop reporting minor phishing attempts (defined as < $1,000 impact) as 'incidents.'\n(3) The dual-axis scaling makes the two lines appear to mirror each other visually, but the left axis spans 500,000 while the right spans only 50 — a 10,000:1 ratio.\n\nProvide a rigorous critique of the CEO's argument and chart. Your critique must address:\n(a) Whether the claimed correlation of r ≈ −0.97 is statistically valid given the data structure and the 2025 data issue. Recompute or argue why the computation is flawed.\n(b) Whether the CEO's causal interpretation (\"scaling improves security\") is justified, considering the analyst's notes (2) and (3) and any additional threats to causal inference you identify.\n(c) Re-express the data in a statistically sounder way (describe a better visualization or analysis) and explain what conclusion, if any, about the relationship between users and security can actually be drawn from the available evidence.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Address all three parts (a), (b), and (c) explicitly.",
+        "For part (a), show the calculation or clearly explain the statistical flaw.",
+        "For part (c), describe the alternative visualization or analysis in enough detail that it could be reproduced.",
+        "Final answer must include a clear conclusion on whether the CEO's claim is supported, weakly supported, or unsupported."
+      ],
+      "ground_truth": {
+        "answer": "The CEO's claim is unsupported. (a) The correlation is computed on only 5 data points, one of which (2025) is not comparable to full-year figures. If we use only full years (2021–2024), n=4 and r is based on an extremely small sample. With the 5 points: users [50k, 120k, 210k, 380k, 450k], incidents [42, 38, 35, 28, 25]. Using linear correlation: the values are roughly linearly related, so r ≈ −0.97 is arithmetically correct for these 5 points. However, this is spurious because (i) n=5 provides almost no statistical power, (ii) 2025 is partial-year data, and (iii) both series have strong time trends, so the correlation reflects shared temporal autocorrelation rather than a meaningful mechanistic relationship. Computing the correlation on time-trended series without detrending is a classic instance of 'nonsense correlation.' (b) The causal claim is unjustified. Note (2) identifies a concurrent reporting policy change and a security vendor switch in Q2 2023 — both alternative explanations for the drop in incidents. Note (3) shows the dual-axis chart creates a visual illusion of anti-correlation because the axes are scaled to force alignment. Additional threats: reverse causation (more incidents might drive user attrition, not the other way around), confounding by time (cybersecurity generally improves over time industry-wide), and survivor bias (users who remain may be less susceptible to phishing). (c) A sounder approach: (i) Use a single-axis scatter plot with proper labeling if the scales are comparable, or separate panels. Given the 10,000:1 scale difference, two separate time-series plots on identical x-axes with individually scaled y-axes (small multiples) are preferable to a dual-axis chart. (ii) Analyze monthly (not annual) data to increase sample size and account for seasonality. (iii) Control for the reporting threshold change by applying the post-2023 definition retroactively to pre-2023 data, or analyzing only severe incidents consistently defined. (iv) Use an interrupted time-series design around Q2 2023 to isolate the vendor/policy effect. (v) Detrend both series or use first differences before computing correlation. With these corrections, the evidence likely shows that the incident reduction is attributable to the policy/vendor change and secular trends, not user growth.",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Part (a) analysis. Computing Pearson's r on the 5 points: mean users = 242,000; mean incidents = 33.6. Covariance and standard deviations yield r ≈ −0.97. However, with n=5, the standard error of r is large (SE ≈ sqrt((1−r²)/(n−2)) = sqrt(0.0591/3) ≈ 0.14), and the 95% CI for the true correlation is very wide. More importantly, 2025 data covers only Q1; annualizing it would give ≈ 100 incidents (if linear) or the data point is incomparable. The series are both monotonic functions of time, so any two variables that trend in opposite directions over time will show high negative correlation regardless of causal connection. This is a 'nonsense correlation' or 'spurious regression' due to non-stationarity/trends.",
+          "Step 2: Part (b) analysis. The CEO commits multiple causal inference errors. The reporting policy change (note 2) means the outcome variable definition changed mid-series, making pre- and post-2023 values incomparable. The security vendor change provides an alternative causal explanation. The dual-axis chart (note 3) manipulates perception by choosing axis ranges that force visual symmetry. Even if the correlation were real, correlation does not imply causation. Reverse causation is plausible: security incidents might deter new users. Omitted variable bias from industry-wide security improvements over time is also likely.",
+          "Step 3: Part (c) recommendations. Small multiples (separate aligned panels) eliminate the visual distortion of dual-axis scaling. Monthly granularity increases n and allows seasonal adjustment. Consistent incident definitions across the full time period are necessary for valid comparison. Interrupted time-series analysis can estimate the vendor/policy impact. Detrending or differencing addresses the spurious correlation problem. With these corrections, one would likely conclude there is no credible evidence that user growth causally reduces security incidents.",
+          "Step 4: Conclusion. The CEO's claim is unsupported. The apparent correlation is an artifact of small sample size, shared time trends, a definition change in the outcome variable, and manipulative visualization."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Accepting the r = −0.97 as valid because the arithmetic is correct, without recognizing the spurious correlation problem from shared time trends",
+          "Failing to identify the definition change in the outcome variable as a critical threat to internal validity",
+          "Recommending a logarithmic transformation without addressing the fundamental issues of definition change, time trends, or dual-axis manipulation",
+          "Concluding that the correlation is 'probably real but not causal' without recognizing that the correlation itself may be entirely spurious even as a descriptive statistic"
+        ],
+        "required_knowledge": [
+          "Spurious correlation and nonsense regression in time-series data",
+          "Problems with dual-axis charts and visual manipulation",
+          "Interrupted time-series designs for policy evaluation",
+          "Threats to causal inference: reverse causation, omitted variables, definition changes, reporting bias",
+          "Proper alternatives to dual-axis charts (small multiples, indexing)"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["dual-axis-chart", "spurious-correlation", "causal-inference", "time-series", "reporting-bias"]
+    },
+    {
+      "task_id": "S-PRAX-07B-008",
+      "category": "PRAXIS",
+      "subcategory": "Statistical Claims Evaluation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A policy think tank publishes a white paper with the following five statistical claims. For EACH claim, determine whether it is TRUE or FALSE. If FALSE, provide a concise but precise justification explaining the statistical error. If TRUE, write \"Correct.\"\n\nCLAIM 1: \"In a randomized controlled trial with 10,000 participants, the treatment group had a recovery rate of 62% and the control group had a recovery rate of 58%. The p-value for the difference is 0.04. Because p < 0.05, there is a 96% probability that the treatment is effective.\"\n\nCLAIM 2: \"A 99% confidence interval for a population mean is [12.3, 18.7]. Because the interval is wide (width = 6.4), the estimate is imprecise. However, we can be 99% confident that the true mean lies within [12.3, 18.7]. If we were to repeat the sampling process many times, 99% of the constructed intervals would contain the true mean.\"\n\nCLAIM 3: \"A researcher fits a linear regression model with 5 predictors to a dataset of n = 50 observations. The model achieves R² = 0.85. Because R² is high, the model is unlikely to be overfitting, and we can trust the coefficients as unbiased estimates of the causal effects of the predictors on the outcome.\"\n\nCLAIM 4: \"A study finds no statistically significant association between weekly coffee consumption and blood pressure (p = 0.12, two-tailed). Therefore, the study provides evidence that coffee consumption has no effect on blood pressure, and public health guidelines can confidently state that coffee is blood-pressure neutral.\"\n\nCLAIM 5: \"In a meta-analysis of 20 studies, 15 studies find a positive effect (p < 0.05) and 5 studies find no significant effect (p > 0.05). The meta-analysis computes an overall effect size of d = 0.30 with a 95% confidence interval of [0.15, 0.45] and p < 0.001. It is possible that publication bias explains the pattern, because studies with null results are less likely to be published. However, the meta-analysis result itself is statistically robust because the random-effects model accounts for between-study heterogeneity.\"\n\nProvide your answers in the format: Claim N: TRUE/FALSE — [justification or 'Correct'].",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Evaluate all five claims.",
+        "Each evaluation must include TRUE or FALSE and a justification (or 'Correct' if TRUE).",
+        "Justifications for FALSE claims must identify the specific statistical error, not just say 'this is wrong.'"
+      ],
+      "ground_truth": {
+        "answer": "Claim 1: FALSE — The p-value is not the probability that the treatment is effective. A p-value of 0.04 means that IF the treatment had no effect (null hypothesis true), there would be a 4% probability of observing a difference this large or larger. It does not give the posterior probability of the alternative hypothesis being true. The '96% probability' is a transposed conditional (prosecutor's fallacy).\n\nClaim 2: TRUE — Correct. The width does indicate precision (wider = less precise). The frequentist interpretation is correctly stated: over repeated sampling, 99% of intervals constructed by this procedure would contain the true population mean. Note: '99% confident' is acceptable colloquial frequentist language; the statement does not incorrectly assert a Bayesian posterior probability.\n\nClaim 3: FALSE — High R² does not preclude overfitting; with n = 50 and 5 predictors, the adjusted R² may be much lower than 0.85. More critically, R² says nothing about whether coefficients are unbiased causal estimates. Causal unbiasedness requires correct model specification, no omitted variable bias, no measurement error, and appropriate causal identification assumptions — none of which are guaranteed by R².\n\nClaim 4: FALSE — A non-significant result (p = 0.12) means the data do not provide sufficient evidence to reject the null hypothesis at the chosen significance level. It does NOT prove the null hypothesis is true or that the effect is zero. This is the 'absence of evidence is not evidence of absence' fallacy. The study is underpowered to detect small effects, and the confidence interval likely includes clinically meaningful effect sizes.\n\nClaim 5: TRUE — Correct. The statement correctly identifies publication bias as a possible explanation for the pattern (15 significant positive studies, 5 null studies). It also correctly notes that the random-effects model accounts for between-study heterogeneity. The statement is nuanced and does not claim publication bias is certain, only that it is possible. The statistical robustness of the meta-analysis result is a separate issue from the presence of publication bias, and the statement does not conflate them.",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Claim 1 evaluation. The error is the transposed conditional / prosecutor's fallacy. P(data | null) ≠ P(null | data). The p-value assumes the null is true; it cannot simultaneously be used to compute the probability that the null is false.",
+          "Step 2: Claim 2 evaluation. This is a correct frequentist interpretation. The width reflects precision (inverse of standard error). The long-run coverage property is correctly stated. Some purists object to 'we can be 99% confident,' but in standard frequentist pedagogy this is accepted as shorthand for the coverage property.",
+          "Step 3: Claim 3 evaluation. With n=50 and k=5, the ratio is 10:1, which is often considered a minimum. Adjusted R² = 1 − (1−0.85)*(49/44) = 1 − 0.15*1.1136 = 1 − 0.167 = 0.833, which is still high. But the main error is the causal claim. R² measures in-sample variance explained, not causal validity. The statement is false primarily because of the causal inference claim.",
+          "Step 4: Claim 4 evaluation. This is the classic 'accepting the null' fallacy. Failure to reject the null does not imply the null is true. With p = 0.12, the 95% CI for the effect includes zero but also includes non-zero values. If the study is underpowered, true effects are likely missed.",
+          "Step 5: Claim 5 evaluation. The claim is carefully worded. It says publication bias is 'possible' — which is true. It says the random-effects model accounts for heterogeneity — which is true (it explicitly models τ², the between-study variance). The statement does not claim the meta-analysis is free from bias, only that the result is statistically robust, which the low p-value and narrow CI support. This is the most nuanced claim and is correct."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Labeling Claim 2 as FALSE because 'we can be 99% confident' sounds Bayesian, without recognizing that this is standard frequentist colloquialism",
+          "Labeling Claim 5 as FALSE because of blanket skepticism about meta-analyses with publication bias, without recognizing that the claim merely says bias is 'possible' and does not assert the meta-analysis is unbiased",
+          "For Claim 3, only mentioning overfitting but missing the more fundamental causal inference error",
+          "For Claim 4, providing a generic 'absence of evidence' phrase without explaining that the CI likely includes meaningful non-zero effects"
+        ],
+        "required_knowledge": [
+          "Proper interpretation of p-values (transposed conditional fallacy)",
+          "Frequentist confidence interval interpretation",
+          "R² and overfitting; R² and causality",
+          "Null hypothesis significance testing: failure to reject ≠ accept null",
+          "Meta-analysis, random-effects models, and publication bias"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["p-value-fallacy", "confidence-interval", "r-squared", "null-hypothesis", "meta-analysis", "publication-bias"]
+    }
+  ]
+}

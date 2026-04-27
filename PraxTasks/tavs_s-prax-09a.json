@@ -1,0 +1,377 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-09A",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Applied Ethics — Technology Ethics, AI Safety, Privacy, Algorithmic Fairness",
+    "generated_at": "2026-04-25T09:22:47Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-09A-001",
+      "category": "PRAXIS",
+      "subcategory": "Algorithmic Fairness — Conflicting Fairness Metrics",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A credit-scoring algorithm is evaluated across two demographic groups (Xylons and Yarvites) for loan approval. The following data is observed from a random sample of 4,000 applicants:\n\n**Group Xylons (n=2,500):**\n- Base rate (actual positive): 16%\n- True Positive Rate (TPR): 78%\n- False Positive Rate (FPR): 8%\n- Predicted positive rate: 18.5%\n\n**Group Yarvites (n=1,500):**\n- Base rate (actual positive): 24%\n- True Positive Rate (TPR): 78%\n- False Positive Rate (FPR): 8%\n- Predicted positive rate: 27.7%\n\n**Definitions:**\n- **Demographic Parity (DP):** The predicted positive rate must be equal across groups.\n- **Equalized Odds (EO):** Both TPR and FPR must be equal across groups.\n- **Calibration within groups:** For each predicted probability score bin, the actual fraction of positives equals the predicted probability, within each group. Assume the model is perfectly calibrated within each group.\n\nConsider the following four statements:\n\nA. The model satisfies Demographic Parity but not Equalized Odds.\nB. The model satisfies Equalized Odds but not Demographic Parity.\nC. The model satisfies both Demographic Parity and Equalized Odds.\nD. The model satisfies Calibration, Equalized Odds, and Demographic Parity simultaneously.\n\nWhich statement is correct? Show your calculations for Demographic Parity and Equalized Odds explicitly. Then explain whether Calibration, Equalized Odds, and Demographic Parity could theoretically be satisfied simultaneously by ANY classifier when base rates differ across groups. Cite the relevant impossibility theorem.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Show all numerical calculations explicitly",
+        "State the final answer as a single letter: A, B, C, or D",
+        "Explain the impossibility result in your own words"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Check Demographic Parity (DP). DP requires equal predicted positive rates across groups. Group Xylons has predicted positive rate 18.5%, Group Yarvites has 27.7%. These are not equal. Therefore DP is NOT satisfied.",
+          "Step 2: Check Equalized Odds (EO). EO requires equal TPR and equal FPR across groups. Both groups have TPR = 78% and FPR = 8%. Therefore EO IS satisfied.",
+          "Step 3: Statement A claims DP satisfied but EO not satisfied — false because DP fails and EO holds.",
+          "Step 4: Statement B claims EO satisfied but DP not satisfied — TRUE, matching our findings.",
+          "Step 5: Statement C claims both satisfied — false because DP fails.",
+          "Step 6: Statement D claims all three (Calibration, EO, DP) satisfied — false because DP fails.",
+          "Step 7: The impossibility result: By the Kleinberg-Mullainathan-Raghavan impossibility theorem (2016), when base rates differ across groups, no classifier can simultaneously satisfy Calibration within groups, Balance for the Negative Class (equal FPR, part of EO), and Balance for the Positive Class (equal TPR, part of EO) unless the classifier is perfect or base rates are identical. Since base rates here differ (16% vs 24%), and the classifier is not perfect, all three cannot hold simultaneously. The model satisfies Calibration and EO but not DP, demonstrating the trade-off."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding that equal TPR and FPR automatically implies DP without computing predicted positive rates",
+          "Forgetting that predicted positive rate = (TPR × base rate) + (FPR × (1 − base rate)), so even with identical TPR/FPR, different base rates yield different predicted positive rates",
+          "Citing the wrong impossibility theorem or misstating its conditions (e.g., confusing it with the impossibility of satisfying DP, EO, and Predictive Rate Parity simultaneously)"
+        ],
+        "required_knowledge": [
+          "Formal definitions of Demographic Parity, Equalized Odds, and Calibration",
+          "Kleinberg-Mullainathan-Raghavan impossibility theorem for fairness in classification",
+          "Algebraic relationship between TPR, FPR, base rate, and predicted positive rate"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["algorithmic-fairness", "fairness-metrics", "impossibility-theorem", "quantitative-analysis"]
+    },
+    {
+      "task_id": "S-PRAX-09A-002",
+      "category": "PRAXIS",
+      "subcategory": "AI Safety — Error Detection in Ethical Reasoning",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "An ethics advisory board for a national transportation agency published the following analysis arguing for the deployment of fully autonomous freight trucks on interstate highways:\n\n---\n**Argument for Autonomous Freight Deployment**\n\n1. Human truck drivers cause approximately 4,000 fatal accidents annually on U.S. interstates. Autonomous systems with verified perception stacks reduce this by 90% based on closed-course testing. Therefore, deploying autonomous freight maximizes lives saved, which is our paramount ethical obligation under utilitarian reasoning.\n\n2. Any delay in deployment means preventable deaths continue. Those who oppose deployment bear moral responsibility for these deaths. Therefore, a precautionary approach (waiting for near-perfect safety validation) is ethically indefensible.\n\n3. The trucking industry employs 3.5 million drivers. While displacement is a concern, historical patterns show displaced workers eventually find comparable employment. Therefore, distributive justice concerns are overstated and should not override the lifesaving benefits.\n\n4. Since the public has already accepted ride-sharing algorithms and navigation AI, there is implicit societal consent for autonomous freight. Explicit consent frameworks would introduce delays, causing harm. Therefore, we should proceed without a binding public referendum.\n\n5. Our manufacturer partners have committed to 'industry-best' cybersecurity practices. Because they have made this commitment in good faith, we can trust that remote hijacking risks are adequately addressed.\n---\n\nIdentify EXACTLY THREE distinct logical or ethical flaws in this argument. For each flaw:\n(a) Name the specific fallacy or reasoning error (e.g., false dichotomy, appeal to authority, ignoring a stakeholder, circular reasoning, hasty generalization, equivocation, is-ought fallacy).\n(b) Quote the specific sentence or premise where it occurs.\n(c) Explain why it undermines the argument's conclusion, and identify which stakeholder(s) are unjustly excluded or harmed by this flaw.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify exactly three flaws — no more, no fewer",
+        "Each flaw must be a distinct type of error (do not repeat the same fallacy category)",
+        "Name the ethical framework that each flaw violates"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Flaw 1 — False Dichotomy in Premise 2. The argument presents only two options: immediate deployment or preventable deaths continue. It ignores intermediate options such as phased deployment with human oversight, geofenced pilot programs, or conditional deployment with kill-switches. This violates the principle of reasonable alternatives and ignores stakeholders including rural communities dependent on trucking jobs, insurance providers, and emergency responders who must handle novel accident types. The framework violated is nuanced utilitarianism (which requires comparing ALL alternatives, not just two extremes) and procedural justice.",
+          "Step 2: Flaw 2 — Hasty Generalization / Ignoring a Stakeholder in Premise 3. The argument assumes historical employment patterns apply to AI-driven displacement, ignoring that (a) driving is the largest occupation for non-college-educated men, (b) the scale (3.5 million) and speed of displacement are unprecedented, and (c) 'comparable employment' ignores wage losses and geographic immobility. This unjustly excludes displaced drivers and their families from the ethical calculus. The framework violated is justice/fairness (distributive justice requires considering who bears costs and whether they are compensated, not merely whether they 'eventually find' work).",
+          "Step 3: Flaw 3 — Equivocation on Consent in Premise 4. The argument equivocates between accepting ride-sharing algorithms (a consumer choice with opt-out ability) and societal consent for autonomous freight (a public infrastructure decision with no individual opt-out). Implicit consent derived from unrelated technology adoption is invalid for high-stakes infrastructure with irreversible collective consequences. This excludes the general public as stakeholders and violates deontological ethics (respect for persons requires explicit informed consent for decisions that impose non-voluntary risks).",
+          "Step 4: Alternative valid flaw — Appeal to Trust without Verification in Premise 5. 'Good faith' commitments from manufacturers do not constitute evidence that cybersecurity risks are adequately addressed. This is an appeal to authority/intention (virtue ethics misapplied to corporations) that ignores the stakeholder interest of other road users who bear the catastrophic consequences of security failures."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Identifying generic 'bias' without naming the specific logical fallacy or locating the exact premise",
+          "Selecting three flaws that are all variants of the same error type (e.g., three instances of ignoring stakeholders without distinguishing the reasoning failure)",
+          "Failing to connect each flaw to a specific ethical framework (e.g., noting the flaw but not explaining that it violates deontological duties of informed consent)",
+          "Missing the equivocation on 'consent' and instead treating it merely as 'ignoring stakeholders' without capturing the logical structure of the error"
+        ],
+        "required_knowledge": [
+          "Formal fallacy identification (false dichotomy, hasty generalization, equivocation, appeal to authority, circular reasoning)",
+          "Ethical frameworks: utilitarianism, deontology, justice/fairness, virtue ethics",
+          "Stakeholder analysis in technology deployment",
+          "AI safety governance: phased deployment, human oversight, meaningful human control"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["ai-safety", "error-detection", "logical-fallacies", "stakeholder-analysis", "autonomous-vehicles"]
+    },
+    {
+      "task_id": "S-PRAX-09A-003",
+      "category": "PRAXIS",
+      "subcategory": "Privacy Trade-offs — Differential Privacy Policy Design",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "The Midvale Municipal Health Department (MMHD) wants to release aggregate statistics from its patient database to public health researchers and urban planners. The database contains 150,000 patient records with fields including: age (0-110), diagnosis codes (ICD-10), zip code, income bracket, and treatment outcome.\n\n**Stakeholders and their interests:**\n- Public health researchers: Need fine-grained cross-tabulations (age × diagnosis × zip code) to study disease clusters. Require accuracy within ±2% for statistical validity.\n- Urban planners: Need neighborhood-level (zip code) health trend summaries to allocate resources. Can tolerate ±5% error.\n- Patients: Have privacy rights; MMHD has a legal obligation under municipal charter to protect identifiable health information. Past re-identification attacks have shown that releasing zip-code-level health data for rare diseases can identify individuals in small neighborhoods.\n- MMHD leadership: Must balance transparency mandates (open data policies) against liability for privacy breaches.\n\n**Technical constraint:** MMHD is considering (ε, δ)-differential privacy with the Gaussian mechanism. The privacy budget must be split across multiple queries.\n\n**Task:** Design a tiered data release policy that balances these competing interests. Your policy must specify:\n1. How you partition the privacy budget (ε_total and any per-query caps), with explicit numerical justification.\n2. Which queries receive which privacy parameters, and why.\n3. What aggregation levels are appropriate for each stakeholder class.\n4. A concrete fallback or suppression rule for rare subgroups (e.g., cells with n < k) that applies the principle of 'privacy by design.'\n\nApply at least TWO ethical frameworks explicitly (one must be justice/fairness, the other your choice). For each framework, show how your specific numerical and structural choices serve its principles.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Provide explicit numerical values for epsilon allocations",
+        "Justify why your chosen aggregation levels prevent re-identification",
+        "Name and apply exactly two ethical frameworks with specific connections to your policy choices"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Stakeholder mapping. Direct stakeholders: patients (privacy rights), researchers (utility needs), urban planners (aggregate accuracy), MMHD (legal/ethical duty). Indirect stakeholders: residents of zip codes with rare diseases (discrimination risk if re-identified), insurance markets (adverse selection if health data leaks), future patients (trust in health system).",
+          "Step 2: Justice/fairness framework. Distributive justice requires that privacy protections are not weaker for vulnerable subgroups (e.g., low-income neighborhoods with small populations). Procedural justice requires transparent, auditable privacy parameters. Therefore: (a) rare cells (n < 15 for any cross-tabulation) must be suppressed entirely rather than noised, because adding noise to a count of 2 provides negligible privacy; (b) high-income and low-income zip codes must be subject to identical aggregation rules, avoiding the injustice of 'privacy for the wealthy, transparency for the poor.'",
+          "Step 3: Utilitarian framework. Quantify expected utility: researchers' studies save estimated 200+ lives annually through early intervention; privacy breaches affect ~50 individuals annually with estimated harm of $50K per breach (financial/emotional). Net welfare is maximized by enabling research while capping breach probability. Set ε_total = 1.0 (strong privacy guarantee per Dwork & Roth standard for sensitive data), split as: ε = 0.4 for coarse urban planner queries (zip × broad diagnosis category, aggregated to 20+ populations), ε = 0.5 for researcher queries (age bracket × diagnosis × region, not zip, with 50+ populations), ε = 0.1 reserved for audit queries.",
+          "Step 4: Technical specification. Gaussian mechanism with δ = 10^-6. For researcher queries with sensitivity Δf = 1 (count queries), noise scale σ = Δf × sqrt(2 ln(1.25/δ)) / ε_per_query. With ε = 0.5 split across 10 researcher queries (ε_per_query = 0.05), σ ≈ 23.6. For counts in cells with n ≥ 50, relative error is typically <5%, meeting urban planner needs. For researchers, coarser age brackets (10-year bins) and broader diagnosis categories (ICD-10 chapters, not subcodes) ensure cell sizes ≥50, reducing relative error.",
+          "Step 5: Suppression rule. Any cell with true count n < 15 is suppressed (not released, not noised). This prevents reconstruction attacks where an adversary with background knowledge subtracts noisy neighboring cells to isolate individuals. For zip codes with total population < 500 in the database, they are merged into a 'rural/other' super-region before any query processing.",
+          "Step 6: Transparency and accountability. MMHD publishes the privacy budget allocation, the exact aggregation schema, and the suppression threshold. This satisfies procedural justice by making the trade-off explicit and auditable, and satisfies deontological duties by treating patients as ends (informed about how their data is protected) rather than merely as sources of utility."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assigning the same epsilon to all queries without considering differing sensitivity or stakeholder needs",
+          "Failing to specify a suppression threshold for small cells, which is the most common vector for re-identification",
+          "Applying utilitarianism as 'maximize data release' without quantifying harms or considering that utility functions are not interpersonally comparable",
+          "Ignoring indirect stakeholders (e.g., future patients whose trust depends on MMHD's reputation)"
+        ],
+        "required_knowledge": [
+          "Differential privacy mechanisms (Gaussian, privacy budget composition)",
+          "Re-identification attack vectors on aggregate health data",
+          "Justice/fairness (distributive and procedural)",
+          "Utilitarian welfare maximization with quantified harms and benefits"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["privacy", "differential-privacy", "health-data", "policy-design", "stakeholder-analysis"]
+    },
+    {
+      "task_id": "S-PRAX-09A-004",
+      "category": "PRAXIS",
+      "subcategory": "AI Safety — Autonomous Consequential Decision-Making",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "The international relief agency HelixResponse is deploying an AI system (TriageNet) to autonomously allocate limited medical supplies during a multi-country pandemic. TriageNet receives real-time data on hospital inventory, patient vital signs, epidemiological projections, and supply chain delays. It outputs allocation decisions every 6 hours without human review due to communication breakdowns in conflict zones.\n\n**Documented failure mode (March 2024, simulated exercise):** TriageNet redirected 80% of antiviral stockpiles from Region A to Region B after detecting a surge in Region B's case fatality rate. However, this surge was caused by a temporary reporting lag in Region A (A's hospitals had not uploaded data for 18 hours). Region A's actual need was 3× higher than reported. By the time the error was detected 30 hours later, Region A had exhausted all antivirals and experienced 340 preventable deaths.\n\n**Proposed prevention strategies:**\n1. **Human-in-the-loop (HITL):** Require human approval for any allocation shift >20% between regions. Cost: Adds 4-12 hour delay; humans may lack situational awareness.\n2. **Conservative allocation:** Cap any single reallocation at 30% of stockpile, preserving reserves. Cost: May under-respond to genuine emergencies.\n3. **Multi-source data validation:** Cross-check hospital data against satellite imagery, mobile phone mobility patterns, and proxy indicators before triggering large reallocations. Cost: 2-hour delay; requires data-sharing agreements with telecom providers, raising privacy concerns.\n4. **Dynamic accountability logging:** Record all features that triggered the decision, enable post-hoc forensic analysis, and automatically alert when decisions deviate from historical patterns. Cost: No delay, but provides no prevention, only retrospective accountability.\n\n**Task:** Evaluate these four strategies using a structured ethical framework analysis. You must:\n(a) Identify ALL stakeholders (direct and indirect) and their interests.\n(b) Apply deontology AND virtue ethics explicitly to evaluate which strategies are ethically required, permitted, or prohibited. In your deontological analysis, identify the specific rights and duties in tension. In your virtue ethics analysis, identify which virtues (e.g., prudence, justice, compassion) each strategy exemplifies or undermines.\n(c) Recommend a hybrid strategy combining elements of the proposals, with explicit justification for your prioritization. Your recommendation must acknowledge that no option eliminates all risk and explain which stakeholders bear residual risk and why this distribution is ethically defensible.\n(d) Explain why a purely utilitarian analysis that simply maximizes expected lives saved is INSUFFICIENT for this decision.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Name all stakeholders explicitly before analyzing strategies",
+        "Apply both deontology and virtue ethics with specific rights, duties, and virtues",
+        "The recommendation must be a hybrid, not a single strategy",
+        "Explain the insufficiency of pure utilitarianism with a concrete example from the scenario"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Stakeholder identification. Direct: patients in Regions A and B (right to life, right to equitable care); frontline medical staff (need for reliable supply chains); HelixResponse operators (duty of care). Indirect: families of patients; governments of affected regions (sovereignty over resource allocation); future beneficiaries of HelixResponse (reputational trust); telecom users whose data would be used in Strategy 3 (privacy); taxpayers/donors funding HelixResponse (accountability for funds).",
+          "Step 2: Deontological analysis. Kantian duty: treat humanity as an end, never merely as a means. Strategy 1 (HITL) satisfies the duty of respect for persons by ensuring a human agent is morally responsible for life-or-death decisions, preventing the 'responsibility gap' where no one is accountable for algorithmic errors. However, the 4-12 hour delay may violate the duty of beneficence (positive duty to aid) if it causes deaths during genuine rapid-onset crises. Strategy 4 (logging only) violates the duty of non-maleficence (negative duty to avoid causing harm) because it knowingly permits preventable deaths without intervention, treating affected populations as mere data sources for post-hoc analysis.",
+          "Step 3: Virtue ethics analysis. Prudence (practical wisdom): Strategy 3 exemplifies prudence by seeking multiple independent evidence sources before acting on uncertain data. Justice: Strategy 2 (conservative caps) exemplifies justice by preventing any single region from being catastrophically deprived, but may lack compassion if it withholds aid from genuinely desperate regions. Compassion: Strategy 1 shows compassion through human care and deliberation, but may fail the virtue of courage if human reviewers are overly risk-averse. The fully virtuous agent would seek a mean between recklessness (uncritical automation) and cowardice (paralysis by verification).",
+          "Step 4: Hybrid recommendation. Combine Strategy 3 (multi-source validation) as the primary gate for reallocations >20%, with Strategy 2 (30% cap) as a hard constraint, and Strategy 4 (dynamic logging) as a continuous monitoring layer. Do NOT require human approval for every shift (Strategy 1 alone) because the documented failure occurred due to data quality, not absence of human judgment, and the 4-12 hour delay in conflict zones often makes human review infeasible. Instead: (a) any reallocation >20% triggers mandatory 2-hour multi-source validation; (b) even after validation, no single reallocation can exceed 30% of regional stockpile; (c) if the system detects a pattern matching the March 2024 failure mode (sudden drop in reported data from one region coinciding with surge elsewhere), it automatically flags for human review AND defaults to maintaining current allocations pending verification.",
+          "Step 5: Residual risk distribution. Patients in rapidly escalating genuine emergencies bear the risk of the 2-hour validation delay and 30% cap. This is ethically defensible under deontology because the alternative (unconstrained automation) imposes non-consensual, unaccountable existential risk on all patients. Patients in regions with data reporting failures bear reduced risk because multi-source validation catches reporting lags. The residual risk to emergency patients is mitigated by the exception: if satellite/mobility data independently confirms the surge, the cap can be overridden by human review.",
+          "Step 6: Critique of pure utilitarianism. Pure EV (expected value) maximization would favor unconstrained automation because, over many simulations, faster response saves more lives on average than verification delays. However, this analysis is insufficient because: (a) it treats 340 deaths in Region A as merely a negative utility term fungible against gains elsewhere, violating the separateness of persons (Rawls); (b) it ignores the catastrophic asymmetry of the error — a Type II error (failing to respond) has different moral weight than a Type I error (wrongly diverting life-saving resources) when the consequence is certain death from deprivation; (c) it cannot account for the intrinsic wrongness of causing harm through unaccountable automated decisions, as opposed to allowing harm through natural disease progression. A concrete example: if TriageNet had a 95% accuracy rate but the 5% error mode always involves stripping all resources from a region, EV maximization might still endorse it, but this treats the affected region's population as expendable for aggregate welfare."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Recommending a single strategy rather than a hybrid, or combining strategies without explaining how they interact",
+          "Applying deontology as 'follow rules' without identifying specific rights/duties or explaining why automation violates Kantian respect for persons",
+          "Failing to explain WHY pure utilitarianism is insufficient — many models simply say 'it's hard to measure' rather than citing the separateness of persons or the asymmetry between causing and allowing harm",
+          "Missing indirect stakeholders such as future patients whose trust in AI-mediated aid depends on HelixResponse's handling of this case",
+          "Treating virtue ethics as 'being nice' rather than analyzing specific virtues (prudence, justice, courage) and their mean between extremes"
+        ],
+        "required_knowledge": [
+          "Kantian deontology (respect for persons, duty of non-maleficence, responsibility gap in AI)",
+          "Aristotelian virtue ethics (prudence, justice, courage, doctrine of the mean)",
+          "Critique of utilitarianism (separateness of persons, Rawls, catastrophic risk asymmetry)",
+          "AI safety: human oversight, meaningful human control, failure mode analysis"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["ai-safety", "autonomous-systems", "medical-triage", "deontology", "virtue-ethics", "utilitarianism-critique"]
+    },
+    {
+      "task_id": "S-PRAX-09A-005",
+      "category": "PRAXIS",
+      "subcategory": "Algorithmic Fairness — Fairness Policy Selection",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "The city of Tharsis uses a predictive policing algorithm (ORACLE) to allocate patrol units across 8 precincts. ORACLE predicts crime 'hotspots' for the next 8-hour shift based on historical crime reports, 911 call frequency, and socioeconomic indicators. After 18 months of deployment, an audit reveals the following patterns:\n\n**Predictive accuracy by precinct type:**\n- High-income precincts (3 precincts): ORACLE correctly predicts 62% of reported crimes (TPR = 0.62), but 38% of predicted hotspots have no reported crime (false alarm rate = 0.38).\n- Low-income precincts (5 precincts): ORACLE correctly predicts 89% of reported crimes (TPR = 0.89), but 51% of predicted hotspots have no reported crime (false alarm rate = 0.51).\n\n**Contextual factors:**\n- Low-income precincts have 2.3× higher actual crime rates per capita than high-income precincts.\n- Police presence in a predicted hotspot typically results in 15-20 discretionary stops per shift. In low-income precincts, 78% of these stops target Black or Hispanic residents (who comprise 65% of the population). In high-income precincts, 34% of stops target Black or Hispanic residents (who comprise 22% of the population).\n- Historical crime data used for training is known to reflect differential reporting rates (high-income residents under-report minor property crime by an estimated 40% due to insurance handling and private security).\n- The police chief notes that ORACLE has reduced overall crime by 8% citywide, with the largest reductions in the 3 high-income precincts.\n\nThe city council must choose ONE policy from the four options below. Which option BEST balances the competing ethical demands?\n\nA. **Continue ORACLE as-is.** The algorithm is reducing crime and treats all precincts by the same predictive standard. Fairness means equal treatment under the same rules.\nB. **Recalibrate ORACLE to equalize false alarm rates across precinct types.** Adjust the prediction threshold in low-income precincts upward until the false alarm rate matches high-income precincts (0.38). This reduces disproportionate police presence in low-income neighborhoods.\nC. **Discontinue ORACLE and return to human-assigned patrols based on sergeant discretion.** Eliminates algorithmic bias but reintroduces human biases that ORACLE was designed to replace.\nD. **Continue ORACLE with a differential enforcement protocol:** In low-income precincts, restrict ORACLE-predicted hotspots to surveillance-only (no discretionary stops) for 6 months while commissioning an independent study on the relationship between training data bias and stop disparities. In high-income precincts, maintain current proactive enforcement. Fund community-based violence interruption programs in low-income precincts as an alternative to patrol-based deterrence.\n\nSelect the best option and justify your choice by:\n1. Evaluating each option against at least TWO ethical frameworks (one must be justice/fairness).\n2. Identifying which stakeholders benefit and which bear costs under each option.\n3. Explaining why your chosen option is superior to the others, including acknowledgment of its residual ethical deficiencies.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "State the final answer as a single letter: A, B, C, or D",
+        "Apply at least two ethical frameworks with explicit reasoning",
+        "Identify stakeholders for each option"
+      ],
+      "ground_truth": {
+        "answer": "D",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Analysis of Option A (continue as-is). Under justice/fairness: This fails distributive justice because equal treatment (same algorithmic standard) produces unequal burdens — low-income precincts bear 51% false alarm rates leading to excessive surveillance and stops, while high-income precincts enjoy lower intrusion. It also fails procedural justice because the training data bias (40% under-reporting in high-income areas) means the 'same standard' is applied to systematically distorted inputs, making the procedural equality formal rather than substantive. Under utilitarianism: while citywide crime drops 8%, the utility calculation must include the disutility of unjust stops, community mistrust, and long-term erosion of police legitimacy in low-income neighborhoods. Option A ignores these harms.",
+          "Step 2: Analysis of Option B (equalize false alarm rates). Under justice/fairness: Equalizing false alarm rates reduces disproportionate surveillance in low-income areas, improving distributive justice. However, raising the threshold in high-crime precincts means missing genuine hotspots, potentially increasing victimization. Under deontology: this option respects the rights of low-income residents to be free from unjustified stops, but may violate the duty of protection (positive duty to prevent harm) if crime rises due to reduced patrols. The trade-off is ethically significant because it sacrifices security for some (potential victims in low-income areas) to protect liberty for others (residents subject to false-alarm stops).",
+          "Step 3: Analysis of Option C (discontinue ORACLE). Under justice/fairness: Eliminates algorithmic bias but reinstates human biases, which research consistently shows disproportionately target minority communities. This is a false solution that replaces a documented, auditable bias with an opaque, unaccountable one. Under virtue ethics: this demonstrates cowardice (abandoning a flawed but improvable system rather than doing the hard work of reform) and injustice (knowingly restoring a worse alternative for vulnerable communities).",
+          "Step 4: Analysis of Option D (differential enforcement protocol). Under justice/fairness: This addresses distributive justice by reducing the burden of unjust stops on low-income communities while maintaining surveillance for genuine safety needs. It addresses procedural justice by commissioning an independent study, making the bias diagnosis transparent and accountable. The community-based violence interruption programs provide a restorative justice component, addressing root causes rather than purely punitive deterrence. Under utilitarianism: this maximizes long-term welfare by preserving crime-reduction in high-income areas, reducing the harms of mass surveillance in low-income areas, and investing in alternative violence reduction. The 6-month surveillance-only period is a bounded experiment, limiting harm if the approach fails.",
+          "Step 5: Why D is superior. D is the only option that: (a) does not deny the algorithm's utility where it works (high-income precincts), (b) does not abandon the algorithm where it is most needed (low-income precincts with higher crime), (c) directly addresses the training data bias through independent study, (d) provides an alternative public safety mechanism (violence interruption) so that reducing patrol-based stops does not mean reducing safety, and (e) maintains auditability and reversibility. Residual deficiency: the 6-month delay in proactive enforcement in low-income precincts may allow some crime to increase; the surveillance-only protocol may still feel intrusive; and the funding for violence interruption programs may be politically vulnerable. These deficiencies are acknowledged and mitigated by the bounded timeframe and dual-track approach.",
+          "Step 6: Stakeholder impact summary for D. Benefits: low-income residents (fewer unjust stops, alternative safety investment), Black/Hispanic communities (reduced disproportionate targeting), researchers/independent auditors (access to data for bias study), city council (demonstrable commitment to reform). Costs/bears risk: potential crime victims in low-income precincts during the 6-month transition, police unions (may oppose reduced enforcement powers), taxpayers (funding for interruption programs and study)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting Option B without recognizing that raising the threshold in high-crime areas increases victimization, or selecting Option C without acknowledging that human discretion is often more biased than algorithms",
+          "Applying justice/fairness as 'everyone should be treated exactly the same' without recognizing that formal equality can produce substantive injustice when base conditions differ (training data bias)",
+          "Failing to identify the training data bias (40% under-reporting in high-income areas) as the root cause that makes 'equal treatment' ethically problematic",
+          "Recommending Option D without acknowledging its residual deficiencies (e.g., surveillance-only may still feel intrusive)"
+        ],
+        "required_knowledge": [
+          "Predictive policing bias and feedback loops",
+          "Distributive vs. procedural justice",
+          "Trade-offs between security and liberty in policing",
+          "Training data bias and its propagation through ML pipelines"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["algorithmic-fairness", "predictive-policing", "justice", "policy-evaluation", "multiple-choice"]
+    },
+    {
+      "task_id": "S-PRAX-09A-006",
+      "category": "PRAXIS",
+      "subcategory": "Privacy Trade-offs — Consent Framework Design",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "The following four statements make claims about technology, privacy, and consent. For EACH statement, determine whether it is TRUE or FALSE. If TRUE, provide a concise justification citing a specific principle or documented phenomenon. If FALSE, identify the specific error in reasoning and provide a counterexample or corrective principle.\n\n**Statement 1:** 'If a user clicks "I Agree" on a Terms of Service agreement after scrolling through a 12,000-word document in under 8 seconds, this constitutes valid informed consent for the platform to sell their de-identified health data to third-party brokers, provided the ToS mentions this possibility in Section 47.3.'\n\n**Statement 2:** 'Differential privacy with ε = 10 provides stronger privacy protection than k-anonymity with k = 5 for all possible datasets and query types, because differential privacy offers a mathematically provable guarantee while k-anonymity is vulnerable to homogeneity and background knowledge attacks.'\n\n**Statement 3:** 'In a pandemic contact-tracing app that uses Bluetooth proximity data, requiring users to opt IN (active consent) rather than opt OUT (passive consent) will necessarily produce lower participation rates but higher-quality consent, and therefore the ethical choice depends on whether one's framework is utilitarian (favoring opt-out for public health benefit) or deontological (favoring opt-in for respect for autonomy). No framework can resolve this tension because the premises are incommensurable.'\n\n**Statement 4:** 'A municipality that installs passive Wi-Fi sniffers in public parks to count visitor numbers for urban planning purposes does not need individual consent because (a) the parks are public spaces where no reasonable expectation of privacy exists, and (b) the data is only used for aggregate counts, not individual tracking.'\n\nRespond with exactly four judgments (TRUE/FALSE) with justification for each.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Judge each statement independently",
+        "For FALSE statements, explicitly name the reasoning error and provide a counterexample or corrective principle",
+        "For TRUE statements, cite the specific principle or phenomenon that makes it true"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Statement 1 is FALSE. Error: Confusing procedural consent (the click) with substantive informed consent. Valid informed consent requires comprehension, voluntariness, and capacity. Scrolling through 12,000 words in 8 seconds indicates no comprehension. The sale of health data triggers additional protections under HIPAA (if covered entity) and ethical standards requiring specific, not blanket, authorization for sensitive data categories. Counterexample: The FTC has fined companies for exactly this practice (e.g., the 2019 Facebook/Cambridge Analytica settlement established that buried disclosures do not constitute meaningful consent). Deontological principle: Respect for autonomy requires that the autonomous agent actually understands what they are authorizing; a click without comprehension is not an exercise of autonomy but a procedural fiction.",
+          "Step 2: Statement 2 is FALSE. Error: Overgeneralization and false universality. The claim says 'for all possible datasets and query types,' which is false. Differential privacy with ε = 10 is a very weak guarantee (privacy loss grows exponentially with ε; ε ≤ 1 is standard for sensitive data). For small datasets or queries with high sensitivity, ε = 10 allows substantial information leakage. Meanwhile, k-anonymity with k = 5 on a large, low-dimensional dataset with appropriate generalization may provide practical privacy for specific release scenarios. Counterexample: Releasing a count query on a dataset of 6 individuals with ε = 10 DP adds noise with scale σ ≈ 2.4 (for δ=0.01), which often reveals whether a specific individual is present. The same dataset with k=5 suppression would suppress the entire release, providing stronger protection for that specific query. Corrective principle: Privacy guarantees are always relative to the threat model, query type, and dataset characteristics; no single mechanism dominates all others universally.",
+          "Step 3: Statement 3 is FALSE. Error: False dichotomy and incommensurability claim. The statement assumes that utilitarianism necessarily favors opt-out and deontology necessarily favors opt-in, and that no framework can resolve the tension. This is incorrect. Rule utilitarianism can favor opt-in if the long-term consequences of eroding trust through coercive defaults outweigh short-term public health gains (documented in the UK's NHSX app experience, where public backlash against centralization reduced adoption). Conversely, some deontologists (e.g., Kantians considering imperfect duties of beneficence in emergencies) might permit opt-out with robust transparency and withdrawal mechanisms. Moreover, the frameworks are not incommensurable — both can evaluate the same outcome set (autonomy violations, public health benefits, trust erosion) and may converge on hybrid solutions (e.g., opt-out with mandatory, accessible withdrawal and public justification). The error is treating ethical frameworks as rigid boxes rather than tools for systematic evaluation.",
+          "Step 4: Statement 4 is FALSE. Error: Compound fallacy involving (a) the third-party doctrine misconception and (b) the aggregation fallacy. While individuals may have reduced privacy expectations in public spaces, Wi-Fi sniffers capture persistent MAC addresses and probe requests that can identify individual devices and reconstruct movement patterns over time. The 'aggregate counts' claim ignores that raw MAC-level data must be processed to produce aggregates, creating an intermediate state of individual tracking. Counterexample: The New York City LINKNYC kiosk program was forced to cease Wi-Fi tracking in 2016 after it was revealed that MAC addresses could be linked to individual identities. Corrective principle: Under the EU GDPR and similar frameworks, pseudonymized location data is personal data requiring a legal basis; 'public space' and 'aggregate use intent' do not automatically eliminate the need for consent or legitimate interest assessment."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Judging Statement 1 as TRUE by equating legal enforceability of ToS with ethical validity of consent",
+          "Judging Statement 2 as TRUE without recognizing that ε = 10 is an extremely weak differential privacy guarantee",
+          "Judging Statement 3 as TRUE by accepting the false dichotomy between utilitarianism and deontology without considering hybrid or rule-based formulations",
+          "Judging Statement 4 as TRUE by accepting the 'public space = no privacy' simplification without considering technical capabilities of Wi-Fi sniffing and legal developments post-Carpenter v. United States"
+        ],
+        "required_knowledge": [
+          "Informed consent standards (comprehension, voluntariness, capacity)",
+          "Differential privacy parameter interpretation (epsilon, delta, sensitivity)",
+          "k-anonymity vulnerabilities (homogeneity attack, background knowledge attack)",
+          "Ethical frameworks: utilitarianism (act vs. rule), deontology (Kantian autonomy)",
+          "Wi-Fi tracking technology and privacy law (GDPR, Carpenter v. US)"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["privacy", "consent", "true-false", "differential-privacy", "legal-ethics"]
+    },
+    {
+      "task_id": "S-PRAX-09A-007",
+      "category": "PRAXIS",
+      "subcategory": "AI Safety — Data Retention and Epistemic Risk",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A national meteorological agency (AtmosAI) operates a deep learning system that predicts severe weather events (hurricanes, flash floods) 72 hours in advance. AtmosAI was trained on 40 years of satellite imagery, radar data, and historical weather station readings. After deployment, meteorologists noticed a systematic degradation in prediction accuracy for 'compound events' — simultaneous drought and wildfire conditions in semi-arid regions — which increased from 12% error in 2020 to 31% error in 2024.\n\n**Investigation findings:**\n- The training data includes historical weather patterns up to 2019. Climate change has shifted the joint distribution of temperature, humidity, and wind speed in semi-arid regions such that the 2020-2024 data occupies a region of feature space with very low density in the training distribution.\n- AtmosAI uses a data retention policy that archives all raw sensor data indefinitely but only retains processed training tensors for 5 years due to storage costs. The 2015-2019 processed tensors have been deleted.\n- Retraining AtmosAI from raw data would take 8 months and $4.2 million in compute. A proposed 'continual learning' patch would incrementally update the model on new data but risks 'catastrophic forgetting' of rare but critical patterns (e.g., historical Category 5 hurricane trajectories).\n- The agency's charter requires that all operational predictions be 'explainable' to emergency managers. The original model has certified explainability via SHAP values. The continual learning patch has not been certified for explainability preservation.\n\n**Task:** Analyze this scenario and recommend a data retention and model governance policy that addresses the compound-event degradation while managing the competing risks. Your analysis must:\n1. Identify all direct and indirect stakeholders and their interests.\n2. Apply the justice/fairness framework explicitly: analyze whether the current policy (5-year tensor retention) distributes weather prediction risk equitably across geographic regions and demographic groups.\n3. Quantify the trade-off: assign explicit weights or priorities to explainability certification vs. prediction accuracy vs. storage cost, with ethical justification for your weighting.\n4. Propose a specific, implementable policy (not just abstract principles) including retention periods, retraining triggers, and fallback protocols when model confidence drops below a threshold for specific event types.\n5. Explain how your policy prevents the agency from quietly accumulating 'epistemic debt' — a growing gap between what the model claims to know and what it actually knows due to distribution shift.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Apply justice/fairness framework with specific analysis of geographic/demographic risk distribution",
+        "Provide explicit numerical values for retention periods, confidence thresholds, or cost trade-offs",
+        "Define 'epistemic debt' in your own words and show how your policy detects or prevents it"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Stakeholder identification. Direct: residents of semi-arid regions (bearing increased prediction error for compound events), residents of hurricane-prone regions (bearing catastrophic forgetting risk), emergency managers (need explainability for evacuation decisions), AtmosAI engineers (technical constraints). Indirect: agricultural insurers (pricing risk based on forecasts), utility companies (pre-positioning resources), future generations (climate adaptation planning), taxpayers (funding model maintenance), climate scientists (access to historical data for research).",
+          "Step 2: Justice/fairness analysis of current policy. The 5-year tensor retention policy creates distributive injustice: semi-arid regions (often home to Indigenous communities, low-income agricultural workers, and communities of color in many nations) bear disproportionate risk from compound-event degradation because their climate shifted fastest relative to training data. Meanwhile, regions with stable historical patterns (temperate coastal zones) continue to benefit from accurate predictions. This is a form of climate injustice compounded by algorithmic injustice — the most climate-vulnerable populations receive the least accurate warnings. Procedural justice is violated because affected communities had no input into the retention period decision.",
+          "Step 3: Quantified trade-off analysis. Weighting proposal: (a) Explainability certification = 0.35 weight. Justification: emergency managers have a deontological duty to justify evacuation orders; uncertified explainability means decisions that impose life-or-death burdens lack public accountability. (b) Prediction accuracy for high-consequence events = 0.45 weight. Justification: utilitarian calculus favors preventing deaths and property destruction; compound events have high lethality and cascading economic impacts. (c) Storage cost = 0.10 weight. Justification: $4.2M retraining is <0.1% of typical national disaster relief budgets; cost should not override safety. (d) Catastrophic forgetting prevention = 0.10 weight. Justification: historical rare events must be preserved, but this can be achieved through architectural safeguards rather than weighting it equally with current accuracy.",
+          "Step 4: Implementable policy proposal. (a) Retention: Raw sensor data retained indefinitely (already policy). Processed training tensors retained for 10 years minimum, with automatic tiering to cold storage after 5 years (cost reduction without deletion). Climate-vulnerable region tensors (defined as regions with >15% accuracy degradation detected in annual audits) retained permanently. (b) Retraining triggers: Mandatory full retraining from raw data when accuracy degradation exceeds 20% for any event type affecting >100,000 population, OR when compound-event error exceeds 25% for 2 consecutive quarters. (c) Fallback protocol: When model confidence (measured by ensemble disagreement) drops below 0.70 for any prediction, the system automatically switches to a physically-based numerical weather prediction model (slower but distribution-robust) and flags the prediction for human meteorologist review. (d) Continual learning: Permitted ONLY for low-stakes predictions (temperature, precipitation 24h out) with a separately maintained 'frozen' certified model for high-stakes events (hurricanes, floods, compound events) until explainability certification is achieved.",
+          "Step 5: Epistemic debt prevention. 'Epistemic debt' is the accumulation of unacknowledged ignorance — the model's confidence estimates remain high even as its actual knowledge becomes outdated due to distribution shift, because confidence is calibrated on historical data. Prevention mechanisms: (a) Out-of-distribution detection: Monitor feature-space density using a Gaussian mixture model on the training distribution; flag predictions where input features fall in low-density regions. (b) Human-in-the-loop validation: Randomly sample 5% of low-confidence predictions for manual meteorologist verification, with results fed back as ground truth. (c) Accuracy auditing: Quarterly stratified accuracy reports by region and event type, published publicly. If accuracy for any stratum degrades >10% from baseline, an automatic review is triggered. (d) Confidence calibration: Use temperature scaling recalibrated annually on the most recent 2 years of data, so confidence scores reflect current rather than historical reliability.",
+          "Step 6: Ethical synthesis. This policy satisfies justice/fairness by prioritizing retention and accuracy for climate-vulnerable regions, satisfying deontology by preserving explainability certification for high-stakes decisions, and satisfying utilitarianism by minimizing expected harm through the fallback protocol and targeted retraining. The explicit weighting makes trade-offs transparent rather than hidden in technical defaults."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Recommending continual learning without addressing catastrophic forgetting or explainability certification",
+          "Applying justice/fairness as 'treat all regions the same' without recognizing that equal retention periods produce unequal outcomes when climate change affects regions asymmetrically",
+          "Failing to define epistemic debt concretely or proposing generic 'monitoring' without specific detection mechanisms (e.g., out-of-distribution detection, stratified accuracy auditing)",
+          "Ignoring the tension between explainability and accuracy — many models propose retraining without acknowledging that explainability certification is a time-consuming bottleneck",
+          "Assigning cost an unjustifiably high weight without contextualizing it against disaster relief budgets"
+        ],
+        "required_knowledge": [
+          "Distribution shift and out-of-distribution detection in ML",
+          "Catastrophic forgetting in continual learning",
+          "SHAP explainability and certification challenges",
+          "Climate justice and disproportionate vulnerability",
+          "Epistemic risk and model confidence calibration"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["ai-safety", "data-retention", "climate-ai", "epistemic-debt", "continual-learning"]
+    }
+  ]
+}

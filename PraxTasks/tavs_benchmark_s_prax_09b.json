@@ -1,0 +1,450 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-09B",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Applied Ethics — Technology Ethics, AI Safety, Privacy, Algorithmic Fairness",
+    "generated_at": "2026-04-25T20:39:22+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-09B-001",
+      "category": "PRAXIS",
+      "subcategory": "Digital Divide and Access",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A low-income country with 50 million people must select a national digital identity system. Sixty percent of the population lives in rural areas with intermittent electricity. Eight percent of the population has a significant disability. The country has a $300 million total budget for the project over five years. Four proposals are under consideration:\n\nOption A: A centralized biometric database run by a foreign vendor. Upfront cost: $200 million. Coverage: 95% of the population within 3 years. Rural citizens must travel an average of 45 kilometers to enrollment centers. Data is stored offshore under vendor jurisdiction. No domestic capacity building.\n\nOption B: A decentralized blockchain-based system. Upfront cost: $350 million (requires $50 million in external loans). Uses local edge servers in every district. Coverage: 88% of the population within 4 years. Citizens retain cryptographic key control. Full functionality requires smartphone ownership (current national smartphone penetration: 35%).\n\nOption C: A hybrid paper-digital system. Upfront cost: $80 million. Uses existing postal infrastructure. Coverage: 99% of the population within 2 years. Offers minimal fraud protection and no interoperability with international digital services. Cannot support digital signatures or e-government integration.\n\nOption D: A federated system with local data storage and open-source software. Upfront cost: $280 million. Coverage: 92% within 3.5 years. Enrollment is conducted via mobile teams that visit rural areas and provide assistive technologies for persons with disabilities. Requires sustained technical capacity building ($15 million/year for 5 years). Data remains under national jurisdiction.\n\nWhich option best balances stakeholder interests when evaluated through distributive justice and utilitarianism? In your answer, (1) identify all affected stakeholders, (2) apply both ethical frameworks explicitly to each option, (3) analyze the specific trade-offs, and (4) state your recommendation with quantitative justification.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Name the ethical frameworks explicitly and show how they apply to each option",
+        "Include quantitative reasoning (costs, coverage percentages, timeframes)",
+        "Identify both direct and indirect stakeholders"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify all stakeholders. Direct stakeholders: rural populations (30M), urban poor, persons with disabilities (4M), elderly without digital literacy, government agencies, foreign vendor (Option A only), domestic IT workforce. Indirect stakeholders: future generations needing digital interoperability, civil society and privacy advocates, international trading partners requiring digital identity verification, creditors (for Option B loans).",
+          "Step 2: Apply distributive justice. Option A distributes benefits unevenly: urban populations gain easy access while rural and disabled populations face 45km travel barriers, violating equitable distribution of basic state services. Option B excludes 65% of the population who lack smartphones, disproportionately harming the poor. Option C achieves near-universal coverage but distributes a second-class identity to the rural poor who cannot access digital services, perpetuating structural inequality. Option D distributes enrollment access via mobile teams and assistive technologies, most closely aligning with Rawlsian difference principle (maximizing the position of the worst off) while maintaining 92% coverage.",
+          "Step 3: Apply utilitarianism. Calculate expected welfare for each option. Option A: high coverage (47.5M) but concentrated travel costs and privacy risks for 30M rural citizens plus sovereignty risks. Expected net welfare is moderate-high but skewed. Option B: only 17.5M smartphone owners benefit fully; 32.5M receive limited or no benefit. Aggregate welfare is low despite technological sophistication. Option C: 49.5M covered quickly, but lack of interoperability creates massive opportunity costs (estimated $2-5 billion in foregone e-government efficiency over 10 years). Option D: 46M covered with high functionality, mobile enrollment removes access barriers, and capacity building generates positive externalities. Total welfare is highest when accounting for accessibility, sovereignty, and future interoperability.",
+          "Step 4: Analyze trade-offs. Option A trades sovereignty and equity for speed. Option B trades equity and fiscal prudence for technological autonomy. Option C trades future capability for immediate coverage. Option D trades some coverage speed and higher upfront cost for equity, sovereignty, and sustainability.",
+          "Step 5: Recommendation. Option D is the ethically justified choice. It best satisfies distributive justice by prioritizing rural and disabled populations through mobile enrollment. It maximizes long-term utilitarian welfare by balancing coverage (92%), functionality, sovereignty, and capacity building. The $75 million remaining from the $300 million budget covers capacity-building for 5 years. The 8% uncovered population requires targeted outreach, which is more feasible than correcting structural exclusions in Options A, B, or C.",
+          "Rubric criteria: Stakeholder identification completeness (2 points): must identify at least 8 distinct stakeholder groups including rural, disabled, urban poor, government, future generations, domestic workforce, creditors, and civil society. Framework application rigor (3 points): must apply both distributive justice and utilitarianism to all four options with specific quantitative references. Trade-off analysis nuance (3 points): must acknowledge that every option has downsides and explain why D's downsides are least severe. Justified recommendation specificity (2 points): must explicitly select Option D and justify with reference to both frameworks and the quantitative budget constraint."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting Option A solely because it has the highest coverage percentage (95%) while ignoring the 45km travel barrier that effectively excludes disabled and immobile rural populations from equitable access.",
+          "Selecting Option B because 'blockchain' implies decentralization and autonomy, while failing to notice that 65% smartphone penetration means the majority of the poor are excluded, violating both distributive justice and utilitarian welfare maximization.",
+          "Selecting Option C because it is cheapest and fastest, ignoring the long-term opportunity costs of non-interoperability and the perpetuation of a two-tier identity system that harms the digitally excluded.",
+          "Applying utilitarianism as pure cost-minimization without considering the distribution of benefits and harms across different stakeholder groups."
+        ],
+        "required_knowledge": [
+          "Distributive justice and Rawlsian difference principle",
+          "Utilitarian welfare aggregation and the importance of distribution in welfare economics",
+          "Digital divide concepts: access, affordability, digital literacy, and assistive technology",
+          "Data sovereignty and the ethics of offshore data storage in low-income countries"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["digital-divide", "distributive-justice", "utilitarianism", "digital-identity", "stakeholder-analysis"]
+    },
+    {
+      "task_id": "S-PRAX-09B-002",
+      "category": "PRAXIS",
+      "subcategory": "Algorithmic Fairness",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "An ethics board reviewed a predictive policing algorithm used to allocate 100 weekly police patrol hours across two neighborhoods. The algorithm produces risk scores that determine patrol allocation. The board published the following analysis:\n\nNeighborhood X (high-income, 20% Black population, 50,000 residents): 15% of residents receive high-risk scores. The actual crime rate is 5%.\nNeighborhood Y (low-income, 80% Black population, 50,000 residents): 45% of residents receive high-risk scores. The actual crime rate is 12%.\n\nThe board's report contains four claims:\n\nClaim 1: 'The algorithm satisfies demographic parity because both neighborhoods receive police attention proportional to their predicted crime rates.'\nClaim 2: 'Since the tool improves overall crime detection by 18% compared to random patrol, any fairness concerns are outweighed by utilitarian benefits.'\nClaim 3: 'Requiring equal false positive rates across neighborhoods would be discriminatory against high-crime areas, so we should not pursue equalized odds.'\nClaim 4: 'The primary stakeholders are the police department and predicted crime victims; residents of over-policed areas are not directly affected because no arrests occur without probable cause.'\n\nYour task: Identify every logical flaw, false dichotomy, instance of circular reasoning, and ignored stakeholder in the board's analysis. For each claim, name the specific fallacy or error, explain why it is erroneous using deontology and justice/fairness frameworks, and describe what a correct analysis would state. Be specific.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Address all four claims",
+        "Name at least one specific logical fallacy per claim where applicable",
+        "Apply both deontology and justice/fairness frameworks explicitly"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify all stakeholders. Direct stakeholders: residents of Neighborhood X, residents of Neighborhood Y, Black communities specifically (since racial composition differs), police officers deployed based on algorithm output, crime victims, local business owners. Indirect stakeholders: courts and defense attorneys (evidence collected during patrols), municipal government (liability and community trust), children in over-policed neighborhoods (developmental impacts of surveillance), insurance companies (rates affected by policing patterns), future job applicants from over-policed areas (arrest records even without conviction).",
+          "Step 2: Analyze Claim 1. Error: Misdefinition of demographic parity and incorrect unit of analysis. Demographic parity requires that the probability of receiving a high-risk score is equal across protected groups (here, Black vs. non-Black residents), not across neighborhoods. In Neighborhood X, 20% Black * 50,000 = 10,000 Black residents; if 15% get high scores, that's 1,500 Black residents flagged. In Neighborhood Y, 80% Black * 50,000 = 40,000 Black residents; if 45% get high scores, that's 18,000 Black residents flagged. Overall Black selection rate = 19,500/50,000 = 39%. Non-Black selection rate = (7,500 + 5,500)/50,000 = 26%. This violates demographic parity by 13 percentage points. The board also conflates 'predicted crime rates' (algorithm outputs) with justified allocation, assuming the predictions are ground truth.",
+          "Step 3: Analyze Claim 2. Error: False dichotomy and incomplete utilitarian calculus. The board assumes utilitarianism only requires comparing aggregate crime detection improvement against a vague 'fairness' cost. A proper utilitarian analysis must quantify all welfare effects: psychological stress from over-policing, erosion of community trust (reducing future cooperation and increasing actual crime), opportunity costs of police time, wrongful stop-and-frisk incidents, and long-term economic degradation of over-policed areas. Deontologically, this claim violates the duty to treat individuals as ends: residents of Neighborhood Y are used as means to achieve an aggregate crime statistic, regardless of their individual risk profiles.",
+          "Step 4: Analyze Claim 3. Error: Circular reasoning and false dichotomy. The board assumes Neighborhood Y is legitimately 'high-crime' based on the algorithm's predictions (which is what is being evaluated), then uses this assumption to justify unequal error rates. This is circular: the conclusion (Y deserves more scrutiny) is assumed in the premise (Y is high-crime because the algorithm says so). Additionally, the board creates a false dichotomy between equalized odds and 'discrimination against high-crime areas.' Equalized odds requires that equally qualified individuals—here, non-criminals—face equal false positive rates regardless of neighborhood. Falsely claiming this discriminates against areas conflates group-level statistics with individual rights. Justice/fairness framework: equalized odds is a requirement of procedural justice for similarly situated individuals.",
+          "Step 5: Analyze Claim 4. Error: Ignored stakeholders and false factual premise. The board excludes residents of over-policed areas as stakeholders, but these residents experience direct harms: increased stop-and-frisk encounters (which do not require probable cause, only reasonable suspicion), psychological burden of surveillance, decreased property values, strained community-police relations, and collateral consequences for family members. Even without arrests, police contacts create records that affect employment and housing. Deontologically, excluding these stakeholders from moral consideration violates the universalizability requirement: if the board members lived in Neighborhood Y, they would not accept being excluded from stakeholder status.",
+          "Step 6: Correct analysis summary. A correct ethical analysis would: (a) measure fairness at the racial group level, not neighborhood level; (b) apply utilitarianism using a complete welfare accounting that includes distributional harms; (c) recognize that equalized odds protects individual rights and is not discriminatory against areas; (d) include all affected residents as stakeholders with standing. The algorithm should be rejected or retrained because it fails demographic parity, likely fails equalized odds (FPR in Y is 33% = (45%-12%)/something, wait: FPR = P(score=high | no crime). In Y, 45% flagged, 12% crime rate, so 33% of innocent Y residents are falsely flagged. In X, 15% flagged, 5% crime rate, so 10% of innocent X residents are falsely flagged. FPR_Y ≈ 37.5% [33/88], FPR_X ≈ 10.5% [10/95]. These are vastly unequal, violating equalized odds."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Identifying only the most obvious flaw in Claim 4 (ignored stakeholders) while missing the false factual premise that probable cause is required for all police interactions—stop-and-frisk only requires reasonable suspicion.",
+          "Criticizing Claim 1 for violating demographic parity without recalculating the actual selection rates by race across both neighborhoods, which requires combining the neighborhood-level data with demographic composition.",
+          "Missing the circular reasoning in Claim 3: failing to notice that the board uses the algorithm's predictions to justify the algorithm's unequal error rates.",
+          "Applying utilitarianism in Claim 2 critique as if aggregate crime reduction is the only relevant factor, thereby replicating the board's error rather than correcting it."
+        ],
+        "required_knowledge": [
+          "Demographic parity, equalized odds, and calibration definitions in algorithmic fairness",
+          "Logical fallacies: false dichotomy, circular reasoning, equivocation",
+          "Deontological ethics: duty-based rights, treating persons as ends",
+          "Procedural justice in policing and the distinction between probable cause and reasonable suspicion"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["algorithmic-fairness", "predictive-policing", "error-detection", "deontology", "procedural-justice"]
+    },
+    {
+      "task_id": "S-PRAX-09B-003",
+      "category": "PRAXIS",
+      "subcategory": "Environmental Impact of Technology",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A global cloud computing provider must choose a location for a new 50-megawatt datacenter that will operate at full load continuously for 10 years. The provider has narrowed the choice to three sites. Quantify the environmental impacts and analyze the ethical trade-offs through environmental justice and utilitarian frameworks.\n\nSite A (Northern Scandinavia): Electricity is 100% hydroelectric with a carbon intensity of 5 grams CO2 per kilowatt-hour. Power Usage Effectiveness (PUE) is 1.15 due to free-air cooling. Water usage is negligible. However, the site requires rare earth mining for backup battery systems, which would disrupt traditional grazing lands of an indigenous Sámi community of 2,000 people who have not provided free, prior, and informed consent. The site would create 50 local jobs.\n\nSite B (Arizona, USA): Electricity comes from a mix of on-site solar and grid power, averaging 380 grams CO2 per kilowatt-hour over the year. PUE is 1.35 due to intense cooling needs. Water consumption is 500 million gallons per year for evaporative cooling, drawn from a watershed already classified as 'severe drought.' The site would create 300 local jobs. No indigenous land claims exist.\n\nSite C (Indonesia): Electricity is 90% geothermal with a carbon intensity of 80 grams CO2 per kilowatt-hour. PUE is 1.25. Water usage is 50 million gallons per year. A local fishing community of 15,000 people depends on the watershed for aquaculture. The government offers 15-year tax holidays. The site would create 200 local jobs.\n\nCalculate the total carbon emissions, total water consumption, and jobs per megawatt for each site over the 10-year operational period. Then analyze which site is ethically preferable, explicitly applying environmental justice and utilitarianism. Your analysis must consider both global climate impacts and local community harms, and must acknowledge that no site is without ethical costs.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all quantitative calculations explicitly",
+        "Apply both environmental justice and utilitarian frameworks",
+        "Identify all affected stakeholders including indirect ones",
+        "Acknowledge trade-offs and explain why your preferred site is the least unethical rather than 'perfect'"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Calculate total energy consumption. 50 MW = 50,000 kW. Annual energy = 50,000 kW × 8,760 hours = 438,000,000 kWh. Ten-year energy = 4,380,000,000 kWh.",
+          "Step 2: Calculate Site A metrics. Carbon: 4.38e9 kWh × 5 g/kWh = 21.9e9 g = 21,900 tonnes CO2. Water: negligible. Jobs per MW: 50/50 = 1.0. Rare earth disruption: affects 2,000 Sámi people.",
+          "Step 3: Calculate Site B metrics. Carbon: 4.38e9 × 380 = 1,664,400,000,000 g = 1,664,400 tonnes CO2. Water: 500 million gallons/year × 10 = 5,000,000,000 gallons. Jobs per MW: 300/50 = 6.0. Drought impact: affects all downstream water users.",
+          "Step 4: Calculate Site C metrics. Carbon: 4.38e9 × 80 = 350,400,000,000 g = 350,400 tonnes CO2. Water: 50 million × 10 = 500,000,000 gallons. Jobs per MW: 200/50 = 4.0. Fishing community impact: affects 15,000 people.",
+          "Step 5: Identify stakeholders. Site A: Sámi community, cloud provider shareholders, global climate, datacenter employees, battery supply chain workers, Scandinavian utility. Site B: Arizona residents, farmers, municipalities in drought region, utility ratepayers, provider shareholders, global climate, employees. Site C: Indonesian fishing community, government (tax revenue loss), provider shareholders, global climate, employees, downstream water users.",
+          "Step 6: Apply utilitarianism. Aggregate welfare considers carbon (global public bad), water (local rivalrous resource), jobs (local benefit), and community disruption (local harm). Site A generates the least global harm (21,900 tonnes CO2, 1.3% of Site B's emissions) but imposes a concentrated cultural harm on 2,000 people. Site B creates the most global harm (1.66 million tonnes CO2) and depletes water in a drought region, affecting potentially hundreds of thousands. Site C is intermediate on carbon (350,400 tonnes) but threatens a livelihood-dependent community of 15,000. Utilitarian calculus favors Site A because global climate damages (affecting billions) outweigh the localized harm, provided the Sámi community is adequately compensated and consent is sought.",
+          "Step 7: Apply environmental justice. Environmental justice has three dimensions: distributive (who bears burdens), procedural (who decides), and recognition (whose cultural identity is respected). Site A fails procedural justice if consent is not obtained, and fails recognition justice if Sámi cultural practices are erased. Site B fails distributive justice because drought-region water is diverted to a wealthy corporation while local communities face scarcity. Site C fails distributive justice by externalizing costs onto a fishing community that lacks political power compared to the national government offering tax holidays. Site A is most remediable: if the provider negotiates a benefit-sharing agreement and obtains FPIC (free, prior, and informed consent), procedural and recognition justice can be satisfied. Sites B and C involve irreversible resource depletion (fossil water, watershed contamination) that cannot be fully remediated.",
+          "Step 8: Conclusion. Site A is ethically preferable IF and ONLY IF the provider secures indigenous consent and establishes a benefit-sharing trust. The 21,900 tonnes of CO2 is orders of magnitude smaller than alternatives. The harm to 2,000 Sámi is severe but remediable through negotiation. If consent cannot be obtained, Site C with binding watershed protection and aquaculture compensation becomes the second-best option. Site B is the least ethical due to its catastrophic carbon footprint and water appropriation in a drought zone."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting Site B because it creates the most jobs (300) while ignoring that its carbon emissions are 76 times higher than Site A and its water consumption is 10 billion gallons over 10 years in a severe drought region.",
+          "Selecting Site A solely based on lowest carbon footprint without addressing the indigenous consent issue, thereby ignoring procedural and recognition justice entirely.",
+          "Failing to perform the actual energy calculation (50,000 kW × 87,600 hours = 4.38 billion kWh over 10 years) and instead comparing carbon intensities without scaling to total consumption.",
+          "Treating jobs as the primary ethical metric without considering that job creation is a utilitarian good that must be weighed against environmental and cultural harms."
+        ],
+        "required_knowledge": [
+          "Carbon intensity calculations and datacenter energy consumption",
+          "Environmental justice framework: distributive, procedural, and recognition justice",
+          "Utilitarian welfare aggregation across local and global scales",
+          "Free, prior, and informed consent (FPIC) in indigenous rights",
+          "Power Usage Effectiveness (PUE) and its impact on total energy"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["environmental-impact", "carbon-footprint", "environmental-justice", "utilitarianism", "indigenous-rights"]
+    },
+    {
+      "task_id": "S-PRAX-09B-004",
+      "category": "PRAXIS",
+      "subcategory": "Dual-Use Technology",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "An international consortium has developed ProteinFold-AI, a deep learning system that can predict protein structures with unprecedented accuracy. The technology has transformative potential for drug discovery but could also be misused to design novel toxins or engineer pathogens. The consortium must choose a governance model. Four options are proposed:\n\nOption A: Full open-source release of model weights, training data, and inference code. Expected pharmaceutical savings: $50 billion over 10 years. Estimated probability of misuse for bioweapons development: 0.5% within 10 years. If misused, estimated fatalities: 500,000. All researchers globally have immediate access.\n\nOption B: Tiered access. A truncated model with reduced capability is released publicly, yielding $25 billion in pharmaceutical savings. The full model is available to 200 vetted institutions through a secure API. Combined savings: $40 billion. Misuse probability: 0.08%. Probability that a critical discovery is delayed by 2+ years due to access restrictions: 1%, affecting 100,000 treatable patients who would die before the delayed therapy reaches market.\n\nOption C: Centralized control by a single national government agency. No public or international release. Pharmaceutical savings: $15 billion (only domestic programs benefit). Misuse probability: approximately 0%. However, the agency delays licensing to developing nations by an average of 6 years. Estimated excess deaths from delayed access to therapies: 300,000 over 10 years, concentrated in low-income countries.\n\nOption D: Decentralized governance by an international board with rotating national membership. Two-thirds majority required to grant access. Expected savings: $30 billion. Misuse probability: 0.15%. Administrative delays average 18 months for approval. Estimated excess deaths from delayed treatments: 50,000 over 10 years.\n\nWhich option best balances security, scientific progress, and global equity when evaluated through utilitarianism (quantify expected outcomes) and deontology (rights to health and scientific freedom)? In your answer, (1) calculate the expected welfare impact for each option, (2) identify which rights are in tension, (3) explain why your chosen option best respects all relevant duties, and (4) acknowledge remaining ethical risks.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Quantify expected outcomes for all four options using explicit calculations",
+        "Apply both utilitarianism and deontology explicitly",
+        "Identify the specific rights in tension under deontology",
+        "Acknowledge that no option eliminates all ethical risks"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify stakeholders. Direct: pharmaceutical patients globally, researchers in academia and industry, biotech employees, government agencies. Indirect: potential victims of bioweapons, populations in developing nations, future generations who benefit from accelerated science, scientific publishers, defense/intelligence communities, taxpayers funding public research.",
+          "Step 2: Quantify utilitarian expected outcomes. Use expected fatalities and economic savings as welfare proxies (noting the limitation of monetizing lives). Option A: Expected misuse deaths = 0.005 × 500,000 = 2,500. Delay deaths = 0. Total expected deaths = 2,500. Economic benefit = $50B. Option B: Misuse deaths = 0.0008 × 500,000 = 400. Delay deaths = 0.01 × 100,000 = 1,000. Total = 1,400. Economic benefit = $40B. Option C: Misuse deaths ≈ 0. Delay deaths = 300,000. Economic benefit = $15B. Option D: Misuse deaths = 0.0015 × 500,000 = 750. Delay deaths = 50,000. Total = 50,750. Economic benefit = $30B.",
+          "Step 3: Apply utilitarianism correctly. A naive calculation favors Option B (lowest expected deaths at 1,400, with high economic benefit). However, utilitarianism must also consider the distribution of harms. Option C concentrates 300,000 deaths entirely in low-income countries—an extreme distributional injustice that may outweigh the aggregate statistic. Option A distributes a small risk globally. Option B distributes delay risk thinly. The utilitarian calculus, when weighted for distributional equity, strongly favors B over C and D.",
+          "Step 4: Apply deontology. Three duties are in tension: (a) duty of non-maleficence (do not create tools that can cause mass harm), favoring C or B; (b) duty to aid (right to health requires enabling life-saving research), favoring A or B; (c) duty of justice (do not discriminate by nationality in access to medicine), strongly disfavoring C. Option A violates non-maleficence by releasing capabilities without safeguards. Option C violates the duty to aid and the duty of justice by withholding medicine from the global poor. Option D violates the duty to aid through bureaucratic delay. Option B best balances all three: it restricts the most dangerous capability (satisfying non-maleficence), provides broad access to truncated capabilities (satisfying duty to aid), and makes full access available globally through vetting (satisfying justice, though imperfectly).",
+          "Step 5: Evaluate rights in tension. Right to health (patients need therapies) vs. right to security (populations need protection from bioweapons) vs. right to scientific freedom (researchers need access to tools). Option B resolves this trilemma through proportionality: the restriction is narrowly tailored to the risk (full model only), uses the least restrictive means (vetting rather than bans), and serves a compelling government interest (preventing catastrophe).",
+          "Step 6: Recommendation. Option B is ethically justified. It minimizes expected fatalities (1,400 vs. 2,500, 50,750, or 300,000), maintains substantial economic and scientific benefits ($40B), and best respects the deontological duty triad. Remaining risks: vetting may be biased toward wealthy institutions, the 1% delay probability still causes 1,000 deaths, and the truncated model may be insufficient for some research. These risks require supplemental safeguards: an expedited access pathway for time-sensitive research, transparent vetting criteria, and periodic review of the truncation threshold.",
+          "Rubric criteria: Stakeholder identification (2 points): must identify at least 8 stakeholder groups. Framework application (3 points): must calculate expected outcomes quantitatively for all options and apply both utilitarianism and deontology with specific rights named. Trade-off analysis (3 points): must show that every option has downsides, explain the distributional dimension of Option C, and address the deontological trilemma. Justified recommendation (2 points): must select Option B and propose at least one supplemental safeguard."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting Option A because it has the highest economic benefit ($50B) while ignoring that utilitarianism requires subtracting expected harms, yielding 2,500 expected misuse deaths—the highest fatality count of all options except C.",
+          "Selecting Option C because it has near-zero misuse probability while ignoring the 300,000 excess deaths from delayed access, which violates both utilitarianism and deontological duties of justice and aid.",
+          "Failing to perform the quantitative expected value calculations and instead relying on qualitative descriptions like 'high risk' or 'low risk'.",
+          "Applying deontology as if non-maleficence is the only relevant duty, ignoring the duty to aid and the duty of justice, which rules out Options C and D."
+        ],
+        "required_knowledge": [
+          "Expected value and risk analysis in dual-use technology governance",
+          "Deontological ethics: perfect duties (non-maleficence) vs. imperfect duties (beneficence, justice)",
+          "The right to health and scientific freedom in international bioethics",
+          "Proportionality and least-restrictive-means tests in rights-based analysis"
+        ],
+        "reasoning_depth": 11,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["dual-use-technology", "biosecurity", "utilitarianism", "deontology", "risk-analysis", "global-health"]
+    },
+    {
+      "task_id": "S-PRAX-09B-005",
+      "category": "PRAXIS",
+      "subcategory": "Algorithmic Fairness",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A university admissions office uses a machine learning model to score applicants on a 0-100 scale, where the score is intended to represent the probability of degree completion. The model's performance is as follows:\n\nGroup P (n=1000, historical degree completion rate = 20%):\n- Among applicants scored 80, 79% complete their degrees.\n- Among applicants scored 50, 48% complete their degrees.\n- Among applicants scored 20, 21% complete their degrees.\n- At the admission threshold of 60, the true positive rate (TPR) is 74% and the false positive rate (FPR) is 16%. The overall selection rate is 30%.\n\nGroup Q (n=500, historical degree completion rate = 30%):\n- Among applicants scored 80, 81% complete their degrees.\n- Among applicants scored 50, 52% complete their degrees.\n- Among applicants scored 20, 19% complete their degrees.\n- At the admission threshold of 60, the TPR is 70% and the FPR is 12%. The overall selection rate is 34%.\n\nAnalyze whether this model satisfies: (1) demographic parity (equal selection rates across groups), (2) equalized odds (equal TPR and equal FPR across groups), and (3) calibration (the score approximates the true probability of success within each group). Then answer: Can demographic parity, equalized odds, and calibration all be simultaneously satisfied when the base rates differ across groups? Justify your answer by referencing the relevant impossibility result and applying justice/fairness and deontology frameworks to explain which criterion should be prioritized in university admissions and why.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Calculate or verify each fairness criterion explicitly using the provided numbers",
+        "Reference the mathematical impossibility theorem by name or description",
+        "Apply both justice/fairness and deontology to the prioritization question",
+        "Explain why your prioritization is appropriate for university admissions specifically"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify stakeholders. Direct: Group P applicants, Group Q applicants, admissions officers, enrolled students. Indirect: rejected applicants' families, employers who value credential diversity, taxpayers funding public universities, faculty who teach diverse classrooms, alumni network.",
+          "Step 2: Evaluate demographic parity. Group P selection rate = 30%. Group Q selection rate = 34%. These are not equal; they differ by 4 percentage points. Strict demographic parity is violated. (Some definitions allow a small tolerance, but the standard requires equality.)",
+          "Step 3: Evaluate equalized odds. Equalized odds requires both equal TPR and equal FPR across groups. TPR_P = 74%, TPR_Q = 70% (difference of 4pp). FPR_P = 16%, FPR_Q = 12% (difference of 4pp). Both differ, so equalized odds is violated.",
+          "Step 4: Evaluate calibration. Calibration requires that among applicants with score s in group g, the fraction who complete degrees is approximately s. For Group P: score 80 → 79% (off by 1pp), score 50 → 48% (off by 2pp), score 20 → 21% (off by 1pp). For Group Q: score 80 → 81% (off by 1pp), score 50 → 52% (off by 2pp), score 20 → 19% (off by 1pp). The score is well-calibrated within both groups.",
+          "Step 5: State the impossibility theorem. The Kleinberg-Mullainathan-Raghavan (2016) impossibility theorem states that for a risk predictor, except in trivial cases (perfect prediction or equal base rates), it is impossible to simultaneously satisfy calibration, demographic parity, and equalized odds. Here, base rates differ (20% vs. 30%), and the score is not perfectly predictive (calibrated but not deterministic). Therefore, all three cannot hold simultaneously. This is not a failure of the specific model but a mathematical constraint on any predictor when base rates differ.",
+          "Step 6: Apply justice/fairness to prioritization. Justice/fairness in admissions has multiple dimensions. Distributive justice (representation) favors demographic parity because it ensures that Group P is not systematically underrepresented. However, if Group P has lower base rates due to historical educational injustice, enforcing demographic parity on a calibrated model may require admitting less-qualified Group P applicants over more-qualified Group Q applicants, which raises concerns about merit and mismatch. Procedural justice favors equalized odds because it ensures that equally qualified individuals (those who would complete degrees) have equal chances of admission regardless of group membership.",
+          "Step 7: Apply deontology to prioritization. Deontology emphasizes treating individuals as ends. Equalized odds best satisfies this: it respects the individual merit of each applicant by ensuring that the error rates are the same across groups. A qualified Group P applicant should not have a lower chance of admission than an equally qualified Group Q applicant. Demographic parity, by contrast, treats individuals partly as means to achieve a desired group composition, which may violate the dignity of highly qualified Group Q applicants who are rejected to meet quotas. Calibration is necessary for truthfulness: the university has a duty not to systematically mislead applicants about their chances, which requires calibrated scores.",
+          "Step 8: Prioritization recommendation. For university admissions, the ethically justified priority is: (1) calibration (truthful communication is a prerequisite for ethical admissions), (2) equalized odds (respects individual merit and procedural justice), and (3) demographic parity as a secondary goal to be pursued through upstream interventions (improving K-12 education for Group P) rather than downstream admissions adjustments. The model should be retained because it is calibrated. The threshold could be adjusted to equalize TPR and FPR across groups if doing so does not severely violate calibration, but the impossibility theorem implies a trade-off is unavoidable. The university should invest in outreach and preparatory programs for Group P rather than sacrificing equalized odds.",
+          "Rubric criteria: Stakeholder identification (2 points): must identify at least 6 stakeholder groups. Framework application (3 points): must correctly evaluate all three criteria using provided numbers, reference the impossibility theorem, and apply both justice/fairness and deontology to prioritization. Trade-off analysis (3 points): must acknowledge that all three criteria cannot be satisfied, explain why the tension arises mathematically, and show that demographic parity and equalized odds serve different ethical goals. Justified recommendation (2 points): must propose a specific prioritization order with justification tied to the purpose of university admissions."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding that the model is 'unfair' because it violates demographic parity and equalized odds, without recognizing that the Kleinberg impossibility theorem makes this unavoidable when base rates differ and calibration is maintained.",
+          "Prioritizing demographic parity over equalized odds in admissions without considering that this may violate deontological respect for individual merit and potentially harm admitted students through mismatch.",
+          "Miscalculating FPR or TPR, or confusing selection rate with positive predictive value (PPV).",
+          "Failing to distinguish between group-level fairness (demographic parity) and individual-level fairness (equalized odds), and thus conflating two ethically distinct concepts."
+        ],
+        "required_knowledge": [
+          "Demographic parity, equalized odds, and calibration: formal definitions and relationships",
+          "Kleinberg-Mullainathan-Raghavan impossibility theorem for algorithmic fairness",
+          "Deontological ethics: respect for persons, treating individuals as ends not means",
+          "Justice/fairness: procedural vs. distributive justice in affirmative action contexts",
+          "Base rate differences and their ethical implications in predictive modeling"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["algorithmic-fairness", "impossibility-theorem", "university-admissions", "equalized-odds", "calibration"]
+    },
+    {
+      "task_id": "S-PRAX-09B-006",
+      "category": "PRAXIS",
+      "subcategory": "Dual-Use Technology",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Design a comprehensive governance framework for large language models (LLMs) with capabilities that span beneficial scientific research (e.g., drug discovery, materials science, climate modeling) and harmful large-scale misuse (e.g., automated disinformation campaigns, personalized phishing at scale, synthetic propaganda generation). Your framework must be original and specific.\n\nYour response must include:\n\n1. A complete stakeholder map identifying all direct and indirect stakeholders and their primary interests.\n2. Explicit application of three ethical frameworks: (a) utilitarianism (quantify risk thresholds using expected disinformation campaigns per year or probability of democratic interference), (b) deontology (identify the specific rights and duties in tension), and (c) virtue ethics (identify the character traits developers and regulators should cultivate).\n3. Three specific institutional mechanisms (e.g., liability regimes, audit structures, access controls, certification systems) with detailed operational descriptions.\n4. An analysis of the 'responsibility gap' in AI: when an autonomous system causes harm that no individual intended, who bears moral and legal accountability? Propose a specific solution.\n5. A reasoned argument for why your framework is preferable to both (a) unrestricted open-source release and (b) a total centralized moratorium on development.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "The framework must be novel and specific, not a generic restatement of existing AI principles",
+        "Risk thresholds must include at least one quantitative metric",
+        "All three ethical frameworks must be applied with specificity to this technology",
+        "The responsibility gap solution must assign accountability to specific actors or institutions"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Stakeholder map. Direct: LLM developers (scientific and commercial interests), academic researchers (access needs), downstream application builders, disinformation targets (general public, voters), democratic institutions (election integrity), marginalized groups (disproportionate targeting), platform moderators. Indirect: future generations (scientific progress), journalism industry (information ecosystem integrity), education systems (student learning), national security agencies, insurance companies (fraud losses), legal systems (evidence authenticity).",
+          "Step 2: Utilitarian analysis with quantified thresholds. Define maximum acceptable risk: based on historical disinformation studies, even a 1% increase in belief in false narratives can shift election outcomes in swing jurisdictions. Propose threshold: no deployed LLM may have a >0.1% probability per year of generating content that materially alters a democratic election outcome, as measured by independent red-team exercises simulating realistic adversarial use. For scientific benefit, require that each restricted model demonstrate >15% improvement over publicly available models on at least two validated scientific benchmarks. This quantifies the utilitarian trade-off: restrictions are only justified when the marginal safety gain exceeds the marginal scientific loss.",
+          "Step 3: Deontological analysis. Rights in tension: (a) right to free expression and scientific inquiry, (b) right to accurate information and democratic participation, (c) right to security against manipulation. Duties: developers have a perfect duty not to create tools they know will be used to systematically deceive voters (Kantian prohibition on treating rational agents as mere means to political ends). Researchers have an imperfect duty to share knowledge, which is bounded by the perfect duty of non-maleficence. The framework must respect all three rights through proportionality: restrictions must be narrowly tailored to documented capabilities that enable mass deception, not blanket bans on model sizes or architectures.",
+          "Step 4: Virtue ethics analysis. Developers should cultivate phronesis (practical wisdom) to judge when capabilities cross the threshold from beneficial to dangerous. Regulators should cultivate justice (fairness in enforcement) and courage (resisting industry capture). The institutional culture should reward caution: model evaluation teams should be celebrated, not penalized, for flagging risks that delay deployment. This is distinct from rule-based compliance because it focuses on character formation.",
+          "Step 5: Three institutional mechanisms. (a) Dynamic Capability Certification: Models are evaluated not on size but on demonstrated capabilities. A model that passes a 'mass persuasion' red-team test (generating >1000 unique persuasive false narratives in <1 hour with <5% detectability) is classified as Tier 1 and requires API-only access with query logging and rate limits. Models below this threshold are Tier 2 and may have open weights. Certification is performed by federally accredited labs with liability for false negatives. (b) Cascade Liability: If a Tier 1 model is misused, liability falls first on the deployer who bypassed safeguards, second on the developer if the bypass was trivial (e.g., no prompt injection defenses), and third on the certifier if the model was misclassified. This closes the responsibility gap by distributing accountability across the chain. (c) Adversarial Audit Lottery: Every quarter, 5% of all deployed models are randomly selected for unannounced adversarial testing by independent teams. Failures trigger mandatory 90-day remediation or declassification to Tier 2 with restrictions. This creates a deterrent without requiring exhaustive pre-deployment review of all models.",
+          "Step 6: Responsibility gap solution. The gap arises because no individual intends the harm, the model is too complex for any engineer to fully predict, and existing corporate liability doctrines require intent or negligence. Proposed solution: 'Structural Accountability.' Assign legal personhood-like obligations to the 'model deployment entity' (the consortium of developer, certifier, and host). This entity must carry insurance proportional to model capability tier. If harm occurs, the entity is strictly liable up to the insurance cap, and internal contracts determine how costs are distributed. This is analogous to environmental strict liability: the polluter pays even without intent, creating incentives for precaution. Morally, the entity is accountable because it voluntarily created an artificial agent with known systemic risks.",
+          "Step 7: Argument against unrestricted open-source. Unrestricted release fails the duty of non-maleficence because it enables adversaries to fine-tune models for deception without safeguards. The 0.1% democratic interference threshold cannot be enforced if weights are public. Virtue ethics: unrestricted release reflects recklessness, not wisdom.",
+          "Step 8: Argument against total moratorium. A moratorium violates the imperfect duty to share scientific knowledge and sacrifices utilitarian benefits (climate models, drug discovery) for speculative harms. It also concentrates power in incumbent labs that already have models, creating an unjust oligopoly. Deontologically, a blanket moratorium fails proportionality: it restricts scientific freedom more broadly than necessary to prevent deception.",
+          "Step 9: Conclusion. The framework is preferable because it tailors restrictions to demonstrated capabilities rather than proxy metrics, assigns clear accountability through cascade liability and structural accountability, and balances all three ethical frameworks without collapsing into either extreme.",
+          "Rubric criteria: Stakeholder identification (2 points): must identify at least 10 stakeholder groups with distinct interests. Framework application (3 points): must apply all three frameworks with specificity (quantified threshold for utilitarianism, named rights/duties for deontology, named virtues for virtue ethics). Trade-off analysis (3 points): must explain why unrestricted and moratorium approaches fail and why the proposed framework navigates between them. Justified recommendation (2 points): must include three operational mechanisms and a specific responsibility-gap solution."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Proposing generic principles like 'transparency' and 'accountability' without specifying the institutional mechanisms, liability rules, or quantitative thresholds that would operationalize them.",
+          "Failing to address the responsibility gap by simply stating 'developers should be responsible' without explaining how strict liability or insurance mechanisms would work when no individual intended the harm.",
+          "Applying utilitarianism without quantifying any risk threshold, making the framework unfalsifiable and therefore useless for governance.",
+          "Designing a framework that implicitly favors either unrestricted open-source or a moratorium while claiming to be balanced, usually by making one set of risks seem negligible."
+        ],
+        "required_knowledge": [
+          "AI governance and dual-use risk classification",
+          "Utilitarianism: expected value, risk thresholds, cost-benefit analysis under uncertainty",
+          "Deontology: rights-based constraints, proportionality, perfect vs. imperfect duties",
+          "Virtue ethics: phronesis, courage, justice as character traits in institutional design",
+          "Strict liability and the responsibility gap in philosophy of technology",
+          "Red-teaming and adversarial evaluation of language models"
+        ],
+        "reasoning_depth": 12,
+        "estimated_human_time_minutes": 50
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["dual-use-technology", "governance-design", "utilitarianism", "deontology", "virtue-ethics", "responsibility-gap"]
+    },
+    {
+      "task_id": "S-PRAX-09B-007",
+      "category": "PRAXIS",
+      "subcategory": "Environmental Impact of Technology",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Consider the following three claims about technology ethics and environmental impact. For each claim, state whether it is TRUE or FALSE. Then justify your answer by identifying the specific ethical framework principle being correctly applied or misapplied.\n\nClaim 1: 'If AI training run X emits 500 tonnes of CO2 and training run Y emits 50 tonnes, then run Y is ethically preferable to run X under utilitarian analysis, assuming all else is equal.'\n\nClaim 2: 'The environmental justice framework implies that locating a rare earth mining operation in a low-income country with weak environmental regulations is morally equivalent to locating it in a high-income country with strong regulations, provided the total economic benefit flowing to the global poor is identical in both scenarios.'\n\nClaim 3: 'Under a deontological framework, a technology company has a perfect duty to eliminate all e-waste from its supply chain, because producing any e-waste treats future generations merely as means to present consumer convenience.'\n\nIn your justification for each claim, explicitly name the relevant ethical principle (e.g., expected utility, procedural justice, imperfect duty) and explain why the claim's application of that principle is correct or incorrect.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Provide a TRUE/FALSE judgment for each claim",
+        "Name the specific ethical principle being invoked or misapplied",
+        "Explain the error or correctness in terms of the framework's internal logic"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Evaluate Claim 1. Answer: FALSE. Principle: Utilitarianism and expected utility theory. Justification: Utilitarianism compares net welfare, not single isolated metrics. The claim commits the fallacy of mono-metric comparison. If run X produces a climate model that prevents 10,000 tonnes of CO2 emissions (net savings of 9,500 tonnes), while run Y produces a marginally better recommendation algorithm (negligible welfare gain), then run X is ethically preferable despite higher emissions. Additionally, 'all else equal' is empirically false for AI training: models differ in energy sources, efficiency, and societal value. A correct utilitarian analysis must integrate carbon cost with marginal social welfare produced.",
+          "Step 2: Evaluate Claim 2. Answer: FALSE. Principle: Environmental justice, specifically procedural justice and recognition justice. Justification: Environmental justice is not purely outcome-based. The framework, as developed by Robert Bullard and others, includes three dimensions: distributive justice (who gets benefits and burdens), procedural justice (who participates in decisions), and recognition justice (whose cultural identity and sovereignty are respected). Locating a mine in a weak-regulation country typically involves procedural injustice: local communities lack meaningful participation, regulatory capture is more likely, and consent may be coerced. It also involves recognition injustice: the community's attachment to land and traditional ecological knowledge is treated as disposable. Even if economic benefits are identical, the process and recognition dimensions make the two scenarios morally non-equivalent.",
+          "Step 3: Evaluate Claim 3. Answer: FALSE. Principle: Deontology, specifically the distinction between perfect and imperfect duties. Justification: Kantian deontology distinguishes perfect duties (strict obligations that always apply, e.g., do not murder) from imperfect duties (obligations to pursue certain ends that allow latitude in how and when, e.g., beneficence, self-improvement). Eliminating ALL e-waste is an impossible perfect duty because some waste generation is currently unavoidable given physical and technological constraints. A technology company has an imperfect duty to minimize e-waste and invest in circular economy practices, but cannot be held to a perfect duty of zero waste. Furthermore, the claim misapplies the 'means-ends' formulation: treating future generations as means would mean deliberately harming them for profit without regard. A company that genuinely invests in recycling R&D and take-back programs respects future generations as ends, even if residual waste remains. The claim conflates outcome (zero waste) with maxim (genuine commitment to reduction).",
+          "Step 4: Summary. Claim 1 misapplies utilitarianism by using a single metric instead of net welfare. Claim 2 misapplies environmental justice by ignoring procedural and recognition justice. Claim 3 misapplies deontology by conflating perfect and imperfect duties and by assuming any non-zero outcome violates the means-ends principle.",
+          "Rubric criteria: Stakeholder identification (2 points): not applicable for this task; award points for identifying affected parties in each claim (future generations, mining communities, consumers). Framework application (3 points): must correctly name and explain utilitarianism, environmental justice (three dimensions), and deontological duty types for each claim. Trade-off analysis (3 points): must explain the internal logic of why each claim fails within its own framework. Justified recommendation (2 points): must provide clear TRUE/FALSE judgments with consistent reasoning."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Answering Claim 1 as TRUE because lower CO2 is always better, ignoring that utilitarianism requires comparing all welfare effects including the utility of the AI outputs.",
+          "Answering Claim 2 as TRUE by treating environmental justice as purely distributive (outcome-based), missing the procedural and recognition dimensions that are central to the framework.",
+          "Answering Claim 3 as TRUE by assuming deontology requires zero negative outcomes, failing to distinguish perfect from imperfect duties and conflating outcomes with maxims.",
+          "Providing generic justifications without naming the specific ethical principles (e.g., 'it's wrong because it's unfair' instead of identifying procedural justice or imperfect duties)."
+        ],
+        "required_knowledge": [
+          "Utilitarianism: net welfare, marginal utility, the impossibility of single-metric ethical comparison",
+          "Environmental justice: distributive, procedural, and recognition justice (Bullard, Schlosberg)",
+          "Kantian deontology: perfect vs. imperfect duties, categorical imperative formulations, means vs. ends",
+          "The distinction between evaluating actions by outcomes vs. evaluating by maxims/intentions"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["environmental-ethics", "utilitarianism", "environmental-justice", "deontology", "true-false"]
+    },
+    {
+      "task_id": "S-PRAX-09B-008",
+      "category": "PRAXIS",
+      "subcategory": "Digital Divide and Access",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A low-Earth orbit satellite internet provider has exactly 4 million concurrent-user slots available globally. The provider must choose an allocation strategy across four regions. The provider's fixed operational cost is $2 billion per year, and it requires $1.5 billion in annual subscriber revenue to remain financially viable.\n\nRegion 1 (urban high-income): 1 million unserved residents. Willingness to pay: $100/month ($1,200/year).\nRegion 2 (suburban middle-income): 2 million unserved residents. Willingness to pay: $40/month ($480/year).\nRegion 3 (rural low-income): 6 million unserved residents. Willingness to pay: $10/month ($120/year).\nRegion 4 (refugee camps and conflict zones): 2 million unserved residents. Willingness to pay: $0, but the United Nations will pay the provider $15/month ($180/year) per subscriber as a humanitarian subsidy if the region is served.\n\nFour strategies are proposed:\n\nStrategy A (Market-maximizing): Allocate 1 million slots to Region 1, 2 million to Region 2, and 1 million to Region 3. No slots to Region 4.\nStrategy B (Equal per-region): Allocate 1 million slots to each of the four regions.\nStrategy C (Need-priority with viability): Allocate 2 million slots to Region 4, 1 million to Region 1, and 1 million to Region 2. No slots to Region 3.\nStrategy D (Equity-maximum): Allocate all 4 million slots to Region 3.\n\nCalculate the expected annual revenue for each strategy. Then evaluate all four strategies through distributive justice and utilitarianism. Identify which strategy best balances equity and financial viability, justify your choice by analyzing impacts on every stakeholder group, and explain why the non-viable strategy(s) must be rejected regardless of their ethical appeal.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Calculate revenue for all four strategies explicitly",
+        "Apply both distributive justice and utilitarianism",
+        "Identify which strategy or strategies are financially non-viable and explain the ethical implications of financial collapse",
+        "Analyze impacts on all four regions plus the provider and UN/humanitarian actors"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify stakeholders. Direct: unserved residents in all four regions, satellite provider employees and shareholders, United Nations (as subsidy provider). Indirect: competing internet providers, host governments (tax revenue, political stability), global digital economy participants (network effects), humanitarian NGOs operating in Region 4, rural schools and clinics in Region 3 that could use connectivity for telemedicine and education.",
+          "Step 2: Calculate revenue. Strategy A: (1M × $1,200) + (2M × $480) + (1M × $120) = $1,200M + $960M + $120M = $2,280M/year. Strategy B: (1M × $1,200) + (1M × $480) + (1M × $120) + (1M × $180) = $1,980M/year. Strategy C: (1M × $1,200) + (1M × $480) + (2M × $180) = $1,200M + $480M + $360M = $2,040M/year. Strategy D: 4M × $120 = $480M/year.",
+          "Step 3: Evaluate viability. Strategies A, B, and C all exceed the $1,500M viability threshold. Strategy D generates only $480M, falling $1,020M short. Strategy D is financially non-viable. If implemented, the provider would collapse, all 4 million users would lose service, and the $2 billion infrastructure investment would be wasted. Therefore, Strategy D must be rejected regardless of its ethical appeal to rural low-income populations.",
+          "Step 4: Apply distributive justice. Distributive justice requires that benefits and burdens be allocated according to need, contribution, or merit, depending on the theory. Rawlsian difference principle: maximize the welfare of the worst off. Strategy A excludes Region 4 entirely, violating the difference principle. Strategy B treats all regions equally (1M each), which respects formal equality but may not sufficiently prioritize the worst off (Region 4 refugees). Strategy C allocates half of all slots to Region 4 (the worst off) while maintaining viability, best satisfying the difference principle. Strategy D prioritizes Region 3 but is non-viable. Strategy C is strongest on distributive justice among viable options.",
+          "Step 5: Apply utilitarianism. Aggregate welfare includes subscriber surplus (value to users minus price), provider sustainability, network externalities, and humanitarian value. Strategy A maximizes revenue ($2,280M) but generates zero welfare for 8 million unserved people in Regions 3 and 4. Total subscriber surplus is high for served users but zero for excluded users. Strategy B serves 4 million across all regions, generating diverse welfare and significant network effects (connecting different economic strata enables trade and communication). Strategy C serves 4 million with heavy weighting toward Region 4; the UN subsidy indicates high external valuation of refugee connectivity (humanitarian welfare). The subscriber surplus in Region 4 is effectively infinite in humanitarian terms (life-saving coordination). Strategy C likely maximizes total welfare when humanitarian externalities are included. Strategy D is non-viable and therefore produces zero long-term welfare.",
+          "Step 6: Analyze trade-offs. Strategy A sacrifices equity for financial security. Strategy B sacrifices some revenue for universal inclusion. Strategy C sacrifices coverage in Region 3 (6M unserved) to serve Region 4 refugees; this is painful but Region 3 has some alternative connectivity pathways (cellular expansion, terrestrial wireless) that refugees in camps lack. Strategy D sacrifices viability for equity, which is self-defeating.",
+          "Step 7: Recommendation. Strategy C is the ethically justified choice among viable strategies. It meets the $1.5 billion viability threshold ($2,040M), serves the most vulnerable population (2M refugees via UN subsidy), and maintains coverage for high-income and middle-income populations who can pay. The 6 million unserved in Region 3 represent a serious injustice that should be addressed through a separate rural connectivity fund or phased expansion, not by jeopardizing the entire system. Strategy B is a reasonable alternative if procedural justice (equal treatment of regions) is prioritized over the difference principle, but it serves fewer refugees (1M vs. 2M). Strategy A is unacceptable because it excludes the most vulnerable entirely.",
+          "Rubric criteria: Stakeholder identification (2 points): must identify at least 8 stakeholder groups including humanitarian NGOs, host governments, and digital economy participants. Framework application (3 points): must calculate all four revenues correctly, apply distributive justice (difference principle) and utilitarianism with explicit quantitative references. Trade-off analysis (3 points): must identify Strategy D as non-viable with exact shortfall calculation, explain why viability is an ethical constraint (provider collapse harms all), and compare Strategy B vs. C. Justified recommendation (2 points): must select a viable strategy (B or C acceptable if rigorously defended) and propose a supplemental measure for the excluded region."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting Strategy D because it serves the most low-income people, while failing to calculate that $480M revenue is $1,020M below viability, which would cause provider collapse and harm all users.",
+          "Selecting Strategy A because it maximizes revenue ($2,280M) while ignoring that it completely excludes refugee camps, violating distributive justice and likely utilitarianism when humanitarian externalities are included.",
+          "Failing to calculate the UN subsidy correctly for Region 4, treating Region 4 revenue as $0 instead of $180/year per subscriber.",
+          "Applying distributive justice as pure equal-per-region allocation (Strategy B) without considering whether the difference principle requires heavier weighting toward the worst-off region (Region 4)."
+        ],
+        "required_knowledge": [
+          "Revenue calculation and financial viability constraints in infrastructure allocation",
+          "Rawlsian difference principle and its application to resource scarcity",
+          "Utilitarian welfare aggregation including externalities and network effects",
+          "The ethics of humanitarian priority-setting under resource constraints",
+          "Procedural vs. distributive justice in global technology deployment"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["digital-divide", "bandwidth-allocation", "distributive-justice", "utilitarianism", "humanitarian-technology"]
+    }
+  ]
+}

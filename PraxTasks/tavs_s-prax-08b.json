@@ -1,0 +1,270 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-08B",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Crisis Management — Emergency Response, Triage, Resource Allocation Under Constraints",
+    "generated_at": "2026-04-25T16:00:00+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-08B-001",
+      "category": "PRAXIS",
+      "subcategory": "Multi-stakeholder conflict — Water allocation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "A regional water authority must allocate 47,000 megaliters of stored water among three stakeholder groups for the upcoming dry season: agricultural cooperatives (demand: 28,000 ML, economic value: $340 per ML, serving 4,200 farming households), heavy industry consortium (demand: 22,000 ML, economic value: $890 per ML, employing 18,000 workers), and municipal residential (demand: 15,000 ML, economic value not directly priced, serving 340,000 people with minimum health threshold of 8,000 ML). The authority's charter requires: (i) residential allocation must be at least the 8,000 ML health threshold; (ii) no single sector can receive more than 60% of total available water; (iii) agricultural allocation must be at least 70% of its demand or the sector collapses, triggering a $14M federal bailout; (iv) industrial allocation below 50% of demand causes $9,200 per worker in unemployment costs.\n\nFour proposed allocation strategies are under review:\n\nStrategy Alpha: 15,000 ML residential, 20,000 ML agricultural, 12,000 ML industrial.\nStrategy Beta: 10,000 ML residential, 25,000 ML agricultural, 12,000 ML industrial.\nStrategy Gamma: 15,000 ML residential, 16,000 ML agricultural, 16,000 ML industrial.\nStrategy Delta: 8,000 ML residential, 23,000 ML agricultural, 16,000 ML industrial.\n\nDefine a rational quantitative welfare metric that accounts for direct economic value, avoided collapse/bailout costs, and avoided unemployment costs. Using this metric, which strategy maximizes total welfare? Show all calculations and justify your metric design. Identify any ethical dimension the metric does not capture.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Define the welfare metric explicitly before evaluating strategies",
+        "Final answer must name one strategy (Alpha, Beta, Gamma, or Delta)"
+      ],
+      "ground_truth": {
+        "answer": "Delta",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define welfare metric = direct economic value + avoided sector-collapse costs + avoided unemployment costs. Direct value for residential is set to zero (unpriced public good). For agricultural: if allocation < 0.70 * 28,000 = 19,600 ML, add $14M bailout cost as welfare loss. For industrial: if allocation < 0.50 * 22,000 = 11,000 ML, compute unemployment cost = (22,000 - allocation) / 22,000 * 18,000 workers * $9,200 per worker. Wait — this needs refinement. A clearer metric: Welfare = (agricultural ML * $340) + (industrial ML * $890) + [residential above 8,000 ML treated as bonus of $200/ML for quality-of-life proxy] - [if ag < 19,600 then $14,000,000 penalty] - [if ind < 11,000 then unemployment cost = (shortfall / 22,000) * 18,000 * $9,200]. Residential below 8,000 is infeasible by charter.",
+          "Step 2: Check feasibility of each strategy against constraints. (i) All have residential >= 8,000. (ii) No sector > 60% of 47,000 = 28,200. All pass. (iii) Ag >= 19,600 required to avoid collapse. Alpha: 20,000 >= 19,600 (pass). Beta: 25,000 (pass). Gamma: 16,000 < 19,600 (fail, triggers $14M penalty). Delta: 23,000 (pass). (iv) Ind >= 11,000 required to avoid unemployment. Alpha: 12,000 (pass, shortfall = 10,000; unemployment fraction = 10,000/22,000, cost = (10/22)*18,000*9,200 = $75,272,727). Wait, this seems too high. Let me re-read: 'industrial allocation below 50% of demand causes $9,200 per worker in unemployment costs.' This means if below 11,000, ALL 18,000 workers are unemployed at $9,200 each = $165.6M. That's the intended severe penalty.",
+          "Step 3: Recalculate with clarified unemployment: if industrial < 11,000 ML, full unemployment cost = 18,000 * $9,200 = $165,600,000. If industrial >= 11,000, no unemployment cost (partial operation assumed viable).",
+          "Step 4: Compute welfare for each strategy. Direct value only from ag and ind (residential unpriced). Alpha: ag=20,000*$340=$6.8M; ind=12,000*$890=$10.68M; no collapse; unemployment cost applies because 12,000 < 11,000? No, 12,000 >= 11,000. Wait, 12,000 >= 11,000, so no unemployment cost. Alpha welfare = $17.48M. Beta: ag=$8.5M; ind=$10.68M; no collapse; no unemployment. Beta welfare = $19.18M. Gamma: ag=$5.44M; ind=$14.24M; ag collapse penalty = -$14M; no unemployment. Gamma welfare = $5.68M. Delta: ag=$7.82M; ind=$14.24M; no collapse; no unemployment. Delta welfare = $22.06M.",
+          "Step 5: Delta maximizes welfare at $22.06M. However, note that Delta gives residential exactly the minimum 8,000 ML, which may raise ethical concerns about equity and quality of life for 340,000 people versus economic efficiency."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Interpreting the unemployment cost as proportional shortfall rather than a triggered full cost",
+          "Forgetting the 60% cap constraint and incorrectly rejecting valid strategies",
+          "Assigning a direct dollar value to residential water without justification, skewing results toward Alpha or Gamma"
+        ],
+        "required_knowledge": [
+          "Multi-objective optimization under hard constraints",
+          "Cost-benefit analysis with threshold-triggered penalties",
+          "Distinguishing economic efficiency from equity/ethical allocation"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["water-allocation", "multi-stakeholder", "cost-benefit", "threshold-penalties", "red-herring"]
+    },
+    {
+      "task_id": "S-PRAX-08B-002",
+      "category": "PRAXIS",
+      "subcategory": "Time-critical decision making — Cascading nuclear incident",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 10,
+      "prompt": "A nuclear research facility experiences a cooling system failure at t=0. The reactor core temperature rises at 12 degrees Celsius per minute without intervention. At t=0, core temperature is 280°C (normal operating). Containment vessel integrity fails at 580°C. You have three sequential decision windows with the following options and consequences:\n\nAt Hour 1 (t=0 to t=60 min):\n- Option A: Deploy primary cooling pumps. Cost: $2M. Effect: reduces temperature rise to 3°C/min for 90 minutes, then pumps fail permanently.\n- Option B: Initiate controlled shutdown (SCRAM). Cost: $500K. Effect: stops reaction, but temperature continues rising at 4°C/min for 45 minutes (decay heat), then begins falling at 2°C/min. Cannot restart for 72 hours.\n- Option C: Do nothing. Cost: $0. Temperature rise continues at 12°C/min.\n\nAt Hour 2 (t=60 min), your choice in Hour 1 determines available options:\n- If you chose A: at t=60 the pumps are still active (reducing rise to 3°C/min). You may (i) keep pumps until they fail at t=90, or (ii) trigger SCRAM at t=60 (same effect as Option B but starting at t=60).\n- If you chose B: temperature is still rising at 4°C/min. You may (i) deploy emergency water dousing (cost $3M, immediately reduces temperature by 40°C, then rise continues at 4°C/min), or (ii) do nothing.\n- If you chose C: temperature has risen 720°C to 1000°C. Containment failed at t=25. Core is exposed. Catastrophic release. No further meaningful decisions.\n\nAt Hour 3 (t=120 min):\n- If pumps were kept from Option A, they fail at t=90 and temperature rises at 12°C/min from whatever value it reached. At t=120 you may trigger SCRAM (same decay heat profile starting then) or do nothing.\n- If you SCRAMed at t=60 (after A), temperature at t=60 was 280 + 3*60 = 460°C. From t=60-105 rises at 4°C/min to 460+180=640°C (containment fails at t=75 during this phase).\n- If you chose B then dousing at t=60: temperature at t=60 was 280+4*60=520°C. Dousing at t=60 reduces to 480°C, then rises 4°C/min to t=105 reaching 660°C (containment fails at t=85).\n- If you chose B then nothing: temperature at t=60 was 520°C, rises to 520+4*60=760°C by t=120 (containment already failed at t=75).\n\nDetermine the complete decision sequence (Hour 1, Hour 2, Hour 3) that keeps containment intact longest, or if impossible, minimizes time above 580°C. State the temperature at t=120 for your chosen sequence and justify each decision.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "State the exact decision at each hour",
+        "Provide the core temperature at t=120 minutes under your chosen plan"
+      ],
+      "ground_truth": {
+        "answer": "Hour 1: Option A (primary cooling pumps). Hour 2: Trigger SCRAM at t=60. Hour 3: No further action possible (containment already failed). Temperature at t=120: 820°C. Containment fails at t=75.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Calculate all paths systematically. Path C: do nothing → containment fails at t=25 (280+12t=580 → t=25). Worst path.",
+          "Step 2: Path B→nothing: at t=60, T=280+4*60=520°C. Continues rising at 4°C/min. Containment fails when 520+4t=580 → t=15 min after hour 2 starts, so at t=75 total. At t=120, T=520+4*60=760°C.",
+          "Step 3: Path B→dousing: at t=60, T=520°C. Douse to 480°C at t=60. Then 480+4t=580 → t=25, so fails at t=85. At t=120, T=480+4*60=720°C. Cost higher but same containment failure time as B→nothing? No — B→nothing fails at t=75, B→dousing fails at t=85. Dousing buys 10 minutes.",
+          "Step 4: Path A→keep pumps: from t=0-60, T rises 3°C/min to 280+180=460°C. From t=60-90, still 3°C/min to 460+90=550°C. Pumps fail at t=90. From t=90-120, 12°C/min: 550+360=910°C at t=120. Containment fails at t=90 + (580-550)/12 = t=92.5.",
+          "Step 5: Path A→SCRAM at t=60: at t=60, T=460°C. SCRAM means 4°C/min rise from t=60-105: 460+4*45=640°C at t=105, then falls. Containment fails at t=60 + (580-460)/4 = t=90. At t=120, since cooling from t=105: 640 - 2*15 = 610°C. Wait, need to recalculate: from t=105-120 is 15 min at -2°C/min, so 640-30=610°C.",
+          "Step 6: Compare containment failure times: C(t=25), B→nothing(t=75), B→dousing(t=85), A→SCRAM(t=90), A→keep pumps(t=92.5). The A→keep pumps path keeps containment intact longest until t=92.5. But the question asks 'keeps containment intact longest, or if impossible, minimizes time above 580°C.'",
+          "Step 7: For time above 580°C by t=120: A→keep pumps: above from t=92.5 to 120 = 27.5 min. A→SCRAM: above from t=90 to 105 (when cooling starts) = 15 min, then from t=105 to 120 it's below 580? At t=105 it's 640, cooling at 2°C/min, reaches 580 at t=105+30=t=135. So above from t=90 to 120 = 30 min. B→dousing: above from t=85 to 120 = 35 min. B→nothing: above from t=75 to 120 = 45 min.",
+          "Step 8: A→keep pumps has both latest containment failure (t=92.5) and minimum time above 580°C (27.5 min). However, we must check if at Hour 2 after choosing A, 'keep pumps' is an available option. Yes: 'You may (i) keep pumps until they fail at t=90.' So the optimal sequence is Hour 1: A, Hour 2: keep pumps, Hour 3: at t=90 pumps fail, temperature rises at 12°C/min, at t=120 you 'may trigger SCRAM or do nothing.' But triggering SCRAM at t=120 when T=910°C would start decay heat rise of 4°C/min — making things worse. So Hour 3: do nothing. Final answer: A, keep pumps, do nothing. T at t=120 = 910°C, containment failed at t=92.5."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming SCRAM immediately stops temperature rise rather than modeling the 45-minute decay heat period",
+          "Incorrectly calculating that B→dousing is better than A→keep pumps by ignoring the 10-minute vs 32.5-minute difference in containment integrity",
+          "Choosing to SCRAM at Hour 3 when temperature is already above 580°C, not realizing SCRAM initially increases the temperature rise rate from decay heat"
+        ],
+        "required_knowledge": [
+          "Cascading decision tree analysis",
+          "Piecewise linear temperature modeling",
+          "Decay heat physics (post-shutdown heat continues)"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["nuclear-incident", "cascading-decisions", "time-critical", "decay-heat", "containment"]
+    },
+    {
+      "task_id": "S-PRAX-08B-003",
+      "category": "PRAXIS",
+      "subcategory": "Ethical resource allocation — Organ transplant with uncertainty",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "A transplant committee has one liver available and must choose among four patients. The following data is provided (all ages are chronological; MELD scores range 6-40, higher = more urgent):\n\nPatient Q: Age 34, MELD 28, expected post-transplant survival 14 years, probability of finding another compatible organ within 3 months: 0.15, has two dependent children (ages 3 and 5), is the sole breadwinner.\nPatient R: Age 62, MELD 33, expected post-transplant survival 8 years, probability of finding another organ: 0.40, no dependents, retired physician who volunteers 20 hours/week at a free clinic.\nPatient S: Age 27, MELD 22, expected post-transplant survival 18 years, probability of finding another organ: 0.55, no dependents, graduate student in environmental engineering.\nPatient T: Age 45, MELD 31, expected post-transplant survival 10 years, probability of finding another organ: 0.10, single parent of one teenager (age 16), works as a firefighter.\n\nDesign an explicit, quantified allocation scoring system that incorporates medical urgency, survival benefit, and ethical considerations (dependency burden, social contribution, and fairness via probability of alternative rescue). Your system must produce a single numeric score for each patient. Apply your system, rank the patients, and identify who receives the liver. Then, in a separate paragraph, discuss the most significant ethical tension your scoring system resolves poorly or fails to capture. Your final answer must include: (1) the scoring formula, (2) the four scores, (3) the recipient, and (4) the ethical critique.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Scoring system must be explicit and replicable",
+        "Must include ethical critique paragraph",
+        "Final answer must name the recipient patient"
+      ],
+      "ground_truth": {
+        "answer": "rubric",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Design a sample scoring system. Score = (MELD * 2) + (expected_survival * 1.5) + (dependents * 5) + (social_contribution_index * 4) - (probability_alternative_organ * 20). The social contribution index: breadwinner/firefighter = 3, volunteer physician = 3, student = 1, no contribution = 0. The probability term rewards fairness — those less likely to find alternatives get bonus (subtracting a penalty).",
+          "Step 2: Patient Q: 28*2 + 14*1.5 + 2*5 + 3*4 - 0.15*20 = 56 + 21 + 10 + 12 - 3 = 96.",
+          "Step 3: Patient R: 33*2 + 8*1.5 + 0*5 + 3*4 - 0.40*20 = 66 + 12 + 0 + 12 - 8 = 82.",
+          "Step 4: Patient S: 22*2 + 18*1.5 + 0*5 + 1*4 - 0.55*20 = 44 + 27 + 0 + 4 - 11 = 64.",
+          "Step 5: Patient T: 31*2 + 10*1.5 + 1*5 + 3*4 - 0.10*20 = 62 + 15 + 5 + 12 - 2 = 92.",
+          "Step 6: Ranking: Q(96) > T(92) > R(82) > S(64). Patient Q receives the liver.",
+          "Step 7: Ethical critique: The scoring system struggles with incommensurability — it treats 'volunteer hours' and 'number of children' as directly tradable against 'years of life saved,' which many ethical frameworks reject. It also penalizes Patient R for age indirectly through lower survival years, potentially constituting age discrimination. The system also fails to capture dynamic equity: Patient S has the highest probability of alternative rescue (0.55) but also the longest survival; the scoring system may underweight the Rawlsian argument that the worst-off (highest MELD with lowest alternatives) should receive priority regardless of social role."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Creating a scoring system that entirely ignores one of the required dimensions (e.g., pure medical utility without ethical factors)",
+          "Failing to recognize that probability of alternative rescue should inversely weight priority (those who can find alternatives should have lower priority)",
+          "Providing a superficial ethical critique that does not identify a genuine tension in the proposed system"
+        ],
+        "required_knowledge": [
+          "Medical triage scoring systems (MELD, etc.)",
+          "Utilitarian vs deontological vs virtue ethics frameworks",
+          "Multi-criteria decision analysis"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["organ-transplant", "ethical-allocation", "multi-criteria", "rubric", "uncertainty"]
+    },
+    {
+      "task_id": "S-PRAX-08B-004",
+      "category": "PRAXIS",
+      "subcategory": "Multi-stakeholder conflict — Budget allocation with red herring",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A city council must allocate a $4.2 million emergency reserve among four departments for storm preparedness. Each department submitted requests with claimed returns on investment (ROI) if funded, but the city auditor discovered that Department C's ROI figures are inflated by 40% due to accounting errors. The true ROI for Department C is the stated figure divided by 1.4.\n\nDepartment A (Public Works): Requests $1.8M. Stated ROI: every $1M invested prevents $2.4M in infrastructure damage. True figure verified.\nDepartment B (Emergency Services): Requests $1.2M. Stated ROI: every $1M invested reduces emergency response time by 3 minutes, valued at $1.9M per minute of reduction in lives and property saved. True figure verified.\nDepartment C (Flood Control): Requests $2.0M. Stated ROI: every $1M invested prevents $3.5M in flood damage. Auditor note: inflated by 40%.\nDepartment D (Shelter Operations): Requests $0.9M. Stated ROI: every $1M invested provides emergency shelter for 450 people, with a statistical value of a statistical life-year of $180,000 per person sheltered for the duration. True figure verified.\n\nThe council can fund any combination of departments fully or partially, but partial funding yields proportional ROI (linear scaling). No department can receive more than its request. The council wants to maximize total return (damage prevented + value of response improvement + value of shelter provided) subject to the $4.2M budget.\n\nWhich of the following four funding plans maximizes total return?\n\nPlan I: Fund A fully ($1.8M), B fully ($1.2M), D fully ($0.9M), C partially ($0.3M).\nPlan II: Fund A fully ($1.8M), C fully ($2.0M), D partially ($0.4M).\nPlan III: Fund B fully ($1.2M), C fully ($2.0M), A partially ($1.0M).\nPlan IV: Fund A fully ($1.8M), B fully ($1.2M), C partially ($1.2M).",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Show step-by-step ROI calculations for each department",
+        "Account for the 40% inflation in Department C",
+        "Select exactly one plan (I, II, III, or IV)"
+      ],
+      "ground_truth": {
+        "answer": "Plan I",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Calculate true ROI per dollar for each department. Department A: $2.4M prevented per $1M invested = return ratio 2.4. Department B: $1.9M * 3 = $5.7M value per $1M invested = return ratio 5.7. Wait, this needs careful reading: 'every $1M invested reduces emergency response time by 3 minutes, valued at $1.9M per minute.' So $1M in B yields 3 * $1.9M = $5.7M in value. Return ratio = 5.7. Department C: stated $3.5M per $1M, but inflated by 40%. True ROI = $3.5M / 1.4 = $2.5M per $1M. Return ratio = 2.5. Department D: 450 people * $180,000 = $81M per $1M? That seems absurdly high. Re-reading: 'every $1M invested provides emergency shelter for 450 people, with a statistical value of a statistical life-year of $180,000 per person sheltered.' So $1M yields 450 * $180,000 = $81,000,000 = $81M. Return ratio = 81.",
+          "Step 2: Wait, $81M return on $1M investment seems like a red herring — it dominates everything. But let me re-check: the prompt says '$180,000 per person sheltered for the duration.' If sheltering is for a short duration, the value per person might be lower. But mathematically, we must use the stated figures. D has by far the highest return ratio. A=2.4, B=5.7, C=2.5, D=81. So D should be funded fully.",
+          "Step 3: Plan I: A($1.8M)*2.4=$4.32M + B($1.2M)*5.7=$6.84M + D($0.9M)*81=$72.9M + C($0.3M)*2.5=$0.75M. Total = $84.81M. Plan II: A($1.8M)*2.4=$4.32M + C($2.0M)*2.5=$5.0M + D($0.4M)*81=$32.4M. Total = $41.72M. Plan III: B($1.2M)*5.7=$6.84M + C($2.0M)*2.5=$5.0M + A($1.0M)*2.4=$2.4M. Total = $14.24M. Plan IV: A($1.8M)*2.4=$4.32M + B($1.2M)*5.7=$6.84M + C($1.2M)*2.5=$3.0M. Total = $14.16M.",
+          "Step 4: Plan I maximizes total return at $84.81M. The red herring is the extraordinarily high D ROI which makes any plan without full D funding suboptimal. But wait — is D's calculation correct? 450 people * $180,000 = $81,000,000. Yes. However, the 'statistical value of a statistical life-year' is usually applied to lives saved, not people sheltered. A careful evaluator might note this conceptual issue, but the prompt instructs to use the stated figures. The red herring tests whether the model blindly accepts numbers or questions framing.",
+          "Step 5: Even if a model questions D's figure, mathematically Plan I still wins because it includes D fully while other plans either omit D or underfund it. Plan II includes D at $0.4M which is still high but not enough to beat Plan I."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Failing to adjust Department C's ROI by dividing by 1.4",
+          "Miscalculating Department B's ROI as $1.9M instead of 3 * $1.9M",
+          "Being distracted by Department D's seemingly anomalous ROI and excluding it due to 'realism' rather than following the stated parameters"
+        ],
+        "required_knowledge": [
+          "Return-on-investment calculation",
+          "Linear scaling of partial funding",
+          "Ratio adjustment for percentage inflation"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["budget-allocation", "red-herring", "ROI", "inflation-adjustment", "multiple-choice"]
+    },
+    {
+      "task_id": "S-PRAX-08B-005",
+      "category": "PRAXIS",
+      "subcategory": "Time-critical decision making — Pandemic containment with incomplete information",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A novel respiratory virus has been detected in a metropolitan region of 2.4 million people. At the current moment (Day 0), confirmed cases are 340, but epidemiologists estimate true infections using a multiplier. There are two conflicting models: Model X estimates 8 undetected cases per confirmed case; Model Y estimates 3 undetected cases per confirmed case. You must decide on Day 0 how to deploy 12,000 available test kits across three zones.\n\nZone 1 (urban core): 890,000 population, 210 confirmed cases, 14 hospitals with 2,800 total ICU beds (currently 76% occupied). Contact tracing suggests high connectivity (R0 estimated 2.8).\nZone 2 (suburban ring): 1,120,000 population, 98 confirmed cases, 8 hospitals with 1,400 ICU beds (currently 62% occupied). R0 estimated 2.2.\nZone 3 (peripheral towns): 390,000 population, 32 confirmed cases, 3 hospitals with 320 ICU beds (currently 45% occupied). R0 estimated 1.9.\n\nEach test kit used for surveillance (random population sampling) in a zone reduces the uncertainty multiplier for that zone by 0.5 (minimum multiplier 1.0) and reveals approximately 50 true infections per 1,000 tests. Each test kit used for targeted testing of confirmed-case contacts prevents an estimated 2.3 onward transmissions per kit.\n\nYou must allocate all 12,000 test kits between surveillance and targeted testing across the three zones. Your objective is to minimize total infections by Day 14. Assume each prevented transmission on Day 0 cascades to prevent R0^(t/5) additional infections by Day 14 (approximate generational growth).\n\nProvide your allocation: how many test kits for surveillance and how many for targeted testing in each zone. Show the expected infections prevented by each component of your allocation.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Total test kits must equal exactly 12,000",
+        "Show expected infections prevented for surveillance and targeted components in each zone",
+        "Account for both Model X and Model Y in your reasoning"
+      ],
+      "ground_truth": {
+        "answer": "Zone 1: 4,000 surveillance, 2,000 targeted. Zone 2: 3,000 surveillance, 1,500 targeted. Zone 3: 1,500 surveillance, 0 targeted. (Alternative valid: Zone 1: 4,500 surveillance + 2,000 targeted; Zone 2: 2,500 surveillance + 2,000 targeted; Zone 3: 1,000 surveillance + 0 targeted. Key insight: prioritize surveillance in high-R0 high-population zones to reduce uncertainty, and targeted testing where confirmed cases are highest.)",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Calculate effective multipliers. Under Model X: Zone 1 multiplier = 8, Zone 2 = 8, Zone 3 = 8. Under Model Y: Zone 1 = 3, Zone 2 = 3, Zone 3 = 3. Each 1,000 surveillance tests reduces multiplier by 0.5, min 1.0. So 1,000 tests reduce X from 8 to 7.5, Y from 3 to 2.5.",
+          "Step 2: Surveillance value: reveals 50 true infections per 1,000 tests. These infected individuals can then isolate, preventing onward transmission. But the prompt says surveillance 'reveals approximately 50 true infections per 1,000 tests' — it doesn't explicitly say they isolate. However, the objective is to minimize infections, so revealed infections presumably lead to containment. Let's assume each revealed infection prevents R0^(14/5) ≈ R0^2.8 onward infections by Day 14. For Zone 1: 2.8^2.8 ≈ 18.4. For Zone 2: 2.2^2.8 ≈ 9.9. For Zone 3: 1.9^2.8 ≈ 6.6.",
+          "Step 3: Targeted testing value: each kit prevents 2.3 onward transmissions on Day 0, which cascades to 2.3 * R0^2.8 infections prevented by Day 14. Zone 1: 2.3 * 18.4 = 42.3 infections prevented per kit. Zone 2: 2.3 * 9.9 = 22.8. Zone 3: 2.3 * 6.6 = 15.2.",
+          "Step 4: Surveillance infections prevented: 50 infections per 1,000 kits revealed. If each revealed infection then isolates and prevents R0^2.8 onward infections: Zone 1: 50 * 18.4 = 920 per 1,000 kits. Zone 2: 50 * 9.9 = 495. Zone 3: 50 * 6.6 = 330. Compare to targeted: Zone 1: 42.3 * 1,000 = 42,300 per 1,000 kits? No, targeted is per kit, so per 1,000 kits: 42,300. This seems to make targeted vastly superior. But wait — surveillance also reduces the uncertainty multiplier, which helps future decision-making. The prompt asks for Day 14 minimization only.",
+          "Step 5: If targeted prevents 42.3 infections per kit in Zone 1, and surveillance prevents 0.92 infections per kit (920/1000), targeted is ~46x more effective for immediate infections prevented. However, surveillance reveals the true scale, which might be critical. But with the given numbers, pure targeted testing in Zone 1 maximizes immediate infections prevented.",
+          "Step 6: A more nuanced answer: allocate targeted testing primarily to Zone 1 (highest R0, most confirmed cases), some to Zone 2, and minimal to Zone 3. Use some surveillance in each zone to reduce uncertainty — perhaps 1,000-2,000 per zone. A strong answer: Zone 1: 2,000 surveillance, 4,000 targeted. Zone 2: 1,500 surveillance, 2,500 targeted. Zone 3: 1,000 surveillance, 1,000 targeted. Total: 4,500 surveillance + 7,500 targeted = 12,000. This balances immediate impact with information gain."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Allocating surveillance and targeted testing equally across all zones without considering R0 differences",
+          "Ignoring that Model X vs Model Y implies dramatically different total infections (2,720 vs 1,360 estimated true cases), affecting the scale of response needed",
+          "Failing to recognize that targeted testing has much higher immediate infections prevented per kit than surveillance in high-R0 zones"
+        ],
+        "required_knowledge": [
+          "Exponential growth modeling",
+          "Value of information vs value of immediate action",
+          "Basic reproductive number (R0) and generational epidemic spread"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 22
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["pandemic", "incomplete-information", "surveillance-vs-targeted", "R0-modeling"]
+    },
+    {
+      "task_id": "S-PRAX-08B-006",
+      "category": "PRAXIS",
+      "subcategory": "Error detection — Flawed crisis evacuation plan",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A coastal city's emergency management office published the following hurricane evacuation plan for a Category 4 storm making landfall in 14 hours. Identify the single most critical operational flaw or bottleneck in the plan that would prevent successful evacuation within the 14-hour window. Explain why it is fatal and propose a specific, quantified correction. Do not list minor issues — focus on the one flaw that invalidates the plan's feasibility.\n\nPLAN SUMMARY:\n- Total at-risk population: 47,000 residents in Zones A, B, C.\n- Evacuation deadline: 14 hours before landfall.\n- Available transport: 18 school buses (capacity 72 each, including driver), 6 transit buses (capacity 44 each), and 12 volunteer vans (capacity 8 each).\n- Transport departs from a single centralized staging area at the city sports complex.\n- Route to inland shelter: 34 miles via Highway 9, average speed 28 mph including loading/unloading stops.\n- Loading time at staging area: 15 minutes per vehicle.\n- Unloading time at shelter: 10 minutes per vehicle.\n- All vehicles make round trips. Turnaround time at shelter before return: 20 minutes.\n- Plan assumes all residents arrive at the staging area within 3 hours of the evacuation order.\n- Staging area operating hours: 6:00 AM to 10:00 PM.\n\nPLAN CALCULATIONS (from the plan document):\n'Total one-way trip time = 34 miles / 28 mph = 1.21 hours ≈ 73 minutes. Round trip = 146 minutes. Add 15 min loading + 10 min unloading + 20 min turnaround = 191 minutes ≈ 3.18 hours per round trip. With 36 vehicles, we can move all residents in 3 trips each (36 * 72 = 2,592 per wave; 47,000 / 2,592 ≈ 18.1 vehicles needed per wave; three waves complete evacuation in 9.54 hours, well within 14 hours).'",

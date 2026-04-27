@@ -1,0 +1,276 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-10A",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Legal Reasoning — Contract Analysis, Regulatory Compliance, Legal Argumentation",
+    "generated_at": "2026-04-25T20:56:11+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-10A-001",
+      "category": "PRAXIS",
+      "subcategory": "Contract Analysis — Multi-Clause Interpretation and Breach Determination",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "You are analyzing the following Software Development Agreement between Nexora Dynamics (Client) and Bitstream Labs (Developer). The relevant clauses are:\n\n**Section 3.2 (Milestone Delivery):** \"Developer shall deliver the Alpha Version of the Platform by March 15, 2024. Failure to deliver by this date constitutes a material breach if the delay exceeds 10 calendar days.\"\n\n**Section 4.1 (Payment):** \"Client shall pay 40% of the total fee ($400,000) upon execution, 30% ($300,000) upon Alpha delivery, and 30% ($300,000) upon Final delivery. Client may withhold any milestone payment if Developer has not met the corresponding deliverable requirements.\"\n\n**Section 5.3 (Force Majeure):** \"Neither party shall be liable for failure to perform due to causes beyond its reasonable control, including but not limited to pandemics, provided that: (a) the affected party gives written notice within 5 business days of the event's onset; (b) the delay does not exceed 45 calendar days; and (c) the party uses commercially reasonable efforts to mitigate. If the delay exceeds 45 days, either party may terminate without penalty.\"\n\n**Section 7.1 (IP Assignment):** \"All work product, code, and documentation created under this Agreement shall become the exclusive property of Client upon full payment of all fees due. Until full payment, Developer retains a lien on all deliverables.\"\n\n**Section 8.4 (Termination for Convenience):** \"Either party may terminate this Agreement without cause upon 30 days written notice. Upon such termination, Developer shall deliver all completed but unpaid work to Client, and Client shall pay a pro-rata amount for work satisfactorily completed through the termination date. Developer retains all rights to any work not yet delivered or paid for.\"\n\n**Section 9.2 (Cure Period):** \"In the event of a material breach by either party, the non-breaching party must provide written notice specifying the breach. The breaching party shall have 15 business days from receipt of such notice to cure. If the breach remains uncured, the non-breaching party may terminate immediately and pursue all available remedies.\"\n\n**FACTS:**\n- March 15, 2024: Alpha Version is not delivered.\n- March 18, 2024: Developer notifies Client that a critical security vulnerability was discovered in a third-party library and requires remediation. No mention of pandemic or force majeure.\n- March 25, 2024: Client sends written notice of material breach under Section 3.2, demanding cure within 15 business days and withholding the $300,000 Alpha milestone payment.\n- April 2, 2024: Developer responds that a COVID-19 outbreak among its engineering team in late February constitutes force majeure, and that the 45-day force majeure period should apply from March 15. Developer delivers the Alpha Version on this date.\n- April 10, 2024: Client rejects the delivery as late and terminates the Agreement under Section 9.2, claiming the breach was uncured because the cure period expired on April 15 (15 business days from March 25).\n- April 12, 2024: Developer argues that the force majeure provision tolled the cure period and that the 45-day force majeure window runs until April 29.\n- The Client had paid the initial $400,000. No other payments have been made. The Final Version was never delivered.\n\n**QUESTION:** Analyze: (1) whether the Developer validly invoked force majeure; (2) whether the Client's termination on April 10 was lawful; (3) who owns the Alpha Version delivered on April 2; and (4) what monetary remedies, if any, each party may pursue. Provide your analysis citing specific clauses and explaining their interaction.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Address all four sub-questions in order",
+        "Cite specific contract clauses and explain their interaction",
+        "Show step-by-step reasoning for each legal conclusion"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Force Majeure Validity — Section 5.3 requires written notice within 5 business days of the event's onset. The COVID-19 outbreak occurred in 'late February.' The Developer gave notice on April 2, which is far beyond 5 business days from late February. Therefore, the force majeure notice was untimely, and the Developer cannot invoke force majeure. The March 18 notice did not mention force majeure or COVID-19, so it cannot substitute.",
+          "Step 2: Material Breach and Cure Period — Under Section 3.2, failure to deliver by March 15 plus a 10-day grace period means material breach occurred on March 25. Client gave written notice on March 25. The 15-business-day cure period ran from March 25. Counting business days (excluding weekends): March 25, 26, 27, 28, 29; April 1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 15. The cure period expired on April 15, 2024. Client terminated on April 10, which was BEFORE the cure period expired.",
+          "Step 3: Lawfulness of Termination — Because Section 9.2 permits termination only if the breach 'remains uncured' after the 15-business-day period, and the Client terminated on April 10 (before April 15), the Client's termination was premature and therefore itself a breach of contract (failure to allow the cure period to run).",
+          "Step 4: IP Ownership of Alpha Version — Section 7.1 states work product becomes Client's property 'upon full payment of all fees due.' The Client paid only $400,000. The Alpha milestone ($300,000) was withheld. Therefore, 'full payment' has not occurred. However, under Section 8.4, if termination occurs, 'Developer retains all rights to any work not yet delivered or paid for.' But the Alpha WAS delivered on April 2. Since the Client's termination was wrongful, the Agreement remained in force at that time. Because full payment was not made, Developer retains its lien under 7.1, meaning Client does not own it outright but holds it subject to payment. Developer retains title until the $300,000 is paid.",
+          "Step 5: Remedies — Because the Client wrongfully terminated before the cure period expired, the Client breached the Agreement. The Developer can sue for the $300,000 Alpha milestone payment (since delivery was made) plus damages for wrongful termination. The Client cannot recover the $400,000 initial payment as damages because the Developer substantially performed by delivering Alpha (albeit late), and the cure period was still running. The Client's proper remedy would have been to wait until April 15 and then terminate if the breach remained uncured."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the force majeure notice was timely because it was given before delivery, without checking the 5-business-day requirement from the event's onset",
+          "Counting calendar days instead of business days for the cure period, leading to incorrect expiration date of April 15",
+          "Concluding that the Client's termination was lawful without checking whether the cure period had actually expired on April 10",
+          "Resolving the IP ownership question by looking only at Section 7.1 or only at Section 8.4, without reconciling their interaction: 7.1 conditions ownership on full payment, while 8.4 distinguishes delivered from undelivered work"
+        ],
+        "required_knowledge": [
+          "Force majeure notice requirements and temporal conditions",
+          "Business day counting in contractual cure periods",
+          "Conditional termination clauses and their proper sequencing",
+          "IP assignment conditional upon payment vs. termination for convenience provisions"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["contract-analysis", "breach", "force-majeure", "IP-ownership", "multi-clause"]
+    },
+    {
+      "task_id": "S-PRAX-10A-002",
+      "category": "PRAXIS",
+      "subcategory": "Regulatory Compliance — Fact Pattern Application",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "The **Meridian Data Sovereignty Act (MDSA)** regulates cross-border data transfers for companies operating in Meridian Republic. The relevant provisions are:\n\n**Section 14(a):** \"A covered entity shall not transfer personal data of Meridian residents to a foreign jurisdiction unless that jurisdiction has been certified by the Meridian Data Authority (MDA) as having 'adequate protections.'\"\n\n**Section 14(b):** \"A transfer to a non-adequate jurisdiction is permissible if the covered entity implements 'Standard Contractual Clauses' (SCCs) approved by the MDA, AND obtains explicit, informed consent from each data subject whose data is transferred.\"\n\n**Section 14(c):** \"The consent requirement in Section 14(b) is waived for transfers to: (i) a subsidiary that is wholly owned by the covered entity and subject to the MDSA through a Binding Corporate Rules (BCR) filing approved by the MDA; OR (ii) a processor bound by SCCs where the data is encrypted using MDA-approved quantum-resistant encryption and the decryption key is stored exclusively in Meridian Republic.\"\n\n**Section 14(d):** \"A 'covered entity' means any person or organization that, in the preceding 12 months, processed the personal data of more than 50,000 Meridian residents.\"\n\n**Section 14(e):** \"'Personal data' means any information that identifies or could reasonably be linked, directly or indirectly, to a specific natural person. Aggregated or anonymized data from which identification is impossible is not personal data.\"\n\n**FACTS:**\nVortex Analytics, a Meridian-based company, in the past 12 months processed data from 78,000 Meridian residents. It transfers this data to three destinations:\n\n1. **CloudVault Inc.**, a cloud storage provider headquartered in a non-adequate jurisdiction. Vortex uses MDA-approved SCCs with CloudVault. The data is encrypted with MDA-approved quantum-resistant encryption. CloudVault cannot decrypt the data; Vortex retains the decryption key in Meridian.\n\n2. **Vortex EU**, a 60%-owned subsidiary in a non-adequate jurisdiction. No BCR filing has been made. Vortex obtained explicit consent from 45,000 of the 78,000 residents for transfers to Vortex EU. The remaining 33,000 residents' data is transferred without individual consent, relying instead on a 'legitimate interest' assessment.\n\n3. **DataRefinery LLC**, a third-party analytics firm in a non-adequate jurisdiction. Vortex uses MDA-approved SCCs. DataRefinery processes the data on Vortex's behalf. The data is pseudonymized (names replaced with unique identifiers), but Vortex retains a mapping table that links each identifier back to the individual.\n\nWhich of the following statements is correct?\n\nA) All three transfers comply with the MDSA because Vortex uses SCCs for each transfer.\n\nB) The CloudVault transfer complies under Section 14(c)(ii); the Vortex EU transfer violates the MDSA because the entity is not wholly owned and lacks a BCR filing, so the consent waiver does not apply to the 33,000 non-consenting residents; the DataRefinery transfer violates the MDSA because pseudonymization with a retained mapping table means the data remains 'personal data' under Section 14(e), and without individual consent or an applicable waiver, the transfer is unlawful.\n\nC) The Vortex EU transfer complies for all 78,000 residents because 45,000 provided consent and the remaining 33,000 are covered by the subsidiary exemption under Section 14(c)(i), which applies to any majority-owned subsidiary.\n\nD) The DataRefinery transfer complies because pseudonymized data is not 'personal data' under the MDSA, and the SCCs alone satisfy Section 14(b).",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "Base your answer solely on the provided statutory text"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Determine if Vortex is a covered entity. Section 14(d): processed data of 78,000 Meridian residents in preceding 12 months, exceeding 50,000 threshold. Yes, covered entity.",
+          "Step 2: Analyze CloudVault transfer. Section 14(c)(ii) waives consent for transfers to a processor bound by SCCs where data is encrypted with MDA-approved quantum-resistant encryption AND decryption key is stored exclusively in Meridian. CloudVault is a processor, uses approved SCCs, encryption is approved, and Vortex retains the key in Meridian. Therefore, CloudVault transfer complies under Section 14(c)(ii) without needing individual consent.",
+          "Step 3: Analyze Vortex EU transfer. Section 14(c)(i) waives consent only for transfers to a WHOLLY OWNED subsidiary with an approved BCR filing. Vortex EU is only 60% owned, not wholly owned. No BCR filing exists. Therefore, the waiver does NOT apply. Under Section 14(b), transfers to non-adequate jurisdictions require BOTH SCCs AND individual consent. Vortex has SCCs but only 45,000 consents. The 33,000 non-consenting residents' data is transferred without consent and without an applicable waiver. Therefore, the Vortex EU transfer violates the MDSA for the 33,000 residents.",
+          "Step 4: Analyze DataRefinery transfer. Section 14(e) defines personal data as information that 'could reasonably be linked, directly or indirectly, to a specific natural person.' Pseudonymization with a retained mapping table means the data CAN be linked back indirectly. Therefore, it remains personal data. Section 14(b) requires SCCs AND consent. DataRefinery is not a wholly owned subsidiary, and Section 14(c)(ii) does not apply because the encryption/key condition is not stated in the facts. Therefore, DataRefinery transfer violates the MDSA.",
+          "Step 5: Evaluate options. Option A is wrong because SCCs alone are insufficient for 14(b) without consent or waiver. Option B correctly identifies all three outcomes. Option C is wrong because the subsidiary exemption requires 100% ownership, not majority. Option D is wrong because pseudonymization with a mapping table does not make data non-personal under the 'indirectly linked' language of 14(e)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming that SCCs alone satisfy Section 14(b) without the additional consent requirement",
+          "Interpreting 'wholly owned' as 'majority owned' or assuming partial ownership qualifies for the Section 14(c)(i) waiver",
+          "Treating pseudonymized data with a mapping table as anonymized, ignoring the 'indirectly linked' language in Section 14(e)"
+        ],
+        "required_knowledge": [
+          "Statutory element-by-element analysis",
+          "Strict construction of defined terms ('wholly owned')",
+          "Understanding that pseudonymization with re-identification capability is not anonymization"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["regulatory-compliance", "data-protection", "statutory-interpretation", "element-analysis"]
+    },
+    {
+      "task_id": "S-PRAX-10A-003",
+      "category": "PRAXIS",
+      "subcategory": "Legal Argumentation — Opposing Arguments and Case Evaluation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "The following dispute arises under a fictional jurisdiction's contract law.\n\n**RELEVANT DOCTRINE:**\nUnder the common law of Valeria, every contract contains an implied covenant of good faith and fair dealing. However, the scope of this covenant is disputed. The landmark case *Korvath v. Syllogis* (2019) held that the implied covenant 'may not be used to contradict the express terms of the contract, but may be invoked to prevent one party from exercising a discretionary power in a manner that deprives the other party of the fruits of the agreement.' The *Korvath* court further stated: 'Where a contract grants a party absolute discretion to terminate, good faith requires only that the terminating party not terminate for the purpose of appropriating the counterparty's proprietary information or goodwill.'\n\n**CONTRACT TERMS:**\nOn January 1, 2023, Aether Pharmaceuticals (Aether) entered into an exclusive licensing agreement with MedGenix Corp (MedGenix) for the development of drug candidate X-774. Key clauses:\n\n- **Section 2.1:** \"MedGenix grants Aether an exclusive, worldwide license to research, develop, and commercialize X-774.\"\n- **Section 4.3:** \"Aether shall use Commercially Reasonable Efforts (CRE) to develop X-774 and shall provide MedGenix with quarterly progress reports.\"\n- **Section 6.1:** \"Aether may terminate this Agreement at any time, with or without cause, upon 90 days written notice.\"\n- **Section 6.4:** \"Upon any termination, all rights to X-774 revert to MedGenix, and Aether shall transfer all regulatory filings and data to MedGenix within 60 days.\"\n\n**FACTS:**\nAether invested $140 million in X-774 development over 18 months. In Q2 2024, Aether's internal trials showed X-774 had a 34% efficacy rate in Phase IIb — below the 45% threshold Aether typically requires for Phase III investment. Aether's quarterly report to MedGenix stated: 'Development continues per plan; no material adverse findings.' Aether did not disclose the 34% efficacy figure, arguing it was preliminary and subject to statistical reanalysis.\n\nOn July 15, 2024, Aether terminated the agreement under Section 6.1, citing 'strategic portfolio reallocation.' On July 20, 2024, Aether announced it had acquired rival drug candidate Y-998, which targets the same indication. Y-998 showed 51% efficacy in Phase IIb. Internal emails (later discovered) revealed Aether executives discussing termination as a way to 'avoid sharing Phase III upside with MedGenix' and 'keep X-774 data proprietary for our Y-998 combination therapy research.'\n\nMedGenix sues Aether for breach of the implied covenant of good faith and fair dealing, claiming Aether: (i) terminated to capture the value of X-774 for itself; (ii) failed to exercise CRE in Q2 2024 by withholding the 34% efficacy data; and (iii) made a false statement in the quarterly report.\n\n**TASK:** Construct the strongest possible argument for MedGenix (Plaintiff). Then construct the strongest possible argument for Aether (Defendant). Finally, evaluate which side has the stronger case and why, applying *Korvath* and the contract terms. Your evaluation must address all three of MedGenix's claims and provide a final reasoned judgment.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Present both sides' arguments before evaluating",
+        "Steel-man each position — present the strongest version of each argument",
+        "Apply the Korvath standard to each of the three claims",
+        "Conclude with a reasoned judgment on which side prevails"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: MedGenix's Strongest Argument — MedGenix argues that Aether's termination violated the implied covenant under Korvath because internal emails show Aether terminated 'for the purpose of appropriating the counterparty's proprietary information' (X-774 data for Y-998 combination therapy research). This falls squarely within Korvath's prohibition. MedGenix also argues that Aether's failure to disclose the 34% efficacy data while claiming 'no material adverse findings' was a bad-faith effort to conceal a deteriorating development profile, preventing MedGenix from exercising its own rights (such as seeking a new partner). The false statement further demonstrates lack of good faith.",
+          "Step 2: Aether's Strongest Argument — Aether argues that Section 6.1 grants 'absolute discretion to terminate,' and under Korvath, the covenant only prohibits termination for the specific purpose of appropriating proprietary information or goodwill. Aether can claim the termination was a legitimate strategic decision based on portfolio economics: X-774 at 34% efficacy was a poor investment compared to Y-998 at 51%. The internal emails mentioning 'avoid sharing upside' reflect standard commercial motivation, not appropriation of proprietary information. Aether can further argue that 'Commercially Reasonable Efforts' does not require disclosure of preliminary data, and the 34% figure was subject to reanalysis. The quarterly report was not false at the time it was made because the data was preliminary.",
+          "Step 3: Evaluation of Claim (i) — Stronger for MedGenix. The internal emails explicitly state the purpose was to 'keep X-774 data proprietary for our Y-998 combination therapy research.' This is not merely avoiding shared upside; it is appropriating MedGenix's proprietary drug data (the regulatory filings, trial data, and know-how) for Aether's own rival candidate. Under Korvath, this is precisely the type of termination purpose the implied covenant prohibits, even with absolute discretion.",
+          "Step 4: Evaluation of Claim (ii) — Stronger for Aether. CRE is a contractual obligation, not necessarily a good-faith issue in itself. Moreover, Aether's argument that preliminary data need not be disclosed has force. The contract does not specify disclosure thresholds for quarterly reports. However, MedGenix can counter that calling a 34% efficacy rate 'no material adverse findings' strains credulity. The balance tips slightly to Aether because CRE does not automatically require disclosure of all preliminary data, but this is a closer call.",
+          "Step 5: Evaluation of Claim (iii) — Stronger for MedGenix. Even if the 34% figure was preliminary, characterizing it as 'no material adverse findings' when it fell 11 points below Aether's internal investment threshold is at best misleading and at worst a false statement intended to lull MedGenix into inaction. Combined with the emails, this supports an inference of bad faith.",
+          "Step 6: Overall Judgment — MedGenix has the stronger case overall, primarily because of Claim (i). The internal emails provide direct evidence of a prohibited purpose under Korvath. While Aether's strategic rationale has facial plausibility, the emails rebut it. The false statement (Claim iii) reinforces the inference of bad faith. Claim (ii) is the weakest for MedGenix but need not prevail for MedGenix to win on the central termination issue."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding that Aether wins simply because Section 6.1 grants absolute discretion, without applying the Korvath limitation that prohibits termination for the purpose of appropriating proprietary information",
+          "Treating all three claims as equally strong or weak without distinguishing their individual merits",
+          "Failing to steel-man Aether's position by acknowledging the legitimate strategic rationale for preferring Y-998 over a below-threshold candidate",
+          "Conflating the CRE obligation with the implied covenant, treating them as legally interchangeable claims"
+        ],
+        "required_knowledge": [
+          "Implied covenant of good faith and fair dealing in contract law",
+          "Absolute discretion clauses and their limitations under case law",
+          "Steel-manning opposing legal arguments before evaluation",
+          "Evaluation of evidence strength (internal emails vs. facial contract terms)"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 55
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["legal-argumentation", "implied-covenant", "contract-interpretation", "opposing-arguments"]
+    },
+    {
+      "task_id": "S-PRAX-10A-004",
+      "category": "PRAXIS",
+      "subcategory": "Liability Apportionment — Multi-Party Comparative Fault",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Under the **Torrance Tort Reform Act (TTRA)**, the following rules govern multi-party liability in tort cases:\n\n**Rule 7(a) — Joint and Several Liability:** \"In any action for personal injury or property damage, each defendant found to be 50% or more at fault shall be jointly and severally liable for the total amount of economic damages. Each defendant found less than 50% at fault shall be severally liable only for its proportionate share of economic damages.\"\n\n**Rule 7(b) — Non-Economic Damages:** \"All defendants are severally liable only for their proportionate share of non-economic damages, regardless of fault percentage.\"\n\n**Rule 7(c) — Settlement Credit:** \"If a plaintiff settles with one or more defendants before verdict, the remaining defendants receive a dollar-for-dollar credit against the total verdict for the settlement amount, but only to the extent the settling defendant's fault is not reallocated to non-settling defendants.\"\n\n**Rule 7(d) — Fault Allocation:** \"The trier of fact shall allocate fault percentages among all tortfeasors, including settled defendants, provided that no defendant's allocated fault shall be reduced below 10%.\"\n\n**FACTS:**\nIn a construction site collapse, the jury finds the following:\n- Total economic damages: $4,000,000\n- Total non-economic damages: $6,000,000\n- Fault allocation: Apex Construction (defendant) 45%; Brinkley Engineering (defendant) 35%; Calloway Inspections (settled before trial for $1,000,000) 20%.\n\nBefore trial, Calloway settled for $1,000,000. Apex and Brinkley are the remaining defendants.\n\nUnder the TTRA, what is each remaining defendant's maximum exposure (total dollars they may be required to pay)?\n\nA) Apex: $4,500,000; Brinkley: $3,500,000\n\nB) Apex: $4,050,000; Brinkley: $3,150,000\n\nC) Apex: $3,600,000; Brinkley: $2,800,000\n\nD) Apex: $3,300,000; Brinkley: $2,600,000",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "Show all calculations"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Determine liability type for each remaining defendant. Apex is 45% at fault (below 50%), so under Rule 7(a), Apex is severally liable only for its proportionate share of economic damages. Brinkley is 35% at fault (below 50%), so Brinkley is also severally liable only for its proportionate share of economic damages. Neither defendant triggers joint and several liability.",
+          "Step 2: Calculate each defendant's share of economic damages before credit. Total economic damages = $4,000,000. Apex's share: 45% × $4,000,000 = $1,800,000. Brinkley's share: 35% × $4,000,000 = $1,400,000.",
+          "Step 3: Calculate each defendant's share of non-economic damages. Under Rule 7(b), both are severally liable for their proportionate share of non-economic damages regardless of fault percentage. Apex: 45% × $6,000,000 = $2,700,000. Brinkley: 35% × $6,000,000 = $2,100,000.",
+          "Step 4: Calculate total pre-credit exposure. Apex total = $1,800,000 + $2,700,000 = $4,500,000. Brinkley total = $1,400,000 + $2,100,000 = $3,500,000. Combined exposure = $8,000,000 (which is 80% of the $10,000,000 total damages).",
+          "Step 5: Apply settlement credit under Rule 7(c). Calloway settled for $1,000,000. The rule provides a dollar-for-dollar credit against the total verdict for the settlement amount. The total verdict here is $10,000,000 ($4M economic + $6M non-economic). The credit reduces the total verdict by $1,000,000, yielding $9,000,000 in remaining damages to be borne by the remaining defendants.",
+          "Step 6: Since both remaining defendants are only severally liable, each pays their proportionate share of the reduced total damages. Apex: 45% × $9,000,000 = $4,050,000. Brinkley: 35% × $9,000,000 = $3,150,000.",
+          "Step 7: Verify that Calloway's 20% fault was not reallocated. Rule 7(d) allocates 20% to Calloway, and Rule 7(c) confirms the full $1,000,000 credit applies because that fault was not reallocated to Apex or Brinkley.",
+          "Step 8: Confirm option B matches the calculations exactly."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying joint and several liability to defendants below the 50% threshold, incorrectly making each liable for the full $4M economic damages",
+          "Failing to apply the settlement credit to the total verdict, instead leaving total exposure at $8M",
+          "Reallocating Calloway's 20% fault to Apex and Brinkley (giving them 56.25% and 43.75% respectively), contrary to Rule 7(c)",
+          "Applying the settlement credit only to economic damages and ignoring its effect on non-economic damages"
+        ],
+        "required_knowledge": [
+          "Joint and several liability thresholds and their application",
+          "Several liability for non-economic damages",
+          "Settlement credit mechanics in multi-party torts",
+          "Proportional allocation of reduced damages under several liability"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["liability-apportionment", "joint-and-several", "settlement-credit", "comparative-fault"]
+    },
+    {
+      "task_id": "S-PRAX-10A-005",
+      "category": "PRAXIS",
+      "subcategory": "Copyright Fair Use — Four-Factor Balancing Test",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "The **Aurelian Copyright Act (ACA)** governs fair use in the jurisdiction of Aurelia. The fair use provision states:\n\n**Section 107:** \"Notwithstanding the provisions of sections 106 and 106A, the fair use of a copyrighted work, including such use by reproduction in copies or phonorecords or by any other means specified by that section, for purposes such as criticism, comment, news reporting, teaching (including multiple copies for classroom use), scholarship, or research, is not an infringement of copyright. In determining whether the use made of a work in any particular case is a fair use the factors to be considered shall include —\n\n(1) the purpose and character of the use, including whether such use is of a commercial nature or is for nonprofit educational purposes;\n(2) the nature of the copyrighted work;\n(3) the amount and substantiality of the portion used in relation to the copyrighted work as a whole; and\n(4) the effect of the use upon the potential market for or value of the copyrighted work.\"\n\n**FACTS:**\nCinema Scholar Dr. Elena Voss has produced a 95-minute documentary film titled \"The Chromatic Narrative: How Color Grading Shapes Modern Cinema.\" The film is distributed commercially via streaming platforms for $4.99 per rental. It has generated $180,000 in revenue.\n\nTo illustrate her thesis, Dr. Voss includes 52 clips from commercially released narrative films. Each clip ranges from 38 seconds to 2 minutes 15 seconds in length. The average clip duration is 72 seconds. None of the clips exceed 3% of the total runtime of the source film. Collectively, the 52 clips comprise approximately 62 minutes of the 95-minute documentary.\n\nThe clips are not presented sequentially from any single film; instead, they are interspersed with Dr. Voss's voice-over commentary, interviews with cinematographers, and side-by-side comparisons showing how different directors use similar color palettes. In several instances, Dr. Voss freeze-frames a clip and draws digital annotations directly on the image to highlight specific lighting techniques.\n\nThe copyrighted films from which the clips are taken are all fictional narrative works (dramas, thrillers, science fiction). They were released between 2018 and 2023. Two of the films are part of active licensing agreements with a stock footage agency that sells high-definition film clips to other documentary producers for $250-$500 per 30-second segment. The copyright holders have refused to license clips to Dr. Voss at any price, stating that her film 'competes with our own behind-the-scenes documentaries about cinematography.'\n\nDr. Voss's documentary has received positive reviews from film critics but has also been criticized by one studio executive who stated: 'She's using our most visually striking scenes to sell her own movie. People will watch her film instead of buying ours.' Market research commissioned by the copyright holders shows that 8% of viewers who watched Dr. Voss's documentary subsequently chose not to purchase or stream the source films, citing that they had 'seen the best parts.'\n\n**STATEMENT TO EVALUATE:** \"Under the ACA's four-factor fair use test, Dr. Voss's use of the 52 film clips qualifies as fair use.\"\n\nIs this statement true or false? Provide a thorough justification that weighs ALL FOUR factors and reaches a reasoned conclusion.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Begin with a clear TRUE or FALSE determination",
+        "Address all four fair use factors in order",
+        "Weigh conflicting indicators within each factor rather than treating each factor as purely favoring one side",
+        "Conclude with an overall balancing of the four factors"
+      ],
+      "ground_truth": {
+        "answer": "FALSE",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Factor 1 — Purpose and Character. The documentary is transformative: it uses clips to comment on and analyze color grading techniques, not to exploit the films' entertainment value. The inclusion of commentary, interviews, and annotations supports transformative purpose. However, the use is commercial (sold for $4.99, generated $180,000). The Supreme Court of Aurelia has held that commercial use weighs against fair use but is not dispositive. This factor slightly favors fair use but is not strongly favorable.",
+          "Step 2: Factor 2 — Nature of the Copyrighted Work. All 52 films are fictional narrative works, which are highly creative and lie at the core of copyright protection. This factor weighs against fair use. The fact that the films were publicly released does not significantly diminish this weight.",
+          "Step 3: Factor 3 — Amount and Substantiality. While no individual clip exceeds 3% of its source film, the clips collectively comprise 62 minutes of a 95-minute documentary — roughly 65% of the documentary's runtime. Moreover, the clips selected are described as 'the most visually striking scenes' and are the 'best parts' of the films. This suggests that even small quantitative excerpts may capture the qualitative heart of the works. The extensive aggregate use and the selection of key scenes weigh heavily against fair use.",
+          "Step 4: Factor 4 — Market Effect. There is direct evidence of market harm: 8% of viewers avoided purchasing the source films after watching the documentary. Additionally, the copyright holders have active licensing agreements for clips at $250-$500 per 30 seconds, and Dr. Voss's use supplants this market. The studio executive's statement, while self-serving, is supported by market research. The documentary also competes with the copyright holders' own behind-the-scenes documentaries. This factor weighs strongly against fair use.",
+          "Step 5: Balancing — While Factor 1 marginally favors fair use due to transformative purpose, Factors 2, 3, and 4 all weigh against it. Factor 4 (market harm) is particularly significant because it is both demonstrated by empirical evidence and involves supplanting an existing licensing market. Factor 3 is also strongly negative due to the aggregate volume and qualitative substantiality. The statement that the use qualifies as fair use is FALSE."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Declaring the use fair simply because it is a documentary or educational, ignoring the commercial nature and the quantitative/substantiality concerns",
+          "Focusing only on the small percentage of each individual film used (3%) while ignoring that clips comprise 65% of the documentary's total runtime",
+          "Dismissing the 8% market harm as de minimis without recognizing that demonstrated market harm is highly dispositive in fair use analysis",
+          "Concluding that transformative purpose automatically outweighs all other factors"
+        ],
+        "required_knowledge": [
+          "Four-factor fair use balancing test",
+          "Distinction between quantitative and qualitative substantiality",
+          "Market harm analysis including licensing market supplantation",
+          "Transformative use doctrine and its interaction with commercial use"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["fair-use", "copyright", "four-factor-test", "market-harm"]
+    },
+    {
+      "task_id": "S-PRAX-10A-006",
+      "category": "PRAXIS",
+      "subcategory": "Error Detection — Flawed Legal Reasoning and Rule Misapplication",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "The following is a legal memorandum analyzing a contract dispute. It contains multiple errors in legal reasoning, including logical fallacies and misapplications of legal rules. The governing law is provided.\n\n**GOVERNING LAW — The Valerian Commercial Code (VCC):**\n\n**VCC § 2-202 (Parol Evidence):** \"Terms with respect to which the confirmatory memoranda of the parties agree or which are otherwise set forth in a writing intended by the parties as a final expression of their agreement with respect to such terms as are included therein may not be contradicted by evidence of any prior agreement or of a contemporaneous oral agreement but may be explained or supplemented by course of dealing or usage of trade or by course of performance.\"\n\n**VCC § 2-207 (Battle of the Forms):** \"A definite and seasonable expression of acceptance or a written confirmation which is sent within a reasonable time operates as an acceptance even though it states terms additional to or different from those offered or agreed upon, unless acceptance is expressly made conditional on assent to the additional or different terms.\"\n\n**VCC § 2-208 (Course of Performance):** \"Where the contract for sale involves repeated occasions for performance by either party with knowledge of the nature of the performance and opportunity for objection to it by the other, any course of performance accepted or acquiesced in without objection shall be relevant to determine the meaning of the agreement.\"\n\n**MEMORANDUM:**\n\n*TO: Senior Partner*\n*FROM: Associate*\n*RE: Thorne Industries v. Meridian Steel — Contract Interpretation*\n\n**Issue:** Whether Thorne Industries can enforce a price-adjustment clause in a written supply contract when Meridian Steel claims the clause was orally modified by a subsequent phone call.\n\n**Analysis:**\n\n1. Thorne and Meridian entered a written supply contract on January 10. The contract contained a price-adjustment clause tied to raw material indices.\n\n2. On January 15, Meridian's procurement director called Thorne's sales manager and allegedly agreed to waive the price-adjustment clause for Q1 in exchange for faster delivery.\n\n3. Under VCC § 2-202, the written contract is the final expression of the parties' agreement. Therefore, the oral modification on January 15 is barred by the parol evidence rule. The parol evidence rule prevents ANY oral evidence from being admitted once a written contract exists.\n\n4. Even if the court considered the phone call, Thorne's sales manager never sent a written confirmation of the oral modification. Under VCC § 2-207, an acceptance must be in writing to be effective. Since there was no written confirmation, no modification occurred.\n\n5. Furthermore, Thorne delivered goods under the original contract terms in February and March without invoking the price-adjustment clause. Under VCC § 2-208, this course of performance proves that Thorne acquiesced to the waiver. If Thorne accepted the waiver through performance, then the price-adjustment clause is unenforceable now.\n\n6. Therefore, Thorne cannot enforce the price-adjustment clause because: (a) the parol evidence rule bars the oral modification evidence; (b) there was no written confirmation under § 2-207; AND (c) Thorne's own course of performance waived the clause. Since all three reasons independently support Meridian's position, Thorne's claim must fail.\n\n**TASK:** Identify and explain at least THREE distinct errors in the associate's legal reasoning. For each error

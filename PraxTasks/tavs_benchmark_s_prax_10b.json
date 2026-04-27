@@ -1,0 +1,415 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-10B",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Legal Reasoning \u2014 Contract Analysis, Regulatory Compliance, Legal Argumentation",
+    "generated_at": "2026-04-25T22:20:00+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-10B-001",
+      "category": "PRAXIS",
+      "subcategory": "Statutory Interpretation \u2014 Canons of Construction",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "The following statute governs traffic in the Central District elevated walkways:\n\nSection 47.3(a): \"No person shall operate a motor vehicle, horse-drawn carriage, steam locomotive, or other similar conveyance upon the elevated pedestrian walkways of the Central District during the hours of 0800 to 1800.\"\n\nThe term \"conveyance\" is not otherwise defined in the statute. The legislative history contains no discussion of autonomous or hover vehicles.\n\nFacts: At 1430 on a Tuesday, AeroGlide Inc. deploys its Model-X hover-glider on the Central District elevated walkway. The Model-X has no wheels, no motor, no steam engine, and no horse. It travels on a cushion of pressurized air approximately 15 centimeters above the walkway surface. It is remotely piloted by an operator standing on an adjacent building. The Model-X weighs 180 kilograms and transports a single passenger.\n\nQuestion: Applying the canons of statutory construction (including ejusdem generis and noscitur a sociis), is the Model-X prohibited by Section 47.3(a)? Select the best answer and briefly explain your reasoning.\n\nA) Yes, because the statute uses the disjunctive \"or\" before \"other similar conveyance,\" making the catch-all clause independent of the enumerated items.\nB) No, because under ejusdem generis, \"other similar conveyance\" must share the essential characteristics of the enumerated items (motor vehicle, horse-drawn carriage, steam locomotive), all of which are heavy, ground-contacting, wheeled vehicles powered by motor, animal, or steam; the hover-glider shares none of these characteristics.\nC) Yes, because the statute's purpose is to protect pedestrian safety, and a 180-kilogram passenger-carrying vehicle hovering above the walkway poses the same dangers as the enumerated items.\nD) No, because the Model-X is not \"operated\" by a person upon the walkway; the operator is on an adjacent building and the glider never contacts the walkway surface.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "Your explanation must explicitly reference at least one canon of construction."
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the canon of ejusdem generis: when a general word or phrase follows a list of specific items, the general word is construed to cover only items similar in nature to the specific items enumerated.",
+          "Step 2: Identify the canon of noscitur a sociis: a word is known by the company it keeps, meaning the meaning of an ambiguous term is informed by the surrounding words.",
+          "Step 3: Apply ejusdem generis to the enumerated list: 'motor vehicle, horse-drawn carriage, steam locomotive' all share the essential characteristics of (i) contacting the ground surface, (ii) being wheeled, and (iii) being powered by a motor, animal, or steam engine.",
+          "Step 4: Determine whether the Model-X shares these characteristics: it has no wheels, makes no ground contact, and is powered by pressurized air rather than motor, animal, or steam.",
+          "Step 5: Conclude that the Model-X does not fall within 'other similar conveyance' as construed by ejusdem generis.",
+          "Step 6: Evaluate the distractors: (A) misreads the disjunctive 'or' as negating the canon, which is incorrect\u2014ejusdem generis applies to catch-all phrases regardless of conjunction; (C) relies on purposivism without applying the textual canon, and safety purpose alone does not override the textual limitation; (D) raises a plausible but weaker argument because 'operate' and 'upon' are broad enough to include remote-controlled hovering vehicles, making the canon-based analysis in (B) the stronger and more legally precise answer."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting (A) because the disjunctive 'or' is mistakenly thought to isolate the catch-all clause from the enumerated list, ignoring that ejusdem generis applies to 'or' lists as well as 'and' lists.",
+          "Selecting (C) based on a broad purposive reading of pedestrian safety without engaging the specific textual canons required by the question.",
+          "Selecting (D) by engaging in hyper-literal parsing of 'upon' while ignoring the more fundamental statutory construction issue that the hover-glider is not a 'similar conveyance' in the first place."
+        ],
+        "required_knowledge": [
+          "Ejusdem generis canon",
+          "Noscitur a sociis canon",
+          "Distinction between purposive and textual statutory interpretation"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["statutory-interpretation", "ejusdem-generis", "noscitur-a-sociis", "multiple-choice"]
+    },
+    {
+      "task_id": "S-PRAX-10B-002",
+      "category": "PRAXIS",
+      "subcategory": "Contract Analysis \u2014 Interacting Clauses",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Consider the following provisions from a Software Licensing Agreement between Licensor (Vertex Corp) and Licensee (DataStream LLC):\n\nClause 3.4: \"Licensee shall submit a certified usage report to Licensor within 10 business days following the end of each calendar quarter.\"\n\nClause 7.1: \"Either party may terminate this agreement for convenience upon 60 days written notice.\"\n\nClause 7.2: \"If Licensee fails to submit the quarterly usage report by the applicable deadline, Licensor may terminate this agreement immediately without cure period.\"\n\nClause 9.3: \"Notwithstanding any other provision in this agreement, neither party may terminate this agreement during a Force Majeure Event as defined in Section 12. A Force Majeure Event includes floods, earthquakes, hurricanes, and other catastrophic natural events beyond the reasonable control of the affected party.\"\n\nFacts: The first calendar quarter ends on March 31. The usage report is due by April 14 (10 business days later). A catastrophic flood damages Licensee's primary data center on April 8. The flood is classified as a Force Majeure Event under Section 12 and subsides on April 18. Licensee is unable to generate the usage report due to flood-damaged servers and does not submit the report by April 14. On April 15, Licensor sends a notice of immediate termination under Clause 7.2. Licensee disputes the termination, citing Clause 9.3.\n\nQuestion: Under the given contract terms, Licensor would prevail in this dispute. State whether this statement is True or False, and provide a concise legal justification.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "State 'True' or 'False' as your first word.",
+        "Justification must cite specific contract language.",
+        "Maximum 150 words for the justification."
+      ],
+      "ground_truth": {
+        "answer": "False",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the relevant provisions: Clause 7.2 permits immediate termination for failure to submit the quarterly report by the deadline (April 14).",
+          "Step 2: Identify Clause 9.3: 'Notwithstanding any other provision... neither party may terminate this agreement during a Force Majeure Event.' The flood is a Force Majeure Event subsisting from April 8 to April 18.",
+          "Step 3: Recognize that the phrase 'Notwithstanding any other provision' in Clause 9.3 creates a hierarchical override: it expressly supersedes all other termination provisions, including Clause 7.2, during a Force Majeure Event.",
+          "Step 4: Determine that Licensor's attempted termination on April 15 occurred during the Force Majeure Event (April 8-18).",
+          "Step 5: Conclude that Clause 9.3 prohibits the termination, so Licensor does not prevail. The statement is False."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Answering True by focusing only on Clause 7.2 and ignoring the override effect of Clause 9.3.",
+          "Answering True by arguing that the Force Majeure Event 'caused' the breach and therefore excuses the breach but not the termination right, misreading Clause 9.3 which bars termination during the event itself.",
+          "Concluding that the 10-day deadline is a strict condition precedent that cannot be tolled, conflating procedural deadlines with termination prohibitions."
+        ],
+        "required_knowledge": [
+          "Interpretation of 'notwithstanding' clauses as hierarchical overrides",
+          "Force majeure provisions in contract termination contexts",
+          "Temporal scope of contractual prohibitions"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["contract-analysis", "interacting-clauses", "force-majeure", "termination"]
+    },
+    {
+      "task_id": "S-PRAX-10B-003",
+      "category": "PRAXIS",
+      "subcategory": "Liability Analysis \u2014 Apportionment Doctrines",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "The following rule governs multi-party tort liability in the jurisdiction of Veridiana:\n\n'ort Liability Reform Act, Section 8.2: In any action involving multiple tortfeasors, the court shall apportion fault among all parties, including third-party defendants. Each tortfeasor shall be jointly and severally liable for the entire judgment. Any tortfeasor who pays more than its proportionate share may recover contribution from other tortfeasors. However, if a tortfeasor is insolvent or uncollectible, the remaining tortfeasors shall bear the insolvent party's share proportionally among themselves, based on their relative percentages of fault.'\n\nFacts: In a products liability action, the jury finds the following fault apportionment for $2,400,000 in total damages:\n- Manufacturer (SolvCorp): 40% at fault.\n- Distributor (MidChain LLC): 30% at fault.\n- Retailer (ShopRight Inc.): 30% at fault.\n\nAfter judgment, SolvCorp declares bankruptcy and is adjudicated insolvent. Plaintiff collects $1,200,000 from MidChain and $1,200,000 from ShopRight. MidChain then files a contribution action against ShopRight to recover amounts it paid above its proportionate share.\n\nQuestion: After all contribution claims are resolved, what is the total amount that MidChain will have paid?\n\nA) $720,000\nB) $960,000\nC) $1,200,000\nD) $2,400,000",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option.",
+        "Show all mathematical steps in your reasoning."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Calculate each party's proportionate share: Manufacturer = 40% of $2,400,000 = $960,000; MidChain = 30% = $720,000; ShopRight = 30% = $720,000.",
+          "Step 2: Apply the rule that when a tortfeasor is insolvent, the remaining tortfeasors bear the insolvent party's share proportionally among themselves based on their relative fault percentages.",
+          "Step 3: Determine the relative fault ratio between the remaining solvent tortfeasors: MidChain (30%) and ShopRight (30%) have a 1:1 ratio.",
+          "Step 4: Allocate the Manufacturer's $960,000 insolvent share equally between MidChain and ShopRight: $960,000 / 2 = $480,000 each.",
+          "Step 5: Calculate MidChain's total exposure: its original proportionate share ($720,000) plus its allocation of the insolvent share ($480,000) = $1,200,000.",
+          "Step 6: Verify: MidChain paid $1,200,000 to plaintiff. After contribution, it bears exactly $1,200,000. ShopRight similarly bears $720,000 + $480,000 = $1,200,000. Total collected by plaintiff = $2,400,000."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def verify():\n    total_damages = 2_400_000\n    shares = {'Manufacturer': 0.40, 'MidChain': 0.30, 'ShopRight': 0.30}\n    proportionate = {k: v * total_damages for k, v in shares.items()}\n    insolvent_share = proportionate['Manufacturer']\n    solvent_ratio = shares['MidChain'] / (shares['MidChain'] + shares['ShopRight'])\n    midchain_extra = insolvent_share * solvent_ratio\n    midchain_total = proportionate['MidChain'] + midchain_extra\n    assert midchain_total == 1_200_000\n    return midchain_total\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting (A) by using only the proportionate share and ignoring the insolvency reallocation rule entirely.",
+          "Selecting (B) by mistakenly assigning the Manufacturer's entire 40% share to MidChain instead of splitting it proportionally.",
+          "Selecting (D) by assuming joint and several liability without contribution, or by failing to account for the statutory reallocation mechanism."
+        ],
+        "required_knowledge": [
+          "Joint and several liability with contribution",
+          "Proportional reallocation of insolvent tortfeasor's share",
+          "Relative fault calculation among solvent parties"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["liability-apportionment", "joint-and-several", "insolvency", "contribution"]
+    },
+    {
+      "task_id": "S-PRAX-10B-004",
+      "category": "PRAXIS",
+      "subcategory": "Intellectual Property \u2014 Patent Claim Interpretation",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "The following is Claim 1 of U.S. Patent No. 9,876,543, titled \"Sealed Container Apparatus\":\n\n'A container sealing apparatus comprising:\n(a) a rigid base member having a planar sealing surface;\n(b) an elastomeric gasket affixed to said sealing surface and forming a continuous loop;\n(c) a compression mechanism operable to apply a downward force of at least 50 Newtons uniformly across the entire gasket; and\n(d) a pressure sensor configured to generate a termination signal when the downward force reaches a predetermined threshold between 50 and 100 Newtons.'\n\nThe patent specification defines 'uniformly' as 'substantially even distribution of force such that no point on the gasket receives less than 90% of the maximum force applied.' The specification also clarifies that 'configured to' requires that the element be designed to perform the stated function under normal operating conditions.\n\nAccused Product: The 'SeaLock 3000,' manufactured by AquaTech Industries, has the following characteristics:\n- It uses a rigid titanium base with a planar sealing surface.\n- It uses a silicone gasket glued to the sealing surface, forming a continuous oval loop.\n- It employs a pneumatic piston as a compression mechanism. Independent testing reveals that the piston applies 55 Newtons along the long axis of the oval gasket but only 44 Newtons along the short axis under normal operating conditions.\n- It contains a load cell that sends a digital 'stop' command when detected force exceeds 50 Newtons. Due to a 200-millisecond pneumatic delay in the system, the piston does not physically stop until the force has climbed to approximately 78 Newtons.\n\nQuestion: Analyze whether the SeaLock 3000 literally infringes Claim 1. Address each claim limitation (a) through (d) individually, applying the doctrine of literal infringement (all-elements rule). Provide a final conclusion with reasoning.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Address each limitation (a), (b), (c), and (d) separately.",
+        "Apply the all-elements rule for literal infringement.",
+        "Final answer must state 'Literally infringes' or 'Does not literally infringe' with justification."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: State the all-elements rule: literal infringement requires that the accused product contain every limitation of the claim, either literally or by equivalence.",
+          "Step 2: Analyze limitation (a): The SeaLock 3000 has a rigid titanium base with a planar sealing surface. This satisfies limitation (a) literally.",
+          "Step 3: Analyze limitation (b): The SeaLock 3000 has a silicone gasket (elastomeric) glued (affixed) to the surface, forming a continuous oval loop. An oval is a continuous loop. This satisfies limitation (b) literally.",
+          "Step 4: Analyze limitation (c): The claim requires a compression mechanism 'operable to apply a downward force of at least 50 Newtons uniformly across the entire gasket.' The specification defines 'uniformly' as requiring no point to receive less than 90% of the maximum force. The maximum force is 55N; 90% of 55N is 49.5N. The short axis receives only 44N, which is less than 49.5N and also less than 50N. Therefore, the SeaLock 3000 does not apply at least 50N uniformly across the entire gasket. Limitation (c) is not met.",
+          "Step 5: Analyze limitation (d): The claim requires a pressure sensor 'configured to generate a termination signal when the downward force reaches a predetermined threshold between 50 and 100 Newtons.' The SeaLock 3000's load cell is designed to send a 'stop' command when force exceeds 50N. Under the specification's definition of 'configured to,' this means the element is designed to perform the function under normal operating conditions. The 200ms delay causing force to climb to 78N is an operational characteristic of the pneumatic system, not a failure of the sensor's configuration. The sensor is configured to trigger at a threshold (exceeding 50N) within the 50-100N range. Limitation (d) is satisfied.",
+          "Step 6: Apply the all-elements rule: Because limitation (c) is not met, the SeaLock 3000 does not literally infringe Claim 1."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding that limitation (c) is met by focusing only on the 55N figure and ignoring the 'uniformly across the entire gasket' requirement.",
+          "Concluding that limitation (d) is not met by conflating the sensor's configuration with the downstream pneumatic delay, treating the system's overall behavior as negating the sensor's design.",
+          "Finding non-infringement on limitation (b) by arguing that an oval is not a 'loop,' which is an overly aggressive claim construction."
+        ],
+        "required_knowledge": [
+          "All-elements rule for literal patent infringement",
+          "Claim construction using patent specification definitions",
+          "Distinction between an element's configuration and downstream system behavior"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["patent-infringement", "claim-interpretation", "all-elements-rule", "open-ended"]
+    },
+    {
+      "task_id": "S-PRAX-10B-005",
+      "category": "PRAXIS",
+      "subcategory": "Legal Argumentation \u2014 Error Detection",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the following statute and the legal argument that follows it.\n\nStatute (Robotics Employment Act, Section 15): 'No commercial establishment shall employ more than three autonomous robotic systems for inventory management purposes unless such establishment obtains a special variance from the Robotics Oversight Board.'\n\nFacts: MegaMart operates a retail store. It uses the following autonomous robotic systems in its store:\n- Two robotic shelf-stockers that place items on shelves. These are clearly used for inventory management.\n- One autonomous floor-cleaning robot. The robot's manufacturer markets it as a cleaning device. However, MegaMart has programmed it to scan shelf tags during its cleaning route and to transmit inventory discrepancy reports to the store manager.\n- One autonomous drone in the backroom stock area that counts boxes and updates the inventory database.\n\nMegaMart has not obtained a variance.\n\nArgument by MegaMart's Counsel:\n'MegaMart does not need a variance. The statute prohibits employing more than three autonomous robotic systems \"for inventory management purposes.\" The floor-cleaning robot's primary purpose is cleaning, not inventory management, as evidenced by its manufacturer's specifications and its core design. Therefore, it does not count toward the three-robot limit. The backroom drone counts boxes, but the phrase \"inventory management purposes\" refers only to front-of-store shelf inventory tracking, not backroom stock counting, which is a distinct logistical function. Consequently, only the two shelf-stockers count, which is not more than three.'\n\nQuestion: Identify the specific logical or legal reasoning flaw in this argument. Your answer should precisely name the error and explain why it undermines the argument.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify exactly one primary flaw.",
+        "Your explanation must reference the statutory text explicitly."
+      ],
+      "ground_truth": {
+        "answer": "The argument commits the fallacy of substituting a device's primary design purpose for the statutory inquiry of whether it is 'employed for inventory management purposes.' The statute asks whether a robotic system is employed for inventory management, not whether inventory management is its primary purpose or design function. Because MegaMart in fact employs the floor-cleaning robot to scan shelf tags and report inventory discrepancies, and employs the drone to count boxes and update inventory records, both systems are employed for inventory management purposes and must be counted, bringing the total to four.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the statutory test: the statute prohibits employing robotic systems 'for inventory management purposes.' This is an objective inquiry into the use to which the system is put by the employer.",
+          "Step 2: Identify the argument's substitution: counsel replaces the statutory test with a 'primary purpose' test based on manufacturer specifications and core design.",
+          "Step 3: Recognize this as a misapplication of the statutory element: the argument confuses a device's design classification with its actual employment purpose.",
+          "Step 4: Note the secondary arbitrary distinction: counsel also creates an unjustified carve-out for backroom stock counting that narrows 'inventory management' without textual support.",
+          "Step 5: Conclude that both the floor-cleaning robot and the drone are employed for inventory management, making the total four, which exceeds the statutory limit."
+        ],
+        "verification_method": "llm_judge",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Identifying the flaw as merely 'the backroom drone counts inventory too,' without identifying the deeper structural error of substituting primary purpose for employment purpose.",
+          "Calling the argument a 'straw man' or 'ad hominem' when it is actually a misapplication of a statutory element or question-begging definition.",
+          "Focusing on the ejusdem generis canon when the enumerated list is nonexistent and the flaw is purely in the statutory element application."
+        ],
+        "required_knowledge": [
+          "Statutory element analysis",
+          "Distinction between design purpose and actual use/employment",
+          "Logical fallacies in legal reasoning (question-begging, definitional gerrymandering)"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "statutory-interpretation", "logical-fallacy", "misapplication"]
+    },
+    {
+      "task_id": "S-PRAX-10B-006",
+      "category": "PRAXIS",
+      "subcategory": "Intellectual Property \u2014 Copyright Fair Use",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "The Copyright Act provides that the fair use of a copyrighted work for purposes such as criticism, comment, news reporting, teaching, scholarship, or research is not an infringement. In determining whether a use is fair, the following four factors must be considered:\n\nFactor (1): The purpose and character of the use, including whether such use is of a commercial nature or is for nonprofit educational purposes, and whether the use is transformative.\nFactor (2): The nature of the copyrighted work, including whether it is factual or fictional, published or unpublished.\nFactor (3): The amount and substantiality of the portion used in relation to the copyrighted work as a whole, including whether the portion used constitutes the 'heart' of the work.\nFactor (4): The effect of the use upon the potential market for or value of the copyrighted work, including whether the use displaces a traditional, reasonably developed licensing market.\n\nFacts:\n- Zara Chen is an independent documentary filmmaker. She created a 95-minute documentary titled 'Echoes of the Grid: A History of Urban Electrical Infrastructure.'\n- The documentary has been licensed to a commercial streaming service for $450,000 and is also screened in university engineering courses.\n- In the documentary, Zara included a 4.5-minute uninterrupted clip from the fictional narrative film 'Neon Dreams' (total runtime 118 minutes). 'Neon Dreams' is a highly creative, fictional drama.\n- The clip depicts the film's protagonist, a power-plant worker, having an emotional breakdown in a control room. This scene is widely regarded by critics and audiences as the emotional climax and most memorable scene of 'Neon Dreams.'\n- Zara uses the clip to illustrate her commentary on how popular culture romanticizes and dramatizes industrial labor. The clip is accompanied by her voice-over narration analyzing the scene's cinematic techniques and cultural significance.\n- The rights holder of 'Neon Dreams' maintains an active clip-licensing program for documentary filmmakers, typically charging between $15,000 and $25,000 per minute of footage. Since the release of 'Echoes of the Grid,' the rights holder has documented three documentary producers who declined to license the clip after learning it had appeared in Zara's film without a license.\n\nQuestion: Conduct a thorough fair use analysis by applying all four statutory factors to these facts. Weigh the factors and state whether Zara's use is likely to be found fair use. Your analysis must address each factor individually and explain how they interact.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Address all four factors individually and explicitly.",
+        "Explain the interaction and weighing of the factors.",
+        "Conclude with a clear 'likely fair use' or 'likely not fair use' statement."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the framework: Fair use is a case-by-case balancing test requiring analysis of all four factors and their interaction.",
+          "Step 2: Analyze Factor (1) Purpose and Character: Zara's use has some transformative purpose (commenting on cultural romanticization of industrial labor and analyzing cinematic technique). However, the documentary is commercial (licensed to streaming for $450,000). The transformative aspect is weakened because the clip is used as an illustration rather than being heavily altered or critically reworked. Factor (1) is either neutral or slightly favors fair use, but not strongly.",
+          "Step 3: Analyze Factor (2) Nature of the Work: 'Neon Dreams' is a highly creative, fictional narrative film. Creative works receive stronger copyright protection than factual works. This factor weighs against fair use.",
+          "Step 4: Analyze Factor (3) Amount and Substantiality: Quantitatively, 4.5 minutes out of 118 minutes is approximately 3.8%. However, qualitatively, the clip is the emotional climax and 'heart of the work'\u2014the most memorable and valuable scene. Taking the heart of the work weighs strongly against fair use regardless of the small percentage.",
+          "Step 5: Analyze Factor (4) Market Effect: There is direct evidence of market harm. The rights holder maintains a traditional, reasonably developed licensing market for documentary clips at $15,000-$25,000 per minute. Three prospective licensees declined to pay after the unlicensed use appeared. This demonstrates displacement of the licensing market and weighs strongly against fair use.",
+          "Step 6: Weigh the factors: Factor (1) provides limited support. Factor (2) opposes. Factor (3) strongly opposes due to the heart-of-the-work doctrine. Factor (4) strongly opposes due to demonstrated market substitution. The transformative purpose in Factor (1) is insufficient to overcome the strong negative weight of Factors (2), (3), and (4).",
+          "Step 7: Conclude that Zara's use is likely NOT fair use."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding fair use based primarily on the 3.8% quantitative amount while ignoring the qualitative 'heart of the work' analysis under Factor (3).",
+          "Treating the transformative purpose in Factor (1) as dispositive without adequately weighing the demonstrated market harm under Factor (4).",
+          "Failing to recognize that the existence of a traditional licensing market for documentary clips is fatal to a fair use defense under Factor (4).",
+          "Conflating the educational screenings with the primary commercial streaming purpose, leading to an incorrect non-profit characterization."
+        ],
+        "required_knowledge": [
+          "Four-factor fair use test",
+          "Transformative use doctrine",
+          "Heart-of-the-work doctrine",
+          "Market displacement and licensing market analysis"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["copyright", "fair-use", "four-factors", "market-harm", "open-ended"]
+    },
+    {
+      "task_id": "S-PRAX-10B-007",
+      "category": "PRAXIS",
+      "subcategory": "Contract Analysis \u2014 Opposing Arguments",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "The following provisions are from a Pharmaceutical Distribution Agreement between Manufacturer (Vitalis Pharma) and Distributor (ColdChain Logistics):\n\nClause 4.1: 'Distributor shall maintain all products in climate-controlled storage between 2\u00b0C and 8\u00b0C at all times while in Distributor's possession.'\n\nClause 4.2: 'Distributor shall not be liable for temperature excursions caused by Acts of God, provided Distributor gives written notice to Manufacturer within 24 hours of discovering the excursion.'\n\nClause 8.1: 'In the event of a temperature excursion, regardless of the cause of the excursion, Distributor shall, at its sole expense, either (a) replace the affected products with conforming products, or (b) reimburse Manufacturer for the wholesale value of the affected products. Distributor shall complete replacement or reimbursement within 15 business days of the excursion.'\n\nClause 9.3: 'The provisions of Sections 4 and 8 shall be construed independently, and no provision shall be construed to limit the obligation of another provision unless expressly stated.'\n\nFacts: On June 12, a lightning strike (an Act of God) causes a refrigeration unit failure at ColdChain's warehouse. The temperature rises to 15\u00b0C for approximately 6 hours. Two hundred vials of vaccine are affected. ColdChain discovers the excursion on June 13 and gives written notice to Vitalis within 24 hours. ColdChain refuses to replace or reimburse, citing Clause 4.2. Vitalis sues for reimbursement under Clause 8.1.\n\nQuestion: Construct the strongest possible legal argument for ColdChain (Distributor) and the strongest possible legal argument for Vitalis (Manufacturer). Then evaluate which argument is stronger and predict the most likely outcome. Your evaluation must address the interaction of Clauses 4.2, 8.1, and 9.3.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Present ColdChain's strongest argument first, then Vitalis's strongest argument.",
+        "Your evaluation must explicitly apply rules of contract interpretation (e.g., specific vs. general, plain meaning, harmonization).",
+        "Conclude with a predicted outcome and confidence level."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify ColdChain's strongest argument: Clause 4.2 explicitly excuses liability for temperature excursions caused by Acts of God with proper notice. Under the canon of interpretation that specific provisions control general provisions, Clause 4.2 (specifically addressing liability for Acts of God) should control over Clause 8.1 (general reimbursement obligation). ColdChain can argue that 'liability' in 4.2 encompasses the financial obligation to reimburse, and that 8.1's 'regardless of the cause' must be read subject to the specific excuse in 4.2. ColdChain can also argue that construing 8.1 as absolute would render 4.2 meaningless, violating the rule against surplusage.",
+          "Step 2: Identify Vitalis's strongest argument: Clause 8.1 uses unambiguous mandatory language ('shall, at its sole expense') and explicitly states 'regardless of the cause of the excursion.' This creates an independent, non-fault-based contractual obligation to cure temperature excursions by replacement or reimbursement. Clause 4.2 only addresses 'liability' (damages for breach of Clause 4.1), not independent affirmative obligations to cure. Clause 9.3 reinforces that 8.1 is independent and cannot be limited by Clause 4.2. Under the plain meaning rule, 'regardless of the cause' admits no exceptions. The specific-vs.-general canon actually favors Vitalis because 8.1 specifically addresses the remedy for temperature excursions, while 4.2 is a general liability limitation.",
+          "Step 3: Evaluate the arguments: The Manufacturer's argument is stronger. Clause 8.1 is a specific provision governing the consequence of a temperature excursion (replace or reimburse). Clause 4.2 is a general limitation on liability for breach. In contract interpretation, a specific remedy provision typically controls over a general liability limitation. Moreover, Clause 9.3 explicitly prevents provisions in Section 4 from limiting obligations in Section 8. Clause 4.2 does not become surplusage because it still protects ColdChain from additional consequential damages claims for breach of Clause 4.1 beyond the replacement/reimbursement obligation. The 'regardless of the cause' language is unambiguous and would be given effect under the plain meaning rule.",
+          "Step 4: Predict the outcome: The court is likely to hold that ColdChain must replace or reimburse under Clause 8.1, and that Clause 4.2 does not excuse this independent contractual obligation."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Failing to steel-man ColdChain's argument by ignoring the specific-vs.-general canon and the rule against surplusage.",
+          "Concluding for ColdChain without adequately addressing the mandatory 'regardless of the cause' language and Clause 9.3's independence provision.",
+          "Treating Clause 4.2 as completely negating Clause 8.1 without explaining how Clause 9.3 allows such a reading.",
+          "Confusing 'liability' with 'obligation,' failing to recognize that contract law distinguishes between damages liability and independent contractual duties to cure."
+        ],
+        "required_knowledge": [
+          "Specific vs. general provisions canon",
+          "Rule against surplusage",
+          "Plain meaning rule",
+          "Distinction between liability for damages and independent contractual obligations",
+          "Contract harmonization principles"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["contract-analysis", "opposing-arguments", "interpreting-clauses", "open-ended"]
+    },
+    {
+      "task_id": "S-PRAX-10B-008",
+      "category": "PRAXIS",
+      "subcategory": "Regulatory Compliance \u2014 Statutory Scheme Application",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "The Urban Transit Authority (UTA) Permit Act governs exclusive operating permits for micro-transit vehicles. The following provisions apply:\n\nSection 5.1: 'The UTA may grant an exclusive operating permit for micro-transit vehicles within a designated zone if the applicant demonstrates all of the following:\n(A) Fleet capacity of at least 50 vehicles;\n(B) A safety record with no more than 0.5 reportable incidents per 10,000 vehicle-miles traveled over the preceding 24 months;\n(C) Compliance with all municipal noise ordinances; and\n(D) Proof of comprehensive liability insurance covering bodily injury in amounts not less than $2,000,000 per occurrence.'\n\nSection 14.2: 'No permit shall be granted to any applicant that has been found liable for a willful violation of any environmental statute within the 36 months preceding the application.'\n\nSection 14.3: 'The UTA may waive requirement (A) if the applicant operates exclusively zero-emission vehicles and demonstrates that the proposed fleet size is sufficient to meet projected demand within the designated zone.'\n\nSection 14.4: 'For purposes of Section 14.2, a willful violation includes only violations adjudicated by a court of competent jurisdiction or affirmed by the Environmental Review Board after a full administrative hearing.'\n\nFacts: GreenGlide Transit applies for a UTA permit. Its application contains the following information:\n- GreenGlide operates a fleet of 35 electric micro-buses (zero-emission vehicles). It submitted a demand study projecting 92% average utilization of its 35-vehicle fleet during peak hours.\n- Over the preceding 24 months, GreenGlide logged 48,000 vehicle-miles and had 3 reportable incidents.\n- GreenGlide's vehicles have been certified compliant with all municipal noise ordinances.\n- GreenGlide maintains liability insurance of $2,500,000 per occurrence.\n- Thirty months before the application, GreenGlide was assessed a $50,000 civil penalty by the State Environmental Protection Agency for exceeding particulate emissions limits at its vehicle maintenance depot. GreenGlide paid the penalty without requesting a hearing. The agency's determination letter stated that 'the violation was willful and repeated.' There was no court adjudication, and the matter was never referred to the Environmental Review Board.\n\nQuestion: Evaluate whether GreenGlide is legally entitled to the permit. For each statutory requirement, state whether it is satisfied, not satisfied, or requires further information, and explain your reasoning. Provide a final conclusion.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Address requirements (A), (B), (C), (D), and Section 14.2 individually.",
+        "Show any mathematical calculations explicitly.",
+        "Final conclusion must state whether GreenGlide is or is not entitled to the permit."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Address requirement (A): GreenGlide has 35 vehicles, which is below the 50-vehicle threshold. However, Section 14.3 permits a waiver if the applicant operates exclusively zero-emission vehicles and demonstrates sufficient fleet size. GreenGlide operates 35 electric (zero-emission) micro-buses and submitted a demand study projecting 92% utilization. Assuming the UTA accepts this demonstration as sufficient, requirement (A) is satisfied via waiver.",
+          "Step 2: Address requirement (B): GreenGlide had 3 incidents over 48,000 vehicle-miles. The rate is (3 / 48,000) \u00d7 10,000 = 0.625 incidents per 10,000 vehicle-miles. The statutory maximum is 0.5. Because 0.625 > 0.5, GreenGlide fails requirement (B). There is no waiver provision for requirement (B).",
+          "Step 3: Address requirement (C): GreenGlide is certified compliant with all municipal noise ordinances. Requirement (C) is satisfied.",
+          "Step 4: Address requirement (D): GreenGlide maintains $2,500,000 per occurrence in insurance, which exceeds the $2,000,000 minimum. Requirement (D) is satisfied.",
+          "Step 5: Address Section 14.2: GreenGlide was assessed a civil penalty 30 months ago for a willful environmental violation. However, Section 14.4 limits the definition of 'willful violation' for purposes of Section 14.2 to violations adjudicated by a court or affirmed by the Environmental Review Board after a full administrative hearing. Here, there was no court adjudication and no ERB hearing. The agency's unilateral determination letter does not satisfy Section 14.4. Therefore, Section 14.2 is satisfied (no disqualifying violation under the statutory definition).",
+          "Step 6: Synthesize: Requirements (A), (C), (D), and Section 14.2 are satisfied. Requirement (B) is not satisfied and has no waiver mechanism.",
+          "Step 7: Conclude: Because Section 5.1 requires the applicant to demonstrate ALL listed requirements (A through D), and GreenGlide fails requirement (B), GreenGlide is NOT legally entitled to the permit."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding that GreenGlide is disqualified under Section 14.2 without applying the limiting definition in Section 14.4, which is a red herring.",
+          "Failing to calculate the incident rate correctly or comparing 3 incidents to 0.5 directly without normalizing per 10,000 vehicle-miles.",
+          "Concluding that GreenGlide qualifies because most requirements are met, ignoring the conjunctive 'all of the following' in Section 5.1.",
+          "Assuming the UTA 'may' waive requirement (B) based on the waiver language for (A), conflating the specific waiver provision in 14.3 with a general equitable power."
+        ],
+        "required_knowledge": [
+          "Conjunctive statutory requirements ('all of the following')",
+          "Rate normalization and unit conversion",
+          "Definitional limitations on statutory terms (Section 14.4 limiting 14.2)",
+          "Waiver provisions and their narrow scope"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["regulatory-compliance", "statutory-scheme", "fact-pattern-application", "open-ended"]
+    }
+  ]
+}

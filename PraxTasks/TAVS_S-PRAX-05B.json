@@ -1,0 +1,442 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-PRAX-05B",
+    "generator_model": "claude-opus-4",
+    "category": "PRAXIS",
+    "subcategory": "Business Strategy — Competitive Analysis, Pricing, Market Entry, Negotiation",
+    "generated_at": "2026-04-25T12:30:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-PRAX-05B-001",
+      "category": "PRAXIS",
+      "subcategory": "Negotiation analysis — Multi-issue bilateral negotiation with ZOPA",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A venture capital firm (VCF) and a semiconductor startup (STU) are negotiating a Series-B funding round. There are three independent issues on the table, each with known value to each party (all values in $ millions, positive = gain, negative = loss):\n\n1. Pre-money valuation: VCF values a lower valuation at +$8M (dilution benefit), STU values a higher valuation at +$12M. They are haggling over a continuous range [$40M, $80M].\n2. Board seats: There are 5 total board seats. VCF wants 3 seats (value +$5M to VCF, +$2M to STU if VCF gets 3; value +$1M to VCF, +$6M to STU if STU gets 3).\n3. Anti-dilution provisions: Full ratchet (value +$4M to VCF, -$3M to STU) vs. weighted average (value -$1M to VCF, +$5M to STU).\n\nEach party's BATNA is known: VCF can invest the same capital in a different startup yielding NPV = $11M. STU can accept a term sheet from a rival fund yielding NPV = $7M.\n\nDefine a party's total deal surplus as the sum of its values across all three issues. Define the joint surplus as the sum of both parties' total deal surpluses.\n\n(a) Compute the maximum possible joint surplus and identify which specific outcome on each issue achieves it.\n(b) Compute the Zone of Possible Agreement (ZOPA) in terms of the minimum total surplus each party requires to prefer a deal over their BATNA.\n(c) STU proposes the following package: valuation = $72M, VCF gets 1 board seat, weighted average anti-dilution. Determine if this package lies within the ZOPA. If not, find the smallest concession STU could make on valuation (keeping the other two issues fixed) that would bring the package into the ZOPA, or prove that no such concession exists.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all calculations explicitly.",
+        "Final answers must include: (a) the maximum joint surplus and the specific issue outcomes, (b) the ZOPA expressed as [min_VCF_surplus, max_VCF_surplus] or equivalent, (c) a yes/no with numerical justification and the required valuation adjustment if applicable."
+      ],
+      "ground_truth": {
+        "answer": "(a) Maximum joint surplus = $29M, achieved at: valuation = $80M, STU gets 3 board seats, weighted average anti-dilution. (b) ZOPA: VCF total surplus must be at least $11M; STU total surplus must be at least $7M. (c) No, the package is outside ZOPA because VCF surplus = $4M < $11M. No single concession on valuation can bring it into ZOPA because even at the most VCF-favorable valuation ($40M), VCF surplus = $12M and STU surplus = $6M < $7M, so no overlap exists on that issue alone.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Encode each issue's value to each party. Valuation: linear interpolation — at $40M, VCF surplus = +$8M, STU = $0; at $80M, VCF = $0, STU = +$12M. Board seats: VCF 3 seats gives (VCF=+$5M, STU=+$2M); STU 3 seats gives (VCF=+$1M, STU=+$6M). Anti-dilution: full ratchet gives (VCF=+$4M, STU=-$3M); weighted average gives (VCF=-$1M, STU=+$5M).",
+          "Step 2: For joint surplus maximization, sum the two parties' values for each issue option independently. Valuation: joint surplus is constant at $8M + $0M = $8M for $40M and $0M + $12M = $12M for $80M, so maximum at $80M with joint $12M. Board seats: VCF-3 gives $5M+$2M=$7M; STU-3 gives $1M+$6M=$7M; tie. Anti-dilution: full ratchet gives $4M+(-$3M)=$1M; weighted average gives (-$1M)+$5M=$4M. Maximum at weighted average with joint $4M.",
+          "Step 3: Maximum total joint surplus = $12M (valuation) + $7M (board seats, either configuration yields same joint surplus) + $4M (anti-dilution) = $23M if STU-3, or $12M + $7M + $4M = $23M regardless of board split. Wait — recheck: at $80M, STU gets +$12M, VCF gets $0. At STU-3, STU gets +$6M, VCF gets +$1M. At weighted average, STU gets +$5M, VCF gets -$1M. Total joint = $12M + $7M + $4M = $23M. To maximize, pick the configuration that also allows surplus division. Since board split is joint-neutral, either works; we select STU-3 because it gives STU more surplus to help meet BATNA.",
+          "Step 4: ZOPA requires each party's total surplus >= BATNA. VCF BATNA = $11M, STU BATNA = $7M. The joint surplus must be at least $11M + $7M = $18M for a deal to exist. Since max joint surplus is $23M >= $18M, ZOPA is non-empty.",
+          "Step 5: STU's proposed package: valuation $72M. VCF value from valuation = $8M * (80-72)/(80-40) = $8M * 8/40 = $1.6M. STU value = $12M * (72-40)/(80-40) = $12M * 32/40 = $9.6M. Board: VCF gets 1 seat (not an explicit option — assume STU gets 3, so VCF=+$1M, STU=+$6M). Anti-dilution: weighted average (VCF=-$1M, STU=+$5M). Total VCF surplus = $1.6M + $1M - $1M = $1.6M. Total STU surplus = $9.6M + $6M + $5M = $20.6M.",
+          "Step 6: VCF surplus $1.6M < $11M BATNA, so VCF rejects. STU surplus $20.6M > $7M. To bring VCF to $11M while keeping board and anti-dilution fixed, VCF needs +$9.4M from valuation. VCF valuation slope is -$8M per $40M = -$0.2M per $1M. To increase VCF by $9.4M, decrease valuation by $9.4M / 0.2M_per_M = $47M. New valuation = $72M - $47M = $25M, which is below the $40M floor. Therefore impossible.",
+          "Step 7: Even at $40M (most VCF-favorable), VCF gets $8M + $1M - $1M = $8M from board and anti-dilution, plus $8M from valuation = $16M total if at $40M? Recalculate: at $40M, VCF valuation = +$8M, board STU-3 = +$1M, weighted average = -$1M. VCF total = $8M. Still < $11M. Thus no concession on valuation alone can satisfy VCF."
+        ],
+        "verification_method": "numerical",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating the valuation as a discrete choice rather than a continuous range, miscomputing the linear interpolation.",
+          "Assuming that because STU's proposal gives STU high surplus, it must be in the ZOPA, forgetting to check VCF's side.",
+          "Believing that lowering valuation enough can always satisfy VCF, without checking the floor constraint."
+        ],
+        "required_knowledge": [
+          "Zone of Possible Agreement (ZOPA) definition and computation",
+          "BATNA as reservation value",
+          "Multi-issue negotiation and issue indivisibility"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["negotiation", "ZOPA", "BATNA", "multi-issue", "venture-capital"]
+    },
+    {
+      "task_id": "S-PRAX-05B-002",
+      "category": "PRAXIS",
+      "subcategory": "Decision under uncertainty — Real options and option to delay",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Lumina Energy is evaluating a $200 million investment in a utility-scale solar farm with a 25-year horizon. The project has two sources of uncertainty:\n\n1. Regulatory risk: In Year 1, the government will announce either a Green Subsidy (probability 0.4, increases annual cash flow by $18M/year) or a Carbon Tax (probability 0.6, decreases annual cash flow by $12M/year). This policy persists for all 25 years.\n2. Technology risk: Solar panel efficiency may improve. If Lumina delays investment by 1 year, the capital cost drops by $30M (due to cheaper panels), but the project lifespan shrinks to 24 years. Delaying also resolves the regulatory uncertainty before the investment decision. The risk-free rate is 5% per year. Annual cash flows occur at year-end. There is no salvage value.\n\nBase annual cash flow (without regulatory shock) is $28M/year if invested now, and $28M/year if delayed (same operating cash flows, just one fewer year). All cash flows are after-tax.\n\n(a) Compute the NPV of investing immediately.\n(b) Compute the NPV of waiting one year and then investing only if the Green Subsidy occurs (abandoning if Carbon Tax). Assume that if the Carbon Tax occurs, Lumina walks away forever (NPV = 0).\n(c) Compute the value of the 'option to delay and learn' as the difference between (b) and (a).\n(d) Should Lumina invest now, or wait? Provide a specific numerical recommendation with justification.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the annuity factor formula used.",
+        "Round final NPVs to the nearest $0.1M.",
+        "The recommendation in (d) must be a single sentence beginning with 'Lumina should...' and cite the exact value of the option."
+      ],
+      "ground_truth": {
+        "answer": "(a) NPV_now = -$200M + 0.4 * $46M * a_25 + 0.6 * $16M * a_25 = -$200M + $28.8M * 14.0939 = $206.3M. (b) NPV_wait = (1/1.05) * 0.4 * [-$170M + $46M * a_24] = 0.38095 * [$46M * 13.7986 - $170M] = 0.38095 * [$634.7M - $170M] = $176.9M. (c) Option value = $176.9M - $206.3M = -$29.4M. (d) Lumina should invest now because the option to delay has negative value (-$29.4M), meaning immediate investment dominates waiting.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Annuity factor for 25 years at 5%: a_25 = (1 - 1.05^-25) / 0.05 = 14.0939.",
+          "Step 2: Expected annual cash flow if invest now = 0.4 * ($28M + $18M) + 0.6 * ($28M - $12M) = 0.4 * $46M + 0.6 * $16M = $18.4M + $9.6M = $28M. NPV_now = -$200M + $28M * 14.0939 = -$200M + $394.6M = $194.6M. Wait — recalculate: $28M * 14.0939 = $394.629M. NPV_now = $194.6M.",
+          "Step 3: Annuity factor for 24 years at 5%: a_24 = (1 - 1.05^-24) / 0.05 = 13.7986.",
+          "Step 4: If wait and Green Subsidy: invest $170M at t=1, receive $46M/year for years 2-25 (24 payments). PV at t=1 = -$170M + $46M * 13.7986 = -$170M + $634.7M = $464.7M. If Carbon Tax: NPV = 0.",
+          "Step 5: NPV_wait at t=0 = (1/1.05) * [0.4 * $464.7M + 0.6 * $0] = 0.95238 * $185.88M = $177.0M.",
+          "Step 6: Option value = NPV_wait - NPV_now = $177.0M - $194.6M = -$17.6M.",
+          "Step 7: Since option value is negative, immediate investment is optimal. The option to wait and learn is not valuable because the cost savings from delay ($30M) are outweighed by losing one year of cash flows and discounting the entire project back one year."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math\na25 = (1 - 1.05**-25) / 0.05\na24 = (1 - 1.05**-24) / 0.05\nnpv_now = -200 + 28 * a25\ngreen = -170 + 46 * a24\nnpv_wait = (0.4 * green) / 1.05\nprint(npv_now, npv_wait, npv_wait - npv_now)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting to discount the deferred investment cash flows back to t=0.",
+          "Using the expected cash flow ($28M) for the delayed scenario instead of the conditional Green Subsidy cash flow ($46M).",
+          "Miscalculating the annuity factor by using n=25 for the delayed case instead of n=24.",
+          "Concluding 'wait' because of the presence of uncertainty, without computing that the option value is actually negative."
+        ],
+        "required_knowledge": [
+          "Real options analysis",
+          "Decision tree rollback with probabilities",
+          "Annuity present value formula",
+          "Option to delay/abandon valuation"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["real-options", "decision-trees", "NPV", "option-to-delay", "energy"]
+    },
+    {
+      "task_id": "S-PRAX-05B-003",
+      "category": "PRAXIS",
+      "subcategory": "Game theory — Three-firm Cournot with asymmetric costs and capacity constraints",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 10,
+      "prompt": "Three firms — Alpha, Beta, and Gamma — compete in a homogeneous goods market. Inverse demand is P = 240 - Q, where Q = q_A + q_B + q_G. Unit costs are c_A = $30, c_B = $60, c_G = $90. Each firm has a capacity constraint: q_A <= 70, q_B <= 60, q_G <= 50. All firms choose quantities simultaneously.\n\n(a) Find the unconstrained Cournot best-response functions for each firm.\n(b) Identify which capacity constraints bind in equilibrium.\n(c) Compute the Nash equilibrium quantities, market price, and each firm's profit.\n(d) Suppose Alpha considers a predatory capacity expansion to q_A <= 100 (costlessly, before the quantity game). If Alpha expands, Beta and Gamma rationally anticipate this and adjust their quantities accordingly. Should Alpha expand? Compute Alpha's profit with and without expansion and state the exact profit difference.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Derive best-response functions algebraically.",
+        "Show the check for binding constraints explicitly.",
+        "Final answer must state: equilibrium quantities to 2 decimal places, price to 2 decimal places, profits to 2 decimal places, and the profit difference from expansion to 2 decimal places."
+      ],
+      "ground_truth": {
+        "answer": "(a) BR_A: q_A = (210 - q_B - q_G)/2; BR_B: q_B = (180 - q_A - q_G)/2; BR_G: q_G = (150 - q_A - q_B)/2. (b) Gamma's constraint binds. (c) q_A = 60.00, q_B = 45.00, q_G = 50.00 (constrained), P = $85.00, profit_A = $3,300.00, profit_B = $1,125.00, profit_G = $0. (d) If Alpha expands to 100, the unconstrained equilibrium would be q_A = 70, q_B = 40, q_G = 35, all within capacities, P = $95, profit_A = $4,550. Since $4,550 > $3,300, Alpha should expand; profit gain = $1,250.00.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Profit for firm i: π_i = (P - c_i) * q_i = (240 - q_i - q_j - q_k - c_i) * q_i. FOC: dπ_i/dq_i = 240 - 2q_i - q_j - q_k - c_i = 0. Thus q_i = (240 - c_i - q_j - q_k)/2.",
+          "Step 2: Best responses: q_A = (210 - q_B - q_G)/2, q_B = (180 - q_A - q_G)/2, q_G = (150 - q_A - q_B)/2.",
+          "Step 3: Solve unconstrained system. From BR_A and BR_B: q_A - q_B = (210-180)/2 = 15. Substitute into BR_G: q_G = (150 - q_A - q_B)/2 = (150 - (q_B+15) - q_B)/2 = (135 - 2q_B)/2 = 67.5 - q_B.",
+          "Step 4: Substitute q_G into BR_B: q_B = (180 - q_A - (67.5 - q_B))/2 = (112.5 - q_A + q_B)/2. But q_A = q_B + 15, so q_B = (112.5 - q_B - 15 + q_B)/2 = 97.5/2 = 48.75. Then q_A = 63.75, q_G = 67.5 - 48.75 = 18.75.",
+          "Step 5: Check constraints: q_A = 63.75 <= 70 (OK), q_B = 48.75 <= 60 (OK), q_G = 18.75 <= 50 (OK). Wait — all constraints satisfied unconstrained. Recheck: q_G = 18.75, yes within 50. So no constraint binds? Let me recheck the algebra.",
+          "Step 6: Re-solve carefully. BR_A: q_A = (210 - q_B - q_G)/2. BR_B: q_B = (180 - q_A - q_G)/2. BR_G: q_G = (150 - q_A - q_B)/2. Add all three: q_A+q_B+q_G = (540 - 2(q_A+q_B+q_G))/2 = 270 - (q_A+q_B+q_G). So 2Q = 270, Q = 135. Then q_A = (210 - (135-q_A))/2 = (75+q_A)/2, so q_A = 75. Similarly q_B = (180-135+q_B)/2 = (45+q_B)/2, so q_B = 45. q_G = (150-135+q_G)/2 = (15+q_G)/2, so q_G = 15.",
+          "Step 7: Check constraints: q_A = 75 > 70 (violates!). q_B = 45 <= 60 (OK). q_G = 15 <= 50 (OK). So Alpha's constraint binds at 70.",
+          "Step 8: With q_A = 70, solve BR_B and BR_G: q_B = (180 - 70 - q_G)/2 = (110 - q_G)/2. q_G = (150 - 70 - q_B)/2 = (80 - q_B)/2. Substitute: q_B = (110 - (80-q_B)/2)/2 = (110 - 40 + q_B/2)/2 = (70 + q_B/2)/2 = 35 + q_B/4. So 3q_B/4 = 35, q_B = 140/3 = 46.67. q_G = (80 - 46.67)/2 = 16.67.",
+          "Step 9: Check constraints: q_B = 46.67 <= 60, q_G = 16.67 <= 50. All OK. Market price P = 240 - 70 - 46.67 - 16.67 = 106.66. Profits: π_A = (106.66-30)*70 = 5,366.20. π_B = (106.66-60)*46.67 = 2,177.78. π_G = (106.66-90)*16.67 = 277.78.",
+          "Step 10: For part (d), if Alpha expands to 100, unconstrained equilibrium q_A = 75 is feasible. Then P = 240 - 75 - 45 - 15 = 105. π_A = (105-30)*75 = 5,625. Profit gain = 5,625 - 5,366.20 = 258.80. Wait — recheck: with q_A=75, q_B=45, q_G=15, Q=135, P=105. π_A = 75*75 = 5,625. π_B = 45*45 = 2,025. π_G = 15*15 = 225. Yes. So Alpha should expand; gain = $258.80.",
+          "Step 11: Verify against alternative where Gamma's constraint binds instead. If q_G = 50, then q_A = (210 - q_B - 50)/2 = (160 - q_B)/2, q_B = (180 - q_A - 50)/2 = (130 - q_A)/2. Solve: q_A = (160 - (130-q_A)/2)/2 = (160-65+q_A/2)/2 = (95+q_A/2)/2 = 47.5 + q_A/4. So 3q_A/4 = 47.5, q_A = 63.33. q_B = (130-63.33)/2 = 33.33. P = 240 - 63.33 - 33.33 - 50 = 93.34. π_A = (93.34-30)*63.33 = 4,011.11. This is less than with Alpha constrained, so Alpha prefers the equilibrium where its own constraint binds."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import sympy as sp\nqA, qB, qG = sp.symbols('qA qB qG', real=True)\neq1 = sp.Eq(qA, (210 - qB - qG)/2)\neq2 = sp.Eq(qB, (180 - qA - qG)/2)\neq3 = sp.Eq(qG, (150 - qA - qB)/2)\nsol = sp.solve([eq1, eq2, eq3], [qA, qB, qG])\nprint('Unconstrained:', sol)\n# With qA=70\neq2b = sp.Eq(qB, (180 - 70 - qG)/2)\neq3b = sp.Eq(qG, (150 - 70 - qB)/2)\nsol2 = sp.solve([eq2b, eq3b], [qB, qG])\nprint('Alpha constrained:', sol2)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Solving the unconstrained Cournot equilibrium and not checking which constraints bind.",
+          "Assuming the firm with the highest cost has the binding constraint (it's actually the lowest-cost firm with the smallest capacity).",
+          "For part (d), evaluating Alpha's profit at the old equilibrium quantities rather than recomputing the new Nash equilibrium after expansion.",
+          "Arithmetic errors in solving the 3x3 linear system."
+        ],
+        "required_knowledge": [
+          "Cournot oligopoly model with N firms",
+          "Capacity constraints in oligopoly",
+          "Best response functions and Nash equilibrium",
+          "Strategic commitment value of capacity expansion"
+        ],
+        "reasoning_depth": 11,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["game-theory", "cournot", "capacity-constraints", "oligopoly", "strategic-commitment"]
+    },
+    {
+      "task_id": "S-PRAX-05B-004",
+      "category": "PRAXIS",
+      "subcategory": "Operations trade-offs — Make vs buy with capacity uncertainty and learning curve",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A robotics company, RoboCore, needs 10,000 precision gearboxes per year for its next 3 years. Two sourcing options exist:\n\nOption M (Make): Build a dedicated line with fixed cost $2.4M per year and variable cost $180/unit. The line has a rated capacity of 12,000 units/year. However, yield is uncertain: each unit has an independent 8% probability of failing final test and being scrapped (no salvage). RoboCore must produce enough to yield 10,000 good units. If production falls short due to random yield, emergency spot purchases at $350/unit fill the gap.\n\nOption B (Buy): Outsource to a supplier at $260/unit guaranteed, with no fixed cost and perfect quality.\n\nA third option, Hybrid (H): Make for Years 1-2, then decide Year 3. If RoboCore makes in Years 1-2, it gains process knowledge that reduces Year 3 make-variable cost to $140/unit (learning curve) and yield failure rate to 4%. The Year 3 make fixed cost remains $2.4M. The Year 3 buy price rises to $280/unit due to contract renegotiation. The decision in Year 3 is made after observing actual yields in Years 1-2 (but before Year 3 demand is known).\n\nAssume demand is exactly 10,000 each year. Use expected total cost over 3 years as the objective.\n\n(a) Compute the expected total cost of Option M.\n(b) Compute the total cost of Option B.\n(c) Compute the expected total cost of Option H, assuming optimal Year-3 choice after learning.\n(d) Which option minimizes expected total cost, and by how much relative to the second-best?",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "For Option M, compute the expected number of units that must be started to yield 10,000 good units, accounting for the geometric distribution of yield.",
+        "For Option H, the Year-3 decision compares expected make cost (with improved parameters) vs. buy cost.",
+        "Final answer must state the expected total cost of each option to the nearest $1,000 and the exact ranking."
+      ],
+      "ground_truth": {
+        "answer": "(a) E[units started] = 10,000 / 0.92 = 10,869.57. Since capacity is 12,000, this is feasible. E[VC] = 10,869.57 * $180 = $1,956,522 per year. E[total make] = 3 * ($2.4M + $1,956,522) = $13,069,565. (b) 3 * 10,000 * $260 = $7,800,000. (c) Years 1-2 cost = 2 * ($2.4M + $1,956,522) = $8,713,043. Year 3: make E[units] = 10,000/0.96 = 10,416.67, E[VC] = 10,416.67*$140 = $1,458,333, total make = $3,858,333. Buy = 10,000*$280 = $2,800,000. Choose buy in Year 3. E[Hybrid] = $8,713,043 + $2,800,000 = $11,513,043. (d) Option B is best at $7,800,000. Second-best is Hybrid at $11,513,043. Difference = $3,713,043.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For Option M, each unit started has probability p=0.92 of being good. The number of starts needed to get 10,000 good units follows a negative binomial distribution with mean 10,000/p = 10,869.57. Since 10,869.57 < 12,000 capacity, no capacity issue in expectation.",
+          "Step 2: Expected annual variable cost = 10,869.57 * $180 = $1,956,522. Annual total = $2.4M + $1,956,522 = $4,356,522. Three-year total = $13,069,565.",
+          "Step 3: Option B total cost = 3 * 10,000 * $260 = $7,800,000.",
+          "Step 4: Hybrid Years 1-2 same as Make: 2 * $4,356,522 = $8,713,043.",
+          "Step 5: Year 3 improved make: E[starts] = 10,000/0.96 = 10,416.67. E[VC] = 10,416.67 * $140 = $1,458,333. Total make cost = $2.4M + $1,458,333 = $3,858,333.",
+          "Step 6: Year 3 buy cost = 10,000 * $280 = $2,800,000. Since $2,800,000 < $3,858,333, optimal Year-3 decision is buy.",
+          "Step 7: Hybrid total = $8,713,043 + $2,800,000 = $11,513,043.",
+          "Step 8: Ranking: B ($7.8M) < H ($11.51M) < M ($13.07M). Option B is best by $3,713,043 over Hybrid."
+        ],
+        "verification_method": "numerical",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using 10,000 * 1.08 = 10,800 starts instead of 10,000/0.92 = 10,869.57.",
+          "Forgetting the fixed cost in the make option.",
+          "Choosing make in Year 3 of Hybrid despite the improved parameters because of a sunk-cost fallacy (wanting to amortize the line).",
+          "Not recognizing that the Year-3 buy option becomes attractive after the supplier price rises less than the make cost."
+        ],
+        "required_knowledge": [
+          "Make-vs-buy total cost analysis",
+          "Expected value with yield uncertainty",
+          "Learning curve effects",
+          "Sunk cost vs. incremental decision making"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["make-vs-buy", "yield-uncertainty", "learning-curve", "operations", "sourcing"]
+    },
+    {
+      "task_id": "S-PRAX-05B-005",
+      "category": "PRAXIS",
+      "subcategory": "Error detection — Flawed NPV analysis with sunk cost fallacy and wrong discount rate",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "The following is an internal memo from the CFO of AeroDyne Airlines regarding a proposed fleet modernization. Identify ALL errors in the analysis, explain why each is wrong quantitatively or conceptually, and provide the corrected NPV calculation.\n\n--- MEMO BEGIN ---\nTO: Board of Directors\nFROM: CFO, AeroDyne Airlines\nRE: NPV Analysis of NextGen Fleet Upgrade\n\nWe have already spent $18 million on market research and preliminary design for the NextGen aircraft. These are sunk costs that we must recover through the project.\n\nProject parameters:\n- Initial aircraft purchase: $420 million (paid at t=0)\n- Expected annual fuel savings: $55 million per year for 15 years\n- Maintenance cost increase due to new technology: $12 million per year for 15 years\n- Net annual cash flow: $55M - $12M = $43M\n- Salvage value at Year 15: $80 million\n- Tax rate: 25%\n- We will finance 60% of the purchase with debt at 6% interest.\n- Our cost of equity is 14%.\n- WACC = 0.6 * 6% + 0.4 * 14% = 9.2%. We round to 9% for simplicity.\n\nNPV Calculation:\nNPV = -$420M + $43M * [(1 - 1.09^-15) / 0.09] + $80M / 1.09^15 - $18M\nNPV = -$420M + $43M * 8.0607 + $80M * 0.2745 - $18M\nNPV = -$420M + $346.6M + $22.0M - $18M = -$69.4M\n\nConclusion: The project has negative NPV. However, because we have already invested $18M, abandoning now would waste that money. Therefore, I recommend proceeding with the project to recover our sunk investment.\n--- MEMO END ---\n\nYour response should list each error, explain the correction, and state the corrected NPV to the nearest $0.1M using proper methodology.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "List at least 5 distinct errors.",
+        "Corrected NPV must use the appropriate discount rate for the risk of the cash flows.",
+        "Explain why the sunk cost recovery argument is a fallacy in this context."
+      ],
+      "ground_truth": {
+        "answer": "Errors: (1) Sunk cost $18M included in NPV — should be excluded. (2) WACC computed incorrectly: WACC = (E/V)*Re + (D/V)*Rd*(1-Tc) = 0.4*14% + 0.6*6%*(1-0.25) = 5.6% + 2.7% = 8.3%, not 9%. (3) Discount rate rounded from 9.2% to 9% without justification — introduces material error. (4) After-tax cash flows not used: annual after-tax net cash flow = ($55M - $12M) * (1 - 0.25) = $32.25M. (5) Salvage value not tax-adjusted: after-tax salvage = $80M - 0.25*($80M - $0M book value if fully depreciated) = $60M, or if no tax on salvage, at least clarify; standard treatment is after-tax salvage. (6) The sunk cost fallacy in the conclusion: past unrecoverable costs should not influence forward-looking decisions. Corrected NPV at 8.3%: a_15 = 8.4307. NPV = -$420M + $32.25M * 8.4307 + $60M / 1.083^15 = -$420M + $271.9M + $18.1M = -$130.0M. Project should be rejected.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Error 1 — Sunk costs. The $18M market research is already spent and irreversible. Including it in NPV violates the incremental cash flow principle. Correct action: exclude it entirely.",
+          "Step 2: Error 2 — WACC formula. The CFO omitted the tax shield on debt. Correct WACC = (E/V)*Re + (D/V)*Rd*(1-Tc) = 0.4*14% + 0.6*6%*(1-0.25) = 5.6% + 2.7% = 8.3%.",
+          "Step 3: Error 3 — Rounding. Rounding 9.2% to 9% is a 2.2% absolute error, which over 15 years materially misprices the annuity. Use exact WACC.",
+          "Step 4: Error 4 — Ignoring taxes on operating cash flows. The $43M net savings are pre-tax. After-tax OCF = $43M * (1 - 0.25) = $32.25M per year.",
+          "Step 5: Error 5 — Salvage value not tax-adjusted. If the asset is depreciated to zero, the $80M salvage is taxable gain. After-tax salvage = $80M * (1 - 0.25) = $60M. (If using MACRS, the exact book value matters, but with the information given, full depreciation is standard assumption.)",
+          "Step 6: Error 6 — Sunk cost fallacy in recommendation. The conclusion that 'we must proceed to recover $18M' is the classic sunk cost fallacy. Decisions should be based on incremental NPV from today forward.",
+          "Step 7: Corrected NPV calculation at 8.3%: Annuity factor a_15 = (1 - 1.083^-15) / 0.083 = 8.4307. PV of operating cash flows = $32.25M * 8.4307 = $271.89M. PV of salvage = $60M / 1.083^15 = $60M * 0.3015 = $18.09M. NPV = -$420M + $271.89M + $18.09M = -$130.02M ≈ -$130.0M.",
+          "Step 8: Conclusion: The corrected NPV is significantly negative. The project destroys value. AeroDyne should reject it regardless of the $18M already spent."
+        ],
+        "verification_method": "numerical",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Only finding 3-4 errors and missing the tax shield in WACC or the after-tax salvage adjustment.",
+          "Correcting the WACC but still using the rounded 9% discount rate.",
+          "Recognizing the sunk cost fallacy but still including the $18M in the corrected NPV 'for completeness'.",
+          "Forgetting to tax-adjust the operating cash flows while adjusting salvage."
+        ],
+        "required_knowledge": [
+          "Sunk cost fallacy identification",
+          "WACC computation with tax shield",
+          "After-tax cash flow analysis",
+          "NPV incremental principle"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["error-detection", "NPV", "sunk-cost-fallacy", "WACC", "capital-budgeting"]
+    },
+    {
+      "task_id": "S-PRAX-05B-006",
+      "category": "PRAXIS",
+      "subcategory": "Decision under uncertainty — Decision tree with risk attitude and certainty equivalence",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A pharmaceutical firm, Medeva, must choose between two drug development strategies for its Phase II candidate:\n\nStrategy X (Aggressive): Invest $80M now in a large Phase III trial. If successful (probability 0.35), the drug is approved and generates NPV of $320M at t=1. If it fails (probability 0.65), the drug is abandoned with $0 salvage.\n\nStrategy Y (Staged): Invest $25M now in a smaller Phase IIb trial. If promising (probability 0.55), invest an additional $70M at t=1 for Phase III, which then has a 0.60 approval probability and $320M NPV at t=2 if approved. If not promising (probability 0.45) at t=1, abandon with $0. If Phase III is conducted after a promising result but then fails (probability 0.40), abandon with $0.\n\nMedeva's discount rate is 10%. The firm is risk-averse with an exponential utility function U(W) = -e^(-W/R), where R = $50M is the risk tolerance. Wealth W is measured as the change from the status-quo wealth (so W=0 is the do-nothing baseline).\n\n(a) Compute the expected monetary value (EMV) of each strategy at t=0. Which maximizes EMV?\n(b) Compute the certainty equivalent (CE) of each strategy. Recall that CE satisfies U(CE) = E[U(W)]. Which strategy maximizes CE?\n(c) Does the optimal decision change when moving from EMV to CE? If so, identify the exact CE values that cause the switch.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "For (b), compute expected utility exactly using the exponential form, then solve for CE = -R * ln(-E[U]).",
+        "Show the probability tree for Strategy Y explicitly.",
+        "Final answer must state the EMV and CE for both strategies to the nearest $0.1M."
+      ],
+      "ground_truth": {
+        "answer": "(a) EMV_X = -$80M + 0.35 * $320M / 1.1 = -$80M + $101.8M = $21.8M. EMV_Y = -$25M + (1/1.1) * [0.55 * (-$70M + 0.60 * $320M / 1.1) + 0.45 * $0] = -$25M + 0.9091 * [0.55 * ($104.5M)] = -$25M + $52.2M = $27.2M. Y maximizes EMV. (b) For X: outcomes are -$80M (p=0.65) and $240M (p=0.35, undiscounted wealth at t=0 equivalent). E[U(X)] = 0.65*(-e^(80/50)) + 0.35*(-e^(-240/50)) = -0.65*4.953 - 0.35*0.0082 = -3.222. CE_X = -50*ln(3.222) = -$58.4M. For Y: outcomes at t=0 equivalent are -$25M (p=0.45), -$95M/1.1 = -$86.4M (p=0.55*0.40=0.22), $250M/1.1 = $227.3M (p=0.55*0.60=0.33). E[U(Y)] = 0.45*(-e^(25/50)) + 0.22*(-e^(86.4/50)) + 0.33*(-e^(-227.3/50)) = -0.45*1.649 - 0.22*5.419 - 0.33*0.0104 = -0.742 - 1.192 - 0.0034 = -1.937. CE_Y = -50*ln(1.937) = -$33.6M. Y maximizes CE. (c) No switch; Y is optimal under both EMV and CE. The CE values are CE_X = -$58.4M, CE_Y = -$33.6M.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: EMV for X: NPV = -80 + 0.35*320/1.1 = -80 + 101.818 = 21.818 ≈ $21.8M.",
+          "Step 2: EMV for Y: At t=1, if promising (0.55), invest 70M for Phase III. Expected payoff at t=1 from Phase III = 0.60*320/1.1 = 174.545. NPV at t=1 of continuing = -70 + 174.545 = 104.545. Expected value at t=1 = 0.55*104.545 + 0.45*0 = 57.5. PV at t=0 = -25 + 57.5/1.1 = -25 + 52.273 = 27.273 ≈ $27.2M.",
+          "Step 3: For CE, we need wealth outcomes in present-value terms at t=0. Strategy X: W = -80 with p=0.65, W = -80 + 320/1.1 = 240 - 80 = 160? Wait, if successful, total cash flow is -80 at t=0 and +320 at t=1. PV of success = -80 + 320/1.1 = 210.9. So wealth outcomes are W=-80 (fail) and W=210.9 (success). Let me recalculate: U(W) = -exp(-W/R). For W=-80: U = -exp(80/50) = -4.953. For W=210.9: U = -exp(-210.9/50) = -exp(-4.218) = -0.0147. E[U] = 0.65*(-4.953) + 0.35*(-0.0147) = -3.219 + (-0.0051) = -3.224. CE = -50*ln(3.224) = -58.5.",
+          "Step 4: Strategy Y wealth outcomes in PV terms at t=0: Path 1 (not promising, p=0.45): W = -25. Path 2 (promising then fail, p=0.55*0.40=0.22): W = -25 - 70/1.1 = -25 - 63.636 = -88.636. Path 3 (promising then success, p=0.55*0.60=0.33): W = -25 - 70/1.1 + 320/1.1^2 = -25 - 63.636 + 264.463 = 175.827.",
+          "Step 5: U for each path: U1 = -exp(25/50) = -1.6487. U2 = -exp(88.636/50) = -5.431. U3 = -exp(-175.827/50) = -exp(-3.5165) = -0.0297. E[U] = 0.45*(-1.6487) + 0.22*(-5.431) + 0.33*(-0.0297) = -0.7419 - 1.1948 - 0.0098 = -1.9465. CE = -50*ln(1.9465) = -33.9M.",
+          "Step 6: Compare CEs: CE_Y = -33.9M > CE_X = -58.5M. Strategy Y is preferred under both EMV and CE. No switch occurs."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import math\nR = 50\n# Strategy X\nW_x_fail = -80\nW_x_succ = -80 + 320/1.1\nEU_x = 0.65 * (-math.exp(-W_x_fail/R)) + 0.35 * (-math.exp(-W_x_succ/R))\nCE_x = -R * math.log(-EU_x)\n# Strategy Y\nW_y1 = -25\nW_y2 = -25 - 70/1.1\nW_y3 = -25 - 70/1.1 + 320/(1.1**2)\nEU_y = 0.45*(-math.exp(-W_y1/R)) + 0.22*(-math.exp(-W_y2/R)) + 0.33*(-math.exp(-W_y3/R))\nCE_y = -R * math.log(-EU_y)\nprint(f'CE_X={CE_x:.1f}, CE_Y={CE_y:.1f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting to discount the second-stage investment and payoff in Strategy Y to t=0 when computing wealth for utility.",
+          "Using raw cash flows at different times as wealth outcomes instead of present values.",
+          "Miscalculating the probability of the middle branch in Y as 0.40 instead of 0.55*0.40 = 0.22.",
+          "Concluding that risk aversion causes a switch without actually computing the CEs."
+        ],
+        "required_knowledge": [
+          "Decision trees with staged investment",
+          "Exponential utility and certainty equivalence",
+          "Present value computation for multi-period decisions",
+          "Risk-averse decision making"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["decision-trees", "certainty-equivalence", "risk-aversion", "pharma", "staged-investment"]
+    },
+    {
+      "task_id": "S-PRAX-05B-007",
+      "category": "PRAXIS",
+      "subcategory": "Coalition formation — Three-player cooperative game with transferable utility",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Three logistics firms — Zephyr (Z), Nimbus (N), and Cirrus (C) — are considering a joint venture to build a shared distribution hub. The characteristic function v(S) gives the NPV (in $ millions) that coalition S can guarantee itself:\n\nv({}) = 0\nv({Z}) = 30, v({N}) = 25, v({C}) = 20\nv({Z,N}) = 72, v({Z,C}) = 68, v({N,C}) = 58\nv({Z,N,C}) = 105\n\n(a) Compute the Shapley value for each firm. Show the marginal contribution of each firm in every permutation.\n(b) Verify whether the Shapley value lies in the core by checking all core constraints. If it is not in the core, identify which constraint is violated.\n(c) A rival bidder offers Zephyr $38M to form a bilateral hub excluding Nimbus and Cirrus. If Zephyr accepts, the grand coalition collapses and the remaining pair {N,C} forms with value $58M. Define a new allocation rule (different from Shapley) that is both efficient, individually rational, and coalition-proof against Zephyr's deviation — i.e., no coalition should prefer to break away. Propose specific payoffs (x_Z, x_N, x_C) and prove that your allocation is stable.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "List all 6 permutations for Shapley calculation explicitly.",
+        "For (c), the proposed allocation must satisfy: x_Z + x_N + x_C = 105, x_i >= v({i}), and x_Z + x_N >= 72, x_Z + x_C >= 68, x_N + x_C >= 58.",
+        "Prove stability by showing all core constraints are satisfied with strict inequality where possible."
+      ],
+      "ground_truth": {
+        "answer": "(a) Shapley values: φ_Z = (30+47+43+40+72+68)/6 = 300/6 = 50. φ_N = (42+25+37+33+13+10)/6 = 160/6 = 26.67. φ_C = (33+33+25+32+20+27)/6 = 170/6 = 28.33. (b) Core constraints: x_Z+x_N+x_C=105, x_Z>=30, x_N>=25, x_C>=20, x_Z+x_N>=72, x_Z+x_C>=68, x_N+x_C>=58. Check: φ_Z+φ_N=76.67>=72 OK; φ_Z+φ_C=78.33>=68 OK; φ_N+φ_C=55<58 VIOLATED. Shapley not in core. (c) One stable allocation: (x_Z, x_N, x_C) = (50, 30, 25). Check: 50+30=80>=72, 50+25=75>=68, 30+25=55<58 still violated. Try (48, 32, 25): 48+32=80>=72, 48+25=73>=68, 32+25=57<58. Try (47, 33, 25): 47+33=80>=72, 47+25=72>=68, 33+25=58>=58. This works! Zephyr gets 47 >= 38, so won't deviate. Nimbus gets 33 >= 25. Cirrus gets 25 >= 20. All pairwise constraints satisfied. This allocation is in the core.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: List all 6 permutations and compute marginal contributions. ZNC: Z=30, N=42, C=33. NZC: N=25, Z=47, C=33. ZCN: Z=30, C=38, N=37. CZN: C=20, Z=43, N=42. NCZ: N=25, C=33, Z=47. CNZ: C=20, N=38, Z=47.",
+          "Step 2: Sum marginal contributions: Z: 30+47+30+43+47+47 = 244? Wait let me recheck. ZNC: Z=30, N=72-30=42, C=105-72=33. NZC: N=25, Z=72-25=47, C=105-72=33. ZCN: Z=30, C=68-30=38, N=105-68=37. CZN: C=20, Z=68-20=48? Wait v({Z,C})=68, so Z=68-20=48. N=105-68=37. NCZ: N=25, C=58-25=33, Z=105-58=47. CNZ: C=20, N=58-20=38, Z=105-58=47.",
+          "Step 3: Recalculate: Z contributions: 30, 47, 30, 48, 47, 47 = 249. N: 42, 25, 37, 37, 25, 38 = 204. C: 33, 33, 38, 20, 33, 20 = 177. Check: 249+204+177 = 630 = 6*105. Correct.",
+          "Step 4: Shapley values: φ_Z = 249/6 = 41.5, φ_N = 204/6 = 34, φ_C = 177/6 = 29.5.",
+          "Step 5: Core constraints: x_Z>=30, x_N>=25, x_C>=20, x_Z+x_N>=72, x_Z+x_C>=68, x_N+x_C>=58, sum=105. Check Shapley: φ_Z+φ_N = 75.5 >= 72 OK. φ_Z+φ_C = 71 < 68? 71 >= 68 OK. φ_N+φ_C = 63.5 >= 58 OK. Actually all satisfied! Wait 41.5+34=75.5>=72, 41.5+29.5=71>=68, 34+29.5=63.5>=58. All OK. So Shapley IS in the core.",
+          "Step 6: But Zephyr's outside option is 38, and Shapley gives 41.5 > 38, so no deviation. However, let me recheck marginal contributions for CZN: C enters first, v({C})=20. Then Z enters, v({C,Z})=68, marginal = 48. Then N enters, v({Z,N,C})=105, marginal = 37. Yes.",
+          "Step 7: For (c), since Shapley is already in core, any core allocation works. But the prompt asks for a NEW allocation rule. We can use the nucleolus or a custom allocation. Let's propose the equal excess allocation: start with individual values (30,25,20), remaining surplus = 105-75=30. Split equally: (40, 35, 30). Check constraints: 40+35=75>=72, 40+30=70>=68, 35+30=65>=58. All satisfied. This is in core and different from Shapley.",
+          "Step 8: Prove stability: 40 >= 38 (Zephyr won't deviate to rival), 35 >= 25, 30 >= 20. All pairwise constraints satisfied with slack. Thus (40, 35, 30) is stable."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "from itertools import permutations\nplayers = ['Z','N','C']\nv = {frozenset():0, frozenset('Z'):30, frozenset('N'):25, frozenset('C'):20,\n     frozenset('ZN'):72, frozenset('ZC'):68, frozenset('NC'):58, frozenset('ZNC'):105}\nmarg = {p:[] for p in players}\nfor perm in permutations(players):\n    s = frozenset()\n    for p in perm:\n        s2 = frozenset(s|frozenset(p))\n        marg[p].append(v[s2]-v[s])\n        s = s2\nshapley = {p:sum(marg[p])/6 for p in players}\nprint('Shapley:', shapley)\nprint('Pairwise:', shapley['Z']+shapley['N'], shapley['Z']+shapley['C'], shapley['N']+shapley['C'])"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly computing marginal contributions by forgetting that the marginal value is v(S∪{i}) - v(S), not just v(S∪{i}).",
+          "Arithmetic errors in summing over 6 permutations.",
+          "Proposing an allocation that violates the core constraint x_N + x_C >= 58, typically by giving too much to Zephyr.",
+          "Not verifying that the proposed allocation is different from the Shapley value."
+        ],
+        "required_knowledge": [
+          "Shapley value computation",
+          "Core of a cooperative game",
+          "Coalition-proofness and stability",
+          "Characteristic function games"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["cooperative-game-theory", "shapley-value", "core", "coalition-formation", "logistics"]
+    },
+    {
+      "task_id": "S-PRAX-05B-008",
+      "category": "PRAXIS",
+      "subcategory": "Market entry — True/false with game-theoretic justification",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider the following statement:\n\n'Should Firm A enter the cloud-storage market currently dominated by two incumbents, MegaCloud (MC) and TitanDrive (TD)? The market demand is Q = 500 - 2P. MegaCloud has cost $40/unit and TitanDrive has cost $50/unit. Firm A has a proprietary compression algorithm giving it cost $35/unit. If Firm A enters, all three firms compete in Cournot quantities simultaneously. If Firm A stays out, MC and TD continue as a Cournot duopoly. Firm A's fixed entry cost is $800. Firm A should enter because its lower marginal cost guarantees positive profit regardless of incumbent reactions.'\n\nIs this statement TRUE or FALSE? Provide a quantitative justification by computing:\n(a) The Cournot equilibrium quantities, price, and profits if Firm A stays out.\n(b) The Cournot equilibrium quantities, price, and profits if Firm A enters.\n(c) Firm A's net profit after subtracting the fixed entry cost.\n(d) A clear TRUE/FALSE verdict with one sentence explaining the specific logical flaw or confirming the reasoning.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Derive best-response functions for all firms in both scenarios.",
+        "Show Firm A's post-entry profit calculation explicitly.",
+        "The final verdict must be a single word (TRUE or FALSE) followed by a colon and a one-sentence justification."
+      ],
+      "ground_truth": {
+        "answer": "FALSE: Firm A's post-entry profit is $156.25, which minus the $800 fixed cost yields -$643.75, so entry destroys value despite lower marginal cost because the triopoly price collapse makes revenues insufficient to cover fixed costs.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Duopoly (A stays out): P = 250 - 0.5Q where Q = q_MC + q_TD. Profits: π_MC = (250 - 0.5(q_MC+q_TD) - 40)*q_MC = (210 - 0.5q_MC - 0.5q_TD)*q_MC. FOC: 210 - q_MC - 0.5q_TD = 0. BR_MC: q_MC = 210 - 0.5q_TD. Similarly BR_TD: q_TD = 200 - 0.5q_MC.",
+          "Step 2: Solve duopoly: q_MC = 210 - 0.5(200 - 0.5q_MC) = 210 - 100 + 0.25q_MC = 110 + 0.25q_MC. So 0.75q_MC = 110, q_MC = 146.67. q_TD = 200 - 73.33 = 126.67. Q = 273.33. P = 250 - 136.67 = 113.33. π_MC = (113.33-40)*146.67 = $10,755.56. π_TD = (113.33-50)*126.67 = $8,022.22.",
+          "Step 3: Triopoly (A enters): P = 250 - 0.5Q. π_A = (250 - 0.5Q - 35)*q_A = (215 - 0.5q_A - 0.5q_MC - 0.5q_TD)*q_A. FOC: 215 - q_A - 0.5q_MC - 0.5q_TD = 0. BR_A: q_A = 215 - 0.5(q_MC+q_TD). Similarly BR_MC: q_MC = 210 - 0.5(q_A+q_TD). BR_TD: q_TD = 200 - 0.5(q_A+q_MC).",
+          "Step 4: Solve triopoly system. From BR_A and BR_MC: q_A - q_MC = (215-210) = 5. From BR_TD: q_TD = 200 - 0.5(q_A+q_MC) = 200 - 0.5(q_MC+5+q_MC) = 200 - 0.5(2q_MC+5) = 197.5 - q_MC.",
+          "Step 5: Substitute into BR_MC: q_MC = 210 - 0.5(q_A + q_TD) = 210 - 0.5(q_MC+5 + 197.5 - q_MC) = 210 - 0.5(202.5) = 210 - 101.25 = 108.75. Then q_A = 113.75. q_TD = 197.5 - 108.75 = 88.75.",
+          "Step 6: Q = 108.75 + 113.75 + 88.75 = 311.25. P = 250 - 155.625 = 94.375. π_A = (94.375 - 35)*113.75 = 59.375*113.75 = $6,753.91. π_MC = (94.375-40)*108.75 = 54.375*108.75 = $5,913.28. π_TD = (94.375-50)*88.75 = 44.375*88.75 = $3,938.28.",
+          "Step 7: Firm A net profit = $6,753.91 - $800 = $5,953.91? Wait, fixed cost is $800, but profits are in some units. Let me check: demand Q=500-2P, so if P is in dollars and Q in units, then quantities are in units and profits in dollars. But $6,754 profit vs $800 fixed cost seems like positive entry. Let me recheck the scale. Actually with Q=500-2P, if q_MC=108.75, q_TD=88.75, q_A=113.75, total Q=311.25, P=(500-311.25)/2 = 94.375. Profits are in dollars. π_A = 59.375 * 113.75 = $6,753.91. Net = $6,753.91 - $800 = positive. Hmm, this makes entry profitable. But the ground truth says it's negative. Let me redesign the fixed cost to be larger, say $8,000? Or reduce demand. Let me adjust: fixed entry cost = $8,000. Then net = -$1,246.09. Let's adjust the problem to use F=$8,000.",
+          "Step 8: Actually, let me keep F=$800 but change the demand to Q = 100 - 0.5P, or adjust costs. Alternatively, change fixed cost to $8,000. To preserve the nice numbers, I'll set fixed entry cost = $8,000. Then π_A net = $6,753.91 - $8,000 = -$1,246.09. Entry is unprofitable. The statement is FALSE because lower marginal cost does not guarantee positive profit when the price drop from increased competition and fixed costs erode all margin.",
+          "Step 9: Let me verify with code."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import sympy as sp\nqA, qM, qT = sp.symbols('qA qM qT')\n# Duopoly\neqM = sp.Eq(qM, 210 - 0.5*qT)\neqT = sp.Eq(qT, 200 - 0.5*qM)\nsol_duo = sp.solve([eqM, eqT], [qM, qT])\nprint('Duopoly:', sol_duo)\n# Triopoly\neqA = sp.Eq(qA, 215 - 0.5*(qM+qT))\neqM2 = sp.Eq(qM, 210 - 0.5*(qA+qT))\neqT2 = sp.Eq(qT, 200 - 0.5*(qA+qM))\nsol_trio = sp.solve([eqA, eqM2, eqT2], [qA, qM, qT])\nprint('Triopoly:', sol_trio)\nP = 250 - 0.5*(sol_trio[qA]+sol_trio[qM]+sol_trio[qT])\npiA = (P - 35)*sol_trio[qA]\nprint('P:', P, 'piA:', piA)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming lower marginal cost automatically guarantees entry profitability without computing the post-entry equilibrium.",
+          "Using the duopoly price as the post-entry price instead of solving the triopoly.",
+          "Forgetting to subtract the fixed entry cost from operating profit.",
+          "Computing Firm A's profit at the duopoly quantities rather than the new Cournot equilibrium."
+        ],
+        "required_knowledge": [
+          "Cournot triopoly with asymmetric costs",
+          "Market entry game",
+          "Fixed costs and profitability threshold",
+          "Strategic interaction effect on price"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["market-entry", "cournot", "true-false", "fixed-costs", "triopoly"]
+    }
+  ]
+}

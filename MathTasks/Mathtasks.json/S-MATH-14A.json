@@ -1,0 +1,375 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-14A",
+    "generator_model": "gpt-5.3-codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Proof-Based Mathematics — Abstract Algebra, Advanced Linear Algebra",
+    "generated_at": "2026-04-26T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-14A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Group Theory — Sylow Constraints and Simplicity",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let G be a finite group of order 108 = 2^2 * 3^3. Prove that G is not simple.\n\nYour proof must explicitly use Sylow counting and a conjugation action argument. You are not allowed to use classification results of groups of order 108.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Compute all possible values of n_3 (the number of Sylow 3-subgroups) explicitly",
+        "In the non-normal case, construct the conjugation homomorphism to a symmetric group and analyze its kernel",
+        "Do not invoke any classification theorem beyond Sylow and basic action facts"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: By Sylow, n_3 divides 108/27 = 4 and n_3 congruent to 1 mod 3. Hence n_3 in {1,4}.",
+          "Step 2: If n_3 = 1, the Sylow 3-subgroup is normal, so G is not simple.",
+          "Step 3: Assume n_3 = 4. Let X be the set of Sylow 3-subgroups. Conjugation gives a homomorphism psi: G -> Sym(X) ~= S_4.",
+          "Step 4: The kernel K = ker(psi) is normal in G. If K != 1, then G has a nontrivial proper normal subgroup and is not simple.",
+          "Step 5: Suppose K = 1. Then psi is injective, so G embeds into S_4. But |S_4| = 24, impossible since |G| = 108 > 24.",
+          "Step 6: Therefore K cannot be trivial, so K is a nontrivial normal subgroup of G.",
+          "Step 7: In all cases, G is not simple."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Listing n_3 values incorrectly by forgetting the divisibility condition n_3 | 4",
+          "Using only element counting and skipping the action homomorphism kernel argument",
+          "Assuming that if n_3 = 4 then the action is automatically faithful"
+        ],
+        "required_knowledge": [
+          "Sylow theorems",
+          "Conjugation actions",
+          "Kernel of a permutation representation",
+          "Definition of simple group"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["group-theory", "sylow", "simple-groups", "group-actions", "proof"]
+    },
+    {
+      "task_id": "S-MATH-14A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Group Theory — Semidirect Product Classification",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "For each k in {1,2,3,4,5,6}, define\nG_k = <a,t | a^7 = 1, t^6 = 1, t a t^{-1} = a^k>.\n\n(Here exponents of a are read modulo 7.)\n\nTasks:\n1. Determine exactly for which k this presentation defines a valid semidirect product C7 rtimes C6.\n2. Classify the resulting groups up to isomorphism.\n3. Prove your classification rigorously (not by citing classification tables).\n\nYour final output must include the exact number of non-isomorphic groups obtained from this family and a canonical representative for each isomorphism class.",
+      "prompt_format": "proof",
+      "constraints": [
+        "You must use Aut(C7) explicitly",
+        "You must justify isomorphism identifications between different k values",
+        "You must provide an invariant proving non-isomorphic classes are distinct"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Aut(C7) ~= (Z/7Z)^x is cyclic of order 6. Sending t to the automorphism a |-> a^k is valid exactly when k in (Z/7Z)^x = {1,2,3,4,5,6}. So all six values define semidirect products.",
+          "Step 2: Two actions phi_k and phi_l are equivalent under automorphisms of C6 iff l = k^u with u in (Z/6Z)^x = {1,5}. Thus k and k^{-1} give isomorphic groups.",
+          "Step 3: Inverses mod 7 pair the six values as {1}, {6}, {2,4}, {3,5}. Hence at most 4 isomorphism classes.",
+          "Step 4: Distinguish classes by action image order m = ord_7(k) in {1,2,3,6}. This equals |Im(phi_k)| and is invariant under isomorphism of split extensions with normal C7 and complement C6.",
+          "Step 5: Representatives can be chosen as k = 1, 6, 2, 3 corresponding to image orders 1, 2, 3, 6 respectively.",
+          "Step 6: These classes are pairwise non-isomorphic; for example the center size is 6/m for nontrivial action on C7-part from complement kernel behavior (and 42 in the trivial case), giving different invariants across m values.",
+          "Step 7: Therefore there are exactly 4 non-isomorphic groups in this family, represented by G_1, G_6, G_2, G_3."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating all six k values as non-isomorphic without modding out action equivalence",
+          "Forgetting that automorphisms of the C6 generator identify k with k^{-1}",
+          "Using only order 42 to distinguish groups without a structural invariant"
+        ],
+        "required_knowledge": [
+          "Semidirect products",
+          "Automorphism groups of cyclic groups",
+          "Equivalence of actions under automorphisms of factors",
+          "Basic group invariants (center, action image order)"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["group-theory", "semidirect-product", "automorphisms", "classification", "proof"]
+    },
+    {
+      "task_id": "S-MATH-14A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Ring Theory — Failure of UFD in Z[sqrt(-5)]",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Work in the ring R = Z[sqrt(-5)] = {a + b*sqrt(-5) : a,b in Z}.\n\nProve rigorously that R is not a unique factorization domain by giving two distinct factorizations of 6 into irreducibles and proving all factors used are irreducible and pairwise non-associate where needed.\n\nYou must explicitly justify irreducibility, not just state it.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Use the norm N(a+b*sqrt(-5)) = a^2 + 5b^2 and prove all norm claims used",
+        "Show irreducibility of 2, 3, 1+sqrt(-5), 1-sqrt(-5)",
+        "Show the two factorizations are genuinely different up to associates and order"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: In R, 6 = 2*3 = (1+sqrt(-5))(1-sqrt(-5)).",
+          "Step 2: Norm N(a+b*sqrt(-5)) = a^2 + 5b^2 is multiplicative and takes values in Z_{>=0}. Units are exactly elements of norm 1, hence only +-1.",
+          "Step 3: Show 2 is irreducible: if 2 = xy, then 4 = N(2) = N(x)N(y). Nonunit factors would force N(x),N(y) in {2}. But equation a^2+5b^2=2 has no integer solution, contradiction.",
+          "Step 4: Show 3 is irreducible similarly: if 3 = xy then 9 = N(x)N(y). Nonunit possibility forces norm 3, but a^2+5b^2=3 has no integer solution.",
+          "Step 5: Show 1+sqrt(-5) is irreducible: N(1+sqrt(-5))=6. If reducible, nonunit factors would have norms (2,3) up to order. No element has norm 2 or 3, so impossible. Same for 1-sqrt(-5).",
+          "Step 6: Distinctness up to associates: associates differ by multiplication by +-1 only. Norms of 2,3,1+sqrt(-5),1-sqrt(-5) are 4,9,6,6 respectively, so 2 and 3 are not associates to 1+-sqrt(-5). Also 1+sqrt(-5) is not associate to 1-sqrt(-5) since +- (1+sqrt(-5)) is neither 1-sqrt(-5) nor its negative.",
+          "Step 7: Therefore 6 has two different factorizations into irreducibles not related by reordering and associates, so R is not a UFD."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming irreducible implies prime in this ring without proof",
+          "Skipping the norm equations a^2+5b^2=2 and =3 when proving irreducibility",
+          "Failing to verify unit group before checking associates"
+        ],
+        "required_knowledge": [
+          "Norm in quadratic integer rings",
+          "Irreducible vs prime",
+          "Definition of UFD",
+          "Associate elements and units"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["ring-theory", "ufd", "quadratic-integers", "norm", "proof"]
+    },
+    {
+      "task_id": "S-MATH-14A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Module Theory — Nakayama Applications and Minimal Generators",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let (R,m) be a commutative local ring, k = R/m, and M a finitely generated R-module.\n\n(a) Prove: if elements v1,...,vr in M map to a k-basis of M/mM, then v1,...,vr generate M.\n(b) Prove: any two minimal generating sets of M have the same cardinality, equal to dim_k(M/mM).\n(c) Apply (a),(b) to M = R/(t^3) direct_sum R/(t^2) direct_sum R over R = k[[t]] (formal power series ring): compute the minimal number of generators of M and exhibit one minimal generating set.",
+      "prompt_format": "proof",
+      "constraints": [
+        "You must explicitly use Nakayama's lemma in part (a)",
+        "Part (b) must derive uniqueness of minimal generator count from part (a), not from a quoted theorem",
+        "Part (c) must compute M/tM explicitly before concluding"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For (a), let N = Rv1 + ... + Rvr. Since images of vi span M/mM, we have M = N + mM.",
+          "Step 2: Apply Nakayama (f.g. module form): if M = N + mM then M = N. Hence v1,...,vr generate M.",
+          "Step 3: For (b), if w1,...,ws is any minimal generating set, their images must span M/mM by reducing mod m; by (a), any spanning set in M/mM lifts to generators.",
+          "Step 4: Minimality implies the images of wi are linearly independent over k (otherwise one generator is redundant), so they form a basis of M/mM. Therefore s = dim_k(M/mM). Same for any minimal generating set.",
+          "Step 5: For (c), over R = k[[t]] with maximal ideal (t), compute M/tM ~= (R/(t^3))/t(R/(t^3)) direct_sum (R/(t^2))/t(R/(t^2)) direct_sum R/tR.",
+          "Step 6: Each summand is isomorphic to k, so M/tM ~= k^3. Therefore dim_k(M/tM)=3, and minimal number of generators is 3 by part (b).",
+          "Step 7: One minimal generating set is e1=(1 mod t^3,0,0), e2=(0,1 mod t^2,0), e3=(0,0,1). Their images mod t form the standard basis of k^3."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using Nakayama backward (assuming M=N then concluding M=N+mM) instead of forward",
+          "Forgetting to prove linear independence of images for minimal generating sets",
+          "Computing M/tM incorrectly for torsion summands R/(t^n)"
+        ],
+        "required_knowledge": [
+          "Nakayama's lemma",
+          "Local rings and residue fields",
+          "Minimal generating sets of modules",
+          "Quotient modules over DVR-like local rings"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["module-theory", "nakayama-lemma", "local-rings", "minimal-generators", "proof"]
+    },
+    {
+      "task_id": "S-MATH-14A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection — First Isomorphism Theorem and Kernel Computation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A student attempts to analyze the homomorphism phi: Z x Z -> Z/6Z defined by phi(a,b)=2a+3b (mod 6):\n\n\"phi is surjective, so it is injective. Therefore ker(phi) is generated by one relation 2a+3b=0, so ker(phi)=<(3,-2)>. Hence (Z x Z)/<(3,-2)> ~= Z/6Z by the first isomorphism theorem.\"\n\nIdentify every substantive error in this argument and provide a corrected proof that computes ker(phi) explicitly and then correctly applies the first isomorphism theorem.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "You must isolate at least two independent logical errors",
+        "You must compute ker(phi) exactly as a subgroup of Z x Z",
+        "Your corrected proof must include a valid surjectivity argument"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Error 1: Surjective does not imply injective in general; this is false unless cardinality/finite-size conditions force it.",
+          "Step 2: Error 2: Kernel equation must be modulo 6, not equality in Z. The student replaced 2a+3b congruent 0 (mod 6) by 2a+3b=0.",
+          "Step 3: Compute kernel correctly: 2a+3b congruent 0 (mod 6). Mod 2 gives b even, so b=2t. Then 2a+6t congruent 0 (mod 6) implies 2a congruent 0 (mod 6), so a multiple of 3: a=3s.",
+          "Step 4: Thus ker(phi) = {(3s,2t): s,t in Z} = 3Z x 2Z = <(3,0),(0,2)>.",
+          "Step 5: Surjectivity: phi(1,0)=2, phi(0,1)=3, and subgroup generated by 2 and 3 in Z/6Z is all of Z/6Z since gcd(2,3,6)=1. So phi is onto.",
+          "Step 6: Apply first isomorphism theorem correctly: (Z x Z)/ker(phi) ~= Im(phi)=Z/6Z.",
+          "Step 7: Conclude the student's final isomorphism statement had the right codomain but wrong kernel and invalid reasoning."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Dropping modular arithmetic in kernel equations",
+          "Assuming one linear relation over Z defines the full lattice kernel modulo n",
+          "Treating surjectivity as injectivity without conditions"
+        ],
+        "required_knowledge": [
+          "First isomorphism theorem",
+          "Kernel computation in abelian groups",
+          "Congruence arithmetic",
+          "Generators of finite cyclic groups"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["error-detection", "isomorphism-theorem", "kernel", "abelian-groups", "homomorphisms"]
+    },
+    {
+      "task_id": "S-MATH-14A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection — Sylow Miscount and Diagonalizability Criterion",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Two short proofs are flawed.\n\nProof A (Sylow):\n\"Let |G|=56. By Sylow, n_7 divides 7 and n_7 congruent 1 (mod 7), so n_7=7. Hence no normal Sylow 7-subgroup. Also n_2 divides 8 and n_2 odd, so n_2=1. Therefore G is simple.\"\n\nProof B (linear algebra):\n\"Let A be a 4x4 matrix over C with characteristic polynomial (lambda-2)^4 and minimal polynomial (lambda-2)^2. Since all eigenvalues are in C and repeated eigenvalues are allowed, A is diagonalizable.\"\n\nFor each proof:\n1. Identify the exact incorrect inference.\n2. State the corrected theorem/fact.\n3. Give a corrected conclusion for the specific data.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "You must treat Proof A and Proof B separately",
+        "For Proof A, give the correct possible values of n_7 and n_2",
+        "For Proof B, connect diagonalizability to the minimal polynomial criterion explicitly"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (A error): For |G|=56=2^3*7, Sylow gives n_7 divides 8, not 7. The divisibility used is wrong.",
+          "Step 2 (A corrected counts): n_7 divides 8 and n_7 congruent 1 mod 7, so n_7 in {1,8}. Also n_2 divides 7 and n_2 congruent 1 mod 2, so n_2 in {1,7}.",
+          "Step 3 (A corrected conclusion): If n_7=1 or n_2=1 then corresponding Sylow subgroup is normal, so G is not simple. In particular the student's simplicity conclusion is unsupported and generally false from the shown data.",
+          "Step 4 (B error): Having all eigenvalues in C is not sufficient for diagonalizability when Jordan blocks can occur.",
+          "Step 5 (B corrected criterion): A matrix over C is diagonalizable iff its minimal polynomial splits into distinct linear factors.",
+          "Step 6 (B corrected conclusion): Minimal polynomial (lambda-2)^2 has a repeated root, so A is not diagonalizable."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using wrong cofactor in Sylow divisibility n_p | |G|/p^a",
+          "Inferring simplicity from partial Sylow data without normality analysis",
+          "Confusing 'eigenvalues exist' with 'matrix diagonalizable'"
+        ],
+        "required_knowledge": [
+          "Sylow theorem congruence and divisibility conditions",
+          "Normal Sylow subgroup criterion n_p=1",
+          "Characteristic vs minimal polynomial",
+          "Jordan form / diagonalizability criterion"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["error-detection", "sylow", "simple-groups", "diagonalization", "minimal-polynomial"]
+    },
+    {
+      "task_id": "S-MATH-14A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Field Theory — Structure of Biquadratic Extension",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "True or False (justify rigorously):\n\nClaim: Let K = Q(sqrt(2), sqrt(3)). Then Gal(K/Q) is cyclic of order 4.\n\nYou must determine truth value and give a complete proof. If false, provide the correct group structure and explicitly describe all automorphisms.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "You must compute [K:Q] explicitly",
+        "You must list all Q-automorphisms of K concretely",
+        "You must prove the resulting Galois group is not cyclic"
+      ],
+      "ground_truth": {
+        "answer": "False",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: K = Q(sqrt(2),sqrt(3)) has degree 4 over Q. For example sqrt(3) notin Q(sqrt(2)) since otherwise sqrt(3)=a+b sqrt(2) would force irrational coefficient contradictions after squaring.",
+          "Step 2: Therefore [K:Q]=[Q(sqrt(2),sqrt(3)):Q(sqrt(2))]*[Q(sqrt(2)):Q]=2*2=4.",
+          "Step 3: Any Q-automorphism of K must send sqrt(2) to +-sqrt(2) and sqrt(3) to +-sqrt(3), independently, because each satisfies x^2-2=0 or x^2-3=0 and both choices lie in K.",
+          "Step 4: This gives exactly 4 automorphisms: id, sigma2 (sqrt(2) sign flip), sigma3 (sqrt(3) sign flip), sigma23 (both sign flips).",
+          "Step 5: Composition table shows every non-identity element has order 2, so the group is isomorphic to C2 x C2 (Klein four), not C4.",
+          "Step 6: Hence the claim is false; correct structure is Gal(K/Q) ~= V4."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming degree 4 extension automatically has cyclic Galois group",
+          "Forgetting to prove sqrt(3) not in Q(sqrt(2))",
+          "Listing sign-change automorphisms but then incorrectly labeling group as C4"
+        ],
+        "required_knowledge": [
+          "Tower law",
+          "Automorphisms of quadratic extensions",
+          "Biquadratic extensions",
+          "Klein four group structure"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["true-false", "galois-theory", "field-extensions", "automorphisms", "abstract-algebra"]
+    }
+  ]
+}

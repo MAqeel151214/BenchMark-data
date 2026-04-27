@@ -1,0 +1,329 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-16A",
+    "generator_model": "GPT-5.3-Codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Meta-Reasoning - Detecting, Explaining, and Correcting Errors in Mathematical Solutions",
+    "generated_at": "2026-04-27T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-16A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Modular Arithmetic - Invalid Congruence Division",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Problem: Solve 14x ≡ 28 (mod 42).\n\nProposed solution:\n1) gcd(14,42)=14 and 14 divides 28, so solutions exist.\n2) Divide both sides by 14 to get x ≡ 2 (mod 42).\n3) Therefore the unique residue class is x ≡ 2 (mod 42).\n\nIs the proposed solution correct? If not, identify the first incorrect step and give the correct solution set modulo 42.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Answer in the form YES or NO, Step k",
+        "If NO, provide the complete corrected solution modulo 42"
+      ],
+      "ground_truth": {
+        "answer": "NO, Step 2",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): Step 2 is the first incorrect step because dividing a congruence by 14 requires reducing the modulus by gcd(14,42)=14; keeping modulus 42 is invalid.",
+          "Step 2 (Explanation): From 14x ≡ 28 (mod 42), divide by 14 correctly to obtain x ≡ 2 (mod 3), not modulo 42.",
+          "Step 3 (Correct solution): x ≡ 2 (mod 3). Modulo 42, the solutions are x in {2,5,8,11,14,17,20,23,26,29,32,35,38,41}."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "sol=[x for x in range(42) if (14*x-28)%42==0]\nprint(sol)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Cancelling a non-unit in modular arithmetic without adjusting the modulus",
+          "Assuming cancellation works exactly as in real equations",
+          "Returning only one residue class when the reduced modulus implies multiple classes mod 42"
+        ],
+        "required_knowledge": [
+          "Congruence cancellation rules",
+          "Role of gcd in modular equations"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "congruence", "number-theory"]
+    },
+    {
+      "task_id": "S-MATH-16A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Probability - Conditional vs Joint",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Problem: A bag has 3 red and 2 blue balls. Two balls are drawn uniformly without replacement. Compute P(both red | at least one red).\n\nProposed solution:\n1) P(both red)=C(3,2)/C(5,2)=3/10.\n2) P(at least one red)=1-P(both blue)=1-C(2,2)/C(5,2)=9/10.\n3) P(both red | at least one red)=P(both red) * P(at least one red)=27/100.\n\nIs the proposed solution correct? If not, identify the first incorrect step and provide the correct conditional probability.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Answer in the form YES or NO, Step k",
+        "If NO, provide the corrected conditional probability as a reduced fraction"
+      ],
+      "ground_truth": {
+        "answer": "NO, Step 3",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): Step 3 is incorrect; conditional probability is not the product P(A)P(B).",
+          "Step 2 (Explanation): Use P(A|B)=P(A∩B)/P(B). Here A='both red' implies B='at least one red', so A∩B=A.",
+          "Step 3 (Correct solution): P(both red | at least one red)=P(both red)/P(at least one red)=(3/10)/(9/10)=1/3."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import itertools\nballs=['R']*3+['B']*2\npairs=list(itertools.combinations(range(5),2))\nA=B=AB=0\nfor i,j in pairs:\n    draw=[balls[i],balls[j]]\n    a=(draw.count('R')==2)\n    b=(draw.count('R')>=1)\n    A+=a; B+=b; AB+=a and b\nprint(AB/B)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Replacing P(A|B) with P(A)P(B)",
+          "Forgetting that A is a subset of B in this setup",
+          "Confusing conditioning with independence"
+        ],
+        "required_knowledge": [
+          "Definition of conditional probability",
+          "Combinatorial counting without replacement"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "conditional-probability", "combinatorics"]
+    },
+    {
+      "task_id": "S-MATH-16A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Real Analysis - Interchanging Limit and Integral",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Problem: Evaluate L = lim_{n->infinity} ∫_0^1 n/(1+n^2 x^2) dx.\n\nProposed solution:\n1) For every x>0, n/(1+n^2 x^2) -> 0 as n->infinity.\n2) Therefore lim and integral can be swapped, so L=∫_0^1 0 dx=0.\n\nIs the proposed solution correct? If not, identify the first incorrect step and compute the correct limit.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Answer in the form YES or NO, Step k",
+        "If NO, compute the exact limit"
+      ],
+      "ground_truth": {
+        "answer": "NO, Step 2",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): Step 2 is the first incorrect step; pointwise convergence on x>0 alone does not justify swapping limit and integral.",
+          "Step 2 (Explanation): The mass concentrates near x=0, so naive pointwise reasoning fails; one must compute directly or verify a valid convergence theorem hypothesis.",
+          "Step 3 (Correct solution): ∫_0^1 n/(1+n^2x^2) dx = [arctan(nx)]_0^1 = arctan(n). Hence L=lim_{n->infty} arctan(n)=pi/2."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math\nfor n in [10,100,1000,10000]:\n    print(math.atan(n))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming pointwise limit implies limit-integral interchange",
+          "Ignoring concentration effects near a boundary point",
+          "Forgetting to test domination/integrability conditions"
+        ],
+        "required_knowledge": [
+          "Limit-interchange theorems",
+          "Direct antiderivative evaluation",
+          "Behavior of arctan at infinity"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["error-detection", "analysis", "limit-integral"]
+    },
+    {
+      "task_id": "S-MATH-16A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Linear Algebra - Polynomial Criteria for Diagonalizability",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Problem: Let A be a real square matrix satisfying A^3 = A. Determine whether A must be diagonalizable over R.\n\nProposed solution:\n1) A^3-A=0 implies A(A-1)(A+1)=0, so the minimal polynomial m_A(t) divides t(t-1)(t+1).\n2) The polynomial t(t-1)(t+1) has three distinct real roots.\n3) Any matrix whose minimal polynomial splits into distinct linear factors is diagonalizable over R.\n4) Therefore A is diagonalizable over R.\n\nIs the proposed solution correct?",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Answer in the form YES or NO, Step k",
+        "If YES, briefly confirm the conclusion"
+      ],
+      "ground_truth": {
+        "answer": "YES",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): No step is incorrect; all steps satisfy the standard minimal-polynomial criterion.",
+          "Step 2 (Explanation): Since m_A divides t(t-1)(t+1), m_A has no repeated factor. Over R it fully splits into distinct linear factors.",
+          "Step 3 (Complete correct solution): Therefore A is diagonalizable over R."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly believing A^3=A allows Jordan blocks of size >1 at eigenvalues 0,1,-1",
+          "Confusing 'characteristic polynomial splits' with 'minimal polynomial square-free'",
+          "False-positive error flagging on a correct proof"
+        ],
+        "required_knowledge": [
+          "Minimal polynomial divisibility",
+          "Diagonalizability criterion via square-free minimal polynomial"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["error-detection", "linear-algebra", "diagonalization"]
+    },
+    {
+      "task_id": "S-MATH-16A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Differential Equations - Hidden Assumption in Separation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Problem: Solve the initial value problem f'(x)=f(x)^2 with f(0)=0.\n\nProposed solution:\n1) Rewrite as df/dx=f^2, so (1/f^2) df = dx.\n2) Integrate: -1/f = x + C.\n3) Plugging x=0 and f(0)=0 is impossible, so no solution exists.\n\nIs the proposed solution correct? If not, identify the first incorrect step and provide the correct solution.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Answer in the form YES or NO, Step k",
+        "If NO, provide the complete corrected solution"
+      ],
+      "ground_truth": {
+        "answer": "NO, Step 1",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): Step 1 is the first incorrect step because dividing by f^2 assumes f is never zero, which is not justified for this IVP.",
+          "Step 2 (Explanation): The initial condition f(0)=0 strongly suggests the zero solution; separation after division can discard valid solutions.",
+          "Step 3 (Correct solution): f(x) ≡ 0 satisfies f'=0=f^2 and f(0)=0. By local uniqueness for y'=y^2 (Lipschitz in y), this is the unique solution."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\nx=sp.symbols('x')\nf=sp.Integer(0)\nprint(sp.diff(f,x), f**2)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Dividing by an expression that may be zero and losing solutions",
+          "Concluding nonexistence from an inconsistent transformed equation",
+          "Ignoring IVP uniqueness structure"
+        ],
+        "required_knowledge": [
+          "Separable ODE method caveats",
+          "Existence/uniqueness for first-order ODEs"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["error-detection", "ode", "assumption-violation"]
+    },
+    {
+      "task_id": "S-MATH-16A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Series - Dirichlet Test and Absolute Convergence",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Problem: Determine whether the series sum_{n=1}^infinity sin(n)/n converges, and whether it converges absolutely.\n\nProposed solution:\n1) The partial sums of sin(n) are bounded.\n2) The sequence 1/n decreases to 0.\n3) By Dirichlet's test, sum sin(n)/n converges.\n4) For absolute convergence, sum |sin(n)|/n diverges because average size of |sin(n)| is nonzero, so it behaves like c*(1/n).\n5) Hence the series converges conditionally, not absolutely.\n\nIs the proposed solution correct?",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Answer in the form YES or NO, Step k",
+        "If YES, state the final classification"
+      ],
+      "ground_truth": {
+        "answer": "YES",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): No incorrect step. Steps 1-3 correctly apply Dirichlet's test to obtain convergence.",
+          "Step 2 (Explanation): Step 4 gives the right absolute-convergence verdict: |sin(n)| does not average to 0, so comparison to harmonic behavior yields divergence of sum |sin(n)|/n.",
+          "Step 3 (Complete correct solution): The series sum sin(n)/n converges, but not absolutely; it is conditionally convergent."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math\nfor N in [1000,5000,20000]:\n    s=sum(math.sin(n)/n for n in range(1,N+1))\n    a=sum(abs(math.sin(n))/n for n in range(1,N+1))\n    print(N,s,a)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly claiming absolute convergence from boundedness of sin(n)",
+          "Misapplying alternating-series logic to a non-alternating sign pattern",
+          "False-positive rejection of a correct Dirichlet argument"
+        ],
+        "required_knowledge": [
+          "Dirichlet test",
+          "Difference between conditional and absolute convergence"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["error-detection", "infinite-series", "convergence-tests"]
+    },
+    {
+      "task_id": "S-MATH-16A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Complex Analysis - Branch Conditions for Logarithms",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Problem: Using the principal branch Log (Arg in (-pi,pi]), solve for all nonzero complex z such that Log(z^2)=2Log(z).\n\nProposed solution:\n1) Log(z^2)=2Log(z) is always true by log power rules.\n2) Therefore every nonzero complex number z is a solution.\n\nIs the proposed solution correct? If not, identify the first incorrect step and give the exact solution set.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Answer in the form YES or NO, Step k",
+        "If NO, give the exact Arg-condition for all solutions"
+      ],
+      "ground_truth": {
+        "answer": "NO, Step 1",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): Step 1 is incorrect because principal-branch logarithm does not satisfy unrestricted power laws globally.",
+          "Step 2 (Explanation): Write z=re^{i theta} with theta=Arg(z) in (-pi,pi]. Then 2Log(z)=2ln r + i(2theta). But Log(z^2)=ln(r^2)+i Arg(e^{i2theta}), where Arg(e^{i2theta}) is principal-reduced. Equality requires 2theta already in (-pi,pi].",
+          "Step 3 (Correct solution): Condition is theta in (-pi/2, pi/2]. Thus solutions are all nonzero z with Arg(z) in (-pi/2, pi/2], equivalently right half-plane plus positive imaginary axis, excluding negative imaginary axis boundary."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import cmath, math\n# numerical spot check\nvals=[1+1j, -1+1j, 1-1j, 1j, -1j]\nfor z in vals:\n    lhs=cmath.log(z*z)\n    rhs=2*cmath.log(z)\n    print(z, abs(lhs-rhs)<1e-9)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying real logarithm identities directly to principal complex logarithm",
+          "Ignoring branch-cut and principal-argument reduction",
+          "Missing boundary asymmetry between +pi/2 and -pi/2"
+        ],
+        "required_knowledge": [
+          "Principal branch of complex logarithm",
+          "Argument normalization in (-pi,pi]"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["error-detection", "complex-analysis", "branch-cuts"]
+    }
+  ]
+}

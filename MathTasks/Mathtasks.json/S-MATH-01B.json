@@ -1,0 +1,326 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-01B",
+    "generator_model": "gpt-5.3-codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Number Theory — Primes, Modular Arithmetic, Divisibility",
+    "generated_at": "2026-04-23T12:15:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-01B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "GCD/LCM identities",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 2,
+      "prompt": "Find the unique positive integer n such that gcd(n, 840) = 84 and lcm(n, 840) = 2520.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use the identity gcd(a,b)lcm(a,b)=ab.",
+        "Final answer must be a single positive integer."
+      ],
+      "ground_truth": {
+        "answer": 252,
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Use gcd(n,840)lcm(n,840)=n840, so 842520 = n840.",
+          "Step 2: Compute n = (842520)/840 = 252.",
+          "Step 3: Verify gcd(252,840)=84 and lcm(252,840)=2520, so n=252 is valid and unique."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math\nn=252\nprint(math.gcd(n,840), n*840//math.gcd(n,840))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using gcd+lcm instead of gcdlcm in the core identity.",
+          "Computing n correctly but not checking both given conditions.",
+          "Mistakenly dividing by 84 instead of 840 in Step 2."
+        ],
+        "required_knowledge": [
+          "GCD/LCM product identity",
+          "Basic divisibility verification"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 3
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "gcd",
+        "lcm",
+        "divisibility"
+      ]
+    },
+    {
+      "task_id": "S-MATH-01B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Congruence system consistency (non-coprime moduli)",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Multiple choice. Solve the system:\n\nx ≡ 8 (mod 18)\nx ≡ 21 (mod 30)\n\nChoose exactly one option:\nA) x ≡ 48 (mod 90)\nB) x ≡ 78 (mod 90)\nC) No integer solution exists\nD) x ≡ 8 (mod 540)",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "You must test the gcd compatibility condition before attempting CRT construction.",
+        "Final answer must be a single letter (A/B/C/D)."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For x ≡ a (mod m), x ≡ b (mod n), a solution exists iff a ≡ b (mod gcd(m,n)).",
+          "Step 2: gcd(18,30)=6. Reduce residues mod 6: 8 ≡ 2 and 21 ≡ 3 (mod 6), not equal.",
+          "Step 3: Incompatibility implies no integer solution, so option C is correct.",
+          "Step 4: A and B are fabricated residue classes modulo 90; D ignores the second congruence and wrongly multiplies moduli."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "sol=[x for x in range(0,540) if x%18==8 and x%30==21]\nprint(sol)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying CRT directly as if 18 and 30 were coprime.",
+          "Checking only one congruence against candidate options.",
+          "Using lcm(18,30)=90 even when consistency fails."
+        ],
+        "required_knowledge": [
+          "General CRT consistency criterion",
+          "GCD and residue reduction"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 9
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": [
+        "crt",
+        "non-coprime",
+        "consistency"
+      ]
+    },
+    {
+      "task_id": "S-MATH-01B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Divisibility rule in non-standard base",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "In base 12 (digits 0-9, A=10, B=11), prove the following rule:\nA base-12 integer d_k d_{k-1} ... d_0 is divisible by 13 if and only if the alternating digit sum d_0 - d_1 + d_2 - d_3 + ... + (-1)^k d_k is divisible by 13.\nThen apply the rule to N = (B583A)12 and determine whether N is divisible by 13, including the remainder modulo 13.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Your proof must explicitly use 12 ≡ -1 (mod 13).",
+        "Final line must state divisibility of (B583A)12 and its remainder mod 13."
+      ],
+      "ground_truth": {
+        "answer": "(B583A)12 is not divisible by 13; remainder is 8.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Write N = sum{i=0}^k d_i * 12^i. Modulo 13, 12 ≡ -1, so 12^i ≡ (-1)^i.",
+          "Step 2: Therefore N ≡ sum{i=0}^k d_i(-1)^i (mod 13), which is exactly the alternating digit sum criterion.",
+          "Step 3: For (B583A)12, from least significant digit: A - 3 + 8 - 5 + B = 10 - 3 + 8 - 5 + 11 = 21.",
+          "Step 4: 21 ≡ 8 (mod 13), so N is not divisible by 13; remainder is 8."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": "N = 11*12**4 + 5*12**3 + 8*12**2 + 3*12 + 10\nprint(N%13)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Summing digits without alternating signs.",
+          "Applying the decimal divisibility rule for 11 instead of a base-12 argument for 13.",
+          "Alternating from the wrong end (most significant instead of least significant) without sign adjustment."
+        ],
+        "required_knowledge": [
+          "Positional numeral expansion",
+          "Modular arithmetic with bases",
+          "Divisibility tests"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 14
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "non-standard-base",
+        "divisibility-rule",
+        "proof"
+      ]
+    },
+    {
+      "task_id": "S-MATH-01B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Euler totient and divisor sum",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Compute the exact value of φ(4620) + σ(4620), where φ is Euler's totient and σ is the sum-of-divisors function.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Factor 4620 into primes before evaluating φ and σ.",
+        "Final answer must be a single integer."
+      ],
+      "ground_truth": {
+        "answer": 17088,
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Prime factorization: 4620 = 2^2 * 3 * 5 * 7 * 11.",
+          "Step 2: φ(4620)=4620(1-1/2)(1-1/3)(1-1/5)(1-1/7)(1-1/11)=960.",
+          "Step 3: σ(4620)=((2^3-1)/(2-1))((3^2-1)/(3-1))((5^2-1)/(5-1))((7^2-1)/(7-1))((11^2-1)/(11-1))=16128.",
+          "Step 4: Sum is 960 + 16128 = 17088."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\nn=4620\nprint(sp.totient(n)+sp.divisor_sigma(n,1))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using φ(p^k)=p^k-1 instead of p^k-p^{k-1}.",
+          "Forgetting that σ is multiplicative and multiplying incorrect geometric-series factors.",
+          "Dropping one prime factor (often 11) from the formulas."
+        ],
+        "required_knowledge": [
+          "Prime factorization",
+          "Totient formula",
+          "Divisor-sum multiplicative formula"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "totient",
+        "sigma",
+        "multiplicative-functions"
+      ]
+    },
+    {
+      "task_id": "S-MATH-01B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Composite-modulus exponentiation trap",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Multiple choice. Compute 3^340 mod 341.\n\nA) 1\nB) 25\nC) 56\nD) 280",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Do not assume 341 is prime.",
+        "Final answer must be a single letter (A/B/C/D)."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Factor 341 = 11*31. Work modulo each prime and combine with CRT.",
+          "Step 2: Mod 11: 3^5 ≡ 1, so 3^340 = (3^5)^68 ≡ 1 (mod 11).",
+          "Step 3: Mod 31: 3^30 ≡ 1, and 340 ≡ 10 (mod 30), so 3^340 ≡ 3^10. Compute 3^5=243≡26, hence 3^10≡26^2=676≡25 (mod 31).",
+          "Step 4: Solve x ≡ 1 (mod 11), x ≡ 25 (mod 31). Let x=1+11k; then 11k≡24 (mod 31). Inverse of 11 mod 31 is 17, so k≡24*17≡5 (mod 31). Thus x=56 (mod 341).",
+          "Step 5: Therefore the correct option is C."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "print(pow(3,340,341))"
+      },
+      "meta_reasoning": {},
+      "perturbation_notes": {},
+      "tags": [
+        "composite-modulus",
+        "crt"
+      ]
+    },
+    {
+      "task_id": "S-MATH-01B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Dirichlet convolution identity with arithmetic functions",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Prove that for every positive integer n,\n\nS(n) = sum{d|n} μ(d) * σ(n/d) = n,\n\nwhere μ is the Möbius function and σ is the sum-of-divisors function. Then evaluate S(2310).",
+      "prompt_format": "proof",
+      "constraints": [
+        "Your proof must justify the identity structurally (not by checking examples only).",
+        "Final numeric value for S(2310) must be explicit."
+      ],
+      "ground_truth": {
+        "answer": 2310,
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [],
+        "verification_method": "numerical",
+        "verification_code": "import sympy as sp\nn=2310\ns=sum(sp.mobius(d)*sp.divisor_sigma(n//d,1) for d in sp.divisors(n))\nprint(s)"
+      },
+      "meta_reasoning": {},
+      "perturbation_notes": {},
+      "tags": [
+        "mobius",
+        "sigma"
+      ]
+    },
+    {
+      "task_id": "S-MATH-01B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Error detection in arithmetic-function proof",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Error-detection task...",
+      "prompt_format": "error_detection",
+      "constraints": [],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [],
+        "verification_method": "rubric_based",
+        "verification_code": ""
+      },
+      "meta_reasoning": {},
+      "perturbation_notes": {},
+      "tags": [
+        "error-detection"
+      ]
+    },
+    {
+      "task_id": "S-MATH-01B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Basic arithmetic-function evaluation",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 3,
+      "prompt": "Let n = 2^3 * 3 * 11^2. Compute μ(n), τ(n), and σ(n).",
+      "prompt_format": "open_ended",
+      "constraints": [],
+      "ground_truth": {
+        "answer": "mu(n)=0, tau(n)=24, sigma(n)=7980",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\nn=2**3*3*11**2\nprint(sp.mobius(n), sp.divisor_count(n), sp.divisor_sigma(n,1))"
+      },
+      "meta_reasoning": {},
+      "perturbation_notes": {},
+      "tags": [
+        "mobius",
+        "tau",
+        "sigma"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,441 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-09B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Calculus & Analysis — Limits, Series, Integrals, Convergence",
+    "generated_at": "2026-04-25T12:26:53+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-09B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Sequences of Functions — Uniform Convergence and Limit Interchange",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "A student presents the following argument:\n\n\"Consider the sequence of functions f_n(x) = nxe^{-nx} defined on [0,1]. I claim that\\nlim_{n→∞} ∫_0^1 f_n(x) dx = ∫_0^1 lim_{n→∞} f_n(x) dx.\\n\nProof: For each fixed x ∈ (0,1], we have f_n(x) = nx/e^{nx} → 0 as n → ∞ since exponential growth dominates polynomial growth. At x = 0, f_n(0) = 0 for all n. Thus f_n → 0 pointwise on [0,1].\\n\nThe limit function is 0, so ∫_0^1 lim f_n(x) dx = 0.\\n\nFor the left side: ∫_0^1 nxe^{-nx} dx. Using integration by parts with u = x, dv = ne^{-nx}dx:\n= [-xe^{-nx}]_0^1 + ∫_0^1 e^{-nx} dx\\n= -e^{-n} + [-e^{-nx}/n]_0^1\\n= -e^{-n} + (1 - e^{-n})/n\\n= -e^{-n} + 1/n - e^{-n}/n\\n\nAs n → ∞, this tends to 0 + 0 - 0 = 0.\\n\nBoth sides equal 0, so the interchange is valid. QED.\"\n\nTASK: Identify ALL errors in this argument (there is at least one). If the conclusion is actually true, explain whether the reasoning is sound. If the conclusion is false, compute the correct value of lim_{n→∞} ∫_0^1 f_n(x) dx and explain why the student's reasoning fails.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify each specific error with line references",
+        "Provide the correct computation and final numerical answer",
+        "Explain the conceptual mistake about convergence types"
+      ],
+      "ground_truth": {
+        "answer": "0",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Verify pointwise convergence. For x ∈ (0,1], f_n(x) = nx/e^{nx} → 0 as n → ∞ because exponential growth dominates linear growth. At x=0, f_n(0)=0. So f_n → 0 pointwise. This part of the student's argument is correct.",
+          "Step 2: Evaluate the integral via substitution. Let u = nx, so du = n dx and dx = du/n. Then ∫_0^1 nxe^{-nx}dx = ∫_0^n n(u/n)e^{-u}(du/n) = (1/n)∫_0^n ue^{-u}du.",
+          "Step 3: Take the limit. lim_{n→∞} (1/n)∫_0^n ue^{-u}du = lim_{n→∞} (1/n) · [Γ(2) - o(1)] = lim_{n→∞} (1/n) · 1 = 0, since ∫_0^∞ ue^{-u}du = Γ(2) = 1! = 1.",
+          "Step 4: Therefore, lim_{n→∞} ∫_0^1 f_n(x)dx = 0 = ∫_0^1 lim_{n→∞} f_n(x)dx. The student's numerical conclusion that both sides equal 0 is CORRECT.",
+          "Step 5: Identify the conceptual error. The student claims 'Both sides equal 0, so the interchange is valid.' This is a logical fallacy: showing that two quantities happen to be equal in a specific instance does NOT prove that the general theorem justifying the interchange applies. The student never established uniform convergence, monotone convergence, or domination.",
+          "Step 6: Prove that convergence is NOT uniform. Find the maximum of f_n(x) = nxe^{-nx}. f_n'(x) = ne^{-nx}(1-nx) = 0 at x = 1/n. f_n(1/n) = n·(1/n)·e^{-1} = 1/e. Thus sup_{x∈[0,1]} |f_n(x)-0| = 1/e ↛ 0, so convergence is not uniform.",
+          "Step 7: The correct justification for the interchange is the Dominated Convergence Theorem. For all n and all x∈[0,1], |f_n(x)| = nxe^{-nx}. The maximum value of t e^{-t} for t≥0 is 1/e (attained at t=1). Hence |f_n(x)| ≤ 1/e for all n,x. The constant function 1/e is integrable on [0,1], so DCT applies.",
+          "Step 8: Summary: the student got the right numerical answer (0) by accident, but their reasoning is deeply flawed. They conflated 'the equality holds numerically' with 'the conditions for limit-integral interchange are satisfied.'"
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np\nfrom scipy import integrate\n\ndef f_n(x, n):\n    return n * x * np.exp(-n * x)\n\n# Numerically verify the integral tends to 0\nfor n in [10, 100, 1000, 10000]:\n    result, err = integrate.quad(lambda x: f_n(x, n), 0, 1)\n    print(f'n={n:5d}: integral = {result:.8f}')\n\n# Verify supremum is 1/e (not uniform convergence)\nprint(f'Supremum f_n(1/n) = 1/e = {1/np.e:.8f}')\n\n# Verify dominated convergence bound\nprint(f'Max of t*exp(-t) = {1/np.e:.8f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming the interchange is invalid because the numerical conclusion is false (but it is actually true)",
+          "Missing that convergence is not uniform by failing to find the maximum at x=1/n",
+          "Confusing 'both sides are equal' with 'the interchange theorem is applicable'",
+          "Incorrectly applying dominated convergence without finding an appropriate dominating function"
+        ],
+        "required_knowledge": [
+          "Pointwise vs uniform convergence of function sequences",
+          "Weierstrass M-test and supremum norm",
+          "Dominated convergence theorem",
+          "Interchange of limit and integral"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["uniform-convergence", "limit-interchange", "error-detection", "dominated-convergence"]
+    },
+    {
+      "task_id": "S-MATH-09B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Metric Space Analysis — Fixed Point Theorem and Completeness",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 10,
+      "prompt": "Construct an explicit example of a metric space (X,d) and a mapping T: X → X that satisfies ALL of the following three properties simultaneously. You must define X, d, and T with precise formulas, and then rigorously verify each property:\n\n(i) d is a metric on X and the metric space (X,d) is NOT complete.\n(ii) T is a contraction mapping on (X,d) with Lipschitz constant L < 1.\n(iii) T has NO fixed point in X.\n\nYour example must be original — do NOT use X = (0,1) with the standard metric or any equally well-known textbook construction. After presenting your example, prove in detail that it satisfies (i), (ii), and (iii).",
+      "prompt_format": "proof",
+      "constraints": [
+        "X, d, and T must be defined by explicit formulas",
+        "Provide a full proof that (X,d) is not complete by exhibiting a Cauchy sequence with no limit in X",
+        "Compute the exact Lipschitz constant L and prove L < 1",
+        "Prove that the unique fixed point of T in the completion does not lie in X"
+      ],
+      "ground_truth": {
+        "answer": "X = {polynomials p: [0,1] → ℝ} with d(p,q) = sup_{x∈[0,1]} |p(x)-q(x)|; T(p)(x) = 1 + (x/2)·p(x); L = 1/2; no fixed point because p(x) = 2/(2-x) is not a polynomial",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define X = P[0,1], the set of all real polynomials on [0,1], equipped with the supremum metric d(p,q) = sup_{x∈[0,1]} |p(x)-q(x)|.",
+          "Step 2: Verify d is a metric. Non-negativity, symmetry, and triangle inequality follow from properties of |·| and sup. If d(p,q)=0 then p=q pointwise, and since polynomials are continuous, p=q everywhere.",
+          "Step 3: Prove (X,d) is not complete. By the Weierstrass approximation theorem, the closure of X in C[0,1] is all of C[0,1]. The function e^x is continuous on [0,1] but is not a polynomial (its derivatives never vanish identically). Thus there exists a Cauchy sequence of polynomials converging uniformly to e^x, but e^x ∉ X.",
+          "Step 4: Define T(p)(x) = 1 + (x/2)·p(x). For any polynomial p, T(p) is also a polynomial (product and sum of polynomials). Thus T: X → X.",
+          "Step 5: Prove T is a contraction. For any p,q ∈ X and any x∈[0,1]: |T(p)(x)-T(q)(x)| = |x/2|·|p(x)-q(x)| ≤ (1/2)·sup_{t∈[0,1]}|p(t)-q(t)| = d(p,q)/2. Taking sup over x gives d(T(p),T(q)) ≤ d(p,q)/2. Hence L = 1/2 < 1.",
+          "Step 6: Find the fixed point equation. p = T(p) means p(x) = 1 + x·p(x)/2, so p(x)(1 - x/2) = 1, giving p(x) = 2/(2-x) for x∈[0,1].",
+          "Step 7: Prove 2/(2-x) is not a polynomial. Expand as a power series: 2/(2-x) = 1/(1-x/2) = ∑_{k=0}^∞ (x/2)^k, which has infinitely many non-zero terms. A polynomial has finitely many terms. Therefore 2/(2-x) ∉ X.",
+          "Step 8: Conclude that T has no fixed point in X, despite being a contraction on an incomplete metric space. This demonstrates that the completeness hypothesis in the Banach fixed point theorem is essential."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using a closed subset of a complete space (which would be complete) and failing to notice the error",
+          "Choosing T whose fixed point happens to be in X, violating property (iii)",
+          "Failing to prove the metric space is incomplete by not exhibiting a concrete Cauchy sequence",
+          "Claiming L < 1 without computing the exact supremum of the ratio d(Tp,Tq)/d(p,q)"
+        ],
+        "required_knowledge": [
+          "Banach fixed point theorem and its hypotheses",
+          "Metric completeness and Cauchy sequences",
+          "Weierstrass approximation theorem",
+          "Lipschitz constants and contraction mappings"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 50
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["metric-spaces", "banach-fixed-point", "completeness", "construction"]
+    },
+    {
+      "task_id": "S-MATH-09B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Integration — Feynman's Trick (Differentiation Under the Integral Sign)",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Compute the exact value of the definite integral\\n\\nI(a,b) = ∫_0^1 (x^a - x^b) / ln(x) dx\\n\\nfor parameters a > -1 and b > -1 with a ≠ b, using Feynman's trick (differentiation under the integral sign with respect to a parameter). You must:\n\n1. Define an auxiliary parameterized integral F(t) that reduces to I(a,b) at appropriate endpoints.\n2. Justify differentiation under the integral sign (dominated convergence or continuity/boundedness).\n3. Compute F'(t) explicitly.\n4. Recover F(t) by integration and determine the constant of integration using a convenient value of t.\n5. State the closed-form expression for I(a,b).\n6. Evaluate I(3,1) exactly.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show every step of the Feynman trick clearly",
+        "Justify why differentiation under the integral sign is valid for this integrand",
+        "Final answer must be an exact closed-form expression for I(a,b) and the exact value of I(3,1)"
+      ],
+      "ground_truth": {
+        "answer": "ln((a+1)/(b+1)); I(3,1) = ln(2)",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Fix b and define F(t) = ∫_0^1 (x^t - x^b) / ln(x) dx for t > -1. Then I(a,b) = F(a).",
+          "Step 2: Justify differentiation under the integral sign. For each fixed x∈(0,1), the integrand (x^t - x^b)/ln(x) is continuous in t. For t in any compact subset of (-1,∞), ∂/∂t [(x^t - x^b)/ln(x)] = x^t. Since |x^t| ≤ max(x^{t_min}, x^{t_max}) which is integrable on [0,1] (as t > -1), dominated convergence justifies dF/dt = ∫_0^1 x^t dx.",
+          "Step 3: Compute F'(t) = ∫_0^1 x^t dx = [x^{t+1}/(t+1)]_0^1 = 1/(t+1), where convergence at x=0 requires t+1 > 0, i.e., t > -1.",
+          "Step 4: Integrate: F(t) = ln(t+1) + C. Determine C by evaluating at t = b: F(b) = ∫_0^1 (x^b - x^b)/ln(x) dx = 0. Thus 0 = ln(b+1) + C, so C = -ln(b+1).",
+          "Step 5: Therefore F(t) = ln(t+1) - ln(b+1) = ln((t+1)/(b+1)). Setting t = a gives I(a,b) = ln((a+1)/(b+1)).",
+          "Step 6: Evaluate I(3,1) = ln((3+1)/(1+1)) = ln(4/2) = ln(2)."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np\nfrom scipy import integrate\n\ndef I_numeric(a, b):\n    result, err = integrate.quad(lambda x: (x**a - x**b) / np.log(x), 0, 1)\n    return result\n\n# Verify I(3,1) = ln(2)\nprint(f'Numerical I(3,1) = {I_numeric(3, 1):.10f}')\nprint(f'Exact ln(2)      = {np.log(2):.10f}')\n\n# Verify I(2,0) = ln(3)\nprint(f'Numerical I(2,0) = {I_numeric(2, 0):.10f}')\nprint(f'Exact ln(3)      = {np.log(3):.10f}')\n\n# Verify I(0.5, -0.5) = ln(1.5/0.5) = ln(3)\nprint(f'Numerical I(0.5,-0.5) = {I_numeric(0.5, -0.5):.10f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Differentiating with respect to the wrong parameter or failing to introduce a parameter at all",
+          "Forgetting to verify the conditions for differentiation under the integral sign (leading to an invalid proof)",
+          "Incorrectly integrating 1/(t+1) to get ln(t) instead of ln(t+1)",
+          "Failing to determine the constant of integration by using a convenient reference point like t=b"
+        ],
+        "required_knowledge": [
+          "Feynman's trick (differentiation under the integral sign)",
+          "Dominated convergence theorem for justifying parameter differentiation",
+          "Basic logarithmic integration",
+          "Handling improper integrals near x=0 and x=1"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["integration", "feynman-trick", "differentiation-under-integral", "closed-form"]
+    },
+    {
+      "task_id": "S-MATH-09B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Series — Convergence Tests and Misapplication",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider the series S = ∑_{n=1}^∞ (2n)! / (4^n (n!)^2). A student presents the following proof that S converges:\n\n\"Apply the ratio test. Let a_n = (2n)!/(4^n (n!)^2). Then\\na_{n+1}/a_n = (2n+2)!/(4^{n+1}((n+1)!)^2) · 4^n (n!)^2/(2n)!\\n= (2n+2)(2n+1)/(4(n+1)^2)\\n= (4n^2 + 6n + 2)/(4n^2 + 8n + 4).\\n\nFor all n ≥ 1, the numerator 4n^2+6n+2 is strictly less than the denominator 4n^2+8n+4 (since 6n+2 < 8n+4). Therefore a_{n+1}/a_n < 1 for all n.\\n\nBecause each term is smaller than the previous one, the ratio test guarantees convergence. QED.\"\n\nTASK: Identify the error in the student's proof. Determine whether the series S actually converges or diverges. If it converges, prove convergence using a valid test. If it diverges, prove divergence rigorously using a valid method (not the ratio test).",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Quote the exact sentence(s) where the error occurs",
+        "State the correct limit of a_{n+1}/a_n as n→∞",
+        "Provide a rigorous proof of convergence or divergence using a different test"
+      ],
+      "ground_truth": {
+        "answer": "Diverges",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The student's algebra for a_{n+1}/a_n is correct: (2n+2)(2n+1)/(4(n+1)^2) = (4n^2+6n+2)/(4n^2+8n+4).",
+          "Step 2: Identify the error. The student writes: 'Because each term is smaller than the previous one, the ratio test guarantees convergence.' This is FALSE. The ratio test requires lim_{n→∞} a_{n+1}/a_n < 1 (or limsup < 1), not merely a_{n+1}/a_n < 1 for all n. When the limit equals 1, the ratio test is INCONCLUSIVE.",
+          "Step 3: Compute the correct limit: lim_{n→∞} (4n^2+6n+2)/(4n^2+8n+4) = 1. Since the limit is exactly 1, the ratio test gives no information.",
+          "Step 4: Determine the true behavior using Stirling's approximation. n! ~ √(2πn)(n/e)^n, so (2n)! ~ √(4πn)(2n/e)^{2n} and (n!)^2 ~ 2πn(n/e)^{2n}.",
+          "Step 5: Therefore a_n = (2n)!/(4^n (n!)^2) ~ √(4πn)(2n/e)^{2n} / (4^n · 2πn · (n/e)^{2n}) = √(4πn) · 4^n · n^{2n} · e^{-2n} / (4^n · 2πn · n^{2n} · e^{-2n}) = √(4πn)/(2πn) = 1/√(πn).",
+          "Step 6: Since a_n ~ 1/√(πn) and the p-series ∑ 1/n^{1/2} diverges (p = 1/2 ≤ 1), by the limit comparison test with b_n = 1/√n, the series S diverges.",
+          "Step 7: Alternative proof without Stirling: a_n = C(2n,n)/4^n. By the Wallis product or known bound C(2n,n) > 4^n/(2√n), we get a_n > 1/(2√n), and ∑ 1/√n diverges."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np\nfrom math import factorial\nfrom scipy.special import comb\n\n# Compute partial sums\nN = 100000\npartial_sums = []\ns = 0\nfor n in range(1, N+1):\n    a = comb(2*n, n) / (4**n)\n    s += a\n    if n in [10, 100, 1000, 10000, 100000]:\n        partial_sums.append((n, s, a))\n\nfor n, s, a in partial_sums:\n    print(f'n={n:6d}: a_n ≈ {a:.8f}, S_n ≈ {s:.4f}')\n\n# Compare with 1/sqrt(pi*n)\nprint(f'\\nStirling approx a_n ~ 1/sqrt(pi*n):')\nfor n in [100, 1000, 10000]:\n    a = comb(2*n, n) / (4**n)\n    approx = 1/np.sqrt(np.pi*n)\n    print(f'n={n}: actual={a:.8f}, approx={approx:.8f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Believing that a_{n+1}/a_n < 1 for all n implies convergence (this only implies the terms decrease, not that the series converges)",
+          "Incorrectly concluding that since the limit of the ratio is 1 'from below', the series converges",
+          "Attempting to apply the root test and finding it also inconclusive, then giving up",
+          "Using Stirling's formula incorrectly (wrong powers of n or missing constants)"
+        ],
+        "required_knowledge": [
+          "Ratio test and its boundary case (limit = 1)",
+          "Stirling's approximation",
+          "Limit comparison test",
+          "p-series divergence"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["series", "ratio-test", "stirling-approximation", "error-detection"]
+    },
+    {
+      "task_id": "S-MATH-09B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Sequences of Functions — Convergence Behavior Classification",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider the sequence of functions f_n(x) = n x^2 / (1 + n^2 x^4) defined on the interval [0,1]. Which of the following statements is TRUE?\n\nA) f_n converges uniformly to 0 on [0,1], and lim_{n→∞} ∫_0^1 f_n(x) dx = 0.\n\nB) f_n converges pointwise to 0 on [0,1] but NOT uniformly, and lim_{n→∞} ∫_0^1 f_n(x) dx = 0.\n\nC) f_n converges pointwise to 0 on [0,1] but NOT uniformly, and lim_{n→∞} ∫_0^1 f_n(x) dx = π/(2√2).\n\nD) f_n converges pointwise to a non-zero limit function h(x) on [0,1].\n\nSelect the correct option and provide a complete justification for your choice, including:\n(i) the pointwise limit function,\n(ii) a proof or disproof of uniform convergence (compute the supremum norm explicitly),\n(iii) the exact limit of the integrals (compute or bound the integral and take n→∞).",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D)",
+        "Justify all three aspects (pointwise limit, uniform convergence, integral limit) with explicit calculations"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Pointwise limit. For x=0: f_n(0)=0. For x∈(0,1]: f_n(x) = nx^2/(1+n^2x^4). Divide numerator and denominator by n^2: f_n(x) = x^2/n / (1/n^2 + x^4) → 0/(0+x^4) = 0 as n→∞. So f_n → 0 pointwise on [0,1]. Options D is false.",
+          "Step 2: Check uniform convergence by finding the maximum. f_n'(x) = [2nx(1+n^2x^4) - nx^2·4n^2x^3]/(1+n^2x^4)^2 = 2nx(1-n^2x^4)/(1+n^2x^4)^2. Critical points: x=0 or 1-n^2x^4=0, i.e., x=n^{-1/2}.",
+          "Step 3: Evaluate at x=n^{-1/2}: f_n(n^{-1/2}) = n·(1/n)/(1+n^2·1/n^2) = 1/(1+1) = 1/2. Thus sup_{x∈[0,1]} |f_n(x)-0| = 1/2 ↛ 0. Convergence is NOT uniform. Option A is false.",
+          "Step 4: Evaluate the integral. Substitute x = u/√n, so dx = du/√n. When x=0, u=0; when x=1, u=√n. Then ∫_0^1 nx^2/(1+n^2x^4)dx = ∫_0^{√n} n(u^2/n)/(1+u^4)·(du/√n) = (1/√n)∫_0^{√n} u^2/(1+u^4)du.",
+          "Step 5: As n→∞, ∫_0^{√n} u^2/(1+u^4)du → ∫_0^∞ u^2/(1+u^4)du = π/(2√2). This is a standard integral (via partial fractions or contour integration).",
+          "Step 6: Therefore lim_{n→∞} ∫_0^1 f_n(x)dx = lim_{n→∞} (1/√n)·π/(2√2) = 0.",
+          "Step 7: Option C claims the integral limit is π/(2√2), which is wrong because the factor 1/√n drives the product to 0. Option B is correct."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np\nfrom scipy import integrate\n\ndef f_n(x, n):\n    return n * x**2 / (1 + n**2 * x**4)\n\n# Verify pointwise convergence at sample points\nfor x in [0.0, 0.2, 0.5, 1.0]:\n    vals = [f_n(x, n) for n in [10, 100, 1000, 10000]]\n    print(f'x={x}: f_n = {vals}')\n\n# Verify supremum is 1/2\nfor n in [10, 100, 1000]:\n    x_peak = 1/np.sqrt(n)\n    print(f'n={n}: peak at x={x_peak:.4f}, f_n(peak)={f_n(x_peak, n):.6f}')\n\n# Verify integral tends to 0\nfor n in [10, 100, 1000, 10000]:\n    result, _ = integrate.quad(lambda x: f_n(x, n), 0, 1)\n    print(f'n={n:5d}: integral = {result:.8f}')\n\n# Compute the standard integral\nI_inf, _ = integrate.quad(lambda u: u**2/(1+u**4), 0, np.inf)\nprint(f'∫_0^∞ u^2/(1+u^4) du = {I_inf:.8f} = π/(2√2) = {np.pi/(2*np.sqrt(2)):.8f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding uniform convergence without computing the supremum norm or finding the maximum of f_n",
+          "Forgetting the 1/√n scaling factor in the integral substitution and incorrectly obtaining π/(2√2)",
+          "Choosing option C because π/(2√2) appears in the calculation, not realizing it is multiplied by 1/√n",
+          "Claiming the pointwise limit is non-zero by evaluating at x=1/√n (which varies with n)"
+        ],
+        "required_knowledge": [
+          "Pointwise vs uniform convergence",
+          "Supremum norm and finding extrema via derivatives",
+          "Integral substitutions and scaling",
+          "Standard improper integrals"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["uniform-convergence", "sequences-of-functions", "multiple-choice", "integral-limit"]
+    },
+    {
+      "task_id": "S-MATH-09B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Limits — Iterated Limits Where Order Matters",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the function F(x,y) = x^y defined on the domain D = {(x,y) ∈ ℝ² : 0 < x ≤ 1, y > 0}.\n\n(a) Evaluate L_1 = lim_{y→0⁺} lim_{x→0⁺} F(x,y), or prove rigorously that this iterated limit does not exist.\n(b) Evaluate L_2 = lim_{x→0⁺} lim_{y→0⁺} F(x,y), or prove rigorously that this iterated limit does not exist.\n(c) Determine whether the joint limit L = lim_{(x,y)→(0⁺,0⁺)} F(x,y) exists. If it exists, find its value; if not, prove non-existence by exhibiting two different paths yielding different limits.\n\nYou must justify each step carefully. In particular, for part (c), any paths you use must be explicitly parameterized and the corresponding limits computed exactly.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Provide explicit calculations for all three limits",
+        "For part (c), parameterize at least two distinct paths and compute the exact limit along each",
+        "Explain why the order of limits matters using properties of the exponential and logarithmic functions"
+      ],
+      "ground_truth": {
+        "answer": "L_1 = 0, L_2 = 1, joint limit does not exist",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Evaluate L_1 = lim_{y→0⁺} lim_{x→0⁺} x^y. For any fixed y > 0, since x∈(0,1] and the power function t ↦ t^y is continuous, lim_{x→0⁺} x^y = 0^y = 0. Then L_1 = lim_{y→0⁺} 0 = 0.",
+          "Step 2: Evaluate L_2 = lim_{x→0⁺} lim_{y→0⁺} x^y. For any fixed x∈(0,1), lim_{y→0⁺} x^y = x^0 = 1 (since the exponential function is continuous). Then L_2 = lim_{x→0⁺} 1 = 1.",
+          "Step 3: Conclude L_1 = 0 ≠ 1 = L_2, so the order of limits matters.",
+          "Step 4: Investigate the joint limit. Consider paths of the form y = c/ln(x) for x∈(0,1). Since ln(x) < 0 for x∈(0,1), and c > 0, we have y = c/ln(x) → 0⁺ as x → 0⁺.",
+          "Step 5: Along this path, F(x,y) = x^{c/ln(x)} = exp((c/ln(x))·ln(x)) = exp(c) = e^c. The limit as x→0⁺ along this path is exactly e^c.",
+          "Step 6: Choose c = 1: limit is e. Choose c = 2: limit is e². Since e ≠ e², different paths yield different limits. Therefore the joint limit lim_{(x,y)→(0⁺,0⁺)} F(x,y) does NOT exist.",
+          "Step 7: Alternative path verification: along y = x (approaching as x→0⁺): F(x,x) = x^x = exp(x ln x). Since x ln x → 0 as x→0⁺, the limit is e^0 = 1. Along y = 1/ln(x) (i.e., c=1): limit is e. Since 1 ≠ e, the joint limit does not exist."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np\n\n# Verify L_1 = 0\nfor y in [0.1, 0.01, 0.001]:\n    x_vals = np.array([1e-1, 1e-2, 1e-3, 1e-4, 1e-5])\n    f_vals = x_vals**y\n    print(f'y={y}: x^y for x→0 = {f_vals[-3:]}')\n\nprint()\n\n# Verify L_2 = 1\nfor x in [0.1, 0.01, 0.001]:\n    y_vals = np.array([0.1, 0.01, 0.001, 0.0001])\n    f_vals = x**y_vals\n    print(f'x={x}: x^y for y→0 = {f_vals[-2:]}')\n\nprint()\n\n# Verify path limits\nfor c in [1, 2]:\n    x_vals = np.array([1e-1, 1e-2, 1e-3, 1e-4, 1e-5, 1e-6])\n    y_vals = c / np.log(x_vals)\n    f_vals = x_vals**y_vals\n    print(f'Path c={c}: y=c/ln(x), limit should be e^{c}={np.exp(c):.6f}')\n    print(f'  F values = {f_vals}')\n\n# Path y=x\nx_vals = np.array([1e-1, 1e-2, 1e-3, 1e-4, 1e-5])\nf_vals = x_vals**x_vals\nprint(f'Path y=x: limit should be 1, F values = {f_vals}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming that if both iterated limits exist, they must be equal (they need not be)",
+          "Using L'Hôpital's rule on x^y by rewriting as e^{y ln x} and then differentiating with respect to the wrong variable",
+          "Choosing paths where y does not tend to 0 as x→0⁺, violating the joint limit requirement",
+          "Concluding the joint limit exists because one path gives a finite answer, without checking other paths"
+        ],
+        "required_knowledge": [
+          "Iterated limits and their non-commutativity",
+          "Joint limits and path dependence",
+          "Exponential-logarithmic identities (a^b = e^{b ln a})",
+          "Limit properties of x ln x as x→0⁺"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["iterated-limits", "joint-limit", "path-dependence", "exponential-functions"]
+    },
+    {
+      "task_id": "S-MATH-09B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Metric Space Analysis — Banach Fixed Point Theorem Application",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Let X = C[0,1] denote the space of continuous real-valued functions on [0,1]. For a parameter λ > 0, define the weighted supremum metric\\n\\nd_λ(f,g) = sup_{x∈[0,1]} |f(x) - g(x)| e^{-λx}.\\n\\nConsider the operator T: X → X defined by\\n\\n(Tf)(x) = 2 + ∫_0^x sin(t)·f(t) dt.\\n\\n(a) For which values of λ > 0 is T a contraction on the metric space (X,d_λ)? Prove your answer rigorously by computing an upper bound on d_λ(Tf,Tg)/d_λ(f,g) and finding its supremum over all distinct f,g ∈ X.\\n(b) Fix any λ from part (a) for which T is a contraction. Apply the Banach fixed point theorem to prove that T possesses a unique fixed point f* ∈ X.\\n(c) Find an explicit closed-form formula for f*(x) by converting the fixed point equation into a differential equation and solving it. Verify that your solution satisfies (Tf*)(x) = f*(x).",
+      "prompt_format": "proof",
+      "constraints": [
+        "Part (a) must derive the Lipschitz constant as a function of λ and state the exact condition on λ",
+        "Part (b) must explicitly invoke the Banach fixed point theorem and verify all its hypotheses",
+        "Part (c) must produce a closed-form formula and verify it satisfies the integral equation"
+      ],
+      "ground_truth": {
+        "answer": "T is a contraction for all λ > 0 with L = 1/λ; unique fixed point f*(x) = 2e^{1-cos(x)}",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For any f,g ∈ X and x∈[0,1], compute |(Tf)(x)-(Tg)(x)| = |∫_0^x sin(t)(f(t)-g(t))dt| ≤ ∫_0^x |sin(t)||f(t)-g(t)|dt.",
+          "Step 2: Since |sin(t)| ≤ 1 and |f(t)-g(t)| = |f(t)-g(t)|e^{-λt}e^{λt} ≤ d_λ(f,g)e^{λt}, we have |(Tf)(x)-(Tg)(x)| ≤ d_λ(f,g)∫_0^x e^{λt}dt = d_λ(f,g)(e^{λx}-1)/λ.",
+          "Step 3: Multiply by e^{-λx}: |(Tf)(x)-(Tg)(x)|e^{-λx} ≤ d_λ(f,g)(1-e^{-λx})/λ ≤ d_λ(f,g)/λ, since 1-e^{-λx} ≤ 1 for x≥0 and λ>0.",
+          "Step 4: Taking supremum over x∈[0,1] yields d_λ(Tf,Tg) ≤ (1/λ)d_λ(f,g). Thus the Lipschitz constant is L = 1/λ. T is a contraction iff L < 1, i.e., λ > 1. (Note: for all λ>0 it is a contraction, but strictly L=1/λ<1 requires λ>1; however since the bound (1-e^{-λx})/λ < 1/λ for all x>0, for λ=1 we actually get strict inequality on (0,1] and L=1 at x=0 only, so λ>0 suffices with L=1/λ; but to be safe, λ>1 guarantees L<1 unambiguously.)",
+          "Step 5: Refinement: the supremum of (1-e^{-λx})/λ on [0,1] is (1-e^{-λ})/λ < 1/λ. For λ > 0, if λ ≥ 1 then (1-e^{-λ})/λ < 1 ≤ 1 (for λ=1, bound is 1-1/e < 1). Actually for any λ>0, (1-e^{-λ})/λ < 1/λ, but we need < 1 for contraction. So (1-e^{-λ})/λ < 1 requires 1-e^{-λ} < λ, true for all λ>0. Thus T is a contraction for ALL λ > 0 with L = (1-e^{-λ})/λ < 1.",
+          "Step 6: Apply Banach fixed point theorem. (X,d_λ) is complete because d_λ is equivalent to the standard sup norm: e^{-λ}||f-g||_∞ ≤ d_λ(f,g) ≤ ||f-g||_∞. Since C[0,1] is complete under ||·||_∞, it is complete under d_λ. T: X→X is well-defined because Tf is continuous (integral of continuous function). T is a contraction by Step 5. Therefore T has a unique fixed point f* ∈ X.",
+          "Step 7: Find the fixed point. f*(x) = 2 + ∫_0^x sin(t)f*(t)dt. Differentiate: f*'(x) = sin(x)f*(x), with initial condition f*(0) = 2 + 0 = 2.",
+          "Step 8: Solve the ODE: f*'(x)/f*(x) = sin(x), so ln|f*(x)| = -cos(x) + C. Thus f*(x) = Ae^{-cos(x)}.",
+          "Step 9: Using f*(0) = 2: A e^{-1} = 2, so A = 2e. Therefore f*(x) = 2e·e^{-cos(x)} = 2e^{1-cos(x)}.",
+          "Step 10: Verify: ∫_0^x sin(t)·2e^{1-cos(t)}dt = 2e∫_0^x sin(t)e^{-cos(t)}dt. Let u=-cos(t), du=sin(t)dt. Limits: t=0→u=-1, t=x→u=-cos(x). Integral = 2e∫_{-1}^{-cos(x)} e^u du = 2e[e^{-cos(x)} - e^{-1}] = 2e^{1-cos(x)} - 2. Then (Tf*)(x) = 2 + (2e^{1-cos(x)} - 2) = 2e^{1-cos(x)} = f*(x). ✓"
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np\nfrom scipy import integrate\n\n# Verify the fixed point formula\ndef f_star(x):\n    return 2 * np.exp(1 - np.cos(x))\n\n# Verify T(f*) = f* numerically\nx_vals = np.linspace(0, 1, 11)\nfor x in x_vals:\n    integral, _ = integrate.quad(lambda t: np.sin(t) * f_star(t), 0, x)\n    tf_val = 2 + integral\n    print(f'x={x:.2f}: f*(x)={f_star(x):.8f}, (Tf*)(x)={tf_val:.8f}, diff={abs(f_star(x)-tf_val):.2e}')\n\n# Verify Lipschitz bound for lambda=2\nlam = 2\n# Use random functions to estimate L\nnp.random.seed(0)\nL_estimates = []\nfor _ in range(100):\n    x_grid = np.linspace(0, 1, 1000)\n    f = np.random.randn(1000)\n    g = np.random.randn(1000)\n    # Numerical integration for T\n    Tf = 2 + np.array([integrate.trapezoid(np.sin(x_grid[:i+1]) * f[:i+1], x_grid[:i+1]) if i > 0 else 2 for i in range(len(x_grid))])\n    Tg = 2 + np.array([integrate.trapezoid(np.sin(x_grid[:i+1]) * g[:i+1], x_grid[:i+1]) if i > 0 else 2 for i in range(len(x_grid))])\n    df = np.max(np.abs(f - g) * np.exp(-lam * x_grid))\n    dTf = np.max(np.abs(Tf - Tg) * np.exp(-lam * x_grid))\n    if df > 1e-10:\n        L_estimates.append(dTf/df)\nprint(f'\\nEstimated L for lambda={lam}: max={max(L_estimates):.4f}, theoretical bound={(1-np.exp(-lam))/lam:.6f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Bounding |sin(t)| by t instead of 1, leading to a more complicated and incorrect Lipschitz estimate",
+          "Claiming λ > 1 is required without checking whether λ ∈ (0,1] also works (it does, since (1-e^{-λ})/λ < 1 for all λ>0)",
+          "Forgetting to verify that the ODE solution satisfies the original integral equation (not just the differentiated form)",
+          "Incorrectly solving the ODE f' = sin(x)f by writing f = e^{cos(x)} instead of e^{-cos(x)} (sign error in integration)"
+        ],
+        "required_knowledge": [
+          "Banach fixed point theorem",
+          "Weighted supremum norms and metric equivalence",
+          "Differentiation under the integral sign",
+          "First-order separable ODEs"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["banach-fixed-point", "metric-spaces", "integral-equations", "odes"]
+    },
+    {
+      "task_id": "S-MATH-09B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Power Series — Weierstrass M-Test and Uniform Convergence",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Consider the function series\\n\\nS(x) = ∑_{n=1}^∞ (3^n x^{2n} cos(nx/2)) / (4^n (n+1)).\\n\\nApply the Weierstrass M-test to determine all values a > 0 for which S(x) converges uniformly on the symmetric interval [-a, a]. For each such a, state your choice of M_n explicitly, verify that |f_n(x)| ≤ M_n for all x∈[-a,a], and prove that ∑ M_n converges.\\n\nAdditionally, compute the exact value\\n\\nsup{a > 0 : S converges uniformly on [-a,a] via the M-test}\\n\\nand explain whether the M-test can establish uniform convergence on the closed interval with this supremum as an endpoint.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "State M_n as an explicit formula in terms of n and a",
+        "Verify all three M-test conditions (bound, summability, independence of x)",
+        "Compute the exact supremum value algebraically"
+      ],
+      "ground_truth": {
+        "answer": "2/√3",
+        "answer_type": "exact_float",
+        "tolerance": 0.001,
+        "solution_steps": [
+          "Step 1: Define the general term f_n(x) = (3^n x^{2n} cos(nx/2))/(4^n (n+1)).",
+          "Step 2: For x∈[-a,a], bound |f_n(x)| ≤ (3^n a^{2n} |cos(nx/2)|)/(4^n (n+1)) ≤ (3^n a^{2n})/(4^n (n+1)) = (3a^2/4)^n / (n+1). Set M_n = (3a^2/4)^n/(n+1).",
+          "Step 3: Verify M_n is independent of x. Yes, M_n depends only on n and a.",
+          "Step 4: Test convergence of ∑ M_n. Use the ratio test for ∑ M_n: M_{n+1}/M_n = (3a^2/4)^{n+1}/(n+2) · (n+1)/(3a^2/4)^n = (3a^2/4)·(n+1)/(n+2) → 3a^2/4.",
+          "Step 5: By the ratio test, ∑ M_n converges when 3a^2/4 < 1, i.e., a^2 < 4/3, so a < 2/√3. When a < 2/√3, the M-test establishes uniform convergence on [-a,a].",
+          "Step 6: The supremum of all such a is 2/√3. At a = 2/√3 exactly: M_n = (3·(4/3)/4)^n/(n+1) = 1^n/(n+1) = 1/(n+1). The series ∑ 1/(n+1) is the harmonic series (shifted) and diverges.",
+          "Step 7: Therefore the Weierstrass M-test CANNOT establish uniform convergence on [-2/√3, 2/√3] because no valid summable majorant sequence M_n exists for this endpoint. The supremum is 2/√3 but it is not attained by the M-test."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np\n\n# Verify M_n series convergence for a < 2/sqrt(3)\nsupremum = 2/np.sqrt(3)\nprint(f'Supremum a = 2/√3 = {supremum:.10f}')\n\nfor a in [0.5, 1.0, 1.15, supremum - 0.001, supremum]:\n    r = 3*a**2/4\n    print(f'\\na={a:.6f}: r = 3a²/4 = {r:.6f}')\n    if r < 1:\n        # Sum of r^n/(n+1) = -ln(1-r)/r for r>0\n        series_sum = -np.log(1-r)/r if r > 0 else 1\n        print(f'  M-test applies. ∑ M_n ≈ {series_sum:.6f}')\n    else:\n        print(f'  M-test FAILS (r ≥ 1, harmonic-like divergence)')\n\n# Verify partial sums for a = 2/sqrt(3)\na = supremum\nnp.random.seed(0)\nx_test = np.linspace(-a, a, 100)\nfor N in [10, 100, 1000]:\n    max_term = max(sum(abs((3**n * x**(2*n) * np.cos(n*x/2))/(4**n * (n+1))) for n in range(1, N+1)) for x in x_test)\n    print(f'a=sup, N={N}: max partial sum ≈ {max_term:.4f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting the (n+1) denominator and treating M_n as a pure geometric series",
+          "Incorrectly concluding the M-test works at a = 2/√3 by claiming ∑ 1/(n+1) converges",
+          "Bounding |cos(nx/2)| by n|x|/2 instead of 1, leading to an overly conservative and incorrect M_n",
+          "Confusing pointwise radius of convergence with the interval of uniform convergence"
+        ],
+        "required_knowledge": [
+          "Weierstrass M-test conditions",
+          "Geometric series and ratio test",
+          "Properties of cosine bounds",
+          "Supremum vs maximum attained value"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["power-series", "weierstrass-m-test", "uniform-convergence", "geometric-series"]
+    }
+  ]
+}

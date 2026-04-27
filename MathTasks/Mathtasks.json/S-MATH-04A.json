@@ -1,0 +1,409 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-04A",
+    "generator_model": "benchmark-designer-llm",
+    "category": "MATHEMATICA",
+    "subcategory": "Algebra — Abstract Structures, Field Extensions, Linear Algebra",
+    "generated_at": "2026-04-24T12:24:21+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-04A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Linear Algebra — Jordan Canonical Form",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider the following 5×5 real matrix M:\n\nM = [[3, 1, 0, 0, 0],\n     [0, 3, 0, 0, 0],\n     [0, 0, 3, 1, 0],\n     [-1, 0, 0, 3, 1],\n     [0, 1, 0, 0, 3]]\n\nOver the complex numbers, which of the following is the Jordan canonical form of M? (Jordan blocks are listed in decreasing order of size.)\n\nA) [[3, 1, 0, 0, 0], [0, 3, 1, 0, 0], [0, 0, 3, 1, 0], [0, 0, 0, 3, 1], [0, 0, 0, 0, 3]]\nB) [[3, 1, 0, 0, 0], [0, 3, 1, 0, 0], [0, 0, 3, 1, 0], [0, 0, 0, 3, 0], [0, 0, 0, 0, 3]]\nC) [[3, 1, 0, 0, 0], [0, 3, 1, 0, 0], [0, 0, 3, 0, 0], [0, 0, 0, 3, 1], [0, 0, 0, 0, 3]]\nD) [[3, 1, 0, 0, 0], [0, 3, 0, 0, 0], [0, 0, 3, 1, 0], [0, 0, 0, 3, 0], [0, 0, 0, 0, 3]]",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "Briefly justify your answer by stating the sizes of the Jordan blocks and the rank of M − 3I."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute the characteristic polynomial. Observe that M = 3I + N where N = M − 3I. Thus the characteristic polynomial is det((3−λ)I + N) = det(N − (λ−3)I), so the only eigenvalue is λ = 3 with algebraic multiplicity 5.",
+          "Step 2: Compute N = M − 3I = [[0,1,0,0,0],[0,0,0,0,0],[0,0,0,1,0],[-1,0,0,0,1],[0,1,0,0,0]]. The row space of N is spanned by the three independent rows [0,1,0,0,0], [0,0,0,1,0], and [-1,0,0,0,1]. Therefore rank(N) = 3.",
+          "Step 3: The number of Jordan blocks for eigenvalue 3 equals the nullity of N, which is 5 − rank(N) = 2. Hence there are exactly two Jordan blocks.",
+          "Step 4: Compute N². Direct multiplication yields N² = [[0,0,0,0,0],[0,0,0,0,0],[-1,0,0,0,1],[0,0,0,0,0],[0,0,0,0,0]], which has rank 1. For a nilpotent Jordan matrix with blocks of sizes s₁ ≥ s₂ ≥ …, we have rank(N) = (s₁−1) + (s₂−1) + … and rank(N²) = (s₁−2) + (s₂−2) + … (terms < 0 are treated as 0).",
+          "Step 5: With exactly two blocks, the only partitions of 5 into two parts are 4+1 and 3+2. For 4+1: rank(N) = 3+0 = 3 ✓, but rank(N²) = 2+0 = 2 ✗. For 3+2: rank(N) = 2+1 = 3 ✓, and rank(N²) = 1+0 = 1 ✓. Thus the block sizes are 3 and 2.",
+          "Step 6: Option C corresponds to Jordan blocks of sizes 3 and 2 (one 3×3 block and one 2×2 block), which matches our computation."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the matrix is diagonalizable because it is upper-triangularish with a single eigenvalue, leading to choice of a diagonal or nearly-diagonal form.",
+          "Counting Jordan blocks incorrectly by using algebraic multiplicity instead of nullity, or forgetting that rank(M−3I) = 3 implies exactly 2 blocks.",
+          "Selecting option D (blocks 2+2+1) which has three blocks, violating the nullity count of 2."
+        ],
+        "required_knowledge": [
+          "Jordan canonical form theory",
+          "Relationship between nilpotent rank and Jordan block sizes",
+          "Rank-nullity theorem"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": [
+        "jordan-form",
+        "nilpotent-matrices",
+        "rank-computation",
+        "linear-algebra"
+      ]
+    },
+    {
+      "task_id": "S-MATH-04A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Group Theory — Classification by Order, Sylow Theorems, Semidirect Products",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Determine the exact number of isomorphism classes of groups of order 20 = 2² · 5. For each isomorphism class, give an explicit description (e.g., as a direct product, a semidirect product, or by generators and relations) and justify why no two of them are isomorphic. You may use Sylow’s theorems and the structure of Aut(Z₅).",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Provide the total count first, then enumerate each group.",
+        "Explicitly state the semidirect-product homomorphisms or direct-product structures.",
+        "Prove that your list is complete and that the groups are pairwise non-isomorphic."
+      ],
+      "ground_truth": {
+        "answer": "5",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Apply Sylow’s theorems. n₅ | 4 and n₅ ≡ 1 (mod 5), forcing n₅ = 1. Thus the Sylow 5-subgroup P₅ ≅ Z₅ is normal in every group of order 20.",
+          "Step 2: Every group G of order 20 is a semidirect product Z₅ ⋊ P₄ where P₄ is a Sylow 2-subgroup of order 4. The possible Sylow 2-subgroups are Z₄ and Z₂ × Z₂.",
+          "Step 3: Aut(Z₅) ≅ Z₄. For P₄ = Z₄: homomorphisms Z₄ → Z₄ are determined by the image of a generator, which can have order 1, 2, or 4. Up to equivalence (automorphism of Z₄), there are three distinct homomorphisms: trivial (order 1), inversion (order 2), and faithful (order 4). This yields three semidirect products: (i) Z₅ ⋊ Z₄ ≅ Z₂₀ (trivial action); (ii) G₂ = Z₅ ⋊_φ Z₄ with φ of order 2, presentation ⟨a,b | a⁵=b⁴=1, bab⁻¹=a⁴⟩; (iii) G₃ = Z₅ ⋊_ψ Z₄ with ψ faithful, presentation ⟨a,b | a⁵=b⁴=1, bab⁻¹=a²⟩.",
+          "Step 4: For P₄ = Z₂ × Z₂: since Aut(Z₅) ≅ Z₄ has a unique element of order 2, any nontrivial homomorphism has image {±1}. The three nonzero linear functionals Z₂² → Z₂ form a single orbit under GL(2,2). Hence there is exactly one nontrivial semidirect product: G₄ = Z₅ ⋊ (Z₂ × Z₂) with one factor acting by inversion. Adding the trivial action gives G₅ = Z₅ × Z₂ × Z₂ ≅ Z₁₀ × Z₂.",
+          "Step 5: Verify pairwise non-isomorphism. G₅ is abelian but not cyclic; Z₂₀ is cyclic. G₂ contains an element of order 4 whose square acts trivially on Z₅, while G₃ contains an element of order 4 whose square acts nontrivially, so b² is central in G₂ but not in G₃. G₄ has exponent 10 (no element of order 4), distinguishing it from G₂ and G₃. Thus all five are distinct.",
+          "Step 6: The list is complete because every group of order 20 arises from one of the two Sylow 2-subgroup types and the enumerated homomorphisms cover all possibilities up to automorphism of the complement."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting that Z₂₀ and Z₁₀ × Z₂ are distinct abelian groups, leading to a count of 4 instead of 5.",
+          "Failing to quotient by Aut(P₄) when counting semidirect products, resulting in overcounting (e.g., claiming three non-abelian groups with complement Z₂ × Z₂).",
+          "Incorrectly stating that the faithful action of Z₄ on Z₅ yields the same group as the order-2 action because both are non-abelian."
+        ],
+        "required_knowledge": [
+          "Sylow theorems",
+          "Semidirect products",
+          "Automorphism groups of cyclic groups",
+          "Orbit counting under automorphisms of the complement"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "group-classification",
+        "sylow-theorems",
+        "semidirect-products",
+        "automorphism-groups"
+      ]
+    },
+    {
+      "task_id": "S-MATH-04A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Ring Theory — Quotient Rings, Irreducibility vs. Primality, Non-UFDs",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "A student presents the following argument about the quotient ring R = Z[√−5]/(3):\n\n‘The norm N(a+b√−5) = a² + 5b² shows N(3) = 9. Since there is no element of norm 3 in Z[√−5], the element 3 is irreducible. In an integral domain, if an element is irreducible then the principal ideal it generates is maximal, so (3) is maximal. Therefore R is a field with 9 elements, i.e., R ≅ F₉.’\n\nIdentify every conceptual error in this argument. Then determine the correct cardinality and ring-theoretic structure of R (up to isomorphism), providing explicit zero divisors in R if it is not a field.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Quote the specific sentence(s) containing each error.",
+        "State the correct structural description of R, including its cardinality.",
+        "Exhibit at least one pair of nonzero elements in R whose product is zero."
+      ],
+      "ground_truth": {
+        "answer": "R ≅ F₃ × F₃, a ring with 9 elements and zero divisors; it is not a field.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Error 1 — ‘In an integral domain, if an element is irreducible then the principal ideal it generates is maximal.’ This is false. Irreducibility of an element does not imply maximality of the principal ideal it generates; this implication holds in a PID (or more generally in a UFD where irreducible equals prime), but Z[√−5] is not a UFD.",
+          "Step 2: Error 2 — ‘Therefore R is a field.’ Since (3) need not be maximal, the quotient need not be a field. In fact, 3 is irreducible but not prime in Z[√−5] because 3 divides (2+√−5)(2−√−5) = 9, yet 3 divides neither factor in R.",
+          "Step 3: Compute the correct structure. Using the isomorphism Z[√−5] ≅ Z[x]/(x²+5), we have R ≅ Z[x]/(3, x²+5) ≅ F₃[x]/(x²+5). Since 5 ≡ 2 ≡ −1 (mod 3), this is F₃[x]/(x²−1).",
+          "Step 4: In F₃[x], x²−1 = (x−1)(x+1) = (x−1)(x−2), and the factors are coprime. By the Chinese Remainder Theorem, F₃[x]/((x−1)(x−2)) ≅ F₃[x]/(x−1) × F₃[x]/(x−2) ≅ F₃ × F₃.",
+          "Step 5: Thus R has 9 elements, is reduced but not a field, and has nontrivial idempotents. Explicit zero divisors: the cosets of (x−1) and (x−2) multiply to zero. Translating back to Z[√−5], the elements 2+√−5 and 2−√−5 are each nonzero modulo 3, yet their product 9 ≡ 0 (mod 3)."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": "import sympy as sp\nx = sp.Symbol('x')\n# Verify F_3[x]/(x^2+5) structure\npoly = x**2 + 5\nmod3 = sp.rem(poly, x**2 - 1, x, modulus=3)\nprint('x^2+5 ≡', mod3, '(mod 3)')\n# CRT check: (x-1)(x-2) = x^2-3x+2 ≡ x^2+2 ≡ x^2-1 (mod 3)\nprint('Product:', sp.expand((x-1)*(x+1)), 'mod 3:', sp.rem(sp.expand((x-1)*(x+1)), x**2+2, x, modulus=3))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing irreducible and prime elements in non-UFDs, assuming the quotient by an irreducible is a field.",
+          "Computing F₃[x]/(x²+5) ≅ F₃[x]/(x²+2) but failing to factor x²−1 over F₃, thus missing the CRT decomposition.",
+          "Claiming the quotient has 27 elements by incorrectly counting coefficients a+b√−5 with a,b ∈ {0,1,2,3,4,5,6,7,8} instead of mod 3."
+        ],
+        "required_knowledge": [
+          "Irreducibility vs. primality in non-UFDs",
+          "Quotient rings of the form Z[√d]/(n)",
+          "Chinese Remainder Theorem for polynomial rings",
+          "Field F₃ arithmetic"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": [
+        "non-ufd",
+        "quotient-rings",
+        "irreducible-elements",
+        "chinese-remainder-theorem"
+      ]
+    },
+    {
+      "task_id": "S-MATH-04A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Field Extensions — Minimal Polynomials, Splitting Fields, Galois Groups",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let α = √2 + √3 and let K = Q(α) be the subfield of C generated by α.\n\n(a) Prove that the minimal polynomial of α over Q is m(x) = x⁴ − 10x² + 1.\n(b) Prove that K is the splitting field of m(x) over Q.\n(c) Determine the Galois group Gal(K/Q) up to isomorphism, and explicitly describe each automorphism by its action on √2 and √3.\n(d) Prove that Gal(K/Q) is isomorphic to the Klein four-group V₄ by exhibiting an isomorphism to Z₂ × Z₂.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Part (a) must include a proof of irreducibility over Q (not merely an absence of rational roots).",
+        "Part (b) must explicitly identify all four roots of m(x) and show they lie in K.",
+        "Parts (c) and (d) require explicit formulas for each automorphism and verification of the group structure."
+      ],
+      "ground_truth": {
+        "answer": "The minimal polynomial is x^4 - 10x^2 + 1; K = Q(\\sqrt{2}, \\sqrt{3}) is the splitting field; Gal(K/Q) ≅ V_4.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute α² = (√2+√3)² = 5 + 2√6. Then (α² − 5)² = 24, giving α⁴ − 10α² + 25 = 24, so α⁴ − 10α² + 1 = 0. Hence m(x) = x⁴ − 10x² + 1 is a monic polynomial in Z[x] satisfied by α.",
+          "Step 2: Prove irreducibility over Q. Since m(x) has no rational roots (±1 are the only candidates and fail), any factorization over Q would be into two quadratics x² + ax + b and x² − ax + d with bd = 1. Then b + d − a² = −10 and a(d−b) = 0. If a = 0, then b + d = −10 and bd = 1, yielding t² + 10t + 1 = 0, which has no rational roots. If b = d, then 2b − a² = −10 and b² = 1. For b = 1, a² = 12 (not rational); for b = −1, a² = 8 (not rational). Thus m(x) is irreducible over Q, hence it is the minimal polynomial.",
+          "Step 3: Since deg(m) = 4, we have [K:Q] = 4. The four roots of m(x) are ±√2 ± √3, explicitly √2+√3, √2−√3, −√2+√3, and −√2−√3. All four lie in Q(√2, √3), which therefore contains the splitting field.",
+          "Step 4: Show K = Q(√2, √3). From α³ = 11√2 + 9√3 and α = √2 + √3, subtract to obtain α³ − 9α = 2√2, hence √2 = (α³ − 9α)/2 ∈ K. Then √3 = α − √2 ∈ K. Thus K = Q(√2, √3), which has degree [Q(√2,√3):Q] = [Q(√2,√3):Q(√2)]·[Q(√2):Q] = 2·2 = 4. Since [K:Q] = 4, K equals the splitting field.",
+          "Step 5: Any σ ∈ Gal(K/Q) must permute the roots and is determined by σ(√2) ∈ {±√2} and σ(√3) ∈ {±√3}, giving four possibilities: id (√2↦√2, √3↦√3), σ₁ (√2↦−√2, √3↦√3), σ₂ (√2↦√2, √3↦−√3), and σ₃ (√2↦−√2, √3↦−√3). Each is indeed a field automorphism because √2 and √3 are algebraically independent over Q except for the relation defining the biquadratic extension.",
+          "Step 6: Every non-identity automorphism has order 2, and the group is abelian (the sign choices commute). Therefore Gal(K/Q) ≅ Z₂ × Z₂ ≅ V₄."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming m(x) is irreducible merely because it has no rational roots, ignoring the possibility of factorization into quadratics.",
+          "Claiming K = Q(α) is automatically the splitting field without proving that the other roots (−√2 ± √3) belong to Q(α).",
+          "Incorrectly asserting the Galois group is cyclic of order 4 because the extension has degree 4, failing to check that every nontrivial automorphism has order 2."
+        ],
+        "required_knowledge": [
+          "Minimal polynomials",
+          "Irreducibility criteria for quartic biquadratic polynomials",
+          "Splitting fields and biquadratic extensions",
+          "Galois groups of compositum fields"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "minimal-polynomial",
+        "splitting-field",
+        "galois-theory",
+        "biquadratic-extension",
+        "klein-four-group"
+      ]
+    },
+    {
+      "task_id": "S-MATH-04A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Ring Theory — Factorization in Non-UFDs, Ideal Theory",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Consider the quadratic integer ring R = Z[√−5] with norm N(a + b√−5) = a² + 5b². Which of the following statements is TRUE?\n\nA) R is a Euclidean domain.\nB) Every irreducible element of R is prime.\nC) The element 9 has exactly two distinct factorizations into irreducibles in R (up to order and multiplication by units).\nD) The ideal (3, 1 + √−5) is principal in R.\n\nSelect the correct option and provide a concise justification.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "Justify your choice by referencing specific elements and their norms, or by exhibiting a counterexample for each false statement."
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Option A is false. R is not a PID because the ideal (2, 1+√−5) is not principal, and Euclidean domains are PIDs. A PID criterion would require every ideal to be generated by a single element, which fails here.",
+          "Step 2: Option B is false. The element 3 is irreducible in R (N(3)=9 and N(a+b√−5)=3 has no integer solutions), but 3 is not prime because 3 | (2+√−5)(2−√−5) = 9 yet 3 divides neither factor in R.",
+          "Step 3: Option C is true. The element 9 factors as 9 = 3·3 and also as 9 = (2+√−5)(2−√−5). Each factor has norm 9, and since there is no element of norm 3, all four factors (3, 2+√−5, 2−√−5) are irreducible. The units in R are only ±1 (norm 1 forces b=0 and a=±1), so the two factorizations are distinct up to order and units. No other irreducible factorizations exist because any irreducible dividing 9 must have norm 3 or 9, and norm 3 is impossible.",
+          "Step 4: Option D is false. If (3, 1+√−5) = (d), then d | 3 and d | 1+√−5, so N(d) divides both N(3)=9 and N(1+√−5)=6. Thus N(d) divides 3. But N(d)=1 implies d is a unit, giving the whole ring, while N(d)=3 is impossible. Hence the ideal is not principal."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting B because of confusion between irreducible and prime in general domains, assuming the implication holds as in Z or a PID.",
+          "Selecting D because the norm gcd argument is misapplied, forgetting that N(d)=1 would make the ideal the entire ring, not a proper principal ideal.",
+          "Rejecting C by incorrectly claiming there are more than two factorizations, or by asserting that 3 is reducible."
+        ],
+        "required_knowledge": [
+          "Norms in quadratic integer rings",
+          "Irreducibility and primality in non-UFDs",
+          "Ideal arithmetic in Z[√−5]",
+          "Units in imaginary quadratic rings"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": [
+        "non-ufd",
+        "irreducible-elements",
+        "prime-elements",
+        "quadratic-integer-ring",
+        "ideal-theory"
+      ]
+    },
+    {
+      "task_id": "S-MATH-04A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Field Extensions — Minimal Polynomials, Galois Closures, Constructibility",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let β = ∛2 + ∛4 and let K = Q(β).\n\n(a) Compute the minimal polynomial of β over Q and prove it is irreducible.\n(b) Determine the degree [K : Q].\n(c) Determine whether the extension K/Q is Galois. If it is not, compute the degree [L : Q] where L is the Galois closure of K/Q, and identify the Galois group Gal(L/Q) up to isomorphism.\n(d) Justify why β is not a constructible number using your results.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all algebraic manipulations explicitly.",
+        "For (c), if K/Q is not Galois, exhibit a concrete element in L \\ K and compute its degree over K.",
+        "For (d), invoke the classical constructibility criterion relating tower degrees to powers of 2."
+      ],
+      "ground_truth": {
+        "answer": "Minimal polynomial is x^3 - 6x - 6; [K:Q] = 3; K/Q is not Galois; [L:Q] = 6; Gal(L/Q) ≅ S_3; β is not constructible.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let ω = ∛2. Then ω³ = 2 and β = ω + ω². Compute β³ = (ω + ω²)³ = ω³ + 3ω⁴ + 3ω⁵ + ω⁶ = 2 + 6ω + 6ω² + 4 = 6 + 6(ω + ω²) = 6 + 6β. Hence β satisfies f(x) = x³ − 6x − 6 = 0.",
+          "Step 2: Prove irreducibility. By the Rational Root Theorem, any rational root must divide 6. Checking ±1, ±2, ±3, ±6 yields f(1)=−11, f(−1)=−1, f(2)=−10, f(−2)=−2, f(3)=3, f(−3)=−15, f(6)=174, f(−6)=−186. None vanish, so f has no linear factor over Q. Since deg(f)=3, this implies f is irreducible over Q.",
+          "Step 3: Therefore f is the minimal polynomial of β, and [K:Q] = deg(f) = 3.",
+          "Step 4: The discriminant of the depressed cubic x³ + px + q is Δ = −4p³ − 27q². Here p = −6 and q = −6, giving Δ = −4(−216) − 27(36) = 864 − 972 = −108. Since Δ < 0, f has one real root and two nonreal complex conjugate roots. Because K = Q(β) ⊂ R (as β is real), K does not contain the complex roots, so K/Q is not normal and hence not Galois.",
+          "Step 5: The Galois closure L is obtained by adjoining √Δ = 6√−3 to K, i.e., L = K(√−3). Since √−3 ∉ R and K ⊂ R, we have [L:K] = 2. Thus [L:Q] = [L:K][K:Q] = 2·3 = 6.",
+          "Step 6: Since [L:Q] = 6 and f is an irreducible cubic, Gal(L/Q) is a transitive subgroup of S₃. The only transitive subgroups of S₃ are S₃ and A₃ ≅ Z₃. Because Δ = −108 is not a square in Q, the discriminant square root √Δ is not fixed by all automorphisms, forcing Gal(L/Q) ≅ S₃ rather than A₃.",
+          "Step 7: By the classical constructibility criterion, a real number is constructible with straightedge and compass if and only if it lies in a tower of quadratic extensions of Q. If β were constructible, then Q(β) would be contained in such a tower, implying [Q(β):Q] divides a power of 2. But [Q(β):Q] = 3, which does not divide any power of 2. Therefore β is not constructible."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the cubic is irreducible merely because the rational root test fails on small divisors, without checking all ±1, ±2, ±3, ±6.",
+          "Claiming K/Q is Galois because the minimal polynomial has degree 3, confusing the splitting field with the simple extension.",
+          "Using the wrong discriminant formula (e.g., for quadratic or general cubic without depression) and obtaining an incorrect square-class for Δ.",
+          "Asserting non-constructibility without explicitly citing the tower-degree criterion or incorrectly stating that any cubic extension is non-constructible."
+        ],
+        "required_knowledge": [
+          "Minimal polynomials of nested radicals",
+          "Rational Root Theorem",
+          "Discriminant of a cubic and its Galois-theoretic meaning",
+          "Normal extensions and Galois closures",
+          "Classical constructibility criterion"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 22
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "minimal-polynomial",
+        "galois-closure",
+        "constructibility",
+        "cubic-discriminant",
+        "splitting-field"
+      ]
+    },
+    {
+      "task_id": "S-MATH-04A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Group Theory — Presentations, Automorphism Groups, Semidirect Products",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the group G with presentation ⟨a, b | a⁷ = 1, b³ = 1, b a b⁻¹ = a²⟩.\n\n(a) Prove that |G| = 21 and that G is isomorphic to the semidirect product Z₇ ⋊ Z₃.\n(b) Prove that G is the unique non-abelian group of order 21 up to isomorphism.\n(c) Determine the number of Sylow 3-subgroups of G and justify your answer.\n(d) Compute the automorphism group Aut(G): determine its order and identify it up to isomorphism with a familiar group (e.g., a holomorph or an affine group).",
+      "prompt_format": "proof",
+      "constraints": [
+        "Part (a) must verify that the relation b a b⁻¹ = a² defines a valid semidirect product and that no smaller order arises from the presentation.",
+        "Part (b) must use the structure of Aut(Z₇) to argue uniqueness.",
+        "Part (d) requires explicit formulas for automorphisms and a proof that every automorphism of G arises in the described form."
+      ],
+      "ground_truth": {
+        "answer": "|G| = 21; G ≅ Z_7 ⋊ Z_3; unique non-abelian group of order 21; n_3 = 7; Aut(G) ≅ Z_7 ⋊ Z_6 ≅ Hol(Z_7) of order 42.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: In Aut(Z₇) ≅ Z₆, the map φ: x ↦ x² has order 3 because 2³ = 8 ≡ 1 (mod 7). Therefore the semidirect product Z₇ ⋊_φ Z₃ is well-defined and has order 21. The given presentation is precisely this semidirect product, so |G| = 21.",
+          "Step 2: To show the presentation does not collapse further, note that every element of G can be written uniquely as aⁱ bʲ with 0 ≤ i ≤ 6 and 0 ≤ j ≤ 2, using the relation b a = a² b to push all a's to the left. Thus |G| ≤ 21, and since the semidirect product has order 21, equality holds.",
+          "Step 3: For uniqueness: any group H of order 21 has n₇ = 1 by Sylow’s theorem, so H ≅ Z₇ ⋊ Z₃. The action is determined by a homomorphism Z₃ → Aut(Z₇) ≅ Z₆. Up to automorphism of Z₃, the image can be trivial (giving Z₂₁) or order 3. In Z₆, elements of order 3 are 2 and 4. Replacing b by b² conjugates the action from x ↦ x² to x ↦ x⁴, which is the same action composed with inversion of the acting group. Hence all nontrivial actions yield isomorphic semidirect products. Therefore there is exactly one non-abelian group of order 21.",
+          "Step 4: By Sylow’s theorems, n₃ | 7 and n₃ ≡ 1 (mod 3), so n₃ ∈ {1, 7}. If n₃ = 1, the Sylow 3-subgroup would be normal, and since the Sylow 7-subgroup is also normal, G would be the direct product Z₇ × Z₃ ≅ Z₂₁, contradicting that G is non-abelian. Hence n₃ = 7.",
+          "Step 5: Let φ ∈ Aut(G). The Sylow 7-subgroup ⟨a⟩ is characteristic (it is the derived subgroup [G,G], since b a b⁻¹ a⁻¹ = a ≠ 1 and ⟨a⟩ is normal). Thus φ(a) = aᵏ for some k ∈ Z₇^×. Also φ maps a Sylow 3-subgroup to a Sylow 3-subgroup. Since n₃ = 7, Sylow 3-subgroups are ⟨aⁱ b⟩ for i = 0,...,6. Thus φ(b) = aᵐ bˡ where l ∈ {1, 2} (since b has order 3).",
+          "Step 6: The relation b a b⁻¹ = a² forces φ(b) φ(a) φ(b)⁻¹ = φ(a)². Substituting gives (aᵐ bˡ)(aᵏ)(b⁻ˡ a⁻ᵐ) = a²ᵏ. Using bˡ a b⁻ˡ = a^{2ˡ}, we obtain a^{k·2ˡ} = a^{2k}, so 2ˡ ≡ 2 (mod 7). Since 2 has order 3 in Z₇^×, this forces l ≡ 1 (mod 3), i.e., l = 1. Therefore φ(b) = aᵐ b.",
+          "Step 7: Every pair (k, m) with k ∈ Z₇^× and m ∈ Z₇ defines an automorphism, and composition yields (k,m) ∘ (k',m') = (kk', m + k m'). This is precisely the holomorph of Z₇, i.e., the affine group Aff(1, 7) ≅ Z₇ ⋊ Z₆, which has order 7·6 = 42."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming uniqueness of the non-abelian group without justifying why the actions x ↦ x² and x ↦ x⁴ produce isomorphic groups.",
+          "Assuming n₃ = 1 for the non-abelian group, or incorrectly computing n₃ by forgetting the non-abelian constraint.",
+          "In part (d), allowing l = 2 for the image of b, which violates the relation preservation condition 2ˡ ≡ 2 (mod 7).",
+          "Identifying Aut(G) with a smaller group like Z₆ or D₇ by missing the translation component aᵐ."
+        ],
+        "required_knowledge": [
+          "Group presentations and semidirect products",
+          "Sylow theorems",
+          "Automorphism groups of cyclic groups",
+          "Holomorph of a cyclic group",
+          "Derived subgroups and characteristic subgroups"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 28
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "group-presentations",
+        "semidirect-products",
+        "automorphism-groups",
+        "holomorph",
+        "sylow-theorems"
+      ]
+    }
+  ]
+}

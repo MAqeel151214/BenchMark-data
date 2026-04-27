@@ -1,0 +1,396 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-15B",
+    "generator_model": "GPT-5.3-Codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Cross-Domain Synthesis - Problems Combining Multiple Mathematical Areas",
+    "generated_at": "2026-04-27T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-15B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Finite Linear Groups + Conjugacy Counting",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Over F_7, count exactly how many matrices A in GL_2(F_7) satisfy both conditions: (i) tr(A)=0, and (ii) A has no eigenvalue in F_7. Give a single integer.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Your derivation must explicitly combine finite-field polynomial irreducibility with group-conjugacy counting",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "126",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Algebra over F_q]: For tr(A)=0, the characteristic polynomial is x^2+d where d=det(A) in F_7^*.",
+          "Step 2 [Number Theory in Finite Fields]: A has no eigenvalue in F_7 iff x^2+d is irreducible over F_7, i.e., -d is a non-square. Among 6 nonzero d values, exactly 3 satisfy this.",
+          "Step 3 [Group Theory]: For each fixed irreducible monic quadratic f over F_7, all matrices with characteristic polynomial f form one GL_2(F_7)-conjugacy class (rational canonical form).",
+          "Step 4 [Centralizer Size]: For irreducible degree-2 class, centralizer size is |F_{7^2}^*|=48, so class size is |GL_2(F_7)|/48 = ((7^2-1)(7^2-7))/48 = 42.",
+          "Step 5 [Combinatorics]: There are 3 admissible polynomials x^2+d, each contributes 42 matrices, total 3*42=126."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "count=0\nq=7\nfor a in range(q):\n    for b in range(q):\n        for c in range(q):\n            for d in range(q):\n                det=(a*d-b*c)%q\n                if det==0: \n                    continue\n                if (a+d)%q!=0:\n                    continue\n                # condition (ii): no eigenvalue in F_q\n                has_ev=False\n                for lam in range(q):\n                    if ((a-lam)*(d-lam)-b*c)%q==0:\n                        has_ev=True\n                        break\n                if not has_ev:\n                    count+=1\nprint(count)  # 126"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Counting all d in F_7^* instead of only those with -d non-square",
+          "Using class size q^2-q^ instead of |GL_2|/(q^2-1)",
+          "Assuming multiple conjugacy classes per irreducible quadratic in GL_2(F_q)"
+        ],
+        "required_knowledge": [
+          "Irreducibility criteria for quadratics over finite fields",
+          "Conjugacy classes in GL_2(F_q)",
+          "Centralizer-class-size formula"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["finite-fields", "linear-groups", "conjugacy-classes"]
+    },
+    {
+      "task_id": "S-MATH-15B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Quadratic Forms + Chinese Remainder Synthesis",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Count ordered triples (x,y,z) in (Z/65Z)^3 satisfying both congruences:\n1) x+y+z ≡ 0 (mod 65)\n2) x^2+y^2+z^2 ≡ 0 (mod 65)\nReturn the exact integer.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "You must use both local prime-modulus analysis and CRT recombination",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "25",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Algebra]: From x+y+z=0, set z=-(x+y). Substitute into x^2+y^2+z^2=0 to get x^2+xy+y^2=0 modulo 65.",
+          "Step 2 [Number Theory + CRT]: Solve modulo 5 and modulo 13 separately. Total modulo 65 count is product of local counts by CRT.",
+          "Step 3 [Local Field Analysis mod p]: For prime p, equation x^2+xy+y^2=0 has nonzero solutions iff t^2+t+1=0 has solution t=y/x, equivalently discriminant -3 is a square mod p.",
+          "Step 4 [mod 5]: -3 ≡ 2 is non-square, so only (x,y)=(0,0). Local count N_5=1.",
+          "Step 5 [mod 13]: -3 ≡ 10 is square, so two slopes t exist; each nonzero x gives 2 y values, plus (0,0). Hence N_13=1+2*(13-1)=25.",
+          "Step 6 [CRT Recombination]: N_65 = N_5*N_13 = 1*25 = 25. For each (x,y), z is uniquely determined, so triple count is 25."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "cnt=0\nfor x in range(65):\n    for y in range(65):\n        z=(-x-y)%65\n        if (x*x+y*y+z*z)%65==0:\n            cnt+=1\nprint(cnt)  # 25"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating 65 as prime and applying Legendre-symbol logic directly without CRT",
+          "Forgetting that z is uniquely determined once (x,y) is chosen",
+          "Misclassifying -3 as square/non-square modulo 13"
+        ],
+        "required_knowledge": [
+          "Quadratic-form reduction by linear substitution",
+          "Legendre-symbol style square tests",
+          "Chinese Remainder Theorem counting"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["quadratic-forms", "crt", "modular-counting"]
+    },
+    {
+      "task_id": "S-MATH-15B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Spectral Graph Theory + Trigonometric Algebra",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let G = C_3 □ C_4 be the Cartesian product of cycles C_3 and C_4. (Vertices are pairs (i,j), adjacent when one coordinate is equal and the other is adjacent in the corresponding cycle.) Compute the exact number of spanning trees of G.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use Kirchhoff's Matrix-Tree theorem with Laplacian eigenvalues of product graphs",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "367500",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Graph Theory]: By Matrix-Tree theorem, τ(G) = (1/|V|) times product of all nonzero Laplacian eigenvalues.",
+          "Step 2 [Spectral Synthesis]: Laplacian eigenvalues of C_m are λ_j=2-2cos(2πj/m). For Cartesian product, eigenvalues add: λ_j+μ_k.",
+          "Step 3 [Compute C_3 and C_4 spectra]: C_3 gives {0,3,3}; C_4 gives {0,2,4,2}.",
+          "Step 4 [Product over nonzero pairs]: For j=0: 2*4*2=16. For j=1: 3*5*7*5=525. For j=2: same 525. Total nonzero product = 16*525*525 = 4,410,000.",
+          "Step 5 [Finalize]: |V|=12, so τ(G)=4,410,000/12=367,500."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from math import cos, pi\nm,n=3,4\nvals=[]\nfor j in range(m):\n    lam=2-2*cos(2*pi*j/m)\n    for k in range(n):\n        mu=2-2*cos(2*pi*k/n)\n        vals.append(round(lam+mu,12))\nprod=1\nfor v in vals:\n    if abs(v)>1e-12:\n        prod*=v\nprint(round(prod/12))  # 367500"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using adjacency eigenvalues instead of Laplacian eigenvalues in Matrix-Tree theorem",
+          "Forgetting to omit the single zero eigenvalue from the product",
+          "Dividing by m+n instead of mn in the final theorem step"
+        ],
+        "required_knowledge": [
+          "Kirchhoff's Matrix-Tree theorem",
+          "Laplacian spectra of cycle graphs",
+          "Cartesian product spectral rule"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["matrix-tree", "spectral-graph-theory", "cycle-products"]
+    },
+    {
+      "task_id": "S-MATH-15B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Character Sums + Conic Point Counting",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let p be an odd prime with p != 3. Prove that the number\nN_p = |{(x,y) in F_p^2 : x^2 + x y + y^2 = 1}|\nsatisfies N_p = p - chi_p(-3), where chi_p is the quadratic character on F_p with chi_p(0)=0.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Label each major step with its domain (e.g., [Number Theory], [Combinatorics])",
+        "You must justify the character-sum evaluation used"
+      ],
+      "ground_truth": {
+        "answer": "N_p = p - chi_p(-3)",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Number Theory]: For fixed y, solve x^2 + yx + (y^2-1)=0 as a quadratic in x. Number of x-solutions is 1 + chi_p(Delta_y), where Delta_y = y^2 - 4(y^2-1) = 4 - 3y^2.",
+          "Step 2 [Combinatorics]: Summing over y gives N_p = sum_y (1 + chi_p(4-3y^2)) = p + S, where S = sum_y chi_p(4-3y^2).",
+          "Step 3 [Character Manipulation]: Write 4-3y^2 = -3(y^2 - 4/3). Hence S = chi_p(-3) * sum_y chi_p(y^2-a) with a=4/3 != 0.",
+          "Step 4 [Finite-Field Sum Identity]: For a != 0, sum_{y in F_p} chi_p(y^2-a) = -1. (Proof: count points on u^2=y^2-a and use standard quadratic-character orthogonality.)",
+          "Step 5 [Conclusion]: S = chi_p(-3)*(-1) = -chi_p(-3), therefore N_p = p - chi_p(-3)."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using discriminant test but forgetting the chi(0)=0 case in the 1+chi(Delta) formula",
+          "Dropping the factor chi(-3) when pulling constants from the character",
+          "Using sum chi(y^2-a)=0 instead of the correct value -1 for nonzero a"
+        ],
+        "required_knowledge": [
+          "Quadratic characters over finite fields",
+          "Discriminant-based root counting",
+          "Character-sum identities"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["character-sums", "finite-fields", "conic-counting"]
+    },
+    {
+      "task_id": "S-MATH-15B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Graph Independence + Linear Recurrences",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "For the cycle graph C_n (n >= 3), let E_n be the number of independent sets of even cardinality and O_n the number of independent sets of odd cardinality. Prove that\nE_n - O_n = 2 cos(n*pi/3).",
+      "prompt_format": "proof",
+      "constraints": [
+        "Your proof must combine graph-structural decomposition with an algebraic recurrence solution",
+        "Do not use external theorems beyond standard recurrence solving"
+      ],
+      "ground_truth": {
+        "answer": "E_n - O_n = 2 cos(n*pi/3)",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Graph Theory]: Let I_G(x)=sum_k s_k x^k be the independence polynomial. Then E_n-O_n = I_{C_n}(-1).",
+          "Step 2 [Combinatorics Decomposition]: For path P_m, p_m(x)=I_{P_m}(x) satisfies p_m = p_{m-1} + x p_{m-2}, with p_0=1, p_1=1+x.",
+          "Step 3 [Cycle Reduction]: For n>=3, c_n(x)=I_{C_n}(x)=p_{n-1}(x)+x p_{n-3}(x) (exclude/include a fixed vertex).",
+          "Step 4 [Algebra at x=-1]: Set a_m=p_m(-1), so a_m=a_{m-1}-a_{m-2}, a_0=1, a_1=0. Then d_n:=c_n(-1)=a_{n-1}-a_{n-3}. This yields d_n=d_{n-1}-d_{n-2} with d_3=-2, d_4=-1.",
+          "Step 5 [Recurrence Solution]: Characteristic equation r^2-r+1=0 has roots e^{±i*pi/3}. Hence d_n = 2 cos(n*pi/3), matching initial values and completing the proof."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing independent sets of a path with those of a cycle and using the wrong recurrence directly",
+          "Evaluating I_G(-1) but forgetting it equals even-minus-odd (not total independent sets)",
+          "Solving recurrence with wrong characteristic equation sign"
+        ],
+        "required_knowledge": [
+          "Independence polynomials",
+          "Graph decomposition arguments",
+          "Linear recurrence with complex roots"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["independence-polynomial", "graph-theory", "recurrences"]
+    },
+    {
+      "task_id": "S-MATH-15B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "CRT Group Structure + Multiplicative Counting",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "For a positive integer n, define\nS_n = {(a,b) in (Z/nZ)^2 : gcd(a,b,n)=1}.\nProve the exact formula\n|S_n| = n^2 * product_{p|n}(1 - 1/p^2),\nwhere the product is over distinct prime divisors of n.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Your proof must explicitly use both prime-power local counting and CRT multiplicativity",
+        "State why the condition gcd(a,b,n)=1 localizes prime-by-prime"
+      ],
+      "ground_truth": {
+        "answer": "|S_n| = n^2 * product_{p|n}(1 - 1/p^2)",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Number Theory Localization]: Condition gcd(a,b,n)=1 is equivalent to: for every prime p|n, not both a and b are 0 modulo p.",
+          "Step 2 [Local Prime-Power Count]: For n=p^k, total pairs are p^{2k}. Bad pairs with p|a and p|b are p^{2k-2}. So good pairs are p^{2k}-p^{2k-2}=p^{2k}(1-1/p^2).",
+          "Step 3 [Algebra/CRT]: By CRT, (Z/nZ)^2 decomposes as product over p^k||n of (Z/p^kZ)^2, and the good-condition factors independently across prime powers.",
+          "Step 4 [Multiplicativity]: Therefore |S_n| = product_{p^k||n} p^{2k}(1-1/p^2) = n^2 * product_{p|n}(1-1/p^2)."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using Euler's phi(n) instead of the 2-dimensional Jordan-totient expression",
+          "Treating gcd(a,b,n)=1 as gcd(a,n)=gcd(b,n)=1 (too strong)",
+          "Forgetting that the product runs over distinct primes, not prime powers"
+        ],
+        "required_knowledge": [
+          "Chinese Remainder Theorem",
+          "Prime-power local counting",
+          "Multiplicative arithmetic functions"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["crt", "multiplicative-functions", "modular-pairs"]
+    },
+    {
+      "task_id": "S-MATH-15B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Finite-Field Factorization + Enumerative Probability",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A monic cubic polynomial over F_5 is chosen uniformly at random from all monic cubics. What is the probability that it has exactly one distinct root in F_5?\n\nOptions:\nA. 2/5\nB. 11/25\nC. 12/25\nD. 1/2",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Count by factorization type over F_5 and clearly distinguish distinct-root count from multiplicity count",
+        "Explain why each incorrect option fails"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Combinatorics]: Total monic cubics over F_5 is 5^3 = 125.",
+          "Step 2 [Algebraic Factorization]: Exactly one distinct F_5-root occurs in two disjoint types: (i) (x-r)^3; (ii) (x-r)q(x) with q monic irreducible quadratic over F_5.",
+          "Step 3 [Counting Type (i)]: Choose r in F_5: 5 polynomials.",
+          "Step 4 [Counting Type (ii)]: Number of monic irreducible quadratics over F_5 is (5^2-5)/2=10. For each r, pair with any such q gives one cubic with exactly one F_5-root. Count = 5*10=50.",
+          "Step 5 [Total + Probability]: Favorable = 5+50=55, so probability = 55/125 = 11/25.",
+          "Step 6 [Option audit]: A=2/5 counts only type (ii); C=12/25 overcounts by including two-root forms (x-r)^2(x-s), r!=s; D=1/2 corresponds to 62.5/125 impossible for integer count."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import itertools\nF=list(range(5))\nfav=0\ntot=0\nfor a,b,c in itertools.product(F, repeat=3):\n    # f(x)=x^3+a x^2+b x+c\n    tot+=1\n    roots=[]\n    for r in F:\n        if (r**3 + a*r*r + b*r + c)%5==0:\n            roots.append(r)\n    if len(set(roots))==1:\n        fav+=1\nprint(fav, tot, fav/tot)  # 55 125 0.44"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Counting exactly one root with multiplicity one, thereby excluding (x-r)^3 incorrectly",
+          "Using irreducible-quadratic count 5 instead of 10",
+          "Including factorization type (x-r)^2(x-s), r!=s, which has two distinct roots"
+        ],
+        "required_knowledge": [
+          "Factorization types of cubics over finite fields",
+          "Counting irreducible quadratics over F_q",
+          "Finite probability over uniform polynomial spaces"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["multiple-choice", "finite-fields", "factorization-counting"]
+    },
+    {
+      "task_id": "S-MATH-15B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection in Local-to-Global Congruence Counting",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Find the first incorrect line in the following solution attempt and provide the corrected final answer.\n\nProblem being solved: Count the number of residue classes x (mod 720) satisfying x^2 ≡ 1 (mod 720).\n\nStudent's work:\n1) 720 = 16 * 9 * 5, and these factors are pairwise coprime.\n2) Modulo 16, x^2 ≡ 1 has exactly 2 solutions: x ≡ ±1.\n3) Modulo 9, x^2 ≡ 1 has 2 solutions; modulo 5, x^2 ≡ 1 has 2 solutions.\n4) By CRT, total number of solutions modulo 720 is 2*2*2 = 8.\n\nIdentify the first incorrect line and give the corrected total count.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Name the first incorrect line number explicitly",
+        "Provide the corrected final integer count"
+      ],
+      "ground_truth": {
+        "answer": "Line 2 is first incorrect; modulo 16 there are 4 solutions, so total is 4*2*2 = 16.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [2-adic Number Theory]: For k>=3, x^2≡1 (mod 2^k) has 4 solutions. In particular mod 16 the solutions are 1, 7, 9, 15.",
+          "Step 2 [Audit]: Therefore line 2 is false (it states 2 instead of 4). Lines 1 and 3 are correct.",
+          "Step 3 [CRT + Combinatorics]: Since 16, 9, 5 are pairwise coprime, total solution count is product of local counts: 4*2*2=16."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "cnt=0\nfor x in range(720):\n    if (x*x-1)%720==0:\n        cnt+=1\nprint(cnt)  # 16"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming x^2≡1 always has exactly two solutions modulo any modulus",
+          "Remembering CRT multiplication but feeding it an incorrect local count at 2^k",
+          "Confusing odd-prime behavior with powers of 2"
+        ],
+        "required_knowledge": [
+          "Solutions of x^2=1 modulo prime powers",
+          "Chinese Remainder Theorem",
+          "Error localization in multi-step arithmetic arguments"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "crt", "quadratic-congruences"]
+    }
+  ]
+}

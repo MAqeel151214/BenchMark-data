@@ -1,0 +1,421 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-02B",
+    "generator_model": "GPT-5.3-Codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Number Theory — Diophantine Equations, Quadratic Residues, p-adic Methods",
+    "generated_at": "2026-04-23T12:20:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-02B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "p-adic valuations of factorials",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Compute v_7(1000!), where v_7(n) is the exponent of 7 in n.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use a valuation formula, not explicit expansion of 1000!.",
+        "Final answer must be a single integer."
+      ],
+      "ground_truth": {
+        "answer": "164",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Use Legendre's formula v_7(1000!) = floor(1000/7) + floor(1000/49) + floor(1000/343) + ... .",
+          "Step 2: Compute terms: floor(1000/7)=142, floor(1000/49)=20, floor(1000/343)=2, and floor(1000/2401)=0.",
+          "Step 3: Sum the nonzero terms: 142 + 20 + 2 = 164.",
+          "Step 4: Therefore v_7(1000!) = 164."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def v_p_fact(n,p):\n    s=0\n    d=p\n    while d<=n:\n        s+=n//d\n        d*=p\n    return s\nprint(v_p_fact(1000,7))\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Stopping after floor(1000/7) and forgetting higher powers 7^2 and 7^3.",
+          "Using floor(1000/343)=3 instead of 2.",
+          "Applying the digit-sum variant incorrectly in base 7."
+        ],
+        "required_knowledge": [
+          "Legendre's formula",
+          "p-adic valuation of factorials"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 6
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "p-adic-valuation",
+        "factorial",
+        "legendre-formula"
+      ]
+    },
+    {
+      "task_id": "S-MATH-02B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Carmichael numbers",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Find all Carmichael numbers less than 2000. A Carmichael number is a composite n such that a^(n-1) ≡ 1 (mod n) for every integer a coprime to n.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "You must justify completeness of your list.",
+        "Use a structural criterion (not pure brute force only)."
+      ],
+      "ground_truth": {
+        "answer": "[561,1105,1729]",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Apply Korselt's criterion: n is Carmichael iff n is composite, squarefree, and for every prime p|n, (p-1)|(n-1).",
+          "Step 2: Under n<2000, squarefree odd candidates with at least three prime factors are checked against divisibility conditions (p-1)|(n-1) for each prime factor p.",
+          "Step 3: 561=3*11*17 is squarefree and 2|560, 10|560, 16|560; hence Carmichael.",
+          "Step 4: 1105=5*13*17 is squarefree and 4|1104, 12|1104, 16|1104; hence Carmichael.",
+          "Step 5: 1729=7*13*19 is squarefree and 6|1728, 12|1728, 18|1728; hence Carmichael.",
+          "Step 6: No other squarefree composite n<2000 satisfies all required divisibility conditions, so the complete list is 561, 1105, 1729."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import math\n\ndef is_carmichael(n):\n    if n<3 or all(n%p for p in range(2,int(n**0.5)+1)):\n        return False\n    # factor\n    m=n\n    fac=[]\n    p=2\n    while p*p<=m:\n        if m%p==0:\n            c=0\n            while m%p==0:\n                m//=p; c+=1\n            fac.append((p,c))\n        p+=1\n    if m>1:\n        fac.append((m,1))\n    # squarefree\n    if any(c>1 for _,c in fac):\n        return False\n    # Korselt divisibility\n    for p,_ in fac:\n        if (n-1)%(p-1)!=0:\n            return False\n    return True\n\nprint([n for n in range(2,2000) if is_carmichael(n)])\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating base-2 pseudoprimes (like 341) as Carmichael numbers.",
+          "Forgetting squarefree requirement in Korselt's criterion.",
+          "Listing only 561 and missing 1105 or 1729."
+        ],
+        "required_knowledge": [
+          "Korselt's criterion",
+          "Prime factorization and divisibility logic"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": [
+        "carmichael",
+        "pseudoprime",
+        "korselt"
+      ]
+    },
+    {
+      "task_id": "S-MATH-02B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "LTE valuation differences",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Compute\nv_13((17^(13^6) - 4^(13^6)) / (17^(13^3) - 4^(13^3))).",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use p-adic valuation laws and LTE.",
+        "Final answer must be a single integer."
+      ],
+      "ground_truth": {
+        "answer": "3",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Since 13 | (17-4)=13 and 13 does not divide 17*4, LTE gives v_13(17^m-4^m)=v_13(17-4)+v_13(m) for positive m.",
+          "Step 2: For m=13^6, v_13(17^(13^6)-4^(13^6))=v_13(13)+v_13(13^6)=1+6=7.",
+          "Step 3: For m=13^3, v_13(17^(13^3)-4^(13^3))=v_13(13)+v_13(13^3)=1+3=4.",
+          "Step 4: Valuation of a quotient is difference of valuations (numerator divisible by denominator here), so desired value is 7-4=3."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def v_p(x,p):\n    c=0\n    while x%p==0:\n        x//=p\n        c+=1\n    return c\nnum=pow(17,13**6)-pow(4,13**6)\nden=pow(17,13**3)-pow(4,13**3)\nprint(v_p(num//den,13))\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying LTE to only one term and forgetting to subtract valuations for the quotient.",
+          "Using v_p(a^n-b^n)=v_p(a-b) and omitting +v_p(n).",
+          "Not checking the LTE condition p does not divide ab."
+        ],
+        "required_knowledge": [
+          "Lifting the Exponent lemma",
+          "Valuation arithmetic on products and quotients"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "LTE",
+        "p-adic-valuation",
+        "divisibility"
+      ]
+    },
+    {
+      "task_id": "S-MATH-02B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Primality certificates",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Construct a Pocklington-style primality certificate for N = 211. Your certificate must explicitly identify a base a and verify all needed conditions.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Use N-1 factorization and gcd checks required by Pocklington.",
+        "Conclude primality of 211 without invoking trial division up to sqrt(211)."
+      ],
+      "ground_truth": {
+        "answer": "a=2",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Factor N-1: 210 = 2*3*5*7. Let F=210, so F > sqrt(211).",
+          "Step 2: Choose a=2 and compute 2^210 ≡ 1 (mod 211).",
+          "Step 3: For each prime q in {2,3,5,7}, compute gcd(2^(210/q)-1,211): gcd(2^105-1,211)=1, gcd(2^70-1,211)=1, gcd(2^42-1,211)=1, gcd(2^30-1,211)=1.",
+          "Step 4: By Pocklington's criterion, these conditions imply every prime divisor r of 211 satisfies r ≡ 1 (mod 210), impossible unless r=211.",
+          "Step 5: Therefore 211 is prime, and (N=211, a=2, factorization 210=2*3*5*7) is a valid primality certificate."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": "import math\nN=211\na=2\nprint(pow(a,N-1,N))\nfor q in [2,3,5,7]:\n    g=math.gcd(pow(a,(N-1)//q,N)-1,N)\n    print(q,g)\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Checking only a^(N-1)=1 mod N and forgetting the gcd conditions for each prime factor q of N-1.",
+          "Using Fermat's little theorem as if primality were already known.",
+          "Choosing F too small (not exceeding sqrt(N))."
+        ],
+        "required_knowledge": [
+          "Pocklington primality test",
+          "Modular exponentiation and gcd arguments"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "primality-certificate",
+        "pocklington",
+        "advanced-primes"
+      ]
+    },
+    {
+      "task_id": "S-MATH-02B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Constructive Carmichael proof",
+      "bloom_level": "Create",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Construct an explicit composite integer n with exactly three distinct prime factors such that for every integer a coprime to n, a^(n-1) ≡ 1 (mod n). Then prove your construction works.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Your n must be given explicitly.",
+        "Proof must verify the needed criterion for all three prime factors."
+      ],
+      "ground_truth": {
+        "answer": "n=561",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Choose n=561=3*11*17, which is composite with exactly three distinct prime factors and squarefree.",
+          "Step 2: Compute n-1=560.",
+          "Step 3: Check divisibility conditions: 3-1=2 divides 560, 11-1=10 divides 560, 17-1=16 divides 560.",
+          "Step 4: By Korselt's criterion, since n is squarefree and (p-1)|(n-1) for each prime p|n, n is Carmichael.",
+          "Step 5: Therefore for every gcd(a,561)=1, a^560 ≡ 1 (mod 561)."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": "import math\nn=561\nfor a in range(1,n):\n    if math.gcd(a,n)==1 and pow(a,n-1,n)!=1:\n        print('counterexample',a)\n        break\nelse:\n    print('works')\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Picking a base-2 pseudoprime that is not Carmichael.",
+          "Forgetting to ensure squarefree structure.",
+          "Checking only one prime factor condition (p-1)|(n-1) instead of all."
+        ],
+        "required_knowledge": [
+          "Korselt's criterion",
+          "Carmichael number construction"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "carmichael",
+        "constructive-proof",
+        "advanced-primes"
+      ]
+    },
+    {
+      "task_id": "S-MATH-02B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Pseudoprimes vs Carmichael numbers",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Multiple choice: Which one of the following is a Carmichael number?\nA) 341\nB) 561\nC) 645\nD) 703",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Use a criterion that distinguishes Carmichael numbers from single-base pseudoprimes.",
+        "Final answer must be one letter."
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Use Korselt's criterion: n must be squarefree and satisfy (p-1)|(n-1) for every prime p|n.",
+          "Step 2: For 561=3*11*17, squarefree and 2|560, 10|560, 16|560, so 561 is Carmichael.",
+          "Step 3: 341=11*31 is squarefree but 10 does not divide 340? actually 10 divides 340, and 30 does not divide 340, so not Carmichael.",
+          "Step 4: 645=3*5*43 is squarefree but 42 does not divide 644, so not Carmichael.",
+          "Step 5: 703=19*37 is squarefree but 36 does not divide 702, so not Carmichael.",
+          "Step 6: Therefore the unique correct choice is B."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "cands=[341,561,645,703]\n\ndef is_carmichael(n):\n    m=n\n    fac=[]\n    p=2\n    while p*p<=m:\n        if m%p==0:\n            c=0\n            while m%p==0:\n                m//=p; c+=1\n            fac.append((p,c))\n        p+=1\n    if m>1:\n        fac.append((m,1))\n    if len(fac)<2 or any(c>1 for _,c in fac):\n        return False\n    return all((n-1)%(p-1)==0 for p,_ in fac)\n\nfor n in cands:\n    print(n,is_carmichael(n))\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing 341 (base-2 pseudoprime) with Carmichael status.",
+          "Checking only squarefreeness and ignoring divisibility conditions.",
+          "Arithmetic slip in testing (p-1)|(n-1) for the largest prime factor."
+        ],
+        "required_knowledge": [
+          "Korselt's criterion",
+          "Difference between pseudoprime and Carmichael number"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 16
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": [
+        "multiple-choice",
+        "carmichael",
+        "pseudoprime"
+      ]
+    },
+    {
+      "task_id": "S-MATH-02B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Mersenne prime divisors",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Multiple choice: Let q be an odd prime divisor of 2^23 - 1. Which statement must always be true?\nA) q ≡ 1 (mod 23)\nB) q ≡ 1 (mod 46)\nC) q ≡ -1 (mod 46)\nD) q ≡ 1 (mod 8)",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Justify using multiplicative order.",
+        "Final answer must be one letter."
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: If q divides 2^23-1, then 2^23 ≡ 1 (mod q), so ord_q(2) divides 23.",
+          "Step 2: Since 23 is prime and q does not divide 2-1, ord_q(2) cannot be 1; hence ord_q(2)=23.",
+          "Step 3: By Lagrange in (Z/qZ)^x, ord_q(2) divides q-1, so 23 divides q-1.",
+          "Step 4: Also q is odd, so q-1 is even; combining with 23|(q-1) gives 46|(q-1), i.e., q ≡ 1 (mod 46).",
+          "Step 5: Therefore B is mandatory. A is weaker, C has wrong sign class, D is not forced."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\np=23\nM=2**p-1\nf=sp.factorint(M)\nprint(f)\nfor q in f:\n    print(q, (q-1)%46)\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Concluding only q ≡ 1 (mod 23) and missing the extra factor 2.",
+          "Allowing ord_q(2)=1 even though q does not divide 1.",
+          "Assuming q ≡ 1 (mod 8) from unrelated residue heuristics."
+        ],
+        "required_knowledge": [
+          "Multiplicative order",
+          "Prime divisors of Mersenne numbers"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": [
+        "mersenne",
+        "order",
+        "multiple-choice"
+      ]
+    },
+    {
+      "task_id": "S-MATH-02B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Fermat numbers (error diagnosis)",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Error-detection task:\nA student writes:\n\"Fermat numbers are F_n = 2^(2^n)+1. They are pairwise coprime, so no F_n shares any nontrivial divisor with earlier F_k. Therefore each F_n has no possible nontrivial divisor and all Fermat numbers are prime.\"\nIdentify the first invalid inference, give a concrete counterexample, and state a correct theorem that the argument can legitimately prove.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Your answer must include: (i) exact logical error, (ii) one explicit composite Fermat number, (iii) corrected theorem statement.",
+        "Do not merely say 'the proof is wrong'."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: First invalid inference: from pairwise coprime family, concluding each element is prime. Pairwise coprime composites can exist (e.g., 9 and 25).",
+          "Step 2: Counterexample in Fermat sequence: F_5 = 2^32 + 1 = 4294967297 = 641 * 6700417, so not prime.",
+          "Step 3: Correct theorem from pairwise coprimeness: distinct Fermat numbers have no common prime divisor, so the set of prime divisors across all Fermat numbers is infinite.",
+          "Step 4: This supports Euclid-style infinitude of primes but does not imply every Fermat number is prime."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Marking the counterexample but not identifying the precise logical jump that fails.",
+          "Claiming pairwise coprime implies each term has only one prime factor.",
+          "Stating the corrected theorem too weakly (e.g., only 'some are prime')."
+        ],
+        "required_knowledge": [
+          "Fermat numbers",
+          "Logical implications in number-theoretic proofs",
+          "Infinitude of primes argument patterns"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": [
+        "error-detection",
+        "fermat-numbers",
+        "proof-logic"
+      ]
+    }
+  ]
+}

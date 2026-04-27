@@ -1,0 +1,447 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-12B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Applied Mathematics — Financial Mathematics, Stochastic Calculus, Optimization",
+    "generated_at": "2026-04-25T12:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-12B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Stochastic Calculus — Itô's Lemma",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider a stochastic process X(t) governed by the Ornstein-Uhlenbeck stochastic differential equation (SDE): dX = 2(5 − X) dt + 3 dW, with initial condition X(0) = 3, where W(t) is a standard Wiener process.\n\nItô's lemma states: if dX = μ(t,X) dt + σ(t,X) dW and f(t,X) is a C² function, then the differential of Y = f(t,X) is given by dY = (∂f/∂t + μ ∂f/∂X + ½ σ² ∂²f/∂X²) dt + σ ∂f/∂X dW.\n\nDefine the function f(t, X) = e^(0.1t) · X².\n\nCompute the coefficient of the dt term (the drift coefficient) in the SDE for the process Y(t) = f(t, X(t)) at the specific point t = 0, X = 3. Provide your answer as a single decimal number rounded to two decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step partial differentiation.",
+        "Final answer must be a single decimal number rounded to two decimal places."
+      ],
+      "ground_truth": {
+        "answer": "33.90",
+        "answer_type": "exact_float",
+        "tolerance": 0.01,
+        "solution_steps": [
+          "Step 1: Identify μ(t,X) = 2(5 − X) = 10 − 2X and σ(t,X) = 3 from the given OU SDE.",
+          "Step 2: Compute the partial derivatives of f(t,X) = e^(0.1t) X²: ∂f/∂t = 0.1 e^(0.1t) X², ∂f/∂X = 2 e^(0.1t) X, ∂²f/∂X² = 2 e^(0.1t).",
+          "Step 3: Evaluate each partial derivative at (t=0, X=3): ∂f/∂t = 0.1 × 9 = 0.9; ∂f/∂X = 2 × 3 = 6; ∂²f/∂X² = 2; μ(0,3) = 10 − 6 = 4; σ² = 9.",
+          "Step 4: Apply Itô's drift formula: drift = ∂f/∂t + μ ∂f/∂X + ½ σ² ∂²f/∂X² = 0.9 + 4×6 + ½×9×2 = 0.9 + 24 + 9 = 33.9."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math; f_t=0.1*9; f_x=6; mu=4; sigma_sq=9; f_xx=2; drift=f_t+mu*f_x+0.5*sigma_sq*f_xx; print(drift)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting the cross-partial ∂²f/∂t∂X term when it is zero here, but applying a mistaken multi-dimensional Itô formula.",
+          "Evaluating μ at the wrong point (e.g., using X=0 instead of X=3).",
+          "Confusing the diffusion coefficient (σ ∂f/∂X) with the drift coefficient and reporting 18 instead of 33.9."
+        ],
+        "required_knowledge": [
+          "Itô's lemma for scalar functions of time and a diffusion process",
+          "Partial differentiation of exponential-polynomial functions",
+          "Ornstein-Uhlenbeck drift and diffusion coefficients"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "stochastic-calculus",
+        "itos-lemma",
+        "ornstein-uhlenbeck",
+        "partial-derivatives"
+      ]
+    },
+    {
+      "task_id": "S-MATH-12B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Optimization — KKT Conditions",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the constrained nonlinear optimization problem:\n\nMinimize: f(x, y) = (x − 1)² + (y − 2)² + 3\nSubject to:\n  g₁(x, y) = x + 2y − 6 ≥ 0\n  g₂(x, y) = x − 2 ≥ 0\n  g₃(x, y) = y − 1 ≥ 0\n\nThe Karush-Kuhn-Tucker (KKT) necessary conditions for a local minimum at a point (x*, y*) with Lagrange multipliers λ₁, λ₂, λ₃ ≥ 0 state:\n\n  (i) Stationarity: ∇f(x*, y*) = λ₁ ∇g₁(x*, y*) + λ₂ ∇g₂(x*, y*) + λ₃ ∇g₃(x*, y*)\n  (ii) Complementary slackness: λᵢ · gᵢ(x*, y*) = 0 for each i\n  (iii) Primal feasibility: all gᵢ(x*, y*) ≥ 0\n  (iv) Dual feasibility: all λᵢ ≥ 0\n\nProve, using the KKT conditions and convexity of f, that (x*, y*) = (2, 2) is the unique global minimizer of this problem. State the exact numerical optimal value of f(x, y) at this minimizer, and identify which constraints are active (binding) at the optimum.",
+      "prompt_format": "proof",
+      "constraints": [
+        "The proof must invoke convexity to upgrade the KKT point to a global minimizer.",
+        "Explicitly identify all active constraints and compute the corresponding Lagrange multipliers.",
+        "State the exact optimal value of f(2, 2)."
+      ],
+      "ground_truth": {
+        "answer": "4",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute gradients: ∇f = [2(x−1), 2(y−2)]; ∇g₁ = [1, 2]; ∇g₂ = [1, 0]; ∇g₃ = [0, 1].",
+          "Step 2: Test candidate regions. The unconstrained minimum is at (1, 2), which violates g₁ (1+4−6 = −1 < 0) and g₂ (1−2 = −1 < 0).",
+          "Step 3: Consider the boundary x = 2 (g₂ active). Substitute x = 2 into g₁: 2 + 2y − 6 ≥ 0 ⇒ y ≥ 2. The objective on this boundary becomes f(2, y) = 1 + (y−2)² + 3, minimized at y = 2. Check g₃: 2−1 ≥ 0, satisfied. This gives candidate (2, 2) with f = 4.",
+          "Step 4: Consider g₁ active with x > 2, y > 1. Solve stationarity with λ₂ = λ₃ = 0: 2(x−1) = λ₁ and 2(y−2) = 2λ₁. Combined with x + 2y = 6, this yields x = 1.2, which violates x ≥ 2. So no interior solution on this edge.",
+          "Step 5: Consider intersection of x = 2 and g₁ active: 2 + 2y = 6 ⇒ y = 2. Same point (2, 2).",
+          "Step 6: Verify via KKT at (2, 2): g₁ = 0 (active), g₂ = 0 (active), g₃ = 1 (inactive). Stationarity: [2, 0] = λ₁[1, 2] + λ₂[1, 0] + λ₃[0, 1]. From second component: 0 = 2λ₁ + λ₃. Since λ₁, λ₃ ≥ 0, this forces λ₁ = λ₃ = 0. Then first component gives λ₂ = 2. All KKT conditions satisfied.",
+          "Step 7: Since f is strictly convex (sum of convex quadratic and constant) and the feasible region is a closed convex polytope, the KKT point is the unique global minimum. Optimal value = 4."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": "# Verified analytically; objective f=(x-1)^2+(y-2)^2+3 at (2,2) equals 4."
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Stopping at the unconstrained minimum (1, 2) without checking feasibility, yielding f = 3.",
+          "Assuming only g₁ is active and solving the reduced system without checking λ₂ ≥ 0, missing the true optimum at (2, 2).",
+          "Treating the problem as an equality-constrained QP and failing to check complementary slackness for all constraints."
+        ],
+        "required_knowledge": [
+          "Karush-Kuhn-Tucker necessary and sufficient conditions for convex problems",
+          "Complementary slackness interpretation for inequality constraints",
+          "Active-set strategy for quadratic programs"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "convex-optimization",
+        "KKT-conditions",
+        "complementary-slackness",
+        "quadratic-programming"
+      ]
+    },
+    {
+      "task_id": "S-MATH-12B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Financial Mathematics — Exotic Option Pricing",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "In a binomial model for option pricing, the underlying stock price S evolves over n = 4 time steps of equal length Δt = T/n with T = 1 year. The parameters are:\n\n  Initial stock price S₀ = 100\n  Strike price K = 105\n  Barrier H = 90 (down-and-out)\n  Risk-free rate r = 0.05 (continuously compounded)\n  Volatility σ = 0.30\n\nThe Cox-Ross-Rubinstein (CRR) binomial model parameters are computed as:\n  u = exp(σ √(Δt))\n  d = 1/u\n  p = (exp(r Δt) − d) / (u − d)\n\nConsider a European down-and-out call option with payoff max(S_T − K, 0) at maturity T, provided the stock price has never touched or fallen below the barrier H = 90 during the life of the option. If the stock price hits or falls below H at any node, the option knocks out and becomes worthless (value 0 at that node and all subsequent nodes).\n\nUsing backward induction with risk-neutral valuation, compute the fair price of this barrier option at time 0. Report your answer rounded to four decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Construct the full 4-step stock price tree explicitly.",
+        "Show the backward induction step at least for the first time step.",
+        "Final answer must be a single decimal number rounded to four decimal places."
+      ],
+      "ground_truth": {
+        "answer": "10.1929",
+        "answer_type": "exact_float",
+        "tolerance": 0.0001,
+        "solution_steps": [
+          "Step 1: Compute Δt = 0.25, u = exp(0.3 × √0.25) = exp(0.15) ≈ 1.161834, d = 1/u ≈ 0.860708, risk-neutral probability p = (exp(0.05×0.25) − d)/(u − d) ≈ 0.504342, discount factor per step = exp(−0.05×0.25) ≈ 0.987578.",
+          "Step 2: Build the stock price tree. Nodes (i=time step, j=up moves): S(i,j) = S₀ u^j d^(i−j). At i=4, the terminal prices are approximately [54.88, 74.08, 100.00, 134.99, 182.21].",
+          "Step 3: At nodes where S ≤ H = 90, the option value is set to 0 (knocked out). At i=4, this eliminates the two lowest nodes (54.88 and 74.08), leaving terminal payoffs [0, 0, 0, 29.9859, 77.2119].",
+          "Step 4: Apply backward induction. At each node, if S > H, value = e^(−rΔt) [p V_up + (1−p) V_down]; otherwise value = 0. For example, at node (3,2) with S=116.18 > H, value = 0.987578 × [0.504342×77.2119 + 0.495658×29.9859] ≈ 53.1355.",
+          "Step 5: Continue backward to time 0. At S₀ = 100 > H, value = e^(−rΔt) [p V(1,1) + (1−p) V(1,0)] = 0.987578 × [0.504342×20.4646 + 0.495658×0] ≈ 10.1929."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import math; S0=100; K=105; H=90; T=1.0; r=0.05; sigma=0.3; n=4; dt=T/n; u=math.exp(sigma*math.sqrt(dt)); d=1/u; p=(math.exp(r*dt)-d)/(u-d); disc=math.exp(-r*dt); stock=[[S0*(u**j)*(d**(i-j)) for j in range(i+1)] for i in range(n+1)]; val=[[0.0]*(i+1) for i in range(n+1)]; val[n]=[max(s-K,0.0) if s>H else 0.0 for s in stock[n]]; [val[i].__setitem__(j, 0.0 if stock[i][j]<=H else disc*(p*val[i+1][j+1]+(1-p)*val[i+1][j])) for i in range(n-1,-1,-1) for j in range(i+1)]; print(round(val[0][0],4))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Computing terminal payoff on nodes where S ≤ H without setting them to zero, treating the option as a vanilla European call.",
+          "Forgetting to check the barrier condition at intermediate nodes during backward induction, only applying it at maturity.",
+          "Using American-style early exercise logic for a European barrier option, which is inappropriate here."
+        ],
+        "required_knowledge": [
+          "CRR binomial tree parameterization",
+          "Risk-neutral valuation and backward induction",
+          "Barrier option mechanics (knock-out at any touch)",
+          "Discounting with continuously compounded rates"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "binomial-tree",
+        "barrier-option",
+        "risk-neutral-pricing",
+        "exotic-options"
+      ]
+    },
+    {
+      "task_id": "S-MATH-12B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Financial Mathematics — Optimal Stopping / American Options",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "An American put option on a dividend-paying stock is modeled using a 3-step binomial tree over T = 1 year. The parameters are:\n\n  S₀ = 100\n  Strike K = 100\n  Risk-free rate r = 0.05 (continuous)\n  Dividend yield q = 0.03 (continuous)\n  Volatility σ = 0.20\n  n = 3 steps\n\nThe CRR model uses:\n  u = exp(σ √(Δt)),  d = 1/u,  Δt = T/n\n  Risk-neutral probability: p = (exp((r−q)Δt) − d) / (u − d)\n\nThe American put payoff upon early exercise at any node is max(K − S, 0). At each node during backward induction, compare the holding value (discounted risk-neutral expectation) with the immediate exercise value; the option value is the maximum of the two.\n\nConstruct the full tree, perform the backward induction, and answer the following two questions:\n\n(a) What is the fair price of the American put at time 0? Report to four decimal places.\n(b) At which node(s) (if any) is early exercise optimal? Specify using the notation (i, j) where i is the time step (0 to 3) and j is the number of up moves (0 to i). If early exercise is never optimal, state 'none'.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the full 3-step stock price tree.",
+        "Show the value at every node and mark where exercise exceeds holding value.",
+        "Provide two answers: (a) numerical price, (b) list of nodes."
+      ],
+      "ground_truth": {
+        "answer": "7.5781; (2,0)",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute Δt = 1/3, u = exp(0.2/√3) ≈ 1.122401, d = 1/u ≈ 0.890947, p = (exp((0.05−0.03)/3) − d)/(u − d) ≈ 0.500064, discount per step = exp(−0.05/3) ≈ 0.983471.",
+          "Step 2: Build stock tree. Terminal nodes (i=3): S(3,0)=70.72, S(3,1)=89.09, S(3,2)=112.24, S(3,3)=141.40. Payoffs at maturity: [29.2778, 10.9053, 0, 0].",
+          "Step 3: Backward step to i=2. Node (2,0): S=79.38, exercise = 20.62. Hold = 0.983471×[0.500064×10.9053 + 0.499936×29.2778] ≈ 19.78. Since exercise (20.62) > hold (19.78), early exercise is optimal; value = 20.6213.",
+          "Step 4: Node (2,1): S=100, exercise = 0. Hold = 0.983471×[0.500064×0 + 0.499936×10.9053] ≈ 5.36. Value = 5.3618, no exercise.",
+          "Step 5: Node (2,2): S=125.98, exercise = 0, hold = 0, value = 0.",
+          "Step 6: Backward to i=1. Node (1,0): S=89.09, exercise = 10.91. Hold = 0.983471×[0.500064×5.3618 + 0.499936×20.6213] ≈ 12.78. Value = 12.7759, no exercise.",
+          "Step 7: Node (1,1): S=112.24, exercise = 0. Hold = 0.983471×[0.500064×0 + 0.499936×5.3618] ≈ 2.64. Value = 2.6363, no exercise.",
+          "Step 8: Backward to i=0. S₀=100, exercise = 0. Hold = 0.983471×[0.500064×2.6363 + 0.499936×12.7759] ≈ 7.58. Value = 7.5781. Early exercise is optimal only at node (2,0)."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import math; S0=100; K=100; T=1.0; r=0.05; q=0.03; sigma=0.2; n=3; dt=T/n; u=math.exp(sigma*math.sqrt(dt)); d=1/u; p=(math.exp((r-q)*dt)-d)/(u-d); disc=math.exp(-r*dt); stock=[[S0*(u**j)*(d**(i-j)) for j in range(i+1)] for i in range(n+1)]; val=[[0.0]*(i+1) for i in range(n+1)]; exercise=[[False]*(i+1) for i in range(n+1)]; val[n]=[max(K-s,0.0) for s in stock[n]]; [(val[i].__setitem__(j, max(K-stock[i][j], disc*(p*val[i+1][j+1]+(1-p)*val[i+1][j]))), exercise[i].__setitem__(j, K-stock[i][j] > disc*(p*val[i+1][j+1]+(1-p)*val[i+1][j])+1e-10)) for i in range(n-1,-1,-1) for j in range(i+1)]; print(f'{val[0][0]:.4f}'); print([(i,j) for i in range(n+1) for j in range(i+1) if exercise[i][j]])"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating the option as European and omitting the early-exercise comparison, yielding a lower price.",
+          "Using the wrong risk-neutral drift (r instead of r−q), which changes the probability p and the resulting price.",
+          "Rounding intermediate values too aggressively, causing the early-exercise decision at (2,0) to flip incorrectly."
+        ],
+        "required_knowledge": [
+          "CRR binomial model with dividends",
+          "American option backward induction with optimal stopping",
+          "Comparison of holding value vs. immediate exercise value"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 22
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "american-option",
+        "optimal-stopping",
+        "binomial-tree",
+        "dividend-yield"
+      ]
+    },
+    {
+      "task_id": "S-MATH-12B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Stochastic Calculus — Itô's Lemma on CIR",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Suppose the short-term interest rate r(t) follows the Cox-Ingersoll-Ross (CIR) process:\n\n  dr = 0.5(4 − r) dt + 0.3 √r dW\n\nwhere W(t) is a standard Wiener process.\n\nItô's lemma for a function f(r) of a scalar diffusion states:\n\n  df = [f'(r) · μ(r) + ½ f''(r) · σ(r)²] dt + f'(r) · σ(r) dW\n\nwhere μ(r) = 0.5(4 − r) and σ(r) = 0.3 √r.\n\nLet f(r) = r².\n\nWhich of the following is the correct expression for the differential df?\n\nA) df = (4.0 r − r²) dt + 0.6 r^(3/2) dW\n\nB) df = (4.0 r − r²) dt + 0.3 r² dW\n\nC) df = (4.09 r − r²) dt + 0.3 r² dW\n\nD) df = (4.09 r − r²) dt + 0.6 r^(3/2) dW\n\nSelect exactly one letter.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Provide exactly one letter as the final answer: A, B, C, or D.",
+        "Show the calculation of f'(r), f''(r), and the resulting drift and diffusion terms."
+      ],
+      "ground_truth": {
+        "answer": "D",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For f(r) = r², compute derivatives: f'(r) = 2r, f''(r) = 2.",
+          "Step 2: Identify drift μ(r) = 0.5(4 − r) = 2 − 0.5r and diffusion σ(r) = 0.3 √r.",
+          "Step 3: Compute Itô drift term: f'(r)·μ(r) + ½·f''(r)·σ(r)² = 2r·(2 − 0.5r) + ½·2·(0.09r) = 4r − r² + 0.09r = 4.09r − r².",
+          "Step 4: Compute Itô diffusion term: f'(r)·σ(r) = 2r · 0.3 √r = 0.6 r^(3/2).",
+          "Step 5: Compare with options. Option D matches both drift (4.09r − r²) and diffusion (0.6 r^(3/2)). Option A has the wrong drift (4.0r instead of 4.09r). Options B and C have the wrong diffusion term."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting the second-order correction term ½ f''(r) σ(r)², leading to drift = 4r − r² (Option A).",
+          "Mistaking σ(r) for 0.3 r instead of 0.3 √r, producing diffusion 0.3 r² (Options B and C).",
+          "Miscalculating f'(r)·σ(r) as 0.3 r² by not simplifying r·√r = r^(3/2)."
+        ],
+        "required_knowledge": [
+          "Itô's lemma for scalar diffusions",
+          "Cox-Ingersoll-Ross (CIR) model structure",
+          "Elementary differentiation and algebraic simplification of power functions"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "stochastic-calculus",
+        "itos-lemma",
+        "CIR-model",
+        "interest-rate-models"
+      ]
+    },
+    {
+      "task_id": "S-MATH-12B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Optimization — Linear Programming Duality",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider the following primal linear programming problem in standard inequality form:\n\nMaximize:  Z = 3x + 3y\nSubject to:\n  x + y ≤ 4\n  2x + y ≤ 7\n  x ≥ 0,  y ≥ 0\n\nThe general rules for forming the dual of a maximization LP with ≤ constraints and non-negative variables are:\n  • Each primal constraint becomes a dual variable (≥ 0).\n  • Each primal variable becomes a dual constraint (≥ the corresponding primal objective coefficient).\n  • The dual objective coefficients are the RHS constants of the primal constraints.\n  • The dual RHS constants are the objective coefficients of the primal variables.\n  • The dual is a minimization problem.\n\nFormulate the complete dual LP (objective function, all constraints, and sign restrictions). Then prove, using the weak duality theorem, that the optimal value of the primal Z* cannot exceed 12. Do NOT solve either LP by the simplex method; your proof must rely solely on weak duality and a feasible dual solution.",
+      "prompt_format": "proof",
+      "constraints": [
+        "State the dual LP explicitly before the proof.",
+        "The proof must use weak duality, not strong duality or simplex.",
+        "Identify a specific dual feasible solution that yields the bound 12."
+      ],
+      "ground_truth": {
+        "answer": "12",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Formulate the dual. Let u ≥ 0 correspond to x + y ≤ 4 and v ≥ 0 correspond to 2x + y ≤ 7. The dual is:\n  Minimize W = 4u + 7v\n  Subject to: u + 2v ≥ 3,  u + v ≥ 3,  u ≥ 0,  v ≥ 0.",
+          "Step 2: Weak duality theorem: For any feasible primal solution (x, y) and any feasible dual solution (u, v), the primal objective Z = 3x + 3y is less than or equal to the dual objective W = 4u + 7v.",
+          "Step 3: Identify a dual feasible solution with W = 12. Consider (u, v) = (3, 0). Check constraints: u + 2v = 3 ≥ 3 (satisfied), u + v = 3 ≥ 3 (satisfied), and u = 3 ≥ 0, v = 0 ≥ 0.",
+          "Step 4: Since (3, 0) is dual feasible with objective value W = 4×3 + 7×0 = 12, weak duality guarantees that for every feasible primal solution, Z ≤ 12. Hence Z* ≤ 12."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Swapping primal and dual roles, producing a maximization dual or misassigning objective coefficients.",
+          "Using strong duality (equality of optimal values) instead of weak duality (inequality) to claim Z* = 12 without first establishing feasibility.",
+          "Selecting an infeasible dual solution (e.g., v = 0, u = 2) that violates u + v ≥ 3, and erroneously applying weak duality."
+        ],
+        "required_knowledge": [
+          "LP duality theory (weak duality theorem)",
+          "Construction of the dual from a primal in inequality form",
+          "Checking feasibility of linear constraints"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "linear-programming",
+        "duality",
+        "weak-duality",
+        "proof"
+      ]
+    },
+    {
+      "task_id": "S-MATH-12B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Financial Mathematics — PDE Verification & Pricing",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Under the Black-Scholes assumptions, the price V(S, t) of a European derivative on a non-dividend-paying stock satisfies the Black-Scholes PDE:\n\n  ∂V/∂t + ½ σ² S² ∂²V/∂S² + r S ∂V/∂S − r V = 0\n\nwith terminal condition V(S, T) = payoff(S).\n\nConsider a power option whose terminal payoff at maturity T = 1 is V(S, T) = S². The market parameters are:\n\n  S₀ = 50\n  r = 0.05 (continuously compounded)\n  σ = 0.20\n\nA candidate solution is proposed: V(S, t) = S² · exp((r + σ²)(T − t)).\n\n(a) Verify algebraically that this candidate satisfies the Black-Scholes PDE and the terminal condition. Show every substitution explicitly.\n(b) Using this verified solution, compute the fair price of the power option at t = 0. Report to four decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the explicit substitution of partial derivatives into the PDE.",
+        "Part (a) must be a complete algebraic verification, not a sketch.",
+        "Part (b) must be a single numerical answer to four decimal places."
+      ],
+      "ground_truth": {
+        "answer": "2735.4357",
+        "answer_type": "exact_float",
+        "tolerance": 0.0001,
+        "solution_steps": [
+          "Step 1: Compute partial derivatives of V(S,t) = S² exp((r+σ²)(T−t)). Let α = r + σ². Then V = S² e^(α(T−t)).\n  ∂V/∂t = S² · (−α) · e^(α(T−t)) = −α V.\n  ∂V/∂S = 2S · e^(α(T−t)) = 2V/S.\n  ∂²V/∂S² = 2 · e^(α(T−t)) = 2V/S².",
+          "Step 2: Substitute into the Black-Scholes PDE:\n  LHS = ∂V/∂t + ½ σ² S² ∂²V/∂S² + r S ∂V/∂S − r V\n      = −α V + ½ σ² S² (2V/S²) + r S (2V/S) − r V\n      = −α V + σ² V + 2r V − r V\n      = −(r + σ²)V + σ² V + r V\n      = 0.",
+          "Step 3: Terminal condition: at t = T, V(S,T) = S² e^(α·0) = S², matching the payoff. Thus the candidate is valid.",
+          "Step 4: Price at t=0, S=S₀=50:\n  V(50, 0) = 50² · exp((0.05 + 0.04)(1 − 0)) = 2500 · exp(0.09) ≈ 2500 × 1.094174 ≈ 2735.4357."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import math; S0=50; r=0.05; sigma=0.2; T=1; price=(S0**2)*math.exp((r+sigma**2)*T); print(f'{price:.4f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Mistaking ∂V/∂t as positive α V instead of negative, causing sign errors in PDE verification.",
+          "Forgetting the factor ½ in the second derivative term, leading to an incorrect cancellation.",
+          "Evaluating at t=T instead of t=0 for pricing, or using the wrong S₀."
+        ],
+        "required_knowledge": [
+          "Black-Scholes partial differential equation",
+          "Partial differentiation of exponential functions",
+          "Terminal condition verification",
+          "Time-value computation"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "black-scholes-PDE",
+        "power-option",
+        "PDE-verification",
+        "derivative-pricing"
+      ]
+    },
+    {
+      "task_id": "S-MATH-12B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Financial Mathematics — Yield Curve & Par Yield",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "In a discrete-time bond market, the one-period forward rates observed today are:\n\n  f₁ = 3.00% (for the period from t=0 to t=1)\n  f₂ = 4.00% (for the period from t=1 to t=2)\n  f₃ = 5.00% (for the period from t=2 to t=3)\n\nThe spot rate rₙ for an n-period zero-coupon bond is computed from forward rates by the no-arbitrage relation:\n\n  (1 + rₙ)ⁿ = (1 + f₁)(1 + f₂)...(1 + fₙ)\n\nThe par yield cₙ for an n-period coupon-bearing bond with face value 100 and annual coupon cₙ (paid at the end of each period) is the coupon rate that makes the bond price exactly equal to its face value (100) today. That is, cₙ satisfies:\n\n  100 = cₙ/(1+r₁) + cₙ/(1+r₂)² + ... + cₙ/(1+rₙ)ⁿ + 100/(1+rₙ)ⁿ\n\nEquivalently, cₙ = 100 × [1 − (1+rₙ)^(−n)] / [Σ_{k=1}^{n} (1+r_k)^(−k)].\n\nCompute the difference c₃ − r₃, expressed in percentage points (i.e., as a percentage, not a decimal). Report to two decimal places. Is the par yield higher or lower than the corresponding spot rate?",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Compute r₁, r₂, r₃ explicitly from the forward rates first.",
+        "Show the formula for c₃ before substituting numbers.",
+        "Final answer must be the numerical difference in percentage points, and state 'higher' or 'lower'."
+      ],
+      "ground_truth": {
+        "answer": "−0.03; lower",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute spot rates from forward rates via no-arbitrage.\n  (1+r₁) = 1.03 ⇒ r₁ = 3.000000%.\n  (1+r₂)² = 1.03 × 1.04 = 1.0712 ⇒ r₂ = √1.0712 − 1 ≈ 3.498792%.\n  (1+r₃)³ = 1.03 × 1.04 × 1.05 = 1.12476 ⇒ r₃ = 1.12476^(1/3) − 1 ≈ 3.996795%.",
+          "Step 2: Compute discount factors (present value of 1 unit at time k):\n  PV₁ = 1/1.03 ≈ 0.970874\n  PV₂ = 1/(1.03498792)² ≈ 0.933511\n  PV₃ = 1/(1.03996795)³ ≈ 0.889996.",
+          "Step 3: Apply the par-yield formula for n = 3:\n  c₃ = 100 × [1 − PV₃] / [PV₁ + PV₂ + PV₃]\n     = 100 × [1 − 0.889996] / [0.970874 + 0.933511 + 0.889996]\n     = 100 × 0.110004 / 2.794381\n     ≈ 3.970719%.",
+          "Step 4: Compute difference: c₃ − r₃ = 3.970719% − 3.996795% = −0.026076 percentage points. Rounded to two decimal places: −0.03. Since c₃ < r₃, the par yield is lower than the spot rate."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import math; f1, f2, f3 = 0.03, 0.04, 0.05; r1=f1; r2=((1+f1)*(1+f2))**0.5-1; r3=((1+f1)*(1+f2)*(1+f3))**(1/3)-1; pv1=1/(1+r1); pv2=1/((1+r2)**2); pv3=1/((1+r3)**3); c3=100*(1-pv3)/(pv1+pv2+pv3); diff=(c3/100 - r3)*100; print(f'r3={r3*100:.6f}%, c3={c3:.6f}%, diff={diff:.4f}pp')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing the par-yield formula with the spot-rate formula, or omitting the face-value repayment term in the bond pricing equation.",
+          "Using arithmetic averages of forward rates instead of geometric compounding to compute spot rates.",
+          "Reporting the difference in decimals (e.g., −0.0006) instead of percentage points."
+        ],
+        "required_knowledge": [
+          "Forward-rate to spot-rate bootstrapping via no-arbitrage",
+          "Par-yield definition and formula derivation",
+          "Geometric mean and compounding conventions in fixed income"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "yield-curve",
+        "forward-rates",
+        "spot-rates",
+        "par-yield",
+        "fixed-income"
+      ]
+    }
+  ]
+}

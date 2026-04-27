@@ -1,0 +1,365 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-12A",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Applied Mathematics — Financial Mathematics, Stochastic Calculus, Optimization",
+    "generated_at": "2026-04-25T10:15:14Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-12A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Stochastic Calculus — Itô's Lemma on Ornstein-Uhlenbeck Process",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Let {X_t}_{t≥0} be an Ornstein-Uhlenbeck process satisfying the stochastic differential equation dX_t = κ(θ − X_t)dt + σ dW_t, where W_t is a standard Brownian motion. The constants are given as κ = 0.5, θ = 0.03, σ = 0.2, and the initial value is X_0 = 0.01.\n\nItô's lemma states: if dX = μ dt + σ dW and f is a twice continuously differentiable function, then df = (f′μ + ½f″σ²)dt + f′σ dW.\n\nDefine Y_t = X_t². Apply Itô's lemma to derive the stochastic differential equation for Y_t. Then, by taking expectations and solving the resulting system of ordinary differential equations, compute the value of E[Y_1] = E[X_1²]. Give your answer as a decimal rounded to 6 decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all derivation steps explicitly.",
+        "Final answer must be a decimal rounded to exactly 6 decimal places."
+      ],
+      "ground_truth": {
+        "answer": "0.025604",
+        "answer_type": "exact_float",
+        "tolerance": 0.000001,
+        "solution_steps": [
+          "Step 1: Apply Itô's lemma to f(x) = x². We have f′(x) = 2x and f″(x) = 2. The SDE for X is μ(X) = κ(θ − X) and diffusion σ (constant).",
+          "Step 2: Compute dY_t = 2X_t dX_t + (dX_t)². Since (dX_t)² = σ² dt (the dt term from the quadratic variation of Brownian motion), substitution yields dY_t = [2κθ X_t − 2κ X_t² + σ²] dt + 2σ X_t dW_t.",
+          "Step 3: Let m(t) = E[X_t] and v(t) = E[Y_t] = E[X_t²]. Taking expectations in the SDE for Y_t eliminates the martingale term, giving v′(t) = 2κθ m(t) − 2κ v(t) + σ².",
+          "Step 4: Obtain m(t) by taking expectations in the original OU SDE: m′(t) = κ(θ − m(t)), which solves to m(t) = θ + (X_0 − θ)e^{−κt} = 0.03 − 0.02e^{−0.5t}.",
+          "Step 5: Substitute m(t) into the ODE for v(t): v′(t) + v(t) = 0.0409 − 0.0006e^{−0.5t}, using κ = 0.5, θ = 0.03, σ = 0.2.",
+          "Step 6: Solve the linear ODE using integrating factor e^t. This yields v(t) = 0.0409 − 0.0012e^{−0.5t} − 0.0396e^{−t}, after applying the initial condition v(0) = X_0² = 0.0001 to determine the constant of integration.",
+          "Step 7: Evaluate at t = 1: v(1) = 0.0409 − 0.0012/e^{0.5} − 0.0396/e ≈ 0.0409 − 0.000728 − 0.014568 = 0.025604."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math; kappa, theta, sigma, X0, T = 0.5, 0.03, 0.2, 0.01, 1.0; m = theta + (X0 - theta) * math.exp(-kappa * T); v = 0.0409 - 0.0012/math.exp(0.5) - 0.0396/math.exp(1); print(round(v, 6))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting the (dX)² = σ² dt term when applying Itô's lemma to f(x) = x², leading to an incorrect drift.",
+          "Solving for v(t) without first deriving m(t), or using the stationary variance formula Var(X_∞) = σ²/(2κ) instead of the time-dependent variance.",
+          "Making an arithmetic error in the integrating-factor integration, particularly in the coefficient of the e^{0.5t} term."
+        ],
+        "required_knowledge": [
+          "Itô's lemma for scalar diffusion processes",
+          "Ordinary differential equations (linear first-order, integrating factor method)",
+          "Ornstein-Uhlenbeck process moments"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["ito-lemma", "ornstein-uhlenbeck", "ode-system", "moment-calculation"]
+    },
+    {
+      "task_id": "S-MATH-12A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Options Pricing — Up-and-Out Barrier Call via Binomial Tree",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider a 4-step Cox-Ross-Rubinstein binomial model for pricing an up-and-out call option. The current stock price is S_0 = 100, the strike is K = 90, the barrier is H = 120, the risk-free rate is r = 0.05 (continuously compounded), the volatility is σ = 0.30, and the time to maturity is T = 0.5 years.\n\nIn the CRR model, the up-factor is u = e^{σ√(Δt)}, the down-factor is d = 1/u, the risk-neutral probability is p = (e^{rΔt} − d)/(u − d), and the discount factor per step is e^{−rΔt}, where Δt = T/n.\n\nFor an up-and-out call, if the stock price touches or exceeds the barrier H = 120 at any monitoring date (including t = 0), the option knocks out and becomes worthless. If the option survives until maturity, the payoff is max(S_T − K, 0).\n\nCompute the price of this up-and-out call option at t = 0. Give your answer as a decimal rounded to 4 decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the stock price tree and the option values at each node.",
+        "Final answer must be a decimal rounded to exactly 4 decimal places."
+      ],
+      "ground_truth": {
+        "answer": "3.0476",
+        "answer_type": "exact_float",
+        "tolerance": 0.0001,
+        "solution_steps": [
+          "Step 1: Compute the time step Δt = T/n = 0.5/4 = 0.125.",
+          "Step 2: Compute u = e^{0.30√0.125} ≈ 1.1119, d = 1/u ≈ 0.8994, and p = (e^{0.05·0.125} − d)/(u − d) ≈ 0.5030.",
+          "Step 3: Build the stock price tree. At step 4 (maturity), the possible prices are: 152.85, 123.63, 100.00, 80.89, 65.43.",
+          "Step 4: Identify paths that hit the barrier H = 120. Any path reaching 123.63, 137.46, or 152.85 at any time causes knockout. Only paths with at most 1 up-move survive.",
+          "Step 5: The surviving paths at maturity are: DDDD (price 65.43, payoff 0), and paths with exactly 1 up-move at the final step (DDDU, DUDD, DDUD, DDDU variants—actually only DDDU stays below 120 throughout). Let us enumerate: DDDD (0 up), DDDU (1 up at end, price 100, payoff 10). Paths UDDD, DUDD, DDUD all hit 111.19 at step 1 or 2, which is below 120, but with 1 up they give price 80.89 at maturity (payoff 0). Wait—need to recheck: UDDD path: 100→111.19→100→89.94→80.89. This stays below 120! Payoff = 0. DDDU path: 100→89.94→80.89→72.75→80.89. Stays below 120. But payoff = 0. The only path with payoff > 0 is DDDU? No wait, DDDU with up at last step: 100→89.94→80.89→72.75→80.89. That's still 80.89. Actually for exactly 1 up at step 4 from 72.75: 72.75×1.1119 = 80.89. Payoff 0.",
+          "Step 6: Re-enumerate carefully. After 3 down moves: price = 100×d³ = 72.75. Then up: 72.75×u = 80.89. After 4 down: 65.43. For payoff > 0 we need S_T > 90. The only way is 2 up and 2 down in specific order. Check UUDD: 100→111.19→123.63→111.19→100. But 123.63 > 120 at step 2, so knockout. Check UDUD: 100→111.19→100→111.19→100. Step 2 is 100 < 120, step 3 is 111.19 < 120, step 4 is 100. This survives! Payoff = 10. Check UDDU: 100→111.19→100→89.94→100. Step 2 is 100, step 4 is 100. Survives! Payoff = 10. Check DUUD: 100→89.94→100→111.19→100. Step 3 is 111.19 < 120, step 4 is 100. Survives! Payoff = 10. Check DUDU: 100→89.94→100→89.94→100. Survives! Payoff = 10. Check DDUU: 100→89.94→80.89→89.94→100. Survives! Payoff = 10.",
+          "Step 7: The 5 surviving paths with positive payoff are: UDUD, UDDU, DUUD, DUDU, DDUU. Each has exactly 2 up-moves and 2 down-moves. The risk-neutral probability of each is p²(1−p)². Total probability = 5p²(1−p)² ≈ 5×0.503²×0.497² ≈ 5×0.0625 = 0.3125. Expected payoff = 10 × 0.3125 = 3.125. Discounted: e^{−0.025} × 3.125 ≈ 3.0476."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import math; from itertools import product; S0, K, H, r, sigma, T, n = 100, 90, 120, 0.05, 0.3, 0.5, 4; dt = T/n; u = math.exp(sigma*math.sqrt(dt)); d = 1/u; p = (math.exp(r*dt)-d)/(u-d); total = 0;\nfor moves in product(['U','D'], repeat=n):\n    path = [S0];\n    for m in moves:\n        path.append(path[-1]*u if m=='U' else path[-1]*d)\n    if not any(s >= H for s in path):\n        payoff = max(path[-1]-K, 0)\n        prob = (p**moves.count('U'))*((1-p)**moves.count('D'))\n        total += prob*payoff\nprint(round(math.exp(-r*T)*total, 4))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating the barrier check as applying only at maturity rather than at every node, leading to inclusion of paths that should have knocked out.",
+          "Using the standard European call payoff at maturity without checking whether the barrier was breached at intermediate dates.",
+          "Incorrectly computing the risk-neutral probability p by forgetting to use e^{rΔt} in the numerator."
+        ],
+        "required_knowledge": [
+          "Cox-Ross-Rubinstein binomial tree model",
+          "Knock-out barrier option mechanics",
+          "Risk-neutral pricing and path enumeration"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["binomial-tree", "barrier-option", "risk-neutral-pricing", "path-enumeration"]
+    },
+    {
+      "task_id": "S-MATH-12A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Stochastic Calculus — Error Detection in Itô's Lemma Application",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A quant applies Itô's lemma to price a derivative on a commodity whose spot price C_t follows the Cox-Ingersoll-Ross (CIR) process:\n\ndC_t = α(β − C_t)dt + γ√(C_t) dW_t,\n\nwhere α = 0.4, β = 0.06, γ = 0.15, and C_0 = 0.05. The quant defines the payoff function V(C) = C^{3/2} and writes the following derivation:\n\nStep A: V′(C) = (3/2)C^{1/2} and V″(C) = (3/4)C^{−1/2}.\nStep B: By Itô's lemma: dV = [V′ · α(β−C) + ½V″ · γ²C] dt + V′ · γ√(C) dW.\nStep C: Substituting: dV = [(3/2)C^{1/2} · α(β−C) + ½ · (3/4)C^{−1/2} · γ²C] dt + (3/2)C^{1/2} · γ√(C) dW.\nStep D: Simplifying the drift: (3/2)αβ C^{1/2} − (3/2)α C^{3/2} + (3/8)γ² C^{1/2} = [(3/2)αβ + (3/8)γ²] C^{1/2} − (3/2)α C^{3/2}.\nStep E: The quant then computes E[V(C_1)] by taking expectations and claims the drift term gives a closed-form ODE that yields E[V(C_1)] = 0.012947.\n\nIdentify every error (mathematical or logical) in this derivation. For each error, state the step where it occurs, explain why it is wrong, and provide the correct expression or reasoning. How many distinct errors are there? Give your answer as a single integer.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "List each error with step number and explanation.",
+        "Final answer must be a single integer: the count of distinct errors."
+      ],
+      "ground_truth": {
+        "answer": "2",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Check Step A. V(C) = C^{3/2}. V′(C) = (3/2)C^{1/2} — correct. V″(C) = (3/2)·(1/2)·C^{−1/2} = (3/4)C^{−1/2} — correct. Step A is error-free.",
+          "Step 2: Check Step B. Itô's lemma for a process dC = μ(C)dt + σ(C)dW is dV = [V′ μ + ½ V″ σ²] dt + V′ σ dW. Here μ(C) = α(β−C) and σ(C) = γ√C, so σ² = γ²C. Step B is correct.",
+          "Step 3: Check Step C. Substituting V′, V″, μ, and σ into Itô's lemma gives exactly the expression in Step C. This is correct.",
+          "Step 4: Check Step D. Simplifying: ½ · (3/4)C^{−1/2} · γ²C = (3/8)γ² C^{1/2}. The algebra in Step D is correct. The drift simplification is correct.",
+          "Step 5: Identify Error 1 in Step E: The quant claims E[V(C_1)] can be computed from a closed-form ODE. However, after taking expectations, E[C^{1/2}] and E[C^{3/2}] are not known in closed form for the CIR process at finite time. The moment-generating function of CIR is known, but moments of fractional powers C^{1/2} and C^{3/2} do not satisfy a closed system of ODEs. The claim of a closed-form ODE yielding an exact value is false.",
+          "Step 6: Identify Error 2 in Step E: The numerical value 0.012947 cannot be correct because V(C_0) = (0.05)^{3/2} ≈ 0.01118, and since the CIR process has positive drift when C_0 < β (0.05 < 0.06), E[C_1] > C_0. By Jensen's inequality on the convex function V(C) = C^{3/2}, E[V(C_1)] > V(E[C_1]) > V(C_0) ≈ 0.01118. The value 0.012947 is suspiciously close to V(C_0) and was likely obtained by incorrectly using V(C_0) plus a small erroneous increment, or by using an incorrect ODE assumption."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming that fractional moments of CIR satisfy closed ODE systems (they do not; only integer moments do).",
+          "Accepting the numerical answer 0.012947 without questioning whether it is consistent with the dynamics of the process.",
+          "Missing that Jensen's inequality provides a lower bound that invalidates the claimed numerical result."
+        ],
+        "required_knowledge": [
+          "Itô's lemma application rules",
+          "CIR process moment structure (integer vs. fractional moments)",
+          "Jensen's inequality for convex functions"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "itos-lemma", "cir-process", "moment-closure"]
+    },
+    {
+      "task_id": "S-MATH-12A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Portfolio Optimization — Mean-Variance with Non-Negativity Constraints",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "An investor allocates wealth across three assets with expected returns μ = [0.12, 0.08, 0.05]ᵀ and covariance matrix:\n\nΣ = [[0.04,   0.015,  0.005],\n     [0.015,  0.0225, 0.003],\n     [0.005,  0.003,  0.01 ]].\n\nThe investor solves the mean-variance optimization with risk aversion γ = 3:\n\nmaximize   μᵀw − (γ/2) wᵀΣw\nsubject to w₁ + w₂ + w₃ = 1,\n           w₁ ≥ 0, w₂ ≥ 0, w₃ ≥ 0.\n\nUsing the Karush-Kuhn-Tucker (KKT) conditions, determine which constraints are active and compute the optimal weights w* = [w₁*, w₂*, w₃*]ᵀ. Give your answer as the sum w₁* + 2w₂* + 3w₃* rounded to 6 decimal places.\n\nNote: The Lagrangian is L = μᵀw − (γ/2)wᵀΣw − λ(w₁+w₂+w₃−1) + Σᵢ νᵢwᵢ, where νᵢ ≥ 0 and νᵢwᵢ = 0 (complementary slackness).",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "State which inequality constraints are active and which are inactive.",
+        "Show the KKT system and its solution.",
+        "Final answer must be a decimal rounded to exactly 6 decimal places."
+      ],
+      "ground_truth": {
+        "answer": "1.544747",
+        "answer_type": "exact_float",
+        "tolerance": 0.000001,
+        "solution_steps": [
+          "Step 1: Guess that all wᵢ > 0 (no inequality constraints active). Solve the unconstrained problem with only the equality constraint. The first-order condition is μ − γΣw − λ·1 = 0, where 1 = [1,1,1]ᵀ.",
+          "Step 2: Inverting Σ and solving μ − γΣw = λ·1 gives w = (1/γ)Σ⁻¹(μ − λ·1). Using the equality 1ᵀw = 1 yields λ = (1ᵀΣ⁻¹μ − γ)/(1ᵀΣ⁻¹1).",
+          "Step 3: Compute Σ⁻¹ numerically. Using the given Σ, the inverse is Σ⁻¹ ≈ [[34.409, −21.505, −10.753], [−21.505, 59.737, −7.168], [−10.753, −7.168, 107.527]].",
+          "Step 4: Compute 1ᵀΣ⁻¹μ ≈ 7.2234 and 1ᵀΣ⁻¹1 ≈ 122.820. Thus λ ≈ (7.2234 − 3)/122.820 ≈ 0.03439.",
+          "Step 5: Compute w = (1/3)Σ⁻¹(μ − λ·1) ≈ [0.5990, 0.2572, 0.1438]ᵀ. All components are strictly positive, confirming the guess that no inequality constraint is active.",
+          "Step 6: Verify complementary slackness: since all wᵢ > 0, all νᵢ = 0. The KKT conditions are satisfied.",
+          "Step 7: Compute the required sum: w₁* + 2w₂* + 3w₃* ≈ 0.5990 + 2(0.2572) + 3(0.1438) = 0.5990 + 0.5145 + 0.4312 = 1.5447. More precisely: 0.599006 + 0.514483 + 0.431258 = 1.544747."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import numpy as np; mu = np.array([0.12, 0.08, 0.05]); Sigma = np.array([[0.04, 0.015, 0.005], [0.015, 0.0225, 0.003], [0.005, 0.003, 0.01]]); gamma = 3; Sigma_inv = np.linalg.inv(Sigma); ones = np.ones(3); lam = (ones @ Sigma_inv @ mu - gamma) / (ones @ Sigma_inv @ ones); w = (Sigma_inv @ (mu - lam * ones)) / gamma; result = w[0] + 2*w[1] + 3*w[2]; print(round(result, 6))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming w₃ = 0 without checking, leading to an incorrect active set.",
+          "Forgetting to enforce the complementary slackness condition νᵢwᵢ = 0, and instead treating the problem as unconstrained.",
+          "Incorrectly inverting the covariance matrix, especially mishandling the off-diagonal entries, or using approximate values that lead to rounding errors."
+        ],
+        "required_knowledge": [
+          "Karush-Kuhn-Tucker conditions for convex quadratic programs",
+          "Matrix inversion and linear algebra",
+          "Complementary slackness and active-set identification"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["portfolio-optimization", "kkt-conditions", "mean-variance", "complementary-slackness"]
+    },
+    {
+      "task_id": "S-MATH-12A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Optimization — Error Detection in KKT Solution",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A student solves the following constrained optimization problem:\n\nminimize   f(x,y) = x² + 2y² + 3xy − 4x − 5y\nsubject to g₁(x,y): x + y − 2 ≤ 0,\n           g₂(x,y): −x + y ≤ 0,\n           h(x,y): 2x + y − 3 = 0.\n\nThe student forms the Lagrangian L = f + λ₁g₁ + λ₂g₂ + νh and writes the KKT conditions:\n\n(1) ∂L/∂x = 2x + 3y − 4 + λ₁ − λ₂ + 2ν = 0\n(2) ∂L/∂y = 4y + 3x − 5 + λ₁ + λ₂ + ν = 0\n(3) λ₁ ≥ 0, λ₂ ≥ 0\n(4) λ₁(x + y − 2) = 0, λ₂(−x + y) = 0\n(5) 2x + y − 3 = 0\n\nThe student then claims:\n\nCase A: λ₁ = 0, λ₂ = 0. Then from (5): y = 3 − 2x. Substituting into (1) and (2): 2x + 3(3−2x) − 4 + 2ν = 0 → −4x + 5 + 2ν = 0, and 4(3−2x) + 3x − 5 + ν = 0 → −5x + 7 + ν = 0. Solving: ν = 5x − 5/2 and ν = 5x − 7. These give 5x − 5/2 = 5x − 7, which implies −5/2 = −7, a contradiction. So Case A is impossible.\n\nCase B: λ₁ > 0, λ₂ = 0. Then x + y = 2 and 2x + y = 3, giving x = 1, y = 1. From (1): 2 + 3 − 4 + λ₁ + 2ν = 0 → λ₁ + 2ν = −1. From (2): 4 + 3 − 5 + λ₁ + ν = 0 → λ₁ + ν = −2. Solving gives ν = 1, λ₁ = −3. But λ₁ ≥ 0 is violated. So Case B is infeasible.\n\nCase C: λ₁ = 0, λ₂ > 0. Then −x + y = 0 and 2x + y = 3, giving x = 1, y = 1. From (1): 2 + 3 − 4 − λ₂ + 2ν = 0 → −λ₂ + 2ν = −1. From (2): 4 + 3 − 5 + λ₂ + ν = 0 → λ₂ + ν = −2. Solving: 3ν = −3 → ν = −1, λ₂ = −1. But λ₂ ≥ 0 is violated. So Case C is infeasible.\n\nCase D: λ₁ > 0, λ₂ > 0. Then x + y = 2, −x + y = 0, so x = 1, y = 1. But 2(1) + 1 = 3, which satisfies h = 0. From (1): 2 + 3 − 4 + λ₁ − λ₂ + 2ν = 0 → λ₁ − λ₂ + 2ν = −1. From (2): 4 + 3 − 5 + λ₁ + λ₂ + ν = 0 → λ₁ + λ₂ + ν = −2. Adding: 2λ₁ + 3ν = −3. Subtracting: −2λ₂ + ν = 1. The student picks λ₁ = 0.5, λ₂ = 0.5, ν = 2, which satisfies adding but not the individual equations, and claims (1,1) is optimal with f(1,1) = 1 + 2 + 3 − 4 − 5 = −3.\n\nIdentify all distinct errors in the student's reasoning and computations. State how many distinct errors exist, and give the correct optimal value f(x*, y*) as a decimal rounded to 4 decimal places.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "List each distinct error with a brief explanation.",
+        "Final answer must be in the format: 'Error count: N; Optimal value: V' where N is an integer and V is a decimal rounded to 4 decimal places."
+      ],
+      "ground_truth": {
+        "answer": "Error count: 3; Optimal value: -3.7500",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Error 1 in Case D: The student arbitrarily picks λ₁ = 0.5, λ₂ = 0.5, ν = 2 without actually solving the linear system. These values do not satisfy λ₁ − λ₂ + 2ν = −1 (gives 0.5 − 0.5 + 4 = 4 ≠ −1) nor λ₁ + λ₂ + ν = −2 (gives 0.5 + 0.5 + 2 = 3 ≠ −2). The student fabricated multipliers instead of checking consistency properly.",
+          "Step 2: Error 2: The student concluded that (1,1) is the optimal solution, but failed to verify whether other feasible points yield a lower objective value. Substituting the equality constraint y = 3 − 2x into the objective gives f(x) = 3x² − 9x + 3. The inequality constraints reduce to x ≥ 1. The derivative f′(x) = 6x − 9 equals zero at x = 1.5, which is feasible (y = 0, g₁ = −0.5 ≤ 0, g₂ = −1.5 ≤ 0). Since f″(x) = 6 > 0, this is the unique global minimum on the feasible set.",
+          "Step 3: Error 3: The student did not correctly identify the optimal point. The true optimum is (x*, y*) = (1.5, 0), not (1, 1). At (1.5, 0): f(1.5, 0) = (1.5)² + 0 + 0 − 6 − 0 = −3.75. The KKT conditions hold with λ₁ = 0, λ₂ = 0, ν = 0.5: equation (1) gives 3 − 4 + 2(0.5) = 0 ✓, and equation (2) gives 4.5 − 5 + 0.5 = 0 ✓.",
+          "Step 4: The correct optimal value is f(1.5, 0) = −3.75 = −15/4 = −3.7500."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Accepting the student's incorrect multiplier values in Case D without verifying they satisfy the KKT equations.",
+          "Missing that f(x) = 3x² − 9x + 3 on the feasible set has its minimum at x = 1.5, not x = 1.",
+          "Forgetting to substitute the equality constraint into the objective and check the full feasible region."
+        ],
+        "required_knowledge": [
+          "Karush-Kuhn-Tucker conditions for inequality and equality constraints",
+          "Quadratic optimization on a line segment",
+          "Active set analysis"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "kkt-conditions", "quadratic-optimization", "active-set"]
+    },
+    {
+      "task_id": "S-MATH-12A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Stochastic Calculus — Martingale Property Proof",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let W_t be a standard Brownian motion and define the process M_t = exp(θ W_t − ½ θ² t) for a constant θ = 0.3. This is the exponential martingale (Doléans-Dade exponential).\n\nNow define the process:\n\nN_t = M_t · (W_t − θ t).\n\nProve that N_t is a martingale with respect to the natural filtration {F_t} of W_t. That is, prove that for all 0 ≤ s ≤ t:\n\nE[N_t | F_s] = N_s.\n\nThen, using the martingale property, compute E[N_2] and give your answer as a decimal rounded to 6 decimal places.\n\nYour proof must:\n(1) State clearly which properties of Brownian motion and conditional expectation you use.\n(2) Apply Itô's lemma (or the product rule for Itô processes) to compute the stochastic differential of N_t and show that the drift term is zero.\n(3) Use the martingale property to compute the expectation.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide a rigorous proof with all steps justified.",
+        "Use Itô's product rule as the primary method.",
+        "Final answer must include the proof and the numerical value of E[N_2] rounded to 6 decimal places."
+      ],
+      "ground_truth": {
+        "answer": "0.000000",
+        "answer_type": "exact_float",
+        "tolerance": 0.000001,
+        "solution_steps": [
+          "Step 1: Recall that M_t = exp(θ W_t − ½ θ² t) satisfies the SDE dM_t = θ M_t dW_t. This follows from Itô's lemma applied to f(t, W_t) = exp(θ W_t − ½ θ² t), giving ∂f/∂t = −½ θ² f, ∂f/∂W = θ f, ∂²f/∂W² = θ² f, so df = (−½ θ² f + ½ θ² f)dt + θ f dW = θ f dW.",
+          "Step 2: Apply the Itô product rule to N_t = M_t · (W_t − θ t). Let A_t = M_t and B_t = W_t − θ t. Then dN_t = A_t dB_t + B_t dA_t + dA_t dB_t.",
+          "Step 3: Compute dB_t = dW_t − θ dt. We already have dA_t = θ M_t dW_t. The quadratic covariation dA_t dB_t = (θ M_t dW_t)(dW_t − θ dt) = θ M_t dt, since (dW_t)² = dt and dW_t dt = 0.",
+          "Step 4: Substitute: dN_t = M_t(dW_t − θ dt) + (W_t − θ t)(θ M_t dW_t) + θ M_t dt = [−θ M_t + θ M_t]dt + [M_t + θ M_t(W_t − θ t)]dW_t = M_t[1 + θ(W_t − θ t)]dW_t.",
+          "Step 5: The drift coefficient is −θ M_t + θ M_t = 0. Therefore dN_t contains only a dW_t term with no dt term, which means N_t is a local martingale. Since M_t and (W_t − θ t) have finite moments of all orders on any finite interval, N_t is a true martingale.",
+          "Step 6: By the martingale property, E[N_t] = E[N_0] for all t ≥ 0. At t = 0: M_0 = exp(0) = 1 and W_0 = 0, so N_0 = 1 · (0 − 0) = 0.",
+          "Step 7: Therefore E[N_2] = N_0 = 0. The answer is 0.000000."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting the quadratic covariation term dA_t dB_t in the Itô product rule.",
+          "Incorrectly computing the drift of M_t as non-zero, leading to a non-zero drift for N_t.",
+          "Assuming E[N_t] = 0 without verifying the martingale property at t = 0."
+        ],
+        "required_knowledge": [
+          "Exponential martingales and Doléans-Dade exponentials",
+          "Itô's product rule and quadratic covariation",
+          "Martingale property and initial conditions"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["proof", "martingale", "exponential-martingale", "itos-product-rule"]
+    },
+    {
+      "task_id": "S-MATH-12A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Options Pricing — Greeks and Black-Scholes Extensions",
+      "bloom_level": "Create",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "In the Black-Scholes framework, the price of a European call option is C(S, t) = S N(d₁) − K e^{−r(T−t)} N(d₂), where:\n\nd₁ = [ln(S/K) + (r + σ²/2)(T−t)] / [σ√(T−t)],\nd₂ = d₁ − σ√(T−t),\n\nand N(·) is the standard normal CDF. The Delta of the call is Δ = ∂C/∂S = N(d₁).\n\nConsider a portfolio consisting of:\n- A long position in 1 European call on stock A with S_A = 50, K_A = 50, σ_A = 0.25, T_A = 1, r = 0.04\n- A short position in 2 European calls on stock B with S_B = 60, K_B = 55, σ_B = 0.30, T_B = 1, r = 0.04\n\nStocks A and B are independent. The correlation between their Brownian motions is ρ = 0.\n\nUsing the approximation that the portfolio value change over a small time Δt is:\n\nΔΠ ≈ Δ_A · ΔS_A − 2Δ_B · ΔS_B + ½ Γ_A · (ΔS_A)² − Γ_B · (ΔS_B)²\n\nwhere Γ = ∂²C/∂S² = N′(d₁)/(S σ √(T−t)) is the Gamma, and given that Var(ΔS_A) = σ_A² S_A² Δt, Var(ΔS_B) = σ_B² S_B² Δt with ΔS_A, ΔS_B independent, compute the standard deviation of ΔΠ for Δt = 1/252 (one trading day).\n\nWhich of the following is closest to the standard deviation of ΔΠ?\n\nA. 0.85\nB. 1.70\nC. 2.55\nD. 3.40",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Compute Delta and Gamma for each option explicitly.",
+        "Use the variance formula for the portfolio change.",
+        "Select the correct option letter."
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute d₁ and d₂ for stock A: d₁ = [ln(50/50) + (0.04 + 0.25²/2)·1] / [0.25·1] = (0.04 + 0.03125)/0.25 = 0.2850. d₂ = 0.2850 − 0.25 = 0.0350.",
+          "Step 2: Compute d₁ and d₂ for stock B: d₁ = [ln(60/55) + (0.04 + 0.30²/2)·1] / [0.30·1] = (0.0870 + 0.0850)/0.30 = 0.5733. d₂ = 0.5733 − 0.30 = 0.2733.",
+          "Step 3: Compute Delta for A: Δ_A = N(0.2850) ≈ 0.6122. Compute Delta for B: Δ_B = N(0.5733) ≈ 0.7167.",
+          "Step 4: Compute Gamma for A: Γ_A = N′(0.2850)/(50 · 0.25 · 1) = 0.3836/(12.5) ≈ 0.03069. Compute Gamma for B: Γ_B = N′(0.5733)/(60 · 0.30 · 1) = 0.3380/(18) ≈ 0.01878.",
+          "Step 5: The portfolio change is ΔΠ = Δ_A · ΔS_A − 2Δ_B · ΔS_B + ½Γ_A · (ΔS_A)² − Γ_B · (ΔS_B)². Let X = ΔS_A, Y = ΔS_B. Then ΔΠ = 0.6122 X − 1.4334 Y + 0.015345 X² − 0.01878 Y².",
+          "Step 6: Since X and Y are independent with mean 0 (for small Δt), Var(ΔΠ) = Var(0.6122 X + 0.015345 X²) + Var(−1.4334 Y − 0.01878 Y²). For small Δt, the dominant terms are the linear ones, and the quadratic terms contribute O((Δt)²), which is negligible for one day.",
+          "Step 7: Approximate Var(ΔΠ) ≈ (0.6122)² Var(X) + (1.4334)² Var(Y) = 0.3748 · (0.25² · 50² · 1/252) + 2.0546 · (0.30² · 60² · 1/252) = 0.3748 · 0.6200 + 2.0546 · 1.2857 ≈ 0.2324 + 2.6417 = 2.8741.",
+          "Step 8: The standard deviation is √2.8741 ≈ 1.6953.",
+          "Step 9: Including the quadratic terms more carefully: For X ~ N(0, σ²), E[X⁴] = 3σ⁴. Var(X²) = E[X⁴] − (E[X²])² = 3σ⁴ − σ⁴ = 2σ⁴. The covariance Cov(X, X²) = E[X³] − E[X]E[X²] = 0. So Var(aX + bX²) = a²σ² + 2b²σ⁴. With σ_X² = 0.6200 and σ_Y² = 1.2857, the additional terms are 2(0.015345)²(0.6200)² + 2(0.01878)²(1.2857)² ≈ 0.000181 + 0.001166 = 0.00135, negligible.",
+          "Step 10: More precise computation with exact values: Δ_A = 0.61224, 2Δ_B = 1.43343, Γ_A = 0.030692, Γ_B = 0.018779. Var(X) = 0.25² × 50² / 252 = 0.62005. Var(Y) = 0.30² × 60² / 252 = 1.28571. SD = √(0.61224² × 0.62005 + 1.43343² × 1.28571) = √(0.23239 + 2.64169) = √2.87408 = 1.69531. Rounded: 1.6953, closest to 1.70."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math; d1A = (0.04 + 0.25**2/2)/0.25; d1B = (math.log(60/55) + 0.04 + 0.30**2/2)/0.30; from math import exp, pi, sqrt; N_prime = lambda x: exp(-x**2/2)/sqrt(2*pi); def N(x): from math import erf; return 0.5*(1+erf(x/sqrt(2))); deltaA = N(d1A); deltaB = N(d1B); gammaA = N_prime(d1A)/(50*0.25); gammaB = N_prime(d1B)/(60*0.30); varX = 0.25**2 * 50**2 / 252; varY = 0.30**2 * 60**2 / 252; var = deltaA**2 * varX + (2*deltaB)**2 * varY; sd = math.sqrt(var); print(f'SD = {sd:.4f}, closest to option B (1.70)')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting that the short position means the Delta contribution is −2Δ_B, not +2Δ_B.",
+          "Including the quadratic Gamma terms in the variance calculation without recognizing they are O((Δt)²) and negligible for small Δt.",
+          "Incorrectly computing d₁ by using σ instead of σ² in the numerator, or forgetting the ln(S/K) term."
+        ],
+        "required_knowledge": [
+          "Black-Scholes formula and Greeks (Delta, Gamma)",
+          "Variance of sum of independent random variables",
+          "Taylor expansion for portfolio value changes"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "irrelevant_info"
+      },
+      "tags": ["black-scholes", "greeks", "portfolio-variance", "risk-measures"]
+    }
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-10A",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Probability & Statistics — Distributions, Bayesian Reasoning, Stochastic Processes",
+    "generated_at": "2026-04-25T13:01:53+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-10A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Bayesian Reasoning — Multi-Stage Inference with Base Rate Neglect Trap",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A precision manufacturing plant produces widgets with a defect rate of 0.8%. A sensor correctly flags a defective widget with probability 97%, but has a false-positive rate of 4% (i.e., it flags 4% of non-defective widgets as defective). A second, independent sensor with identical accuracy and false-positive rate is available.\n\n(a) If a single widget tests positive on the first sensor, what is the probability it is actually defective?\n(b) If the same widget is then tested by the second independent sensor and also tests positive, what is the probability it is actually defective?\n\nSelect the pair of probabilities that corresponds to (a) and (b):\n\nA) 16.4% and 82.6%\nB) 19.4% and 97.0%\nC) 16.4% and 94.1%\nD) 97.0% and 99.9%",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "No external calculations or tools are required beyond the information given."
+      ],
+      "ground_truth": {
+        "answer": "A",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define events. Let D = widget is defective, T+ = sensor tests positive. Given: P(D) = 0.008, P(T+|D) = 0.97, P(T+|¬D) = 0.04.",
+          "Step 2: Apply Bayes' theorem for part (a). P(D|T+) = P(T+|D)P(D) / [P(T+|D)P(D) + P(T+|¬D)P(¬D)] = (0.97 × 0.008) / (0.97 × 0.008 + 0.04 × 0.992) = 0.00776 / 0.04744 ≈ 0.1636 = 16.4%.",
+          "Step 3: For part (b), define T1+ and T2+ as independent positive tests. The likelihoods become P(T1+,T2+|D) = 0.97² = 0.9409 and P(T1+,T2+|¬D) = 0.04² = 0.0016.",
+          "Step 4: Apply Bayes' theorem again: P(D|T1+,T2+) = (0.9409 × 0.008) / (0.9409 × 0.008 + 0.0016 × 0.992) = 0.0075272 / 0.0091144 ≈ 0.8259 = 82.6%.",
+          "Step 5: Distractor B uses only P(T+|¬D) in the denominator for part (a) and reports sensitivity for part (b). Distractor C uses the correct first answer but reports the likelihood P(T1+,T2+|D) ≈ 94.1% instead of the posterior for part (b). Distractor D commits base-rate neglect, treating P(D|T+) ≈ P(T+|D)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from math import comb\np_d = 0.008\np_tp_given_d = 0.97\np_tp_given_nd = 0.04\n# Part (a)\nnum_a = p_tp_given_d * p_d\nden_a = num_a + p_tp_given_nd * (1 - p_d)\npa = num_a / den_a\n# Part (b)\np_2tp_given_d = p_tp_given_d ** 2\np_2tp_given_nd = p_tp_given_nd ** 2\nnum_b = p_2tp_given_d * p_d\nden_b = num_b + p_2tp_given_nd * (1 - p_d)\npb = num_b / den_b\nprint(f'Part (a): {pa:.4f}, Part (b): {pb:.4f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using only the false-positive rate as the denominator in Bayes' theorem, yielding ~19.4% for part (a).",
+          "Confusing the likelihood P(T1+,T2+|D) with the posterior probability, yielding ~94.1% for part (b).",
+          "Base-rate neglect: assuming the posterior equals the test sensitivity (97%) because the test is 'highly accurate'."
+        ],
+        "required_knowledge": [
+          "Bayes' theorem",
+          "Conditional independence of sensor tests",
+          "Law of total probability"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 5
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["bayesian-reasoning", "base-rate-neglect", "conditional-probability", "medical-testing-framing"]
+    },
+    {
+      "task_id": "S-MATH-10A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Discrete Probability — Linearity of Expectation with Indicator Variables",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "A circular museum has 12 rooms arranged clockwise and labeled 1 through 12. Each of 20 visitors independently selects a room uniformly at random and places a marker. Let X be the number of rooms i such that room i contains at least one marker AND both of its adjacent rooms (with wraparound, so room 1 is adjacent to room 12) also contain at least one marker.\n\nCompute E[X] exactly as a simplified expression, and provide its numerical value rounded to three decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the use of indicator random variables.",
+        "Final answer must include both the exact expression and the numerical approximation."
+      ],
+      "ground_truth": {
+        "answer": "6.583",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 0.001,
+        "solution_steps": [
+          "Step 1: Define indicator I_i = 1 if room i and both neighbors i−1, i+1 are occupied. Then X = Σ_{i=1}^{12} I_i. By linearity of expectation, E[X] = Σ_{i=1}^{12} P(I_i = 1) = 12 · P(room 1 and rooms 12 and 2 are all occupied).",
+          "Step 2: Compute P(three specific rooms are all occupied). Using inclusion–exclusion on the complements: P(A ∪ B ∪ C) = P(A) + P(B) + P(C) − P(A∩B) − P(A∩C) − P(B∩C) + P(A∩B∩C), where A = {room 1 empty}, etc.",
+          "Step 3: For a specific room, P(empty) = (11/12)^{20}. For two specific rooms, P(both empty) = (10/12)^{20}. For three specific rooms, P(all empty) = (9/12)^{20}.",
+          "Step 4: Thus P(all three occupied) = 1 − 3(11/12)^{20} + 3(10/12)^{20} − (9/12)^{20}.",
+          "Step 5: Therefore E[X] = 12[1 − 3(11/12)^{20} + 3(5/6)^{20} − (3/4)^{20}] ≈ 6.583."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "n, m = 12, 20\nval = n * (1 - 3*((11/12)**m) + 3*((10/12)**m) - ((9/12)**m))\nprint(f'{val:.3f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating occupancy of adjacent rooms as independent, writing P(all three occupied) = [1 − (11/12)^{20}]³ and obtaining an incorrect expectation.",
+          "Forgetting wraparound adjacency for rooms 1 and 12, altering the count of relevant triples.",
+          "Attempting a direct combinatorial count of configurations instead of using linearity of expectation, leading to intractable enumeration."
+        ],
+        "required_knowledge": [
+          "Linearity of expectation",
+          "Indicator random variables",
+          "Inclusion–exclusion principle"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 5
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["indicator-variables", "linearity-of-expectation", "inclusion-exclusion", "discrete-probability"]
+    },
+    {
+      "task_id": "S-MATH-10A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Continuous Probability — Order Statistics",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Let X₁, X₂, …, X₁₀ be i.i.d. random variables with probability density function f(x) = x e^{−x²/2} for x ≥ 0. Let X₍₅₎ denote the 5th order statistic (the median). Find an exact closed-form expression for P(X₍₅₎ > 1), and compute its numerical value rounded to four decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Provide the exact expression using standard mathematical notation.",
+        "The numerical approximation must be accurate to within ±0.0001."
+      ],
+      "ground_truth": {
+        "answer": "0.6331",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 0.0001,
+        "solution_steps": [
+          "Step 1: Identify the distribution. The CDF is F(x) = ∫₀ˣ t e^{−t²/2} dt = 1 − e^{−x²/2} for x ≥ 0 (Rayleigh distribution with σ = 1).",
+          "Step 2: Use the order-statistic identity: P(X₍ₖ₎ > x) = P(at most k−1 of the n observations are ≤ x) = P(Binomial(n, F(x)) ≤ k−1).",
+          "Step 3: Here n = 10, k = 5, x = 1. So P(X₍₅₎ > 1) = P(Binomial(10, F(1)) ≤ 4). Compute F(1) = 1 − e^{−1/2}.",
+          "Step 4: The exact expression is Σ_{j=0}^{4} C(10, j) (1 − e^{−1/2})^j (e^{−1/2})^{10−j} = Σ_{j=0}^{4} C(10, j) (1 − e^{−1/2})^j e^{−(10−j)/2}.",
+          "Step 5: Numerically, e^{−1/2} ≈ 0.60653, so the binomial sum evaluates to approximately 0.6331."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "from math import comb, exp\np = 1 - exp(-0.5)\nq = exp(-0.5)\nprob = sum(comb(10, j) * (p**j) * (q**(10-j)) for j in range(5))\nprint(f'{prob:.4f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the pdf of the 5th order statistic directly via the formula f₍₅₎(x) = 10!/(4!4!) [F(x)]⁴[1−F(x)]⁵ f(x) and attempting to integrate from 1 to ∞, which is correct in principle but computationally error-prone compared to the binomial CDF identity.",
+          "Incorrectly writing the combinatorial coefficient as C(10,5) instead of using the binomial tail with C(10,j).",
+          "Confusing P(X₍₅₎ > 1) with P(X₍₅₎ < 1), i.e., using the upper tail of the binomial instead of the lower tail."
+        ],
+        "required_knowledge": [
+          "Order statistics and their CDF",
+          "Binomial distribution",
+          "Rayleigh distribution CDF"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["order-statistics", "continuous-distributions", "binomial-identity", "rayleigh-distribution"]
+    },
+    {
+      "task_id": "S-MATH-10A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Discrete Probability — Absorbing Markov Chain",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A particle moves among four states {1, 2, 3, 4}. State 4 is absorbing. The transition probabilities are:\n• From state 1: to state 2 with probability 1/2, and to state 4 with probability 1/2.\n• From state 2: to state 1 with probability 1/4, to state 3 with probability 1/4, and to state 4 with probability 1/2.\n• From state 3: to state 2 with probability 1/3, and to state 4 with probability 2/3.\n\nLet T be the number of steps until absorption (first visit to state 4). Starting from state 1, compute:\n(a) The expected value E[T].\n(b) The probability that the particle visits state 3 at least once before absorption.\n\nGive exact fractions for both answers.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the system of linear equations used.",
+        "Answers must be given as exact reduced fractions."
+      ],
+      "ground_truth": {
+        "answer": "37/19 and 1/7",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let e_i = E[T | X_0 = i]. Then e_4 = 0, and for transient states: e_1 = 1 + (1/2)e_2, e_2 = 1 + (1/4)e_1 + (1/4)e_3, e_3 = 1 + (1/3)e_2.",
+          "Step 2: Substitute e_3 into e_2: e_2 = 1 + (1/4)e_1 + (1/4)(1 + (1/3)e_2) = 5/4 + (1/4)e_1 + (1/12)e_2. Solving gives (11/12)e_2 = 5/4 + (1/4)e_1, so e_2 = 15/11 + (3/11)e_1.",
+          "Step 3: Substitute into e_1: e_1 = 1 + (1/2)(15/11 + (3/11)e_1) = 37/22 + (3/22)e_1. Hence (19/22)e_1 = 37/22, so e_1 = 37/19.",
+          "Step 4: For part (b), let h_i = P(visit state 3 at least once | X_0 = i). Then h_4 = 0, h_3 = 1, h_1 = (1/2)h_2, and h_2 = (1/4)h_1 + (1/4)h_3 + (1/2)h_4 = (1/4)h_1 + 1/4.",
+          "Step 5: Substitute: h_1 = (1/2)((1/4)h_1 + 1/4) = (1/8)h_1 + 1/8. Thus (7/8)h_1 = 1/8, giving h_1 = 1/7."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "# Part (a)\nfrom fractions import Fraction\ne1 = Fraction(37, 19)\ne2 = Fraction(36, 19)\ne3 = Fraction(31, 19)\nassert e1 == 1 + Fraction(1,2)*e2\nassert e2 == 1 + Fraction(1,4)*e1 + Fraction(1,4)*e3\nassert e3 == 1 + Fraction(1,3)*e2\n# Part (b)\nh1 = Fraction(1, 7)\nh2 = Fraction(2, 7)\nassert h1 == Fraction(1,2)*h2\nassert h2 == Fraction(1,4)*h1 + Fraction(1,4)\nprint(f'E[T] = {e1}, P(visit 3) = {h1}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Setting up the equations without the '+1' step cost, leading to e_1 = 1/2 instead of the correct system.",
+          "Treating the events of visiting state 3 as independent across paths, rather than solving the coupled system for h_i.",
+          "Using matrix inversion for the fundamental matrix without adjusting for the specific transition structure, risking arithmetic errors."
+        ],
+        "required_knowledge": [
+          "First-step analysis for Markov chains",
+          "System of linear equations",
+          "Absorption probabilities and expected hitting times"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["markov-chains", "absorbing-state", "first-step-analysis", "expected-hitting-time"]
+    },
+    {
+      "task_id": "S-MATH-10A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Discrete Probability — Periodic Markov Chain Convergence Trap",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "A student analyzes an irreducible Markov chain on states {1, 2, 3, 4} with transition matrix:\n\nP = [[0,   1/2, 0,   1/2],\n     [1/2, 0,   1/2, 0  ],\n     [0,   1/2, 0,   1/2],\n     [1/2, 0,   1/2, 0  ]]\n\n(rows and columns correspond to states 1, 2, 3, 4 in order).\n\nThe student solves πP = π and obtains π = (1/4, 1/4, 1/4, 1/4). They then claim:\n\n'Because the chain is irreducible and has a unique stationary distribution, for any initial state i and any target state j, the n-step transition probability P(X_n = j | X_0 = i) converges to 1/4 as n → ∞.'\n\nIdentify the fundamental flaw in this reasoning. Verify whether π = (1/4, 1/4, 1/4, 1/4) is indeed the correct stationary distribution. Then describe the actual limiting behavior of P(X_n = 1 | X_0 = 1) as n → ∞ (does it converge? if not, characterize the oscillation).",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Explicitly state the flaw in the student's logic.",
+        "Characterize the limiting behavior precisely; vague statements will not be accepted."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The stationary distribution is correct. The matrix is doubly stochastic (each row and each column sums to 1), so the uniform distribution π = (1/4, 1/4, 1/4, 1/4) satisfies πP = π.",
+          "Step 2: The flaw is that irreducibility plus existence of a unique stationary distribution does NOT guarantee pointwise convergence of P^n. Convergence requires aperiodicity.",
+          "Step 3: The chain has period 2. From any state, return to that state is only possible in an even number of steps (the underlying graph is a 4-cycle, which is bipartite). Therefore P(X_n = 1 | X_0 = 1) = 0 for all odd n.",
+          "Step 4: For even n = 2k, P(X_{2k} = 1 | X_0 = 1) → 1/2 as k → ∞, while P(X_{2k} = 3 | X_0 = 1) → 1/2. The sequence P(X_n = 1 | X_0 = 1) oscillates between 0 (odd n) and values approaching 1/2 (even n), so the limit does not exist."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming the stationary distribution is wrong because the student made an error; in fact π = uniform is correct.",
+          "Stating vaguely that 'it oscillates' without identifying the period or the exact subsequence limits (0 and 1/2).",
+          "Asserting that the chain is not irreducible; it is irreducible but periodic."
+        ],
+        "required_knowledge": [
+          "Stationary distribution computation",
+          "Periodicity of Markov chains",
+          "Convergence theorem for Markov chains (aperiodicity requirement)"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["markov-chains", "periodicity", "stationary-distribution", "convergence-trap"]
+    },
+    {
+      "task_id": "S-MATH-10A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Bayesian Reasoning — Conjugate Prior and Coherence Impossibility Proof",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider i.i.d. Bernoulli(p) observations. A Bayesian statistician seeks a prior distribution for p ∈ [0,1] such that for every sample size n ≥ 1 and every possible observed number of successes s ∈ {0, 1, …, n}, the posterior mean of p is exactly the average of the prior mean and the sample proportion s/n.\n\nEither construct such a prior and prove that it satisfies the condition for all n and s, or prove rigorously that no prior with finite mean can satisfy this condition. Your proof must use only basic properties of Bayesian updating and conditional expectation; invoking advanced characterization theorems without proof is insufficient.",
+      "prompt_format": "proof",
+      "constraints": [
+        "The proof must be self-contained and logically complete.",
+        "If proving impossibility, derive an explicit contradiction from the stated requirement."
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Assume such a prior π exists with finite mean μ = E_π[p].",
+          "Step 2: Apply the requirement to n = 1. For s = 0: posterior mean after observing 0 successes in 1 trial is μ/2. For s = 1: posterior mean after 1 success in 1 trial is (μ+1)/2. Denote these posterior distributions by π_0 and π_1 respectively.",
+          "Step 3: Apply the requirement sequentially. Start with prior π, observe 1 success (posterior becomes π_1), then observe 1 failure. Treating π_1 as the new prior and applying the requirement with n=1, s=0, the posterior mean must be (E_{π_1}[p] + 0)/2 = (μ+1)/4.",
+          "Step 4: By Bayesian coherence, observing 1 success and 1 failure in any order must yield the same final posterior as observing both simultaneously. With n=2, s=1, the requirement gives posterior mean (μ + 1/2)/2 = μ/2 + 1/4.",
+          "Step 5: Equate the two expressions for the same posterior mean: (μ+1)/4 = μ/2 + 1/4. This simplifies to μ + 1 = 2μ + 1, hence μ = 0.",
+          "Step 6: If μ = 0 and the prior has support in [0,1], the prior must be a point mass at 0. But then observing s = 1 success in n = 1 trial gives likelihood proportional to p, which is zero almost surely under the prior; the posterior mean remains 0, contradicting the required value of (0+1)/2 = 1/2.",
+          "Step 7: Therefore, no prior with finite mean on [0,1] satisfies the condition."
+        ],
+        "verification_method": "llm_judge",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the Beta family is general enough and showing only that no Beta prior works; this does not rule out non-Beta priors.",
+          "Failing to use Bayesian coherence (sequential vs. batch updating) and instead trying to match moments algebraically without deriving a contradiction.",
+          "Claiming the prior must depend on n, which violates the definition of a prior, but not formalizing this into a proof."
+        ],
+        "required_knowledge": [
+          "Bayesian updating and posterior mean",
+          "Coherence of sequential updating",
+          "Proof by contradiction"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["bayesian-reasoning", "conjugate-prior", "proof-by-contradiction", "posterior-mean"]
+    },
+    {
+      "task_id": "S-MATH-10A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Continuous Probability — Non-Standard MGF and Term-by-Term Differentiation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A discrete random variable X takes non-negative integer values with probability mass function\n\nP(X = k) = 1 / (k! (k + 2))    for k = 0, 1, 2, …\n\n(It can be shown that Σ_{k=0}^∞ 1/(k!(k+2)) = 1, so this is a valid distribution.)\n\nA researcher defines the moment-generating function M(t) = E[e^{tX}] = Σ_{k=0}^∞ e^{tk} / (k!(k+2)) and claims that E[X] can be obtained by term-by-term differentiation at t = 0, yielding E[X] = Σ_{k=0}^∞ k / (k!(k+2)).\n\nA referee objects, claiming that term-by-term differentiation is invalid because the derivative series does not converge uniformly near t = 0, and therefore E[X] cannot be computed this way.\n\nEvaluate the referee's claim and select the correct statement about E[X]:\n\nA) The referee is correct; term-by-term differentiation is invalid and E[X] does not have a finite value.\nB) The referee is incorrect; term-by-term differentiation is valid, and E[X] = e − 2.\nC) The referee is incorrect; the method is valid, but the correct sum evaluates to 1/2.\nD) The referee is partially correct; differentiation is valid, but the researcher's formula for E[X] is wrong because it should be E[X] = Σ k/(k!(k+2)²) = 2 − e/2.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option (A, B, C, or D).",
+        "Justify your evaluation of the referee's claim in no more than two sentences."
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The MGF M(t) = Σ_{k=0}^∞ e^{tk} / (k!(k+2)) is a power series in e^t (or equivalently a series with radius of convergence R = ∞ because the coefficients decay super-exponentially). Therefore term-by-term differentiation is valid for all real t, and the referee's claim is false.",
+          "Step 2: E[X] = Σ_{k=0}^∞ k / (k!(k+2)). The k = 0 term vanishes. For k ≥ 1, rewrite k/(k!(k+2)) = 1/((k−1)!(k+2)). Substitute j = k−1 to get E[X] = Σ_{j=0}^∞ 1/(j!(j+3)).",
+          "Step 3: Evaluate S = Σ_{j=0}^∞ 1/(j!(j+3)) by considering T(x) = Σ_{j=0}^∞ x^{j+3}/(j!(j+3)). Differentiating gives T'(x) = x² e^x, so T(x) = ∫_0^x t² e^t dt = e^x(x² − 2x + 2) − 2.",
+          "Step 4: Therefore S = T(1) = e(1 − 2 + 2) − 2 = e − 2 ≈ 0.7183.",
+          "Step 5: Distractor A appeals to uniform convergence fears without recognizing the analytic nature of the series. Distractor C provides an arbitrary wrong numerical value. Distractor D invents a non-existent correction to the formula."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math\n# Verify E[X] = e - 2 by direct partial sum\npartial = sum(k/(math.factorial(k)*(k+2)) for k in range(0, 100))\nprint(f'Partial sum: {partial:.6f}, e-2: {math.e - 2:.6f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Accepting the referee's claim at face value because uniform convergence is a common concern, without checking that power-series term-by-term differentiation is always valid inside the radius of convergence.",
+          "Attempting to compute Σ k/(k!(k+2)) by splitting into partial fractions incorrectly, e.g., writing k/(k!(k+2)) = 1/k! − 2/(k!(k+2)), which is algebraically wrong.",
+          "Failing to recognize the integral representation T'(x) = x² e^x and giving up on the closed form."
+        ],
+        "required_knowledge": [
+          "Moment generating functions and term-by-term differentiation of power series",
+          "Series summation via integration",
+          "Exponential series identities"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["moment-generating-function", "power-series", "term-by-term-differentiation", "series-summation"]
+    }
+  ]
+}

@@ -1,0 +1,395 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-13A",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Proof-Based Mathematics — Real Analysis, Point-Set Topology",
+    "generated_at": "2026-04-25T12:36:26Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-13A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Integral Operators & Arzela-Ascoli",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let C denote the Banach space of continuous real-valued functions on [0,1] equipped with the supremum norm ||·||_∞. Define the operator T: C → C by\n\n(Tf)(x) = ∫_0^x e^{−(x−t)^2} f(√t) dt,\n\nfor all f ∈ C and x ∈ [0,1], where the integral is the Riemann integral. Let K = {Tf : f ∈ C, ||f||_∞ ≤ 1}.\n\nProve that the closure of K in C is compact. You must use the Arzela-Ascoli theorem and verify BOTH of its hypotheses (uniform boundedness and equicontinuity) by direct ε-δ estimation. Do NOT invoke any theorem about compactness of integral operators (e.g., Hilbert-Schmidt, Fredholm, or general Volterra compactness).",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide a rigorous proof from scratch",
+        "Explicitly verify uniform boundedness of K with a concrete bound",
+        "Explicitly verify equicontinuity using ε-δ arguments on the integral representation",
+        "Invoke the Arzela-Ascoli theorem only after both conditions are verified",
+        "Do not use operator compactness or spectral theory"
+      ],
+      "ground_truth": {
+        "answer": "The closure of K is compact by the Arzela-Ascoli theorem.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Uniform boundedness): Let f ∈ C with ||f||_∞ ≤ 1 and let g = Tf. For any x ∈ [0,1], since e^{−(x−t)^2} ≤ 1 for all t and |f(√t)| ≤ ||f||_∞ ≤ 1, we have |g(x)| ≤ ∫_0^x 1 · 1 dt = x ≤ 1. Therefore ||g||_∞ ≤ 1 for all g ∈ K, so K is uniformly bounded by 1.",
+          "Step 2 (Equicontinuity setup): Let ε > 0 be given. Let 0 ≤ x < y ≤ 1 and let g = Tf with ||f||_∞ ≤ 1. Then |g(y) − g(x)| = |∫_0^y e^{−(y−t)^2} f(√t) dt − ∫_0^x e^{−(x−t)^2} f(√t) dt| ≤ ∫_0^x |e^{−(y−t)^2} − e^{−(x−t)^2}| |f(√t)| dt + ∫_x^y e^{−(y−t)^2} |f(√t)| dt.",
+          "Step 3 (Bound the second integral): Since |f(√t)| ≤ 1 and e^{−(y−t)^2} ≤ 1, the second integral is bounded by ∫_x^y 1 dt = y − x.",
+          "Step 4 (Bound the first integral): For t ∈ [0,x], define u = x−t and v = y−t. Then v = u + (y−x), so v^2 − u^2 = (y−x)(y+x−2t). Since x,y ∈ [0,1], we have |y+x−2t| ≤ 2. Hence |v^2 − u^2| ≤ 2|y−x|. The function h(s) = e^{−s^2} is uniformly continuous on [−2,2] (continuous on a compact interval). Therefore, for the given ε > 0, there exists δ_1 > 0 such that |s_1^2 − s_2^2| < 2δ_1 implies |e^{−s_1^2} − e^{−s_2^2}| < ε.",
+          "Step 5: Choose δ = min(δ_1, ε). Then for |y−x| < δ, we have |v^2 − u^2| ≤ 2|y−x| < 2δ_1, so |e^{−(y−t)^2} − e^{−(x−t)^2}| < ε for all t ∈ [0,x]. Therefore the first integral is bounded by ∫_0^x ε · 1 dt ≤ ε·x ≤ ε.",
+          "Step 6: Combining both parts: |g(y) − g(x)| ≤ ε + (y−x) ≤ ε + δ ≤ ε + ε = 2ε (since δ ≤ ε). Thus for any ε > 0, choosing δ = min(δ_1, ε) > 0 gives |g(y) − g(x)| < 2ε whenever |y−x| < δ, uniformly for all g ∈ K. Therefore K is equicontinuous.",
+          "Step 7: By the Arzela-Ascoli theorem, since K is a uniformly bounded and equicontinuous family of continuous functions on the compact interval [0,1], the closure of K in C is compact."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the operator is compact by naming it 'Volterra-type' without verifying the kernel conditions via ε-δ arguments",
+          "Claiming equicontinuity by stating 'the kernel is continuous' without performing the explicit estimation on the difference of the kernel values",
+          "Confusing pointwise continuity of each individual Tf with uniform equicontinuity of the entire family K",
+          "Using the Mean Value Theorem for the kernel difference without checking the derivative bound is uniform in t"
+        ],
+        "required_knowledge": [
+          "Arzela-Ascoli theorem (uniform boundedness + equicontinuity implies relative compactness in C[0,1])",
+          "ε-δ techniques for families of functions",
+          "Uniform continuity of e^{−s^2} on compact domains",
+          "Supremum norm estimates for integral operators"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["arzela-ascoli", "integral-operators", "equicontinuity", "compactness"]
+    },
+    {
+      "task_id": "S-MATH-13A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection — Compactness in Non-Metrizable Spaces",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "A student presents the following 'proof' that the ordinal space ω₁ (the first uncountable ordinal equipped with the order topology) is compact. Identify the EXACT logical error in the student's argument, quote the specific sentence containing the error, and explain why it is false. Then provide a correct argument proving that ω₁ is NOT compact.\n\nSTUDENT'S PROOF:\n'Let (x_n) be any sequence in ω₁. The set S = {x_n : n ∈ ℕ} is countable. Since a countable union of countable ordinals is countable, sup S < ω₁. Thus all x_n lie in the compact metric space [0, sup S]. By compactness of [0, sup S], (x_n) has a convergent subsequence. Therefore ω₁ is sequentially compact.\n\nIt is a well-known theorem that sequential compactness is equivalent to compactness in all topological spaces. Hence ω₁ is compact.'",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Quote the exact sentence containing the logical error",
+        "Explain why the sentence is false using definitions or theorems",
+        "Provide a valid proof that ω₁ is NOT compact",
+        "Do not confuse ω₁ with ω₁+1"
+      ],
+      "ground_truth": {
+        "answer": "ω₁ is sequentially compact but not compact. The error is the claim that sequential compactness equals compactness in all topological spaces.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The erroneous sentence is: 'It is a well-known theorem that sequential compactness is equivalent to compactness in all topological spaces.' This is false. Sequential compactness and compactness are equivalent in METRIC spaces (and more generally in metrizable spaces), but NOT in arbitrary topological spaces.",
+          "Step 2: The student's proof of sequential compactness of ω₁ is actually correct: every countable set of countable ordinals has a countable supremum, so any sequence in ω₁ is contained in some compact metric initial segment [0, β] with β < ω₁, and therefore has a convergent subsequence. Thus ω₁ IS sequentially compact.",
+          "Step 3: However, sequential compactness does not imply compactness here because ω₁ is not first-countable (in fact, the point ω₁ itself is not in the space, but more importantly, the topology at limit ordinals of countable cofinality is not first-countable). The failure of first-countability means that sequential arguments do not capture all topological properties.",
+          "Step 4: To prove ω₁ is NOT compact, we exhibit an open cover with no finite subcover. Consider the open cover C = {[0, α) : α < ω₁} of ω₁. Each [0, α) is open in the order topology. For any α < ω₁, the set [0, α) contains all ordinals less than α.",
+          "Step 5: The union of any finite subcollection {[0, α_1), ..., [0, α_n)} is [0, max{α_1, ..., α_n}), which does NOT contain the ordinal max{α_1, ..., α_n} itself. Since max{α_1, ..., α_n} < ω₁, this finite union is a proper subset of ω₁. Therefore no finite subcollection of C covers ω₁.",
+          "Step 6: Hence ω₁ is not compact. This shows that sequential compactness does not imply compactness in non-metrizable spaces, and ω₁ is the canonical counterexample."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Identifying the wrong sentence as the error (e.g., focusing on the supremum argument 'sup S < ω₁' rather than the compactness equivalence claim)",
+          "Stating that ω₁ IS compact because it is an interval in a complete order, confusing ω₁ with ω₁+1 (which IS compact)",
+          "Claiming the error is that sup S < ω₁, when this is actually true for countable S",
+          "Trying to fix the proof by making ω₁ metrizable, which is impossible"
+        ],
+        "required_knowledge": [
+          "Sequential compactness vs compactness in non-metrizable spaces",
+          "Ordinal topology and properties of ω₁",
+          "Countable unions of countable ordinals are countable",
+          "Order topology open sets and covers"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["ordinal-topology", "sequential-compactness", "compactness", "error-detection"]
+    },
+    {
+      "task_id": "S-MATH-13A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection — Dominated Convergence Violation",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A student attempts to prove the following claim using the Dominated Convergence Theorem (DCT). Identify the SPECIFIC logical error, quote the erroneous step, and explain why the proof fails. Then provide a correct argument (proof or counterexample, whichever is appropriate).\n\nCLAIM: Let f_n(x) = n²/(1+n³x²) for x ∈ (0,1]. Then lim_{n→∞} ∫_{(0,1]} f_n(x) dλ(x) = 0, where λ is Lebesgue measure on ℝ.\n\nSTUDENT'S PROOF:\n'For each x ∈ (0,1], lim_{n→∞} f_n(x) = lim_{n→∞} n²/(1+n³x²) = 0 because the denominator grows as n³ while the numerator grows as n². Thus f_n → 0 pointwise everywhere on (0,1].\n\nNow observe that for all n and all x ∈ (0,1], we have f_n(x) = n²/(1+n³x²) ≤ n²/(n³x²) = 1/(nx²). The function g(x) = 1/x² is integrable on (0,1] because ∫_ε^1 1/x² dx = 1/ε − 1 < ∞ for every ε > 0, and we can take ε arbitrarily small. Therefore g ∈ L¹((0,1]).\n\nSince |f_n(x)| ≤ g(x) for all n and x, and g ∈ L¹, the Dominated Convergence Theorem applies. Hence lim ∫ f_n = ∫ lim f_n = ∫ 0 = 0.'",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Quote the exact sentence where the domination hypothesis fails",
+        "Explain why the proposed dominating function is not in L¹((0,1]) or does not dominate",
+        "Provide the correct value of the limit of the integrals (compute it explicitly or prove it diverges)",
+        "If using a different convergence theorem (e.g., monotone convergence, Fatou), justify its applicability"
+      ],
+      "ground_truth": {
+        "answer": "The limit of the integrals is +∞ (diverges).",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The student's error is in the sentence: 'The function g(x) = 1/x² is integrable on (0,1] because ∫_ε^1 1/x² dx = 1/ε − 1 < ∞ for every ε > 0, and we can take ε arbitrarily small. Therefore g ∈ L¹((0,1]).' This is false: g(x) = 1/x² is NOT Lebesgue integrable on (0,1].",
+          "Step 2: To see that g ∉ L¹((0,1]), compute the Lebesgue integral: ∫_0^1 1/x² dλ(x) = lim_{k→∞} ∫_{1/k}^1 1/x² dx = lim_{k→∞} [−1/x]_{1/k}^1 = lim_{k→∞} (−1 + k) = +∞. The monotone convergence theorem justifies interchanging the limit and integral since 1/x² · 1_{[1/k,1]} increases to 1/x² on (0,1]. Thus g ∉ L¹((0,1]).",
+          "Step 3: The student confused 'finite for every ε > 0' with 'finite in the limit as ε → 0'. The improper Riemann integral ∫_0^1 1/x² dx diverges, and the Lebesgue integral equals +∞. Since the dominating function g is not integrable, the Dominated Convergence Theorem does NOT apply.",
+          "Step 4: To find the correct limit of ∫_0^1 f_n(x) dx, use the substitution u = n^{3/2} x, so du = n^{3/2} dx and dx = n^{−3/2} du. When x = 0, u = 0; when x = 1, u = n^{3/2}. The integral becomes: ∫_0^1 n²/(1+n³x²) dx = n² · n^{−3/2} ∫_0^{n^{3/2}} 1/(1+u²) du = n^{1/2} arctan(n^{3/2}).",
+          "Step 5: As n → ∞, arctan(n^{3/2}) → π/2. Therefore the integral behaves asymptotically like n^{1/2} · (π/2) → +∞.",
+          "Step 6: The original claim that the limit is 0 is FALSE. The correct answer is that the sequence of integrals diverges to +∞."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Accepting the student's domination argument without checking integrability of 1/x² near 0",
+          "Claiming DCT still applies because 'the set where domination fails has measure zero' — it fails on all of (0,1]",
+          "Computing the integral incorrectly by forgetting the Jacobian factor n^{−3/2} in the substitution",
+          "Concluding the limit is 0 by naive pointwise convergence without verifying DCT hypotheses"
+        ],
+        "required_knowledge": [
+          "Dominated Convergence Theorem hypotheses (dominating function must be integrable)",
+          "Lebesgue integrability vs improper Riemann integrability",
+          "Substitution in Lebesgue integrals",
+          "Monotone convergence theorem as justification for limit of integrals"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["dominated-convergence", "lebesgue-integral", "error-detection", "improper-integral"]
+    },
+    {
+      "task_id": "S-MATH-13A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Riemann vs Lebesgue Integrability",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Construct explicitly a sequence of continuous functions f_n: [0,1] → [0,1] and a function f: [0,1] → ℝ such that:\n\n(i) Each f_n is continuous on [0,1];\n(ii) f_n(x) → f(x) for every x ∈ [0,1] (pointwise convergence everywhere);\n(iii) f is NOT Riemann integrable on [0,1];\n(iv) f IS Lebesgue integrable on [0,1] with respect to Lebesgue measure λ.\n\nYou must use the following explicit construction (or an equivalent one that you fully specify): Let C ⊂ [0,1] be a 'fat Cantor set' constructed by starting with [0,1] and, at stage n (n ≥ 1), removing from each of the 2^{n−1} remaining closed intervals the open middle subinterval of length 2^{−2n}. Let C_n denote the union of the 2^n closed intervals remaining after stage n. Define f_n(x) = max{0, 1 − 3^n · dist(x, C_n)} where dist(x, C_n) = inf{|x−y| : y ∈ C_n}.\n\nProve all four properties (i)–(iv) rigorously. For (iii), identify the set of discontinuities of f and prove it has positive Lebesgue measure. For (iv), compute the exact value of ∫_{[0,1]} f dλ.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Prove continuity of each f_n explicitly from the definition",
+        "Prove pointwise convergence at every x ∈ [0,1], separating the cases x ∈ C and x ∉ C",
+        "Prove f is not Riemann integrable by showing its discontinuity set contains C and λ(C) > 0",
+        "Compute λ(C) exactly and use it to find ∫_{[0,1]} f dλ"
+      ],
+      "ground_truth": {
+        "answer": "f = 1_C, the indicator of the fat Cantor set C. f is not Riemann integrable because its discontinuity set is C, which has Lebesgue measure λ(C) = 1/2 > 0. The Lebesgue integral is ∫_{[0,1]} f dλ = 1/2.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The fat Cantor set construction. At stage n, we remove 2^{n−1} open intervals, each of length 2^{−2n}. Total length removed at stage n is 2^{n−1} · 2^{−2n} = 2^{−n−1}. The total removed length is Σ_{n=1}^∞ 2^{−n−1} = 1/2. Therefore λ(C) = 1 − 1/2 = 1/2 > 0. C_n is the union of 2^n closed intervals after stage n, each interval having length at most 2^{−n}.",
+          "Step 2: Continuity of f_n. For each n, the function x ↦ dist(x, C_n) is continuous (distance to a compact set is continuous). Multiplication by 3^n and the map t ↦ max{0, 1−t} are continuous. Composition of continuous functions is continuous. Hence each f_n is continuous on [0,1].",
+          "Step 3: Pointwise convergence for x ∈ C. If x ∈ C, then x ∈ C_n for all n. Thus dist(x, C_n) = 0 for all n, so f_n(x) = max{0, 1−0} = 1 for all n. Hence f_n(x) → 1.",
+          "Step 4: Pointwise convergence for x ∉ C. If x ∉ C, then x belongs to some removed open interval at some stage N. Since removed intervals are open and disjoint from all subsequent C_n for n ≥ N, there exists δ > 0 such that dist(x, C_n) ≥ δ for all n ≥ N. Therefore 3^n · dist(x, C_n) ≥ 3^n · δ → ∞ as n → ∞. Hence f_n(x) = max{0, 1 − 3^n · dist(x, C_n)} = 0 for all sufficiently large n. Thus f_n(x) → 0.",
+          "Step 5: Define f(x) = 1 if x ∈ C and f(x) = 0 if x ∉ C. Then f = 1_C, the indicator function of C. By Steps 3–4, f_n → f pointwise everywhere on [0,1].",
+          "Step 6: Discontinuity set of f. We claim f is discontinuous at every point of C. Let c ∈ C. Since C is nowhere dense (by construction, at each stage we remove open middle intervals from every remaining interval), every neighborhood of c contains points not in C. For any δ > 0, there exists x ∈ (c−δ, c+δ) with x ∉ C, so f(x) = 0 while f(c) = 1. Thus |f(x)−f(c)| = 1, so f is discontinuous at c. Therefore the discontinuity set D(f) contains C.",
+          "Step 7: Riemann integrability criterion (Lebesgue's criterion): A bounded function on [0,1] is Riemann integrable if and only if its set of discontinuities has Lebesgue measure zero. Since D(f) ⊇ C and λ(C) = 1/2 > 0, we have λ(D(f)) > 0. Therefore f is NOT Riemann integrable.",
+          "Step 8: Lebesgue integrability and integral. The indicator function 1_C is measurable because C is closed (hence Borel). Since f(x) ∈ {0,1}, f is bounded and measurable on [0,1], hence Lebesgue integrable. The integral is ∫_{[0,1]} f dλ = ∫_{[0,1]} 1_C dλ = λ(C) = 1/2."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the standard (measure-zero) Cantor set and concluding f IS Riemann integrable (since discontinuities would have measure zero)",
+          "Failing to prove that C is nowhere dense, which is needed to show every point of C is a discontinuity of f",
+          "Claiming f_n → f uniformly rather than only pointwise, and using that to incorrectly deduce Riemann integrability of f",
+          "Computing λ(C) incorrectly by not summing the geometric series of removed lengths"
+        ],
+        "required_knowledge": [
+          "Fat Cantor set construction and its measure",
+          "Lebesgue's criterion for Riemann integrability",
+          "Pointwise limits of continuous functions and Baire category / measurability",
+          "Distance functions and continuity"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["fat-cantor-set", "riemann-integrability", "lebesgue-integral", "pointwise-convergence"]
+    },
+    {
+      "task_id": "S-MATH-13A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Connected vs Path-Connected",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Determine whether the following statement is TRUE or FALSE. If TRUE, provide a complete proof. If FALSE, provide an explicit counterexample and prove rigorously that it satisfies the required properties.\n\nSTATEMENT: Let X ⊂ ℝ² be defined by\n\nX = {(x, sin(1/x)) : x ∈ (0,1]} ∪ ({0} × (ℚ ∩ [−1, 1])).\n\nEquip X with the subspace topology inherited from ℝ². Then X is connected but not path-connected.\n\nNote: A space is path-connected if for any two points a, b ∈ X there exists a continuous function γ: [0,1] → X with γ(0) = a and γ(1) = b.",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "State TRUE or FALSE explicitly",
+        "If TRUE: prove connectedness using a connectedness theorem or definition, and prove non-path-connectedness by showing some pair of points has no connecting path",
+        "If FALSE: provide the explicit counterexample and verify all topological properties rigorously",
+        "Do not use unproven claims like 'it is clear that' — every step must reference a theorem or explicit ε-δ argument"
+      ],
+      "ground_truth": {
+        "answer": "TRUE",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define G = {(x, sin(1/x)) : x ∈ (0,1]} and Y = {0} × (ℚ ∩ [−1,1]). Then X = G ∪ Y. We first show X is connected.",
+          "Step 2: G is connected because it is the continuous image of the connected interval (0,1] under the map φ(x) = (x, sin(1/x)). The closure of G in ℝ² is closure(G) = G ∪ ({0} × [−1,1]). Since Y ⊆ {0} × [−1,1] = closure(G) \\ G, we have G ⊆ X ⊆ closure(G).",
+          "Step 3: By the topological theorem: if C is connected and C ⊆ X ⊆ closure(C), then X is connected. Here C = G is connected, G ⊆ X, and X ⊆ closure(G) (since X = G ∪ Y and Y ⊆ closure(G)). Therefore X is connected.",
+          "Step 4: Next we prove X is not path-connected. Consider the points a = (1, sin(1)) ∈ G and b = (0, 0) ∈ Y. We show there is NO continuous path γ: [0,1] → X with γ(0) = a and γ(1) = b.",
+          "Step 5: Suppose such a path γ(t) = (γ₁(t), γ₂(t)) exists. Since γ is continuous and γ(0) = a has γ₁(0) = 1 > 0, and γ(1) = b has γ₁(1) = 0, by the Intermediate Value Theorem the set {t ∈ [0,1] : γ₁(t) > 0} is non-empty. Let t₀ = sup{t ∈ [0,1] : γ₁(t) > 0}.",
+          "Step 6: By continuity of γ₁, we have γ₁(t₀) = 0 (since if γ₁(t₀) > 0, then by continuity γ₁ > 0 on a neighborhood of t₀, contradicting the definition of supremum; and γ₁(t₀) < 0 is impossible since γ₁(t) > 0 for t < t₀ by definition of supremum).",
+          "Step 7: For any t < t₀, we have γ₁(t) > 0, so γ(t) ∈ G (since all points in X with positive x-coordinate lie in G). Therefore γ₂(t) = sin(1/γ₁(t)) for all t < t₀.",
+          "Step 8: By continuity of γ₂ at t₀, we need lim_{t → t₀⁻} γ₂(t) = γ₂(t₀). But lim_{t → t₀⁻} γ₂(t) = lim_{t → t₀⁻} sin(1/γ₁(t)). As t → t₀⁻, γ₁(t) → 0⁺. However, sin(1/x) has no limit as x → 0⁺: for sequences u_n = 1/(2πn + π/2) → 0, sin(1/u_n) = 1, and for v_n = 1/(2πn) → 0, sin(1/v_n) = 0. By continuity of γ₁, there exist t_n → t₀⁻ with γ₁(t_n) = u_n and s_n → t₀⁻ with γ₁(s_n) = v_n, giving γ₂(t_n) → 1 and γ₂(s_n) → 0.",
+          "Step 9: Therefore lim_{t → t₀⁻} γ₂(t) does not exist, contradicting the continuity of γ at t₀. Hence no such path exists, and X is not path-connected.",
+          "Step 10: We conclude that X is connected but not path-connected, so the statement is TRUE."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming the space is path-connected because one can 'travel along the graph to x=0', ignoring the oscillation of sin(1/x)",
+          "Asserting connectedness by stating 'the closure is connected' without verifying that X lies between G and its closure",
+          "Choosing a path that leaves X (e.g., parametrizing by y instead of x) without checking continuity in the subspace topology",
+          "Declaring the space disconnected because the y-axis points are rational and appear 'isolated' from the graph"
+        ],
+        "required_knowledge": [
+          "Connectedness and closure: if C is connected and C ⊆ X ⊆ closure(C), then X is connected",
+          "Topologist's sine curve properties and variants",
+          "Path-connectedness and sequential characterization via sup of positive coordinates",
+          "Intermediate Value Theorem for continuous paths"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["connectedness", "path-connectedness", "topologists-sine-curve", "subspace-topology"]
+    },
+    {
+      "task_id": "S-MATH-13A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "L^p Interpolation via Hölder",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let (X, μ) be a measure space with μ(X) = 1 (a probability space). For a measurable function f: X → [0, ∞), define its L^s norm by ||f||_s = (∫_X f^s dμ)^{1/s} for 0 < s < ∞.\n\nProve that for any exponents satisfying 0 < r < p < q < ∞, the following interpolation inequality holds:\n\n||f||_p ≤ ||f||_r^{ r(q−p) / [p(q−r)] } · ||f||_q^{ q(p−r) / [p(q−r)] }.\n\nDo NOT simply cite the Riesz-Thorin interpolation theorem. Instead, prove the inequality directly by applying Hölder's inequality to a suitable factorization of |f|^p, and verify explicitly that your chosen conjugate exponents satisfy the required constraint equations.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Apply Hölder's inequality directly to |f|^p = |f|^a · |f|^b with a + b = p",
+        "Determine the exponents a, b and the conjugate exponents explicitly by solving a system of equations",
+        "Verify that the exponents θ and 1−θ lie in (0,1)",
+        "Show all algebraic steps in deriving the final formula"
+      ],
+      "ground_truth": {
+        "answer": "The inequality is proved by factoring |f|^p and applying Hölder with appropriately chosen exponents.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: We seek to write |f|^p = |f|^{pθ} · |f|^{p(1−θ)} for some θ ∈ (0,1) and apply Hölder's inequality with conjugate exponents a, b > 1 satisfying 1/a + 1/b = 1. Hölder's inequality gives: ∫ |f|^p dμ ≤ (∫ |f|^{pθa} dμ)^{1/a} (∫ |f|^{p(1−θ)b} dμ)^{1/b}.",
+          "Step 2: We want the integrals on the right to correspond to the L^r and L^q norms. This requires: pθa = r and p(1−θ)b = q. From these, a = r/(pθ) and b = q/(p(1−θ)).",
+          "Step 3: The conjugate condition 1/a + 1/b = 1 becomes: pθ/r + p(1−θ)/q = 1. Solving for θ: pθ(1/r − 1/q) = 1 − p/q → pθ(q−r)/(rq) = (q−p)/q → θ = r(q−p)/[p(q−r)].",
+          "Step 4: Since r < p < q, we have q−p > 0 and q−r > 0, so θ > 0. To check θ < 1: r(q−p) < p(q−r) ↔ rq − rp < pq − pr ↔ rq < pq ↔ r < p, which holds. Thus θ ∈ (0,1). Similarly, 1−θ = q(p−r)/[p(q−r)] ∈ (0,1).",
+          "Step 5: Substitute back: ∫ |f|^p dμ ≤ (∫ |f|^r dμ)^{pθ/r} (∫ |f|^q dμ)^{p(1−θ)/q} = ||f||_r^{r · pθ/r} ||f||_q^{q · p(1−θ)/q} = ||f||_r^{pθ} ||f||_q^{p(1−θ)}.",
+          "Step 6: Taking the p-th root: ||f||_p = (∫ |f|^p dμ)^{1/p} ≤ ||f||_r^{θ} ||f||_q^{1−θ}.",
+          "Step 7: Substituting the expressions for θ and 1−θ: ||f||_p ≤ ||f||_r^{ r(q−p)/[p(q−r)] } · ||f||_q^{ q(p−r)/[p(q−r)] }. This completes the proof."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying Hölder with incorrectly chosen conjugate exponents that do not satisfy the constraint equations pθa = r and p(1−θ)b = q",
+          "Attempting to use Riesz-Thorin interpolation directly without verifying the endpoint conditions",
+          "Confusing the direction of interpolation (trying to bound ||f||_q by ||f||_r and ||f||_p instead of the correct order ||f||_p between ||f||_r and ||f||_q)",
+          "Forgetting to verify that the exponents θ and 1−θ are in (0,1), which is essential for the factorization to be valid"
+        ],
+        "required_knowledge": [
+          "Hölder's inequality with general conjugate exponents",
+          "L^p norm definitions and log-convexity on probability spaces",
+          "Algebraic manipulation of interpolation exponents",
+          "Verification that derived exponents satisfy the required inequalities"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["lp-interpolation", "holder-inequality", "measure-theory", "log-convexity"]
+    },
+    {
+      "task_id": "S-MATH-13A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Stone-Weierstrass & Finite-Dimensional Obstruction",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 10,
+      "prompt": "Let X = [0,1] × [0,1] be the unit square in ℝ² equipped with the Euclidean metric. Let A be the set of all continuous functions f: X → ℝ such that:\n\n(i) for every fixed y ∈ [0,1], the function x ↦ f(x,y) is a polynomial in x of degree at most 3;\n(ii) for every fixed x ∈ [0,1], the function y ↦ f(x,y) is a polynomial in y of degree at most 3.\n\nDetermine whether A is dense in C(X) (the space of all continuous real-valued functions on X) with respect to the supremum norm. If A is dense, prove it by verifying all hypotheses of the Stone-Weierstrass theorem. If A is NOT dense, exhibit an explicit continuous function g ∈ C(X) that cannot be uniformly approximated by elements of A, and prove this impossibility rigorously.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Determine density (YES or NO) explicitly",
+        "If dense, verify all three Stone-Weierstrass hypotheses: A is a subalgebra, A separates points, and A vanishes nowhere",
+        "If not dense, exhibit an explicit g ∈ C(X) and prove that dist(g, A) = inf_{f∈A} ||g−f||_∞ > 0",
+        "If using the finite-dimensionality argument, prove explicitly that A is finite-dimensional by characterizing its basis"
+      ],
+      "ground_truth": {
+        "answer": "A is NOT dense in C(X).",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Characterize A precisely. Condition (i) says that for each y, f(·,y) ∈ P_3[x], the space of polynomials in x of degree at most 3. Thus for each y, we can write f(x,y) = Σ_{i=0}^3 a_i(y) x^i for some functions a_i: [0,1] → ℝ.",
+          "Step 2: Condition (ii) says that for each x, f(x,·) ∈ P_3[y]. Fixing four distinct x-values x_0, x_1, x_2, x_3 ∈ [0,1], the coefficients a_i(y) are determined uniquely by the values f(x_j, y) via the Lagrange interpolation formula. Since each f(x_j, ·) is a polynomial of degree at most 3 in y, each a_i(y) is a linear combination of four degree-≤3 polynomials, hence a_i ∈ P_3[y].",
+          "Step 3: Therefore f(x,y) = Σ_{i=0}^3 Σ_{j=0}^3 c_{ij} x^i y^j for some constants c_{ij} ∈ ℝ. This shows A = span{x^i y^j : 0 ≤ i,j ≤ 3}, which is a 16-dimensional vector space.",
+          "Step 4: Check if A is a subalgebra. The product of two bicubic polynomials is generally of degree up to 6 in each variable. For example, if f(x,y) = x^3 and g(x,y) = x^3, then (f·g)(x,y) = x^6, which as a function of x (for fixed y) has degree 6 > 3. Thus f·g ∉ A, so A is NOT closed under multiplication and is not a subalgebra of C(X).",
+          "Step 5: Since A is a finite-dimensional (16-dimensional) subspace of the infinite-dimensional Banach space C(X), it is a proper closed subspace. Therefore A is not dense in C(X).",
+          "Step 6: Explicit non-approximable function: g(x,y) = x^4. Suppose (f_n) is a sequence in A with ||f_n − g||_∞ → 0. Restricting to y = 0, we get ||f_n(·,0) − x^4||_{C[0,1]} → 0. But f_n(x,0) = Σ_{i=0}^3 c_{i0}^{(n)} x^i is a polynomial of degree at most 3.",
+          "Step 7: The space P_3 of polynomials of degree at most 3 is a finite-dimensional (4-dimensional) subspace of C[0,1], hence closed. Since x^4 ∉ P_3, the distance d = dist_{C[0,1]}(x^4, P_3) is strictly positive. (For instance, using Chebyshev alternation or the finite-difference argument: the fourth forward difference of x^4 on equally spaced points is constant 24, while the fourth difference of any cubic is 0, giving ||x^4 − p||_∞ ≥ 24/16 = 3/2 > 0 for all p ∈ P_3.)",
+          "Step 8: Since ||f_n(·,0) − x^4||_∞ ≥ d > 0 for all n, the uniform convergence ||f_n − g||_∞ → 0 is impossible. Therefore g(x,y) = x^4 cannot be uniformly approximated by elements of A, and A is not dense in C(X)."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying Stone-Weierstrass without checking that A is an algebra (it is not closed under multiplication)",
+          "Claiming A is dense because 'polynomials are dense' without realizing the degree constraint is global and fixed at 3",
+          "Attempting to approximate x^4 by cross-terms like x^3 y, forgetting that on the line y=0 these vanish and the restriction must also approximate x^4",
+          "Using the single-variable Weierstrass theorem incorrectly for two variables without considering the tensor product structure"
+        ],
+        "required_knowledge": [
+          "Stone-Weierstrass theorem hypotheses (subalgebra, separates points, vanishes nowhere)",
+          "Finite-dimensional subspaces are closed in Banach spaces",
+          "Lagrange interpolation and polynomial coefficient extraction",
+          "Uniform approximation theory and distance to finite-dimensional subspaces"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["stone-weierstrass", "polynomial-approximation", "finite-dimensional-subspaces", "uniform-norm"]
+    }
+  ]
+}

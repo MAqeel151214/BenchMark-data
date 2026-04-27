@@ -1,0 +1,415 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-08B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Geometry — Projective, Transformational, Higher-Dimensional",
+    "generated_at": "2026-04-25T04:36:48Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-08B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Inversive Geometry — Circle Inversion Configuration",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "In the Euclidean plane, consider four circles C1, C2, C3, C4 with centers at A=(0,0), B=(4,0), C=(2,3), D=(6,3) and radii r1=1, r2=1, r3=2, r4=2 respectively. Circles C1 and C2 are externally tangent. Circles C3 and C4 are externally tangent. Circle C3 is externally tangent to both C1 and C2, while C4 is externally tangent to C2 but does not intersect C1. Let S be the set of points P in the plane such that the power of P with respect to C1 equals the power of P with respect to C2. Let T be the radical axis of C3 and C4. Find the coordinates of the unique point Q that lies on both S and T and is equidistant from the lines AB and CD. Then, determine the radius of the circle centered at Q that is orthogonal to all four circles C1, C2, C3, C4 (if such a circle exists). If no such orthogonal circle exists, state so explicitly. Provide the radius as an exact simplified expression or exact decimal.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Final answer must be the exact radius or a clear statement of non-existence"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "impossibility",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute the radical axis S of C1 and C2. For P=(x,y), power wrt C1 is x^2+y^2-1, and wrt C2 is (x-4)^2+y^2-1. Setting equal: x^2+y^2-1 = (x-4)^2+y^2-1, which simplifies to 8x = 16, giving x = 2. So S is the vertical line x = 2.",
+          "Step 2: Compute the radical axis T of C3 and C4. Power wrt C3: (x-2)^2+(y-3)^2-4. Power wrt C4: (x-6)^2+(y-3)^2-4. Setting equal: (x-2)^2 = (x-6)^2, which expands to x^2-4x+4 = x^2-12x+36, giving 8x = 32, so x = 4. Thus T is the vertical line x = 4.",
+          "Step 3: Line AB is the x-axis (y = 0). Line CD passes through C=(2,3) and D=(6,3), so it is the horizontal line y = 3. The set of points equidistant from y = 0 and y = 3 is the horizontal line y = 1.5.",
+          "Step 4: The point Q must simultaneously satisfy x = 2 (from S), x = 4 (from T), and y = 1.5. The lines x = 2 and x = 4 are distinct parallel vertical lines with empty intersection. Therefore, no point Q in the Euclidean plane satisfies all three constraints.",
+          "Step 5: Since no such point Q exists, there cannot exist a circle centered at Q orthogonal to all four circles. The problem has no solution."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the radical axes S and T must intersect without verifying they are parallel (both vertical at x=2 and x=4)",
+          "Computing the radical center of three circles instead of finding the intersection of two radical axes with the equidistant line",
+          "Incorrectly computing the radical axis by forgetting to subtract the radii squared in the power formula"
+        ],
+        "required_knowledge": [
+          "Power of a point with respect to a circle",
+          "Radical axis definition and computation",
+          "Equidistant lines formula",
+          "Orthogonal circles condition"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": true,
+        "has_red_herrings": true,
+        "perturbation_type": "unsolvable"
+      },
+      "tags": ["inversive-geometry", "radical-axis", "power-of-point", "unsolvable", "configuration"]
+    },
+    {
+      "task_id": "S-MATH-08B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Projective Geometry — Cross-Ratio Computation",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the unit circle x^2 + y^2 = 1 in the Euclidean plane. Let P = (2, 0) be an external point. From P, two tangent lines are drawn to the circle, touching it at points A and B. The line through P with slope 1/2 intersects the circle at two distinct points C and D, with C closer to P than D. Compute the cross-ratio (A, B; C, D) of the four concyclic points. Express your answer as a single exact rational number.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Final answer must be a single exact rational number"
+      ],
+      "ground_truth": {
+        "answer": "-1",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Find the tangent points A and B from P=(2,0) to the unit circle. The polar line of P with respect to the circle is 2x = 1, so x = 1/2. Substituting into x^2+y^2=1 gives y^2 = 3/4, so y = ±√3/2. Thus A = (1/2, √3/2) and B = (1/2, -√3/2).",
+          "Step 2: The line through P with slope 1/2 has equation y = (x-2)/2. Its intersections with the unit circle satisfy x^2 + (x-2)^2/4 = 1, which simplifies to 5x^2 - 4x = 0, giving x = 0 or x = 4/5. The corresponding points are C = (0, -1) and D = (4/5, -3/5).",
+          "Step 3: The four points A, B, C, D all lie on the unit circle. By the fundamental pole-polar theorem for conics: if P is external to a conic, the tangents from P touch at A and B, and any secant through P meets the conic at C and D, then the pencil of lines (PA, PB; PC, PD) forms a harmonic bundle.",
+          "Step 4: A harmonic pencil of lines from P corresponds to a harmonic range of points on any transversal. In particular, the cross-ratio of the four concyclic points (A, B; C, D) equals the cross-ratio of the pencil (PA, PB; PC, PD), which by the pole-polar theorem is -1.",
+          "Step 5: Direct complex verification: parametrizing the circle as e^(iθ), we have A = e^(iπ/3), B = e^(-iπ/3), C = e^(-iπ/2), D = (4-3i)/5. Computing (A-C)(B-D)/((A-D)(B-C)) symbolically confirms the value is exactly -1."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\nzA = sp.exp(sp.I*sp.pi/3)\nzB = sp.exp(-sp.I*sp.pi/3)\nzC = -sp.I\nzD = sp.Rational(4,5) - sp.I*sp.Rational(3,5)\ncross = ((zA-zC)*(zB-zD))/((zA-zD)*(zB-zC))\nprint(sp.simplify(cross))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Computing the cross-ratio of points on the secant line rather than recognizing the projective invariant on the conic",
+          "Forgetting that tangent points A and B are not on the secant line, leading to incorrect collinear cross-ratio computation",
+          "Not recognizing the harmonic property of pole-polar relationship with respect to a conic",
+          "Miscalculating the tangent points by using incorrect polar line formula"
+        ],
+        "required_knowledge": [
+          "Polar line of a point with respect to a circle",
+          "Cross-ratio definition for concyclic points",
+          "Harmonic division property of pole and polar",
+          "Projective invariance of cross-ratio"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["projective-geometry", "cross-ratio", "pole-polar", "harmonic-division", "conic"]
+    },
+    {
+      "task_id": "S-MATH-08B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Higher-Dimensional Geometry — 4D Polytope Volume",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "In four-dimensional Euclidean space R^4, consider the hypercube [0, 1]^4. It is intersected by the hyperplane x_1 + x_2 + x_3 + x_4 = 2. The intersection is a three-dimensional polytope P. Compute the 3-dimensional volume of P. Express your answer as an exact rational number.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Final answer must be an exact rational number"
+      ],
+      "ground_truth": {
+        "answer": "4/3",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the vertices of the intersection. A point in [0,1]^4 satisfies x_1+x_2+x_3+x_4 = 2. Since each coordinate is at most 1, exactly two coordinates must equal 1 and two must equal 0. There are C(4,2) = 6 such vertices.",
+          "Step 2: The six vertices are V1=(1,1,0,0), V2=(1,0,1,0), V3=(1,0,0,1), V4=(0,1,1,0), V5=(0,1,0,1), V6=(0,0,1,1). All lie in the hyperplane x_1+x_2+x_3+x_4=2.",
+          "Step 3: Verify that these six points form a regular octahedron. The center is at (1/2,1/2,1/2,1/2). The distance from the center to any vertex is sqrt(4*(1/2)^2) = 1. Thus the circumradius is R = 1.",
+          "Step 4: Check edge lengths. The distance between V1=(1,1,0,0) and V2=(1,0,1,0) is sqrt(0+1+1+0) = sqrt(2). Similarly, adjacent vertices differ by exactly two coordinate swaps, giving edge length a = sqrt(2) consistently.",
+          "Step 5: A regular octahedron with edge length a has volume V = (sqrt(2)/3) * a^3. Substituting a = sqrt(2): V = (sqrt(2)/3) * (sqrt(2))^3 = (sqrt(2)/3) * 2*sqrt(2) = 4/3. Alternatively, using circumradius R=1, V = (4/3)R^3 = 4/3."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\na = sp.sqrt(2)\nV = sp.sqrt(2)/3 * a**3\nprint(sp.simplify(V))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing the 4D 'volume' of the hypercube slice with the 3D volume of the resulting polytope",
+          "Incorrectly assuming the intersection is a simplex or cube rather than an octahedron",
+          "Computing the volume using the wrong dimension formula (e.g., 4-simplex volume formula)",
+          "Failing to recognize that the constraint x_i in [0,1] with sum=2 forces exactly two coordinates to be 1"
+        ],
+        "required_knowledge": [
+          "Cross-sections of hypercubes",
+          "Regular octahedron geometry and volume formula",
+          "Combinatorial enumeration of vertices",
+          "Distance formulas in R^4"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["higher-dimensional-geometry", "hypercube", "cross-section", "octahedron", "volume"]
+    },
+    {
+      "task_id": "S-MATH-08B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Inversive Geometry — Limiting Points and Concentric Images",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider two non-intersecting circles in the Euclidean plane: C1 with equation x^2 + y^2 = 4, and C2 with equation (x-5)^2 + y^2 = 1. Let Gamma be the coaxal system generated by C1 and C2. A limiting point of Gamma is a point L on the line of centers (the x-axis) that has zero power with respect to every circle in Gamma (equivalently, it is the center of a point-circle belonging to Gamma). Prove that there exist exactly two limiting points L1 and L2. Determine their exact x-coordinates. Then prove that inversion centered at L1 maps every circle in Gamma to a circle whose center is the image of L2 under this inversion.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide a complete proof with all steps justified",
+        "Include the exact coordinates of L1 and L2"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The coaxal system Gamma consists of circles C_λ: x^2+y^2-4 + λ((x-5)^2+y^2-1) = 0 for real λ ≠ -1. Expanding: (1+λ)x^2 + (1+λ)y^2 - 10λx + (25λ-4-λ) = 0.",
+          "Step 2: For a point circle (radius zero), the center (h,0) satisfies h = 5λ/(1+λ) and the radius squared is zero: h^2 = (24λ-4)/(1+λ). Substituting h gives 25λ^2/(1+λ)^2 = (24λ-4)/(1+λ), which simplifies to λ^2 - 20λ + 4 = 0.",
+          "Step 3: Solving: λ = 10 ± 4√6. The centers are x = 5λ/(1+λ) = 5/(1+1/λ). For λ = 10+4√6: 1/λ = (10-4√6)/4, so x = 10/(7-2√6) = (14+4√6)/5. For λ = 10-4√6: x = (14-4√6)/5. Thus L1 = ((14+4√6)/5, 0) and L2 = ((14-4√6)/5, 0).",
+          "Step 4: To prove the inversion property: let i be inversion centered at L1 with arbitrary radius k. For any circle C in Gamma, since L1 has equal power (zero) with respect to all circles in Gamma, the inversion sends C to a circle C'.",
+          "Step 5: Because L1 and L2 are the two common points of all circles orthogonal to every member of Gamma (the orthogonal family), and inversion preserves orthogonality, the image of the orthogonal family under i is a family of lines through the image of L2.",
+          "Step 6: Every circle C in Gamma is orthogonal to every circle in the orthogonal family. After inversion, C' is orthogonal to all lines through i(L2), which is only possible if C' is centered at i(L2). Therefore, every circle in Gamma maps to a circle centered at the image of L2."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": "import sympy as sp\nlam = sp.symbols('lam')\neq = lam**2 - 20*lam + 4\nsols = sp.solve(eq, lam)\nfor s in sols:\n    x = 5*s/(1+s)\n    print(sp.simplify(x))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the limiting points are simply where the power with respect to C1 equals the power with respect to C2 (that gives the radical center, not the limiting points)",
+          "Forgetting that a point circle in the coaxal system must have radius zero, not just equal power",
+          "Incorrectly applying the inversion formula for circles, confusing centers and images",
+          "Failing to recognize that the image of the orthogonal coaxal family determines the common center"
+        ],
+        "required_knowledge": [
+          "Coaxal systems of circles",
+          "Limiting points and point circles",
+          "Circle inversion formulas",
+          "Orthogonal families of coaxal circles"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["inversive-geometry", "coaxal-system", "limiting-points", "circle-inversion", "proof"]
+    },
+    {
+      "task_id": "S-MATH-08B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Projective Geometry — Self-Polar Triangle",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let C be a non-degenerate conic in the real projective plane. Let A, B, C, D be four distinct points on C. Define the diagonal points of the complete quadrilateral formed by these four points as: P = AB ∩ CD, Q = AC ∩ BD, and R = AD ∩ BC. Prove that the diagonal triangle PQR is self-polar with respect to C if and only if the cross-ratio (A, B; C, D) = -1. Provide a complete synthetic or algebraic proof.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide a complete proof with logical rigor",
+        "Explicitly state the projective theorems or properties used at each step"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: (⇒) Assume PQR is self-polar with respect to C. Then P lies on the polar of Q. By the pole-polar relationship for conics, the polar of Q = AC ∩ BD is the line joining the poles of AC and BD, which are the intersections of the tangents at A,C and at B,D respectively.",
+          "Step 2: Since P = AB ∩ CD lies on the polar of Q, by reciprocity Q lies on the polar of P. The polar of P = AB ∩ CD is the line joining the poles of AB and CD (intersections of tangents at A,B and at C,D).",
+          "Step 3: For PQR to be self-polar, the three points must pairwise lie on each other's polars. This forces the tangents at A and B to meet on CD, and the tangents at C and D to meet on AB. By the harmonic property of complete quadrilaterals, this occurs if and only if (A,B;C,D) = -1.",
+          "Step 4: (⇐) Assume (A,B;C,D) = -1. By the chord-tangent theorem for conics, the intersection of tangents at A and B lies on the polar of any point on AB. In particular, since the pencil is harmonic, the tangent intersections lie on the opposite chords.",
+          "Step 5: Specifically, let T_AB = t_A ∩ t_B and T_CD = t_C ∩ t_D. The harmonic condition (A,B;C,D) = -1 implies T_AB lies on CD and T_CD lies on AB. Thus the polar of P = AB ∩ CD is the line T_AB T_CD, which passes through Q and R by symmetry of the complete quadrilateral.",
+          "Step 6: Therefore P lies on QR (the polar of P), Q lies on PR, and R lies on PQ, making PQR self-polar. The equivalence is established."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing the diagonal triangle with the triangle formed by the four points themselves",
+          "Assuming the result holds only for circles rather than general conics",
+          "Using metric arguments (distances, angles) instead of projective invariants",
+          "Failing to prove both directions of the if-and-only-if statement"
+        ],
+        "required_knowledge": [
+          "Pole-polar duality with respect to a conic",
+          "Complete quadrilateral and diagonal triangle",
+          "Cross-ratio on a conic",
+          "Harmonic properties of conics",
+          "Chord-tangent theorem"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["projective-geometry", "pole-polar", "self-polar-triangle", "cross-ratio", "proof"]
+    },
+    {
+      "task_id": "S-MATH-08B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "3D Geometry — Dihedral Angle Error Detection",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A student analyzes a regular tetrahedron with vertices at A=(1,1,1), B=(1,-1,-1), C=(-1,1,-1), D=(-1,-1,1) and makes the following argument to find its dihedral angle:\n\n[Step 1] The altitude from vertex A to face BCD has length h = 2√(2/3).\n[Step 2] The distance from the centroid of face BCD to any vertex of that face is r = 2/√3.\n[Step 3] In the right triangle formed by A, the centroid of BCD, and vertex B, the angle at B satisfies tan θ = h/r = √2.\n[Step 4] Therefore, the dihedral angle of the regular tetrahedron is θ = arctan(√2).\n\nIdentify the specific geometric flaw in the student's reasoning. Explain what angle arctan(√2) actually represents in this tetrahedron, and derive the correct exact expression for the interior dihedral angle between two faces.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Explicitly identify which step contains the logical error",
+        "Provide the correct derivation of the dihedral angle",
+        "Use vector methods or pure geometry to verify your answer"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The student's computation of h and r is correct. For edge length a=2, the altitude is h = a√(2/3) = 2√6/3, and the circumradius of a face is r = a/√3 = 2√3/3, giving h/r = √2.",
+          "Step 2: The flaw is in Step 3-4: the angle at B in the triangle (A, centroid_BCD, B) is NOT the dihedral angle. The dihedral angle is defined as the angle between two planes (faces), measured along a line perpendicular to their common edge. The student's angle is the elevation angle from base vertex B to apex A relative to the face centroid, which is a different angle entirely.",
+          "Step 3: The angle arctan(√2) ≈ 54.74° is actually the angle between the line from a face vertex to the opposite vertex and the line from that face vertex to the centroid of the opposite face. It is not the angle between two faces.",
+          "Step 4: To compute the dihedral angle correctly, find the outward normals to two faces. For face ABC, using AB=(0,-2,-2) and AC=(-2,0,-2), the outward normal is n1 = (1,1,-1). For face ABD, using AB=(0,-2,-2) and AD=(-2,-2,0), the outward normal is n2 = (1,-1,1).",
+          "Step 5: The cosine of the angle φ between outward normals is (n1·n2)/(|n1||n2|) = (1-1-1)/3 = -1/3. Thus φ = arccos(-1/3) ≈ 109.47°.",
+          "Step 6: The interior dihedral angle θ is the supplement of the angle between outward normals: θ = π - φ = π - arccos(-1/3) = arccos(1/3). The correct dihedral angle is arccos(1/3) ≈ 70.53°."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": "import sympy as sp\nimport math\nn1 = sp.Matrix([1,1,-1])\nn2 = sp.Matrix([1,-1,1])\ncos_phi = (n1.dot(n2)) / (sp.sqrt(n1.dot(n1))*sp.sqrt(n2.dot(n2)))\nprint('cos(phi) =', sp.simplify(cos_phi))\nprint('dihedral = arccos(1/3) =', math.degrees(math.acos(1/3)))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Accepting the student's triangle as the correct cross-section for the dihedral angle",
+          "Confusing the angle between outward normals with the interior dihedral angle (forgetting to take the supplement)",
+          "Using the wrong right triangle in the tetrahedron cross-section",
+          "Computing the tetrahedral angle (bond angle) instead of the face-to-face dihedral angle"
+        ],
+        "required_knowledge": [
+          "Dihedral angle definition in polyhedra",
+          "Normal vectors to planes in R^3",
+          "Regular tetrahedron metric properties",
+          "Relationship between normal angle and dihedral angle"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["3d-geometry", "dihedral-angle", "regular-tetrahedron", "error-detection", "vectors"]
+    },
+    {
+      "task_id": "S-MATH-08B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "3D Geometry — Sphere Packing in Tetrahedron",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "In three-dimensional Euclidean space, four unit spheres (radius 1) are centered at the vertices of a regular tetrahedron with edge length 2. A fifth sphere is placed in the central gap, tangent to all four unit spheres. What is the exact radius of this central sphere?\n\nA) √6/2 − 1\nB) √6/3 − 1/2\nC) √3/2 − 1/2\nD) √6/4",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "Show the geometric reasoning"
+      ],
+      "ground_truth": {
+        "answer": "A",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For a regular tetrahedron with edge length a = 2, the distance from the centroid to any vertex (circumradius) is R = a√6/4 = 2√6/4 = √6/2.",
+          "Step 2: The centers of the four unit spheres are at the tetrahedron vertices. The central sphere's center must coincide with the tetrahedron centroid by symmetry.",
+          "Step 3: The central sphere is tangent to each unit sphere. The distance between the central sphere's center and any unit sphere's center equals the sum of their radii: R = r_central + 1.",
+          "Step 4: Therefore, r_central = R − 1 = √6/2 − 1. This matches option A.",
+          "Step 5: Option B evaluates to approximately 0.316, which would correspond to a smaller gap. Option C is approximately 0.366. Option D is approximately 0.612, which exceeds the actual gap size √6/2 − 1 ≈ 0.225."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\na = 2\nR = a*sp.sqrt(6)/4\nr = R - 1\nprint('R =', sp.simplify(R))\nprint('r =', sp.simplify(r))\nprint('numerical r =', float(r))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the inradius of the tetrahedron instead of the circumradius",
+          "Confusing the edge length with the circumradius",
+          "Computing √6/2 + 1 instead of subtracting the unit sphere radius",
+          "Using the formula for two-dimensional circle packing in a triangle"
+        ],
+        "required_knowledge": [
+          "Regular tetrahedron circumradius formula",
+          "Sphere packing in 3D",
+          "Symmetry arguments for centroid placement"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["3d-geometry", "sphere-packing", "regular-tetrahedron", "geometric-optimization"]
+    },
+    {
+      "task_id": "S-MATH-08B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Differential Geometry — Curvature of Plane Curve",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider the parametric plane curve C defined by r(t) = (t, ln t) for t > 0. At which value of t is the curvature of C maximized?\n\nA) t = 1/2\nB) t = √2/2\nC) t = 1\nD) t = √3/2",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "Show the computation of the curvature and its derivative"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For parametric curve (x(t), y(t)), curvature is κ(t) = |x'y'' − y'x''| / (x'^2 + y'^2)^(3/2). Here x = t, y = ln t.",
+          "Step 2: Compute derivatives: x' = 1, x'' = 0, y' = 1/t, y'' = −1/t^2. The numerator is |1·(−1/t^2) − (1/t)·0| = 1/t^2.",
+          "Step 3: The denominator is (1 + (1/t)^2)^(3/2) = ((t^2+1)/t^2)^(3/2) = (t^2+1)^(3/2) / t^3. Thus κ(t) = (1/t^2) · (t^3/(t^2+1)^(3/2)) = t / (t^2+1)^(3/2).",
+          "Step 4: To maximize κ, differentiate: dκ/dt = [(t^2+1)^(3/2) − t·(3/2)(t^2+1)^(1/2)·2t] / (t^2+1)^3 = (t^2+1)^(1/2)[(t^2+1) − 3t^2] / (t^2+1)^3 = (1 − 2t^2) / (t^2+1)^(5/2).",
+          "Step 5: Setting dκ/dt = 0 gives 1 − 2t^2 = 0, so t = 1/√2 = √2/2. The second derivative test confirms this is a maximum. This corresponds to option B."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\nt = sp.symbols('t', positive=True)\nkappa = t / (t**2 + 1)**(sp.Rational(3,2))\ndk = sp.diff(kappa, t)\ncritical = sp.solve(sp.simplify(dk), t)\nprint('Critical points:', critical)\nprint('Max at t =', [c for c in critical if c > 0][0])"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Maximizing the radius of curvature instead of minimizing it (curvature is 1/radius)",
+          "Differentiating the squared curvature incorrectly and getting t = 1",
+          "Forgetting the chain rule when differentiating the denominator",
+          "Evaluating curvature at t=1 (where κ = 1/(2√2) ≈ 0.354) instead of t=√2/2 (where κ = 2/(3√3) ≈ 0.385)"
+        ],
+        "required_knowledge": [
+          "Curvature formula for parametric plane curves",
+          "Differentiation of rational and power functions",
+          "Optimization by finding critical points"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["differential-geometry", "curvature", "plane-curves", "optimization", "parametric-curves"]
+    }
+  ]
+}

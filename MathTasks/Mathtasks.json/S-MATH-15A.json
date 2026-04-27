@@ -1,0 +1,349 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-15A",
+    "generator_model": "GPT-5.3-Codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Cross-Domain Synthesis - Problems Combining Multiple Mathematical Areas",
+    "generated_at": "2026-04-27T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-15A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Finite Group Actions + Projective Geometry",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let G = SL_2(F_11). For A = [[a,b],[c,d]] in G, define its action on the projective line P^1(F_11) = F_11 U {infinity} by the Mobius map z -> (az+b)/(cz+d), with arithmetic mod 11 and the standard convention for z = infinity. Count exactly how many matrices A induce a permutation of P^1(F_11) with exactly two fixed points.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Label each major step with a domain tag such as [Group Theory] or [Finite Geometry]",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "528",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Finite Geometry]: Fixed points of the projective action are exactly A-invariant 1-dimensional subspaces (eigenlines) in F_11^2.",
+          "Step 2 [Linear Algebra over Finite Fields]: Having exactly two fixed points means A has exactly two distinct eigenlines over F_11, equivalently A is split semisimple with distinct eigenvalues lambda and lambda^{-1} in F_11^*, so lambda != +/-1.",
+          "Step 3 [Group Theory]: In SL_2(F_q), regular split semisimple elements lie in split tori T isomorphic to F_q^*. For q=11, |T|=10 and regular elements in T are those excluding +/-1, so 8 per torus.",
+          "Step 4 [Conjugacy Counting]: Number of conjugates of a split torus is |SL_2(F_11)| / |N(T)|, where |SL_2(F_11)| = q(q^2-1)=1320 and |N(T)|=2(q-1)=20, giving 66 tori.",
+          "Step 5 [Uniqueness + Multiplication Principle]: Each regular split semisimple element belongs to a unique split torus, so total elements with exactly two fixed points is 66 * 8 = 528."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "q=11\nG=q*(q*q-1)\nnum_tori=G//(2*(q-1))\nans=num_tori*(q-3)\nprint(ans)  # 528"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Counting all split elements including lambda = +/-1, which correspond to scalar matrices and not two distinct fixed points",
+          "Forgetting to divide by the split torus normalizer size 2(q-1) when counting torus conjugates",
+          "Double-counting regular split elements by assuming they lie in multiple split tori"
+        ],
+        "required_knowledge": [
+          "Structure of SL_2(F_q)",
+          "Projective line actions and fixed points",
+          "Normalizer-orbit counting for maximal tori"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["group-action", "finite-fields", "projective-geometry"]
+    },
+    {
+      "task_id": "S-MATH-15A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Algebraic Factorization Patterns + Modular Combinatorics",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Over F_7, count monic degree-8 polynomials f(x) that satisfy all conditions: (i) f splits completely over F_7, (ii) the multiplicity pattern of roots is exactly (2,2,1,1,1,1), and (iii) the coefficient of x^7 is 0 in F_7. Compute the exact number.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "You must explicitly use both root-multiplicity combinatorics and coefficient/root relations",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "15",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Algebra]: Write roots as two doubled roots a,b and four simple roots c,d,e,f, all distinct. Then f(x)= (x-a)^2(x-b)^2(x-c)(x-d)(x-e)(x-f).",
+          "Step 2 [Vieta + Finite Field Arithmetic]: Coefficient of x^7 is minus total root sum with multiplicity: -(2a+2b+c+d+e+f). Condition (iii) gives 2a+2b+c+d+e+f=0 in F_7.",
+          "Step 3 [Combinatorics Setup]: Exactly 6 distinct field elements appear among roots, so one element g in F_7 is omitted. Let S=F_7\\{g}; then c,d,e,f are the four elements of S not equal to a,b.",
+          "Step 4 [Field-Sum Identity]: Since sum of all elements of F_7 is 0, sum(S) = -g. Also c+d+e+f = sum(S)-a-b. Substituting into Step 2 yields sum(S)+a+b=0, hence a+b=g.",
+          "Step 5 [Pair Counting]: For each fixed g, count unordered pairs {a,b} subset S with a!=b and a+b=g. If g=0, there are 3 pairs: {1,6},{2,5},{3,4}. If g!=0, there are 3 unordered distinct pairs in F_7 summing to g, but one is {g,0} (invalid since g not in S), so only 2 remain.",
+          "Step 6 [Total]: total = 3 (for g=0) + 6*2 (for nonzero g) = 15."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import itertools\nF=range(7)\ncount=0\nfor g in F:\n    S=[x for x in F if x!=g]\n    for a,b in itertools.combinations(S,2):\n        if (a+b)%7!=g: continue\n        # choose remaining four as simple roots automatically\n        count+=1\nprint(count)  # 15"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Counting ordered pairs (a,b) instead of unordered doubled-root choices",
+          "Using sum(S)=g instead of sum(S)=-g in F_7",
+          "Failing to exclude the invalid pair {g,0} when g != 0"
+        ],
+        "required_knowledge": [
+          "Vieta relations over finite fields",
+          "Multiplicity-aware root accounting",
+          "Combinatorial counting in modular settings"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["finite-field-polynomials", "vieta", "combinatorial-counting"]
+    },
+    {
+      "task_id": "S-MATH-15A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Complex Roots of Unity + Linear Recurrences",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Compute exactly P = product_{k=1}^{12} (3 - 2 cos(2*pi*k/13)). Give an exact integer.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Your derivation must connect a roots-of-unity factorization with a recurrence sequence",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "271441",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Algebraic Number Theory]: Let zeta = exp(2*pi*i/13). Write 3 = r + r^{-1} where r=(3+sqrt(5))/2 and r^{-1}=(3-sqrt(5))/2.",
+          "Step 2 [Complex Factorization]: For each k, 3-(zeta^k+zeta^{-k}) = r^{-1}(r-zeta^k)(r-zeta^{-k}). Multiplying k=1..12 gives P = r^{-12} * ((r^13-1)/(r-1))^2.",
+          "Step 3 [Symmetrization]: Using r*r^{-1}=1, equivalent closed form is P = ((r^13-1)(r^{-13}-1))/((r-1)(r^{-1}-1)).",
+          "Step 4 [Recurrence Connection]: Numerator is 2-(r^13+r^{-13}). Denominator is 2-(r+r^{-1}) = -1. Hence P = u_13 - 2, where u_n = r^n + r^{-n}.",
+          "Step 5 [Linear Recurrence]: Since r + r^{-1}=3, sequence satisfies u_0=2, u_1=3, u_n=3u_{n-1}-u_{n-2}. Iterating gives u_13=271443.",
+          "Step 6 [Final]: P = 271443 - 2 = 271441."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import cmath\nP=1\nfor k in range(1,13):\n    P*= (3-2*cmath.cos(2*cmath.pi*k/13)).real\nprint(round(P))  # 271441"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using product formula for 2-2cos instead of 3-2cos without introducing the r+r^{-1} substitution",
+          "Dropping the r^{-12} factor in the complex factorization",
+          "Arithmetic drift in recurrence iteration leading to near-correct but wrong integer"
+        ],
+        "required_knowledge": [
+          "Cyclotomic root products",
+          "Complex-to-real product transformations",
+          "Second-order linear recurrences"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["roots-of-unity", "recurrence", "exact-product"]
+    },
+    {
+      "task_id": "S-MATH-15A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Group Actions + Probability",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let n >= 1 and q be a prime power. Choose A uniformly at random from GL_n(F_q). Prove that the expected number of nonzero vectors v in F_q^n such that Av = v is exactly 1.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Use a group-action averaging argument (not brute-force matrix enumeration)",
+        "State clearly where probability enters the proof"
+      ],
+      "ground_truth": {
+        "answer": "E_A[|{v in F_q^n \\ {0} : Av=v}|] = 1",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Group Theory]: GL_n(F_q) acts on X = F_q^n by A.v = Av. This action has exactly two orbits: {0} and X\\{0}.",
+          "Step 2 [Combinatorics of Group Actions]: By Burnside's lemma, average number of fixed points on X over all A in GL_n(F_q) equals number of orbits, hence 2.",
+          "Step 3 [Probability Translation]: Uniform random A means E_A[|Fix_X(A)|] = 2.",
+          "Step 4 [Decomposition]: Every A fixes 0, so |Fix_X(A)| = 1 + |{v!=0: Av=v}|.",
+          "Step 5 [Conclusion]: Taking expectations gives 2 = 1 + E_A[|{v!=0:Av=v}|], so the expectation is 1."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Averaging over all matrices M_n(F_q) instead of invertible matrices GL_n(F_q)",
+          "Assuming transitivity on all vectors including 0",
+          "Forgetting to subtract the always-fixed zero vector"
+        ],
+        "required_knowledge": [
+          "Burnside's lemma",
+          "Orbit structure of GL_n(F_q) on vector spaces",
+          "Expectation as uniform group average"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["burnside", "finite-linear-groups", "probabilistic-method"]
+    },
+    {
+      "task_id": "S-MATH-15A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Graph Theory + Linear Algebra over F_2",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let G be a connected graph with n vertices and m edges. Form a random spanning subgraph H by including each edge independently with probability 1/2. Prove that P(all vertices of H have even degree) = 2^{-(n-1)}.",
+      "prompt_format": "proof",
+      "constraints": [
+        "You must model parity constraints as a linear system over F_2",
+        "Explicitly justify why connectedness determines the rank used"
+      ],
+      "ground_truth": {
+        "answer": "2^{-(n-1)}",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Linear Algebra Model]: Encode a subgraph by x in F_2^m (x_e=1 if edge e chosen). Vertex degree parity vector is Bx, where B is an oriented incidence matrix over F_2.",
+          "Step 2 [Graph Theory Fact]: 'All degrees even' is exactly Bx=0 over F_2.",
+          "Step 3 [Rank Argument]: For connected G, rank_{F_2}(B)=n-1. Therefore dim ker(B)=m-(n-1).",
+          "Step 4 [Counting]: Number of edge subsets with all-even degrees is |ker(B)|=2^{m-(n-1)}.",
+          "Step 5 [Probability]: Total subgraphs is 2^m, each equally likely under p=1/2 independent inclusion. Hence probability is 2^{m-(n-1)}/2^m = 2^{-(n-1)}."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using rank(B)=n instead of n-1 for connected graphs",
+          "Treating degree equations over integers rather than modulo 2",
+          "Assuming independence of vertex parity constraints without linear-algebra justification"
+        ],
+        "required_knowledge": [
+          "Incidence matrices",
+          "Cycle-space dimension",
+          "Finite-probability counting"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["incidence-matrix", "parity-subgraphs", "mod2-linear-algebra"]
+    },
+    {
+      "task_id": "S-MATH-15A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Quadratic Residues + Finite Probability",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let R be the set of nonzero quadratic residues modulo 13: R = {1,3,4,9,10,12}. Choose x and y independently and uniformly from R. What is P((x+y) mod 13 is in R)?\n\nOptions:\nA. 1/4\nB. 1/3\nC. 5/12\nD. 1/2",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "You must justify the count of favorable pairs out of all ordered pairs",
+        "Explain briefly why each incorrect option is not correct"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Combinatorics]: Total ordered pairs is |R|^2 = 36.",
+          "Step 2 [Modular Arithmetic Table]: For each fixed x in R, compute x+R mod 13 and count entries landing back in R. Each row contributes exactly 2 favorable y values.",
+          "Step 3 [Count]: Favorable ordered pairs = 6*2 = 12, so probability is 12/36 = 1/3.",
+          "Step 4 [Option Check]: A=1/4 would require 9 favorable pairs; C=5/12 would require 15; D=1/2 would require 18. None match exact count 12."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "R=[1,3,4,9,10,12]\nfav=0\nfor x in R:\n    for y in R:\n        if (x+y)%13 in R:\n            fav+=1\nprint(fav, fav/36)  # 12, 0.333333..."
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating pairs as unordered and dividing by 2 incorrectly",
+          "Including 0 as a quadratic residue in R",
+          "Assuming closure of residues under addition without verification"
+        ],
+        "required_knowledge": [
+          "Quadratic residues modulo primes",
+          "Finite sample-space probability",
+          "Ordered-pair counting"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["multiple-choice", "quadratic-residues", "modular-probability"]
+    },
+    {
+      "task_id": "S-MATH-15A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Analysis in Number-Theoretic Graph Counting",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "In the Paley graph P_13, vertices are F_13 and x~y iff x-y is a nonzero square modulo 13. You are given these valid facts: each vertex has degree 6, and each adjacent pair has exactly lambda=2 common neighbors.\n\nA student writes:\n1) Number of edges = 13*6/2 = 39.\n2) Each edge belongs to exactly 2 triangles.\n3) So edge-triangle incidences total 39*2 = 78.\n4) Each triangle has 2 edges, so number of triangles is 78/2 = 39.\n\nIdentify the first incorrect line and give the corrected triangle count.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Your response must name the first incorrect line number",
+        "You must provide the corrected final integer count"
+      ],
+      "ground_truth": {
+        "answer": "Line 4 is the first incorrect line; each triangle has 3 edges, so the correct count is 78/3 = 26.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 [Graph Combinatorics]: Lines 1-3 are correct: edges=39 and edge-triangle incidences=39*2=78.",
+          "Step 2 [Incidence Principle]: A triangle contributes 3 edge-triangle incidences (one per edge), not 2.",
+          "Step 3 [Correction]: Let T be number of triangles. Then 3T=78, hence T=26.",
+          "Step 4 [Evaluation]: Therefore line 4 is the first incorrect line, and corrected result is 26."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing 'triangle has 3 vertices' with edge-incidence conversion and dividing by 2",
+          "Recomputing lambda incorrectly instead of auditing incidence translation",
+          "Using unordered/ordered incidence conventions inconsistently"
+        ],
+        "required_knowledge": [
+          "Strongly regular graph local parameters",
+          "Incidence double-counting",
+          "Error localization in multi-step derivations"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "paley-graph", "double-counting"]
+    }
+  ]
+}

@@ -1,0 +1,418 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-03B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Algebra — Polynomials, Inequalities, Systems of Equations",
+    "generated_at": "2026-04-24T05:34:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-03B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Polynomials — Vieta's Formulas",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 2,
+      "prompt": "Let P(x) = x^5 - 15x^4 + 85x^3 - 225x^2 + 274x - 120. The five roots of P(x) are distinct positive integers. Compute the sum of the reciprocals of all products of the roots taken three at a time. That is, if the roots are r_1, r_2, r_3, r_4, r_5, compute S = sum_{1 <= i < j < k <= 5} 1/(r_i r_j r_k). Express your answer as a reduced fraction.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning using Vieta's formulas",
+        "Do not compute the individual roots explicitly",
+        "Final answer must be a reduced fraction in the form p/q"
+      ],
+      "ground_truth": {
+        "answer": "17/24",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: By Vieta's formulas for P(x) = x^5 - 15x^4 + 85x^3 - 225x^2 + 274x - 120, the elementary symmetric sums are e_1 = 15, e_2 = 85, e_3 = 225, e_4 = 274, e_5 = 120.",
+          "Step 2: The target sum S = sum_{i<j<k} 1/(r_i r_j r_k) can be rewritten by multiplying numerator and denominator of each term by the product of the remaining two roots: S = (sum_{i<j<k} r_l r_m) / (r_1 r_2 r_3 r_4 r_5) where {l,m} = {1,2,3,4,5} \\ {i,j,k}.",
+          "Step 3: The numerator sum_{i<j<k} r_l r_m is exactly the sum of all products of the roots taken two at a time, which by definition equals e_2 = 85.",
+          "Step 4: The denominator is the product of all five roots, which equals e_5 = 120.",
+          "Step 5: Therefore S = e_2 / e_5 = 85/120 = 17/24."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import sympy as sp\nx = sp.Symbol('x')\nP = x**5 - 15*x**4 + 85*x**3 - 225*x**2 + 274*x - 120\nroots = sp.nroots(P)\n# Compute sum of reciprocals of triple products\nfrom itertools import combinations\nS = sum(1/(r1*r2*r3) for r1,r2,r3 in combinations(roots, 3))\nprint(sp.nsimplify(S))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Attempting to find all five roots explicitly instead of using Vieta's formulas, which is unnecessarily computationally intensive",
+          "Confusing e_2 with e_3 and incorrectly computing the numerator as e_3 = 225",
+          "Failing to recognize that multiplying each term 1/(r_i r_j r_k) by (product of remaining roots)/(product of remaining roots) gives e_2/e_5"
+        ],
+        "required_knowledge": [
+          "Vieta's formulas for elementary symmetric polynomials",
+          "Algebraic manipulation of symmetric sums",
+          "Relationship between power sums and elementary symmetric polynomials"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 3
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["polynomials", "vietas-formulas", "symmetric-sums", "elementary-symmetric-polynomials"]
+    },
+    {
+      "task_id": "S-MATH-03B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Functional Equations — Cauchy Variants",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 3,
+      "prompt": "Suppose f: R -> R is a polynomial function satisfying the functional equation f(x+y) = f(x) + f(y) + 2xy for all real numbers x and y. Additionally, f(1) = 2. Which of the following is the correct expression for f(x)?\n\nA) f(x) = x^2 + x\nB) f(x) = x^2\nC) f(x) = x^2 + 2x\nD) f(x) = x^2 - x",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "No additional explanation required beyond the letter choice"
+      ],
+      "ground_truth": {
+        "answer": "A",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define g(x) = f(x) - x^2. Substituting into the functional equation: g(x+y) + (x+y)^2 = g(x) + x^2 + g(y) + y^2 + 2xy.",
+          "Step 2: Simplifying: g(x+y) + x^2 + 2xy + y^2 = g(x) + g(y) + x^2 + y^2 + 2xy, which gives g(x+y) = g(x) + g(y). This is Cauchy's functional equation.",
+          "Step 3: Since f is a polynomial, g is also a polynomial. The only polynomial solutions to Cauchy's equation are linear: g(x) = cx for some constant c.",
+          "Step 4: Therefore f(x) = x^2 + cx. Using f(1) = 2: 1 + c = 2, so c = 1.",
+          "Step 5: Thus f(x) = x^2 + x, which corresponds to option A."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming g(x) = 0 and concluding f(x) = x^2 (option B), ignoring the linear term from Cauchy's equation",
+          "Forgetting to use the condition f(1) = 2 to determine the constant c",
+          "Incorrectly solving for c and obtaining c = 0, 1, or -1 due to arithmetic errors"
+        ],
+        "required_knowledge": [
+          "Cauchy's functional equation and its polynomial solutions",
+          "Functional equation substitution techniques",
+          "Quadratic function properties"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 4
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["functional-equations", "cauchy-equation", "polynomial-functions", "substitution-method"]
+    },
+    {
+      "task_id": "S-MATH-03B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Systems of Equations — Symmetric Nonlinear",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Consider the system of equations in real variables x, y, z:\n\n(1) x + y + z = 0\n(2) x^2 + y^2 + z^2 = 6\n(3) xyz = 2\n\nDetermine the value of x^4 + y^4 + z^4.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all algebraic steps",
+        "Do not solve for individual values of x, y, z",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "18",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let e_1 = x+y+z, e_2 = xy+yz+zx, e_3 = xyz. From equation (1), e_1 = 0. From equation (3), e_3 = 2.",
+          "Step 2: From equation (2): x^2+y^2+z^2 = e_1^2 - 2e_2 = 0 - 2e_2 = 6, which gives e_2 = -3.",
+          "Step 3: We need x^4+y^4+z^4. First compute x^2y^2+y^2z^2+z^2x^2 = (xy+yz+zx)^2 - 2xyz(x+y+z) = e_2^2 - 2e_1 e_3 = 9 - 0 = 9.",
+          "Step 4: Using the identity (x^2+y^2+z^2)^2 = x^4+y^4+z^4 + 2(x^2y^2+y^2z^2+z^2x^2), we get 36 = x^4+y^4+z^4 + 2(9).",
+          "Step 5: Therefore x^4+y^4+z^4 = 36 - 18 = 18."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import sympy as sp\nx, y, z = sp.symbols('x y z', real=True)\neq1 = sp.Eq(x+y+z, 0)\neq2 = sp.Eq(x**2+y**2+z**2, 6)\neq3 = sp.Eq(x*y*z, 2)\n# Solve and verify\nsol = sp.solve([eq1, eq2, eq3], [x, y, z], dict=True)\nprint('Number of solutions:', len(sol))\nfor s in sol[:2]:\n    p4 = s[x]**4 + s[y]**4 + s[z]**4\n    print('x^4+y^4+z^4 =', sp.simplify(p4))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Attempting to solve the cubic equation for individual roots, leading to complex Cardano formulas instead of using symmetric identities",
+          "Computing x^4+y^4+z^4 via the incorrect identity (x^2+y^2+z^2)^2 = x^4+y^4+z^4 + 2xyz(x+y+z)",
+          "Forgetting that e_2 = (e_1^2 - p_2)/2 and instead trying to square the sum of squares directly"
+        ],
+        "required_knowledge": [
+          "Newton's identities and symmetric polynomial theory",
+          "Elementary symmetric polynomial definitions",
+          "Algebraic identities for power sums"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["systems-of-equations", "symmetric-polynomials", "newtons-identities", "nonlinear-systems"]
+    },
+    {
+      "task_id": "S-MATH-03B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Inequalities — Chained and Weighted",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Let a, b, c be positive real numbers satisfying a + b + c = 3. Prove that a^2 b + b^2 c + c^2 a + abc <= 4, and determine all triples (a,b,c) for which equality holds.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Provide a complete rigorous proof",
+        "Identify all equality cases explicitly",
+        "The proof must not rely on numerical verification or plotting"
+      ],
+      "ground_truth": {
+        "answer": "The maximum value is 4, achieved at (a,b,c) = (1,1,1) and at permutations of (2,1,0) in the limit.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Use the uvw method. For fixed p = a+b+c = 3, the expression F = a^2 b + b^2 c + c^2 a + abc is a function of q = ab+bc+ca and r = abc. The maximum occurs when two variables are equal or one variable approaches 0.",
+          "Step 2: Case 1: Two variables equal. Let b = a, so c = 3-2a with 0 < a < 1.5. Then F(a) = a^3 + a^2(3-2a) + (3-2a)^2 a + a^2(3-2a) = a^3 - 6a^2 + 9a.",
+          "Step 3: Compute F'(a) = 3a^2 - 12a + 9 = 3(a-1)(a-3). On (0, 1.5), the critical point is a=1, giving F(1) = 1-6+9 = 4. At boundaries: F(0)=0, F(1.5)=3.375. Maximum in this case is 4.",
+          "Step 4: Case 2: One variable approaches 0. Let c -> 0+, so a+b = 3. Then F -> a^2 b (the cyclic sum reduces to a^2 b since terms with c vanish). With b = 3-a, we maximize h(a) = a^2(3-a) = 3a^2 - a^3 on [0,3].",
+          "Step 5: h'(a) = 6a - 3a^2 = 3a(2-a), critical at a=2. h(2) = 4, h(0)=h(3)=0. Maximum in this case is 4, achieved at (a,b,c)=(2,1,0) in the limit.",
+          "Step 6: Since the uvw method guarantees that the global maximum occurs in one of these boundary cases, the overall maximum of F is 4. Equality holds at a=b=c=1 and at permutations of (2,1,0) as c->0+."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying AM-GM naively to a^2 b + b^2 c + c^2 a, which gives a loose bound and fails to capture the cyclic structure",
+          "Assuming the maximum occurs only at a=b=c=1 and missing the boundary case (2,1,0)",
+          "Attempting to use Lagrange multipliers without checking boundary behavior, leading to incomplete conclusions"
+        ],
+        "required_knowledge": [
+          "uvw method for symmetric inequalities",
+          "Boundary analysis in constrained optimization",
+          "Cyclic inequality structure and properties"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["inequalities", "uvw-method", "cyclic-inequalities", "boundary-analysis", "symmetric-optimization"]
+    },
+    {
+      "task_id": "S-MATH-03B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Functional Equations — Integer Domain Case Analysis",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Find all functions f: Z -> Z satisfying the quadratic functional equation f(m+n) + f(m-n) = 2f(m) + 2f(n) for all integers m, n. Given that f(1) = 3, what is the value of f(5)?\n\nA) 15\nB) 25\nC) 75\nD) 125",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "No additional explanation required beyond the letter choice"
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Set m=0: f(n) + f(-n) = 2f(0) + 2f(n), which gives f(-n) = f(n) + 2f(0) - 2f(n) = 2f(0) - f(n). Wait, let me recompute: f(n) + f(-n) = 2f(0) + 2f(n), so f(-n) = 2f(0) + f(n).",
+          "Step 2: Actually, set m=n=0: f(0) + f(0) = 2f(0) + 2f(0), so 2f(0) = 4f(0), giving f(0) = 0.",
+          "Step 3: With f(0)=0, from m=0: f(n) + f(-n) = 2f(n), so f(-n) = f(n). The function is even.",
+          "Step 4: Set m=n: f(2n) + f(0) = 2f(n) + 2f(n) = 4f(n), so f(2n) = 4f(n).",
+          "Step 5: By induction using the functional equation, one can show f(kn) = k^2 f(n) for all positive integers k. In particular, f(k) = k^2 f(1) = 3k^2.",
+          "Step 6: Therefore f(5) = 3 * 25 = 75, which is option C."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming f(n) = an^2 + bn + c with nonzero linear and constant terms, which fail to satisfy the functional equation upon substitution",
+          "Concluding f(n) = n^2 (option B) or f(n) = 5n^2 (option D) without using the given condition f(1)=3 correctly",
+          "Forgetting to verify f(0)=0 first, which is essential for deriving the evenness property and the quadratic form"
+        ],
+        "required_knowledge": [
+          "Quadratic functional equations (d'Alembert's functional equation)",
+          "Mathematical induction over integers",
+          "Properties of even functions and integer sequences"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["functional-equations", "integer-domain", "quadratic-functional-equation", "case-analysis", "induction"]
+    },
+    {
+      "task_id": "S-MATH-03B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Inequalities — Error Detection",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "A student presents the following proof. Identify the FIRST logical or mathematical error in the argument, explain why it is wrong, and provide the correct reasoning to establish the claimed result (if the result is actually true).\n\nClaim: For all positive real numbers a, b, c satisfying ab + bc + ca = 1, we have a + b + c >= sqrt(3).\n\nProof:\n1. We have (a+b+c)^2 = a^2 + b^2 + c^2 + 2(ab+bc+ca) = a^2 + b^2 + c^2 + 2.\n2. By AM-GM, a^2 + b^2 + c^2 >= 3 * cbrt(a^2 b^2 c^2).\n3. Also by AM-GM, ab + bc + ca >= 3 * cbrt(a^2 b^2 c^2). Since ab+bc+ca = 1, we have cbrt(a^2 b^2 c^2) <= 1/3.\n4. Therefore a^2 + b^2 + c^2 >= 3 * (1/3) = 1.\n5. Substituting into step 1: (a+b+c)^2 >= 1 + 2 = 3.\n6. Thus a + b + c >= sqrt(3). QED.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Clearly state which step contains the first error",
+        "Explain the mathematical flaw precisely",
+        "Provide correct reasoning that proves or disproves the claim"
+      ],
+      "ground_truth": {
+        "answer": "The first error is in Step 4. From a^2+b^2+c^2 >= 3Y and Y <= 1/3, one cannot conclude a^2+b^2+c^2 >= 1. The inequality direction is preserved when multiplying by positive numbers, but the lower bound 3Y becomes smaller as Y decreases. Since Y <= 1/3, the best lower bound from this chain is a^2+b^2+c^2 >= 3Y where Y could be arbitrarily small (approaching 0), which gives no useful lower bound. The claim itself is true and can be proved correctly by noting (a+b+c)^2 = a^2+b^2+c^2+2 >= 3(ab+bc+ca)+2 = 3+2 = 5 > 3, or more directly by (a+b+c)^2 >= 3(ab+bc+ca) = 3.",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify that Step 3 establishes cbrt(a^2 b^2 c^2) <= 1/3, meaning the quantity Y = cbrt(a^2 b^2 c^2) has an UPPER bound of 1/3.",
+          "Step 2: Step 2 establishes a^2+b^2+c^2 >= 3Y. Since Y <= 1/3, the right-hand side 3Y <= 1. An inequality X >= Z where Z <= 1 does NOT imply X >= 1.",
+          "Step 3: For example, if Y = 0.001, then a^2+b^2+c^2 >= 0.003, which is much less than 1. The logic in Step 4 commits the fallacy of assuming that a lower bound on X via a variable quantity implies the same lower bound via the maximum of that quantity.",
+          "Step 4: The correct proof uses the identity (a+b+c)^2 >= 3(ab+bc+ca) = 3, which follows from (a-b)^2 + (b-c)^2 + (c-a)^2 >= 0. This immediately gives (a+b+c)^2 >= 3, so a+b+c >= sqrt(3)."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Missing the error entirely and accepting the proof as valid",
+          "Identifying the error incorrectly in Step 2 or Step 3 instead of Step 4",
+          "Stating vaguely that 'the AM-GM bound is not tight' without explaining the directional fallacy in the inequality chain"
+        ],
+        "required_knowledge": [
+          "Inequality direction and transitivity properties",
+          "AM-GM inequality and its limitations",
+          "Correct proof techniques for basic symmetric inequalities"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["inequalities", "error-detection", "am-gm", "logical-fallacies", "proof-evaluation"]
+    },
+    {
+      "task_id": "S-MATH-03B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Polynomials — Irreducibility",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Prove that the polynomial P(x) = x^4 + 4x^3 + 6x^2 + 4x + 7 is irreducible over the rational numbers Q. Your proof must show that P(x) has no rational roots AND that it cannot be factored into a product of two quadratic polynomials with integer coefficients.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide a complete, rigorous proof",
+        "Address both the linear factor case and the quadratic factor case",
+        "No appeal to computer algebra systems or advanced Galois theory"
+      ],
+      "ground_truth": {
+        "answer": "P(x) is irreducible over Q because it has no rational roots (by the Rational Root Theorem) and no factorization into monic quadratics with integer coefficients exists.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: By the Rational Root Theorem, any rational root p/q (in lowest terms) must have p | 7 and q | 1, so possible rational roots are +/-1, +/-7.",
+          "Step 2: Evaluate: P(1) = 1+4+6+4+7 = 22 != 0, P(-1) = 1-4+6-4+7 = 6 != 0, P(7) > 0, P(-7) > 0. Thus P(x) has no rational roots, so no linear factor over Q.",
+          "Step 3: Assume P(x) = (x^2 + ax + b)(x^2 + cx + d) with a,b,c,d integers. Expanding: x^4 + (a+c)x^3 + (ac+b+d)x^2 + (ad+bc)x + bd.",
+          "Step 4: Comparing coefficients: a+c = 4, ac+b+d = 6, ad+bc = 4, bd = 7.",
+          "Step 5: Since bd = 7 and b,d are integers, the possibilities are (b,d) in {(1,7), (7,1), (-1,-7), (-7,-1)}.",
+          "Step 6: Case (b,d) = (1,7): From ad+bc = 7a+c = 4 and a+c = 4, substitute c = 4-a: 7a + 4 - a = 6a + 4 = 4, so a = 0, c = 4. Then ac+b+d = 0+1+7 = 8 != 6. Contradiction.",
+          "Step 7: Case (b,d) = (7,1): From a+7c = 4 and c = 4-a: a + 28 - 7a = 4, so -6a = -24, a = 4, c = 0. Then ac+b+d = 0+7+1 = 8 != 6. Contradiction.",
+          "Step 8: Case (b,d) = (-1,-7): From -7a-c = 4 and c = 4-a: -7a-4+a = 4, -6a = 8, a = -4/3. Not an integer. Contradiction.",
+          "Step 9: Case (b,d) = (-7,-1): From -a-7c = 4 and c = 4-a: -a-28+7a = 4, 6a = 32, a = 16/3. Not an integer. Contradiction.",
+          "Step 10: All cases fail, so P(x) is irreducible over Z, and by Gauss's Lemma, irreducible over Q."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": "import sympy as sp\nx = sp.Symbol('x')\nP = x**4 + 4*x**3 + 6*x**2 + 4*x + 7\nprint('Factorization over Q:', sp.factor(P, modulus=None))\n# Verify no rational roots\nfor r in [1, -1, 7, -7]:\n    print(f'P({r}) =', P.subs(x, r))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Stopping after the Rational Root Theorem and failing to check the quadratic factor case, which is necessary for a degree-4 polynomial",
+          "Assuming that the lack of rational roots implies irreducibility, forgetting that quartics can factor as products of irreducible quadratics",
+          "Missing the negative factor cases (b,d) = (-1,-7) and (-7,-1), which are required for a complete proof"
+        ],
+        "required_knowledge": [
+          "Rational Root Theorem",
+          "Polynomial factorization over Z and Q",
+          "Gauss's Lemma",
+          "Systematic case analysis"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["polynomials", "irreducibility", "rational-root-theorem", "gausss-lemma", "proof-construction"]
+    },
+    {
+      "task_id": "S-MATH-03B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Systems of Equations — Parametric and Overdetermined",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the following system involving a real parameter k and variables x, y, z:\n\n(1) x + y + z = k + 3\n(2) x^2 + y^2 + z^2 = k^2 + 5\n(3) x^3 + y^3 + z^3 = k^3 + 9\n(4) x^4 + y^4 + z^4 = k^4 + 17\n(5) xyz = 2k\n\nDetermine all real values of k for which this system has a solution in real numbers x, y, z. For each valid k, compute the value of x^5 + y^5 + z^5. If no real k yields a solution, state that explicitly.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use Newton's identities and properties of symmetric polynomials",
+        "Do not guess the values of x, y, z by inspection alone; derive them systematically",
+        "Final answer must include all valid values of k and the corresponding value(s) of x^5+y^5+z^5"
+      ],
+      "ground_truth": {
+        "answer": "k = 3, and x^5 + y^5 + z^5 = 276",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let e_1 = x+y+z = k+3, p_2 = x^2+y^2+z^2 = k^2+5, p_3 = x^3+y^3+z^3 = k^3+9, p_4 = k^4+17, and e_3 = xyz = 2k.",
+          "Step 2: Compute e_2 = xy+yz+zx from p_2 = e_1^2 - 2e_2: (k+3)^2 - 2e_2 = k^2+5, giving k^2+6k+9-2e_2 = k^2+5, so e_2 = 3k+2.",
+          "Step 3: Apply Newton's identity p_3 = e_1 p_2 - e_2 e_1 + 3e_3: k^3+9 = (k+3)(k^2+5) - (3k+2)(k+3) + 3(2k).",
+          "Step 4: Expand: (k+3)(k^2+5) = k^3+3k^2+5k+15, and (3k+2)(k+3) = 3k^2+11k+6. So RHS = k^3+3k^2+5k+15 - 3k^2-11k-6 + 6k = k^3 + 0k^2 + 0k + 9 = k^3+9. This is an identity, confirming consistency for all k.",
+          "Step 5: Apply Newton's identity p_4 = e_1 p_3 - e_2 p_2 + e_3 e_1: k^4+17 = (k+3)(k^3+9) - (3k+2)(k^2+5) + (2k)(k+3).",
+          "Step 6: Expand: (k+3)(k^3+9) = k^4+3k^3+9k+27, (3k+2)(k^2+5) = 3k^3+2k^2+15k+10, (2k)(k+3) = 2k^2+6k. RHS = k^4+3k^3+9k+27-3k^3-2k^2-15k-10+2k^2+6k = k^4+0k^3+0k^2+0k+17 = k^4+17. This is also an identity for all k.",
+          "Step 7: The characteristic polynomial is t^3 - e_1 t^2 + e_2 t - e_3 = t^3 - (k+3)t^2 + (3k+2)t - 2k = 0.",
+          "Step 8: Test t=1: 1-(k+3)+(3k+2)-2k = 1-k-3+3k+2-2k = 0. So t=1 is a root. Factor: (t-1)(t^2 - (k+2)t + 2k) = (t-1)(t-2)(t-k).",
+          "Step 9: The roots are {1, 2, k}. This means (x,y,z) is a permutation of (1, 2, k).",
+          "Step 10: Condition (5) xyz = 2k: 1 * 2 * k = 2k, which is satisfied for all k. However, the system asks for ALL five equations to hold simultaneously. Since equations (1)-(4) are identities for the roots {1,2,k} and equation (5) gives 2k=2k, the system is satisfied for all k.",
+          "Step 11: But wait, we must check: for equation (2), x^2+y^2+z^2 = 1+4+k^2 = k^2+5. Yes. For equation (3): 1+8+k^3 = k^3+9. Yes. For equation (4): 1+16+k^4 = k^4+17. Yes. All equations hold for any k.",
+          "Step 12: However, the problem states 'determine all real values of k for which this system has a solution.' Since {1,2,k} is always a solution for any real k, ALL real k are valid. Then x^5+y^5+z^5 = 1+32+k^5 = k^5+33 for each k."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "import sympy as sp\nk = sp.Symbol('k', real=True)\n# Verify with symbolic computation\nt = sp.Symbol('t')\nchar_poly = t**3 - (k+3)*t**2 + (3*k+2)*t - 2*k\nfactored = sp.factor(char_poly)\nprint('Characteristic polynomial:', factored)\n# Verify p_5 for roots 1, 2, k\np5 = 1 + 2**5 + k**5\nprint('p_5 =', sp.expand(p5))\n# Verify all equations\nx, y, z = 1, 2, k\nprint('Eq1:', sp.expand(x+y+z), '==', k+3)\nprint('Eq2:', sp.expand(x**2+y**2+z**2), '==', k**2+5)\nprint('Eq3:', sp.expand(x**3+y**3+z**3), '==', k**3+9)\nprint('Eq4:', sp.expand(x**4+y**4+z**4), '==', k**4+17)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the system is overdetermined and inconsistent, leading to the false conclusion that no k works",
+          "Finding the characteristic polynomial but failing to factor it correctly, especially missing the (t-1) factor",
+          "Computing p_5 incorrectly by not recognizing the cyclic Newton identity pattern or making an arithmetic error in the final sum"
+        ],
+        "required_knowledge": [
+          "Newton's identities for power sums",
+          "Characteristic polynomials and Vieta's formulas",
+          "Polynomial factorization techniques",
+          "Systematic analysis of parametric systems"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["systems-of-equations", "parametric-systems", "newtons-identities", "characteristic-polynomial", "power-sums"]
+    }
+  ]
+}

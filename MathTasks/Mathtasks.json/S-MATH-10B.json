@@ -1,0 +1,426 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-10B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Probability & Statistics — Distributions, Bayesian Reasoning, Stochastic Processes",
+    "generated_at": "2026-04-25T08:33:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-10B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Bayesian Reasoning — Base Rate Neglect with Asymmetric Evidence",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A particle detector at CERN classifies each collision event into exactly one of three exclusive channels: {gamma, pi0, eta}. The channels have long-run base rates P(gamma) = 0.50, P(pi0) = 0.35, and P(eta) = 0.15. When a gamma event occurs, the detector flashes green with probability 0.80, yellow with probability 0.15, and red with probability 0.05. When a pi0 event occurs, it flashes green with probability 0.10, yellow with probability 0.70, and red with probability 0.20. When an eta event occurs, it flashes green with probability 0.05, yellow with probability 0.25, and red with probability 0.70.\n\nA technician observes a single random collision and records that the detector flashed green. Given this observation, which channel is the event MOST likely to belong to? Compute the posterior probability (to four decimal places) for the most likely channel, and report the answer as: CHANNEL_NAME PROBABILITY.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step application of Bayes' theorem",
+        "Final answer must be formatted exactly as: CHANNEL_NAME PROBABILITY with probability to four decimal places"
+      ],
+      "ground_truth": {
+        "answer": "gamma 0.9040",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: By the law of total probability, compute P(Green) = P(G|gamma)P(gamma) + P(G|pi0)P(pi0) + P(G|eta)P(eta) = (0.80)(0.50) + (0.10)(0.35) + (0.05)(0.15) = 0.400 + 0.035 + 0.0075 = 0.4425.",
+          "Step 2: Apply Bayes' theorem for each channel: P(gamma|G) = P(G|gamma)P(gamma) / P(G) = 0.400 / 0.4425 = 0.9040 (approximately).",
+          "Step 3: P(pi0|G) = 0.035 / 0.4425 = 0.0791 (approximately).",
+          "Step 4: P(eta|G) = 0.0075 / 0.4425 = 0.0169 (approximately).",
+          "Step 5: Sum verification: 0.9040 + 0.0791 + 0.0169 = 1.0000. The most likely channel is gamma with posterior probability 0.9040, which rounds to 0.9040 (or equivalently, 160/177 ≈ 0.903955). To four decimal places: 0.9040."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "from fractions import Fraction\np_green = Fraction(8,10)*Fraction(5,10) + Fraction(1,10)*Fraction(35,100) + Fraction(5,100)*Fraction(15,100)\nposterior_gamma = Fraction(8,10)*Fraction(5,10) / p_green\nprint(float(posterior_gamma))  # 0.903954802259887"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Swapping likelihood and prior to compute P(G|gamma)P(gamma) / P(gamma) instead of P(G), effectively treating the observation as the cause rather than the evidence.",
+          "Base rate neglect: answering that the most likely channel is gamma solely because P(G|gamma)=0.80 is the largest likelihood, ignoring the prior distribution entirely.",
+          "Arithmetic error in summing the total probability (e.g., forgetting to multiply by base rates)."
+        ],
+        "required_knowledge": [
+          "Bayes' theorem",
+          "Law of total probability",
+          "Posterior probability computation with multiple hypotheses"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["bayesian-reasoning", "base-rate-neglect", "posterior-probability", "law-of-total-probability"]
+    },
+    {
+      "task_id": "S-MATH-10B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Linearity of Expectation — Error Detection in Epidemic Indicator Model",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "An epidemiologist models the spread of a pathogen across a fully connected network of 500 agents. At time t=0, exactly one randomly chosen agent is infected. At each subsequent integer time step, every currently infected agent independently infects each susceptible agent with probability p = 1/250. Once infected, an agent remains infected forever.\n\nLet T be the first time at which at least 250 agents are infected. The epidemiologist writes:\n\nClaim: E[T] <= 250.\n\nProof sketch: Define indicator I_j(t) = 1 if agent j is infected at time t, else 0. The total number infected at time t is N(t) = sum_j I_j(t). By linearity of expectation, E[N(t)] = sum_j E[I_j(t)]. At t=1, E[N(1)] = 1 + 499 * (1/250) = 2.996. At each step the expected number of newly infected agents is at least (current infected) * (susceptible) * p >= 1 * 499 * (1/250) > 1. So the expected total infected grows by more than 1 each step. Therefore by step 250, E[N(250)] > 250, which implies P(N(250) >= 250) > 0 and thus E[T] <= 250.\n\nThere is at least one significant logical flaw in this argument. Identify the flaw precisely and explain why the conclusion does not follow.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify the specific logical flaw, not just that the conclusion might be wrong",
+        "Explain why the argument fails using a concrete counterexample or precise probabilistic reasoning"
+      ],
+      "ground_truth": {
+        "answer": "The proof conflates E[N(t)] >= 250 with P(N(t) >= 250) > 0 and then incorrectly deduces E[T] <= 250. A nonnegative random variable can have expectation exceeding 250 while being less than 250 with probability 1 (e.g., N(250) = 0 with probability 0.5 and N(250) = 1000 with probability 0.5 gives E[N(250)] = 500 but P(N(250) >= 250) = 0.5, not 1). More fundamentally, even if P(N(250) >= 250) > 0, this does not bound E[T] because T could still have heavy tails. The correct relationship is E[T] >= sum_{t=0}^{infinity} P(T > t), and knowing only that at some fixed time the expected count exceeds the threshold is insufficient to bound the hitting time. The growth rate argument also fails because the infection process is supercritical but the early stages can still have significant stochastic delay.",
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The argument states 'E[N(250)] > 250, which implies P(N(250) >= 250) > 0.' While the implication is technically true (by Markov's inequality, if P(N < 250) = 1 then E[N] < 250), it is a vacuously weak statement and does not support the next claim.",
+          "Step 2: The argument then implicitly assumes that P(N(250) >= 250) > 0 means the event occurs with sufficiently high probability to bound E[T], but this is not established. E[T] depends on the full distribution of T, not just the probability of being above threshold at one fixed time.",
+          "Step 3: The core fallacy is the leap from 'expected value exceeds threshold at time 250' to 'expected hitting time is at most 250.' This is analogous to claiming that because E[X] > c, we have P(X > c) = 1, which is false. A counterexample: let X = 0 with probability 0.99 and X = 1000 with probability 0.01; then E[X] = 10 > 5 but P(X > 5) = 0.01, not 1.",
+          "Step 4: Furthermore, the argument assumes the expected number of new infections per step is always > 1, but this ignores the possibility that N(t) could be small for many steps, creating a bottleneck. The actual process is a pure birth process with E[N(t)] approximately logistic growth, and E[T] is actually much larger than 250 for this parameter regime.",
+          "Step 5: The correct analysis uses the fact that early in the epidemic, when only k agents are infected, the expected new infections at the next step is k(500-k)/250, which for k=1 is only 499/250 ≈ 2, but the variance is large and the process can die out or be delayed significantly."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Accepting the argument as valid because linearity of expectation is correctly applied to the indicator variables, missing that the inference from expected value to hitting time is invalid.",
+          "Claiming the error is in the infection probability computation rather than the logical structure of the proof.",
+          "Stating that 'expectation is not probability' without providing a concrete counterexample or explaining the specific invalid inference step."
+        ],
+        "required_knowledge": [
+          "Linearity of expectation",
+          "Difference between expected value and hitting time",
+          "Markov's inequality and its limitations",
+          "Stochastic domination and tail behavior"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "linearity-of-expectation", "hitting-time", "epidemic-model"]
+    },
+    {
+      "task_id": "S-MATH-10B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Indicator Variables and Variance — J-components in Random Permutations",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Let n = 17 and m = 5. Consider a uniformly random permutation of the multiset containing n identical A's and m identical B's (so there are C(n+m, n) equally likely arrangements). An index i (with 1 <= i <= n+m-2) is called a J-component if the substring at positions (i, i+1, i+2) is ABA. Let X be the total number of J-components in a random arrangement.\n\nCompute E[X] and Var(X). Report your answer as E[X] = [value], Var(X) = [value], with both values as exact reduced fractions.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use indicator variables to compute the expectation",
+        "Compute variance by carefully accounting for covariance between overlapping indicators",
+        "Final answer must give exact reduced fractions"
+      ],
+      "ground_truth": {
+        "answer": "E[X] = 680/231, Var(X) = 385288/144837",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: There are N = C(22, 5) = 26334 total arrangements. The number of possible starting positions for ABA patterns is n+m-2 = 20.",
+          "Step 2: Define indicator I_i = 1 if positions (i, i+1, i+2) form ABA. For any fixed position i, the pattern ABA uses 2 A's and 1 B. The remaining 15 A's and 4 B's can be arranged in the other 19 positions. So the number of arrangements with ABA at position i is C(19, 4) = 3876 (choose 4 of the remaining 19 positions for B). Total arrangements = C(22, 5) = 26334. Thus P(I_i = 1) = 3876 / 26334 = 34/231.",
+          "Step 3: By linearity of expectation, E[X] = 20 * (34/231) = 680/231.",
+          "Step 4: For variance, Var(X) = sum Var(I_i) + 2 sum_{i<j} Cov(I_i, I_j). Note that indicators at distance >= 3 are independent (disjoint sets of positions), so covariance is 0.",
+          "Step 5: For overlapping positions at distance 1: I_i and I_{i+1} require (i,i+1,i+2) = ABA and (i+1,i+2,i+3) = ABA. But pos(i+1) = B from the first pattern and pos(i+1) = A from the second pattern, which is a contradiction. Therefore P(I_i = 1, I_{i+1} = 1) = 0 for all i.",
+          "Step 6: For distance 2: I_i and I_{i+2} require (i,i+1,i+2) = ABA and (i+2,i+3,i+4) = ABA. Both agree that pos(i+2) = A. The combined pattern is (i,i+1,i+2,i+3,i+4) = A,B,A,B,A, using 3 A's and 2 B's. The remaining 14 A's and 3 B's fill the other 17 positions, giving C(17, 3) = 680 valid arrangements. So P(I_i=1, I_{i+2}=1) = 680/26334 = 340/13167.",
+          "Step 7: Var(I_i) = p(1-p) where p = 34/231. So Var(I_i) = (34/231)(197/231) = 6698/53361.",
+          "Step 8: Cov(I_i, I_{i+2}) = P(I_i=1, I_{i+2}=1) - p^2 = 340/13167 - (34/231)^2. Finding a common denominator: LCM(13167, 53361) = 1013859. Thus Cov = 26180/1013859 - 21964/1013859 = 4216/1013859.",
+          "Step 9: There are 18 pairs at distance 2 (i=1..18 with j=i+2). The total variance is: Var(X) = 20 * (6698/53361) + 2 * 18 * (4216/1013859) = 133960/53361 + 151776/1013859 = 2545240/1013859 + 151776/1013859 = 2697016/1013859 = 385288/144837 (after dividing numerator and denominator by GCD 7)."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "from math import comb\nfrom fractions import Fraction\n\nn, m = 17, 5\nN = comb(n+m, m)\np = Fraction(comb(n+m-3, m-1), N)  # P(I_i = 1)\nE = Fraction(n+m-2) * p\nprint(f'E = {E} = {float(E)}')\n\n# Distance 2\np2 = Fraction(comb(n+m-5, m-2), N)\ncov = p2 - p*p\nVar = Fraction(n+m-2) * p * (1-p) + 2 * Fraction(n+m-4) * cov\nprint(f'Var = {Var} = {float(Var)}')\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting that overlapping indicators at distance 1 have zero joint probability (the patterns are incompatible), leading to incorrect covariance terms.",
+          "Treating all indicators as independent and computing Var(X) = sum Var(I_i), ignoring positive covariances at distance 2.",
+          "Incorrectly counting the remaining arrangements after fixing a pattern by using C(n+m-3, m) instead of C(n+m-3, m-1)."
+        ],
+        "required_knowledge": [
+          "Linearity of expectation",
+          "Variance of sum of indicators",
+          "Covariance of overlapping indicators",
+          "Multinomial/combinatorial counting"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["indicator-variables", "variance", "random-permutation", "multiset"]
+    },
+    {
+      "task_id": "S-MATH-10B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Order Statistics — MGF of Minimum of Correlated Exponential Lifetimes",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A space probe carries 7 identical subsystems, each with an independent exponential lifetime with rate lambda = 0.3 (in years^-1). The probe fails when the 3rd subsystem fails (it has 2-redundancy). Let T be the time of probe failure, i.e., T is the 3rd order statistic of 7 i.i.d. exponential(lambda) random variables.\n\nThe mission controller needs to compute the moment generating function M_T(s) = E[e^{sT}] for s < lambda. However, direct differentiation of the CDF is messy. Instead, use the fact that order statistics of exponential samples have a representation as sums of independent exponentials with increasing rates.\n\nCompute M_T(s) explicitly as a rational function of s and lambda. Then evaluate M_T'(0) to find E[T]. Report E[T] as an exact reduced fraction of years.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use the known representation of exponential order statistics as sums of independent exponentials",
+        "Do NOT integrate the order-statistic density directly",
+        "Report E[T] as an exact reduced fraction"
+      ],
+      "ground_truth": {
+        "answer": "107/63",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For n i.i.d. exponential(lambda) variables, the k-th order statistic X_(k) has the same distribution as sum_{j=1}^{k} Y_j, where Y_j ~ exponential((n-j+1)*lambda) independently. This follows from the memoryless property and the fact that at the time of the (j-1)-th failure, n-(j-1) subsystems remain, each with rate lambda, so the waiting time for the j-th failure is exponential((n-j+1)*lambda).",
+          "Step 2: For n=7 and k=3: T = Y_1 + Y_2 + Y_3, where Y_1 ~ exp(7*lambda), Y_2 ~ exp(6*lambda), Y_3 ~ exp(5*lambda), all independent.",
+          "Step 3: The MGF of Y_j is M_{Y_j}(s) = (n-j+1)*lambda / ((n-j+1)*lambda - s) for s < (n-j+1)*lambda.",
+          "Step 4: By independence, M_T(s) = M_{Y_1}(s) * M_{Y_2}(s) * M_{Y_3}(s) = (7*lambda)/(7*lambda - s) * (6*lambda)/(6*lambda - s) * (5*lambda)/(5*lambda - s).",
+          "Step 5: E[T] = M_T'(0). Differentiating the product or using linearity: E[T] = E[Y_1] + E[Y_2] + E[Y_3] = 1/(7*lambda) + 1/(6*lambda) + 1/(5*lambda) = (1/7 + 1/6 + 1/5) / lambda.",
+          "Step 6: Compute 1/7 + 1/6 + 1/5 = (30 + 35 + 42) / 210 = 107/210. With lambda = 3/10: E[T] = (107/210) / (3/10) = (107/210) * (10/3) = 1070 / 630 = 107/63."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from fractions import Fraction\nlambda_val = Fraction(3, 10)\nE_T = (Fraction(1, 7) + Fraction(1, 6) + Fraction(1, 5)) / lambda_val\nprint(E_T)  # 107/63"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Attempting to compute the MGF by integrating the order-statistic PDF directly, leading to intractable Beta-function integrals and likely arithmetic errors.",
+          "Forgetting that the representation T = sum Y_j requires increasing rates (n-j+1)*lambda, not constant rate lambda, and incorrectly summing three exponential(lambda) variables.",
+          "Confusing the 3rd order statistic with the minimum of 3 exponentials rather than the 3rd smallest of 7."
+        ],
+        "required_knowledge": [
+          "Order statistics of exponential distributions",
+          "Memoryless property",
+          "MGF of exponential distribution",
+          "Representation of order statistics as sums of independent exponentials (Rényi's representation)"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["order-statistics", "mgf", "exponential-distribution", "renyi-representation"]
+    },
+    {
+      "task_id": "S-MATH-10B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Markov Chains — Periodic Chain with Absorbing-like Structure",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider a discrete-time Markov chain on states {0, 1, 2, 3, 4} with transition matrix P given by:\n\nP(0,1) = 1, P(1,0) = 0.4, P(1,2) = 0.6,\nP(2,1) = 0.4, P(2,3) = 0.6,\nP(3,2) = 0.4, P(3,4) = 0.6,\nP(4,3) = 1.\n\nAll other entries are 0.\n\nA student claims: 'Because the chain is irreducible on {0,1,2,3,4} and finite, it has a unique stationary distribution pi. By symmetry, pi_0 = pi_4 and pi_1 = pi_3. Solving pi*P = pi with these symmetries gives pi = (9/64, 15/64, 16/64, 15/64, 9/64). This is the long-run proportion of time spent in each state regardless of the starting distribution.'\n\nIs the student's stationary distribution correct? Does the limit of P^n as n -> infinity exist? If not, what is the Cesàro limit (limit of the time-averaged occupation frequencies)? Compute the exact Cesàro limit for each state when starting from state 2, reporting as a comma-separated list: pi_0, pi_1, pi_2, pi_3, pi_4.",
+      "prompt_format": "open_ended",
+      "constraints": [
+          "Analyze the periodicity of the chain before concluding anything about limits",
+          "Compute the Cesàro limit exactly, not just the stationary distribution",
+          "Report answer as exact reduced fractions in the specified format"
+      ],
+      "ground_truth": {
+        "answer": "4/65, 2/13, 3/13, 9/26, 27/130",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The chain is irreducible (all states communicate) and finite, so a unique stationary distribution exists.",
+          "Step 2: The balance equations are: pi_0 = 0.4*pi_1 (from col 0). pi_1 = pi_0 + 0.4*pi_2 (from col 1). pi_2 = 0.6*pi_1 + 0.4*pi_3 (from col 2). pi_3 = 0.6*pi_2 + pi_4 (from col 3). pi_4 = 0.6*pi_3 (from col 4). Plus normalization.",
+          "Step 3: From pi_0 = 0.4*pi_1, we get pi_1 = 2.5*pi_0. From pi_4 = 0.6*pi_3, we get pi_3 = (5/3)*pi_4. From pi_1 = pi_0 + 0.4*pi_2: 2.5*pi_0 = pi_0 + 0.4*pi_2, so pi_2 = 3.75*pi_0 = (15/4)*pi_0. But this leads to a contradiction if we also assume symmetry pi_0=pi_4. The chain is NOT symmetric under reflection i->4-i because P(1,0)=0.4 != P(3,4)=0.6.",
+          "Step 4: Solving the correct system: From pi_4 = 0.6*pi_3 and pi_3 = 0.6*pi_2 + pi_4, substituting gives (5/3)*pi_4 = 0.6*pi_2 + pi_4, so (2/3)*pi_4 = 0.6*pi_2, thus pi_2 = (10/9)*pi_4.",
+          "Step 5: From pi_2 = 0.6*pi_1 + 0.4*pi_3: (10/9)*pi_4 = 0.6*pi_1 + (2/3)*pi_4, so (4/9)*pi_4 = 0.6*pi_1, giving pi_1 = (20/27)*pi_4.",
+          "Step 6: From pi_1 = pi_0 + 0.4*pi_2: (20/27)*pi_4 = pi_0 + 0.4*(10/9)*pi_4 = pi_0 + (4/9)*pi_4, so pi_0 = (8/27)*pi_4.",
+          "Step 7: Verify with pi_0 = 0.4*pi_1: (8/27)*pi_4 = 0.4*(20/27)*pi_4 = (8/27)*pi_4. Consistent!",
+          "Step 8: Let pi_4 = 27. Then pi_0 = 8, pi_1 = 20, pi_2 = 30, pi_3 = 45. Sum = 8+20+30+45+27 = 130. So pi = (8/130, 20/130, 30/130, 45/130, 27/130) = (4/65, 2/13, 3/13, 9/26, 27/130).",
+          "Step 9: The chain has period 2. Starting from state 2 (even position), at even times the chain is in even states {0,2,4} and at odd times in odd states {1,3}. Therefore P^n does not converge.",
+          "Step 10: The Cesàro limit is the time average, which equals the stationary distribution for any irreducible finite chain. So the Cesàro limit starting from any state is pi = (4/65, 2/13, 3/13, 9/26, 27/130)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from fractions import Fraction\n# Stationary distribution verified manually:\n# pi_0 = 8/130 = 4/65, pi_1 = 20/130 = 2/13, pi_2 = 30/130 = 3/13, pi_3 = 45/130 = 9/26, pi_4 = 27/130\npi = [Fraction(4,65), Fraction(2,13), Fraction(3,13), Fraction(9,26), Fraction(27,130)]\nprint([float(p) for p in pi], sum(pi))\n# Check: transitions from even states go to odd and vice versa, so period = 2"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming that because a unique stationary distribution exists, P^n converges to it, without checking periodicity. The chain has period 2, so P^n oscillates.",
+          "Assuming symmetry pi_0=pi_4 and pi_1=pi_3 without verifying that the transition matrix is actually symmetric under reflection (it is not: P(1,0)=0.4 but P(3,4)=0.6).",
+          "Computing only the stationary distribution and not answering the Cesàro limit question, or incorrectly stating that the Cesàro limit differs from the stationary distribution."
+        ],
+        "required_knowledge": [
+          "Markov chain stationary distributions",
+          "Periodicity of Markov chains",
+          "Cesàro limits for periodic chains",
+          "Irreducibility and aperiodicity conditions for convergence"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["markov-chains", "periodicity", "stationary-distribution", "cesaro-limit"]
+    },
+    {
+      "task_id": "S-MATH-10B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Markov Chains — Proof of Non-Existence of Uniform Stationary Distribution",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Prove that there exists NO finite-state irreducible Markov chain with at least 3 states for which the uniform distribution is stationary AND the chain is aperiodic, but the detailed balance equations are NOT satisfied for at least one pair of states. In other words: construct a proof by contradiction that any finite irreducible aperiodic Markov chain with uniform stationary distribution must satisfy detailed balance (i.e., must be reversible).\n\nOr, if you believe such a chain exists, provide an explicit 3x3 transition matrix that is irreducible, aperiodic, has uniform stationary distribution, and violates detailed balance for at least one pair.",
+      "prompt_format": "proof",
+      "constraints": [
+        "If proving non-existence: use a clear proof by contradiction with explicit logical steps",
+        "If constructing a counterexample: provide the explicit transition matrix and verify all properties",
+        "Any probabilistic claims must be rigorously justified"
+      ],
+      "ground_truth": {
+        "answer": "Such a chain DOES exist. Counterexample: P = [[1/2, 1/2, 0], [0, 1/2, 1/2], [1/2, 0, 1/2]]. This matrix is doubly stochastic (all row and column sums equal 1), hence the uniform distribution (1/3, 1/3, 1/3) is stationary. It is irreducible because all states communicate (1->2->3->1). It is aperiodic because P(1,1) = 1/2 > 0, so state 1 has period 1, and since the chain is irreducible, all states have period 1. However, detailed balance is violated: P(1,2) = 1/2 but P(2,1) = 0, so pi_1*P(1,2) = 1/6 != 0 = pi_2*P(2,1). Therefore the original claim is false.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: A uniform stationary distribution pi = (1/n, ..., 1/n) requires that for all j: (1/n) = sum_i (1/n) P(i,j), which implies sum_i P(i,j) = 1. So P must be doubly stochastic (all row sums and column sums equal 1).",
+          "Step 2: Detailed balance with uniform pi requires P(i,j) = P(j,i) for all i,j, i.e., P must be symmetric.",
+          "Step 3: The question asks whether every doubly stochastic irreducible aperiodic matrix must be symmetric. This is false.",
+          "Step 4: Counterexample for n=3: P = [[1/2, 1/2, 0], [0, 1/2, 1/2], [1/2, 0, 1/2]]. Verify: Row sums: 1/2+1/2+0=1, 0+1/2+1/2=1, 1/2+0+1/2=1. Column sums: 1/2+0+1/2=1, 1/2+1/2+0=1, 0+1/2+1/2=1. So doubly stochastic, hence uniform is stationary.",
+          "Step 5: Irreducibility: State 1 -> 2 (prob 1/2), 2 -> 3 (prob 1/2), 3 -> 1 (prob 1/2). All states communicate, so irreducible.",
+          "Step 6: Aperiodicity: P(1,1) = 1/2 > 0, so state 1 has period 1. Since the chain is irreducible, all states have period 1, so the chain is aperiodic.",
+          "Step 7: Detailed balance violation: P(1,2) = 1/2 but P(2,1) = 0. Since 1/2 != 0, detailed balance fails for the pair (1,2).",
+          "Step 8: Therefore the original claim is false, and the explicit counterexample above is the correct answer."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": "# Verification without numpy\nP = [[0.5, 0.5, 0], [0, 0.5, 0.5], [0.5, 0, 0.5]]\n# Row sums\nprint('Row sums:', [sum(row) for row in P])\n# Col sums\nprint('Col sums:', [sum(P[i][j] for i in range(3)) for j in range(3)])\n# Check irreducibility: P+P^2 has all positive entries\nP2 = [[sum(P[i][k]*P[k][j] for k in range(3)) for j in range(3)] for i in range(3)]\nS = [[P[i][j] + P2[i][j] for j in range(3)] for i in range(3)]\nprint('P+P^2 all positive:', all(S[i][j] > 0 for i in range(3) for j in range(3)))\nprint('P(1,2)=', P[0][1], 'P(2,1)=', P[1][0])\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Attempting to prove the statement without checking whether it's actually true, leading to incorrect or circular arguments.",
+          "Assuming that uniform stationary distribution implies symmetry of P, confusing 'detailed balance is sufficient for stationarity' with 'detailed balance is necessary for uniform stationarity'.",
+          "Providing a counterexample that fails irreducibility or aperiodicity (e.g., a cyclic permutation matrix which is periodic)."
+        ],
+        "required_knowledge": [
+          "Detailed balance and reversibility",
+          "Doubly stochastic matrices",
+          "Irreducibility and aperiodicity",
+          "Counterexample construction in Markov chain theory"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["markov-chains", "detailed-balance", "doubly-stochastic", "proof-by-counterexample"]
+    },
+    {
+      "task_id": "S-MATH-10B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Bayesian Reasoning — Screening Test with Non-Intuitive Posterior",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A pharmaceutical company tests a new biomarker M for a rare disease D. In the general population, P(D) = 0.008. The test has:\n- Sensitivity: P(M+|D) = 0.97\n- Specificity: P(M-|not D) = 0.94\n\nA patient tests positive (M+). The physician computes the posterior P(D|M+) and concludes the patient should start an expensive treatment.\n\nHowever, unbeknownst to the physician, the patient belongs to a high-risk subgroup H where P(D|H) = 0.12 and the test characteristics are different in this subgroup:\n- P(M+|D,H) = 0.85 (lower sensitivity in H)\n- P(M+|not D,H) = 0.20 (higher false positive rate in H)\n\nThe patient was selected uniformly at random from the entire population (so P(H) = 0.03).\n\nWhat is the CORRECT posterior probability that the patient has the disease given the positive test result, accounting for the possibility that the patient might be in subgroup H? Choose one:\n\nA) 0.11560\nB) 0.10388\nC) 0.80952\nD) 0.05680\n\nReport your answer as the letter only.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Apply the law of total probability over the subgroup membership",
+        "Do NOT assume the general population test characteristics apply if the patient is in H",
+        "Select the correct option and briefly justify"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: We need P(D|M+) = P(D,M+)/P(M+). By the law of total probability over H: P(D,M+) = P(D,M+|H)P(H) + P(D,M+|not H)P(not H).",
+          "Step 2: P(D,M+|H) = P(M+|D,H)P(D|H)P(H) = 0.85 * 0.12 * 0.03 = 0.00306. P(D,M+|not H) = P(M+|D,not H)P(D,not H) = 0.97 * (0.008 - 0.0036) = 0.97 * 0.0044 = 0.004268. So P(D,M+) = 0.00306 + 0.004268 = 0.007328.",
+          "Step 3: For P(M+): P(M+,H) = P(M+|D,H)P(D,H) + P(M+|not D,H)P(not D,H) = 0.85*0.0036 + 0.20*(0.03-0.0036) = 0.00306 + 0.00528 = 0.00834.",
+          "Step 4: P(M+,not H) = P(M+|D,not H)P(D,not H) + P(M+|not D,not H)P(not D,not H) = 0.97*0.0044 + 0.06*(0.97-0.0044) = 0.004268 + 0.057936 = 0.062204.",
+          "Step 5: P(M+) = 0.00834 + 0.062204 = 0.070544.",
+          "Step 6: P(D|M+) = 0.007328 / 0.070544 = 0.10388... ≈ 0.10388. To 5 decimal places: 0.10388.",
+          "Step 7: Option A (0.11560) is the naive answer ignoring H entirely. Option C (0.80952) is the posterior within H only. Option D (0.05680) is a distractor from misapplying test characteristics."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "p_d = 0.008\np_h = 0.03\np_d_given_h = 0.12\nsens_general = 0.97\nspec_general = 0.94\nsens_h = 0.85\nfpr_h = 0.20\n\np_d_and_h = p_d_given_h * p_h\np_d_and_not_h = p_d - p_d_and_h\np_not_d_and_h = p_h - p_d_and_h\np_not_d_and_not_h = (1 - p_h) - p_d_and_not_h\n\np_d_and_m = sens_h * p_d_and_h + sens_general * p_d_and_not_h\np_m = (sens_h * p_d_and_h + fpr_h * p_not_d_and_h) + (sens_general * p_d_and_not_h + (1-spec_general) * p_not_d_and_not_h)\nposterior = p_d_and_m / p_m\nprint(f'P(D|M+) = {posterior:.5f}')\n\n# Distractor calculations\na = (sens_general * p_d) / (sens_general * p_d + (1-spec_general) * (1-p_d))\nc = (sens_h * p_d_given_h) / (sens_h * p_d_given_h + fpr_h * (1-p_d_given_h))\nprint(f'A = {a:.5f}')\nprint(f'C = {c:.5f}')\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying the general population test characteristics and prior, completely ignoring the subgroup H (base rate neglect within subgroups).",
+          "Conditioning on H without accounting for the fact that the patient was selected from the general population, not from H.",
+          "Confusing P(M+|D,H) with P(D|M+,H) or with P(H|D,M+)."
+        ],
+        "required_knowledge": [
+          "Bayes' theorem with multiple conditioning variables",
+          "Law of total probability over subgroups",
+          "Joint probability decomposition",
+          "Proper handling of conditional probabilities in stratified populations"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "irrelevant_info"
+      },
+      "tags": ["bayesian-reasoning", "base-rate-neglect", "stratified-testing", "conditional-probability"]
+    },
+    {
+      "task_id": "S-MATH-10B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Random Walks — Evaluating Competing Claims about Correlated Steps",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider a 2D random walk starting at the origin (0,0). At each step n >= 1, the walker moves by a vector V_n = (X_n, Y_n) where:\n- X_n and Y_n are identically distributed but NOT independent.\n- P(X_n = 1) = P(X_n = -1) = 1/4, P(X_n = 0) = 1/2.\n- P(Y_n = 1) = P(Y_n = -1) = 1/4, P(Y_n = 0) = 1/2.\n- The joint distribution is: P(X_n = x, Y_n = y) = 1/8 if |x| + |y| = 1 (i.e., exactly one of x,y is ±1 and the other is 0), and P(X_n = 0, Y_n = 0) = 1/2. All other combinations have probability 0.\n\nThus the walker moves exactly one unit in one of the four cardinal directions with probability 1/8 each, or stays put with probability 1/2.\n\nLet S_N = (sum_{n=1}^N X_n, sum_{n=1}^N Y_n) be the position after N steps. Define R_N^2 = (sum X_n)^2 + (sum Y_n)^2 as the squared distance from the origin.\n\nFour students compute the limit L = lim_{N→∞} E[R_N^2] / N and offer the following answers with justifications:\n\nA) L = 1/2. Justification: By marginalization, E[X_n^2] = E[Y_n^2] = 1/4, and cross-step covariances vanish, giving E[R_N^2] = N/2.\n\nB) L = 1. Justification: The problem states P(X_n=0)=1/2, so E[X_n^2] = 1*(1/4) + 0*(1/2) = 1/2. Same for Y_n^2. Since steps are independent, Var(sum X_n) = N/2 and Var(sum Y_n) = N/2, so total is N.\n\nC) L = 1/4. Justification: Because X_n and Y_n are dependent within each step, we should only count one dimension's contribution to avoid double-counting, so E[R_N^2] ≈ N*E[X_n^2] = N/4.\n\nD) L = 3/4. Justification: The stay-put probability of 1/2 adds extra variance not captured by the moving steps. Correcting for this gives 1/2 + 1/4 = 3/4.\n\nWhich student is correct? Report your answer as a single letter (A, B, C, or D) and briefly explain why the other three arguments are flawed.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Report your answer as a single letter (A, B, C, or D)",
+        "Briefly explain the flaw in each incorrect argument",
+        "Your explanation must correctly compute E[X_n^2] from the joint distribution"
+      ],
+      "ground_truth": {
+        "answer": "A",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Student A is correct. From the joint distribution: P(X=1) = P(X=1,Y=0) = 1/8, P(X=-1) = 1/8, P(X=0) = P(X=0,Y=1) + P(X=0,Y=-1) + P(X=0,Y=0) = 1/8 + 1/8 + 1/2 = 3/4. So E[X^2] = 1*(1/8) + 1*(1/8) + 0*(3/4) = 1/4. Similarly E[Y^2] = 1/4.",
+          "Step 2: Since different steps are independent and E[X_n] = E[Y_n] = 0, all cross-step covariances vanish. Thus E[(sum X_n)^2] = N*E[X_1^2] = N/4 and E[(sum Y_n)^2] = N/4.",
+          "Step 3: E[R_N^2] = N/4 + N/4 = N/2, so L = 1/2.",
+          "Step 4: Student B is incorrect because they assumed P(X_n=0)=1/2 from the problem statement, but the marginal P(X_n=0) = 3/4 since X_n=0 also occurs when Y_n=±1. This leads to E[X_n^2] = 1/4, not 1/2.",
+          "Step 5: Student C is incorrect because R_N^2 = (sum X_n)^2 + (sum Y_n)^2 does NOT double-count within-step dependence; it sums the squared displacements in each dimension separately. The dependence between X_n and Y_n within a step does not reduce the contribution to R_N^2.",
+          "Step 6: Student D is incorrect because the stay-put probability is already accounted for in E[X_n^2] and E[Y_n^2]. When the walker stays put (prob 1/2), both X_n=0 and Y_n=0, contributing 0 to R_N^2. There is no 'extra variance' to add."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from fractions import Fraction\n# Verify E[X^2] from joint\n# P(X=1) = 1/8, P(X=-1) = 1/8, P(X=0) = 3/4\nE_X2 = Fraction(1,8) + Fraction(1,8)\nprint(f'E[X^2] = {E_X2} = {float(E_X2)}')\n# Limit\nlimit = E_X2 + E_X2\nprint(f'Limit = {limit} = {float(limit)}')\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Selecting B because the problem statement explicitly says P(X_n=0)=1/2, without realizing this is a statement about the marginal distribution that must be derived from the joint.",
+          "Selecting C because of confusion about dependence, thinking dependent variables within a step should not both contribute to the squared distance.",
+          "Selecting D by inventing an ad-hoc correction for the stay-put probability without proper probabilistic justification."
+        ],
+        "required_knowledge": [
+          "Marginal distributions from joint distributions",
+          "Variance of sum of independent random variables",
+          "2D random walks",
+          "Evaluating competing statistical arguments"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["random-walk", "evaluate-claims", "correlated-steps", "marginal-distribution"]
+    }
+  ]
+}

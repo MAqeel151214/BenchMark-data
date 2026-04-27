@@ -1,0 +1,338 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-01A",
+    "generator_model": "GPT-5.3-Codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Number Theory - Primes, Modular Arithmetic, Divisibility",
+    "generated_at": "2026-04-27T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-01A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Linear Congruences and CRT",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 3,
+      "prompt": "Find the least nonnegative integer x satisfying both congruences:\n11x ≡ 7 (mod 26),\nx ≡ 4 (mod 9).",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use modular inverse reasoning explicitly",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "211",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Solve 11x ≡ 7 (mod 26). Since 11*19=209 ≡ 1 (mod 26), multiply both sides by 19 to get x ≡ 7*19 ≡ 133 ≡ 3 (mod 26).",
+          "Step 2: Combine x ≡ 3 (mod 26) and x ≡ 4 (mod 9). Write x=3+26k, so 3+26k ≡ 4 (mod 9).",
+          "Step 3: Reduce 26 ≡ 8 (mod 9): 3+8k ≡ 4 gives 8k ≡ 1 (mod 9), equivalent to -k ≡ 1 (mod 9), so k ≡ 8 (mod 9).",
+          "Step 4: Put k=8+9t, giving x=3+26(8+9t)=211+234t. Least nonnegative solution is 211."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "x=211\nprint((11*x-7)%26,(x-4)%9)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the wrong inverse of 11 modulo 26",
+          "Reducing 26 modulo 9 incorrectly",
+          "Stopping at x ≡ 3 (mod 26) and forgetting the second congruence"
+        ],
+        "required_knowledge": [
+          "Modular inverses",
+          "Chinese Remainder style substitution"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 6
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["modular-inverse", "congruence-system", "crt"]
+    },
+    {
+      "task_id": "S-MATH-01A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Non-Coprime CRT Compatibility",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Find all integers x in the interval 0 <= x <= 500 such that\nx ≡ 11 (mod 18),\nx ≡ 5 (mod 14).",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "You must check compatibility before combining congruences",
+        "Final answer must list all integers in increasing order"
+      ],
+      "ground_truth": {
+        "answer": "[47, 173, 299, 425]",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Because gcd(18,14)=2, check consistency: 11-5=6 is divisible by 2, so solutions exist.",
+          "Step 2: Set x=11+18k. Substitute into second congruence: 11+18k ≡ 5 (mod 14) gives 4k ≡ 8 (mod 14).",
+          "Step 3: Divide by gcd(4,14)=2 to get 2k ≡ 4 (mod 7). Multiply by inverse of 2 mod 7 (which is 4): k ≡ 2 (mod 7).",
+          "Step 4: k=2+7t, so x=11+18(2+7t)=47+126t.",
+          "Step 5: Enforce 0 <= x <= 500: t=0,1,2,3 giving x=47,173,299,425."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "sol=[x for x in range(501) if x%18==11 and x%14==5]\nprint(sol)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Applying coprime CRT directly without checking gcd condition",
+          "Dividing 4k ≡ 8 (mod 14) incorrectly",
+          "Forgetting to restrict to the given interval"
+        ],
+        "required_knowledge": [
+          "CRT compatibility for non-coprime moduli",
+          "Linear congruence solving"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["non-coprime-crt", "linear-congruence", "enumeration"]
+    },
+    {
+      "task_id": "S-MATH-01A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Modular Exponentiation over Composite Modulus",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Compute 23^58 mod 77.\n\nOptions:\nA. 1\nB. 23\nC. 67\nD. 45",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Choose exactly one option",
+        "Justify using valid modular arithmetic (not prime-modulus shortcuts)"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Work modulo prime factors 7 and 11. Mod 7: 23 ≡ 2, so 23^58 ≡ 2^58.",
+          "Step 2: Since 2^3=8 ≡ 1 (mod 7), 2^58 ≡ 2^(57)*2 ≡ 1*2 ≡ 2 (mod 7).",
+          "Step 3: Mod 11: 23 ≡ 1, so 23^58 ≡ 1 (mod 11).",
+          "Step 4: Find number congruent to 2 mod 7 and 1 mod 11; among options only 23 satisfies both.",
+          "Step 5: Distractors: A assumes full FLT-style collapse to 1 mod 77; C is 23^2 mod 77 but not final; D satisfies neither congruence pair."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "print(pow(23,58,77))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating 77 as prime and applying Fermat directly",
+          "Stopping after one modulus without CRT recombination",
+          "Confusing intermediate residue 67 with final answer"
+        ],
+        "required_knowledge": [
+          "Modular exponent cycles",
+          "CRT recombination"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["modular-exponentiation", "composite-modulus", "multiple-choice"]
+    },
+    {
+      "task_id": "S-MATH-01A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Debugging a Flawed Congruence Proof",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "A student solves 6x ≡ 9 (mod 15) as follows:\n1) Divide both sides by 3: 2x ≡ 3 (mod 5).\n2) Inverse of 2 mod 5 is 3, so x ≡ 9 ≡ 4 (mod 5).\n3) Therefore x ≡ 4 (mod 15) is the unique solution.\n\nFind the first incorrect step, explain why it is wrong, and give the complete solution set modulo 15.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "State the first incorrect step number",
+        "Provide all solutions modulo 15"
+      ],
+      "ground_truth": {
+        "answer": "NO, Step 3",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Step 1 and Step 2 are valid transformations; Step 3 is the first incorrect step.",
+          "Step 2: From x ≡ 4 (mod 5), there are multiple residues modulo 15, not a unique one, because modulus changed from 15 to 5 in the reduced congruence.",
+          "Step 3: Lift x ≡ 4 (mod 5) to modulo 15: x in {4,9,14}. Check: 6*4=24 ≡ 9, 6*9=54 ≡ 9, 6*14=84 ≡ 9 (mod 15)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "sol=[x for x in range(15) if (6*x-9)%15==0]\nprint(sol)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming reduced congruence class modulo 5 is unique modulo 15",
+          "Forgetting to lift solutions back to original modulus",
+          "Incorrectly flagging Step 1 as invalid though division by gcd is valid here"
+        ],
+        "required_knowledge": [
+          "Congruence reduction by gcd",
+          "Solution lifting across moduli"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "congruence-solving", "modulus-lifting"]
+    },
+    {
+      "task_id": "S-MATH-01A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Polynomial Congruences over Composite Modulus",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Find all residues x modulo 143 such that x^6 ≡ 1 (mod 143). Give the complete sorted list.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use factorization of 143 and recombine by CRT",
+        "Final answer must be a complete finite list"
+      ],
+      "ground_truth": {
+        "answer": "[1, 10, 12, 23, 43, 56, 87, 100, 120, 131, 133, 142]",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Factor 143=11*13. If x^6 ≡ 1 (mod 143), then x is coprime to 143, so solve in unit groups modulo 11 and 13.",
+          "Step 2: Mod 11, multiplicative group has order 10, so number of solutions to x^6=1 is gcd(6,10)=2, namely x ≡ ±1 (mod 11).",
+          "Step 3: Mod 13, group order is 12, so number of solutions is gcd(6,12)=6; explicitly {1,3,4,9,10,12} mod 13.",
+          "Step 4: By CRT, combine 2*6=12 pairs (mod 11, mod 13), producing exactly 12 residues modulo 143.",
+          "Step 5: Recombining yields sorted list [1, 10, 12, 23, 43, 56, 87, 100, 120, 131, 133, 142]."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "sol=[x for x in range(143) if pow(x,6,143)==1]\nprint(sol)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Including non-units as possible solutions to x^6 ≡ 1",
+          "Using phi(143)=120 directly to claim 120 solutions",
+          "Failing to enumerate all CRT combinations"
+        ],
+        "required_knowledge": [
+          "Structure of multiplicative groups modulo primes",
+          "Counting roots of x^k=1 in cyclic groups",
+          "CRT reconstruction"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 28
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["polynomial-congruence", "crt", "unit-group"]
+    },
+    {
+      "task_id": "S-MATH-01A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Primality Testing Pitfall (Base-2 Pseudoprimes)",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A tester declares n prime whenever 2^(n-1) ≡ 1 (mod n).\nWhich composite number below is a counterexample that passes this test anyway?\n\nA. 299\nB. 341\nC. 247\nD. 323",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "Justify why the other three fail the congruence"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: 341=11*31 is a known base-2 pseudoprime: 2^340 ≡ 1 (mod 341), so it fools this test.",
+          "Step 2: Check A=299=13*23: modulo 13, 2^298 ≡ 2^10 ≡ 10 != 1, so A fails.",
+          "Step 3: Check C=247=13*19: modulo 13, 2^246 ≡ 2^6 ≡ 12 != 1, so C fails.",
+          "Step 4: Check D=323=17*19: modulo 17, 2^322 ≡ 2^2 ≡ 4 != 1, so D fails."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "cands=[299,341,247,323]\nfor n in cands:\n    print(n,pow(2,n-1,n))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming Fermat congruence is an if-and-only-if primality test",
+          "Not checking that modulus is composite before using FLT conclusions",
+          "Choosing 299 because it is close to 300 without modular verification"
+        ],
+        "required_knowledge": [
+          "Fermat primality test limitations",
+          "Pseudoprimes to base 2"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["primality-test", "pseudoprime", "multiple-choice"]
+    },
+    {
+      "task_id": "S-MATH-01A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Divisibility via Prime Moduli and CRT",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Prove: For every prime p with p not dividing 143, the integer p^60 - 1 is divisible by 143.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Your proof must explicitly use modular reasoning modulo 11 and modulo 13",
+        "Conclude divisibility by 143 via a valid recombination argument"
+      ],
+      "ground_truth": {
+        "answer": "For all primes p with gcd(p,143)=1, we have 143 | (p^60 - 1).",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Since p is prime and p does not divide 11, by Fermat's theorem p^10 ≡ 1 (mod 11). Therefore p^60=(p^10)^6 ≡ 1 (mod 11).",
+          "Step 2: Similarly p does not divide 13, so p^12 ≡ 1 (mod 13). Hence p^60=(p^12)^5 ≡ 1 (mod 13).",
+          "Step 3: Thus 11 divides p^60-1 and 13 divides p^60-1.",
+          "Step 4: Because gcd(11,13)=1, it follows that 11*13=143 divides p^60-1."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": "import sympy as sp\npr=[q for q in sp.primerange(2,500) if q not in (11,13)]\nprint(all((pow(q,60,143)-1)%143==0 for q in pr))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using only modulo 11 and forgetting modulo 13",
+          "Applying Fermat with wrong exponents (mixing 10 and 12)",
+          "Concluding divisibility by 143 without citing coprimality of 11 and 13"
+        ],
+        "required_knowledge": [
+          "Fermat's little theorem",
+          "Coprime divisibility combination (CRT consequence)"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 22
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["proof", "divisibility", "fermat-little-theorem"]
+    }
+  ]
+}

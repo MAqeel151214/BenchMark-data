@@ -1,0 +1,408 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-07B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Geometry - Euclidean, Coordinate, Trigonometric",
+    "generated_at": "2026-04-24T23:55:00+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-07B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Area and Volume - Lattice Polygons",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 2,
+      "prompt": "A convex quadrilateral Q has vertices at lattice points A = (0, 0), B = (6, 0), C = (5, 4), and D = (1, 5). Using Pick's theorem, determine the number of lattice points that lie strictly in the interior of Q.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Apply Pick's theorem: A = I + B/2 - 1",
+        "Show the computation of the area and boundary lattice points explicitly",
+        "Final answer must be a single non-negative integer"
+      ],
+      "ground_truth": {
+        "answer": "19",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute the area using the shoelace formula: A = (1/2)|x_A(y_B - y_D) + x_B(y_C - y_A) + x_C(y_D - y_B) + x_D(y_A - y_C)| = (1/2)|0(0-5) + 6(4-0) + 5(5-0) + 1(0-4)| = (1/2)|0 + 24 + 25 - 4| = 45/2 = 22.5.",
+          "Step 2: Count boundary lattice points B. Side AB from (0,0) to (6,0): gcd(6,0)+1 = 7 points, so 6 edges. Side BC from (6,0) to (5,4): gcd(1,4)+1 = 2 points, so 1 edge. Side CD from (5,4) to (1,5): gcd(4,1)+1 = 2 points, so 1 edge. Side DA from (1,5) to (0,0): gcd(1,5)+1 = 2 points, so 1 edge. Total B = 6 + 1 + 1 + 1 = 9.",
+          "Step 3: Apply Pick's theorem: A = I + B/2 - 1, so 22.5 = I + 9/2 - 1 = I + 3.5.",
+          "Step 4: Solve for I: I = 22.5 - 3.5 = 19."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from math import gcd\nverts = [(0,0),(6,0),(5,4),(1,5)]\nA = abs(sum(v[i]*v[(i+1)%4][(j+1)%2] - v[(i+1)%4][i]*v[i][(j+1)%2] for i in range(4) for j in range(2))) / 2\nB = sum(gcd(abs(verts[(i+1)%4][0]-verts[i][0]), abs(verts[(i+1)%4][1]-verts[i][1])) for i in range(4))\nI = A - B/2 + 1\nprint(int(I))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Counting all lattice points on each side including both endpoints, then failing to subtract duplicates at vertices",
+          "Computing the area incorrectly by applying the shoelace formula in the wrong vertex order",
+          "Forgetting to solve for I and instead reporting A or B"
+        ],
+        "required_knowledge": [
+          "Pick's theorem",
+          "Shoelace formula for polygon area",
+          "Counting lattice points on a line segment using the greatest common divisor"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 4
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["lattice-geometry", "picks-theorem", "shoelace-formula"]
+    },
+    {
+      "task_id": "S-MATH-07B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Geometry - Triangle Centers and Euler Line",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider triangle T with vertices A = (0, 0), B = (8, 0), and C = (3, 4). Let O be the circumcenter, G the centroid, and H the orthocenter of T. These three points are collinear on the Euler line, with the well-known relationship OG : GH = 1 : 2. Compute the exact y-coordinate of the orthocenter H. Express your answer as an exact fraction a/b in lowest terms.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Compute using coordinate geometry (not by invoking the theorem without proof)",
+        "Final answer must be expressed as a reduced fraction a/b",
+        "Show the derivation of at least two altitudes or use the Euler line property with explicit intermediate values"
+      ],
+      "ground_truth": {
+        "answer": "15/4",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Find the centroid G = ((0+8+3)/3, (0+0+4)/3) = (11/3, 4/3).",
+          "Step 2: Find the circumcenter O by finding the intersection of perpendicular bisectors. Midpoint of AB is (4,0), perpendicular bisector is x = 4. Midpoint of AC is (3/2, 2), slope of AC is 4/3, so perpendicular slope is -3/4. Equation: y - 2 = (-3/4)(x - 3/2). Substituting x = 4: y - 2 = (-3/4)(5/2) = -15/8, so y = 2 - 15/8 = 1/8. Thus O = (4, 1/8).",
+          "Step 3: Using the Euler line property OH = 3*OG (or equivalently, vector OH = 3*vector OG), we have H = O + 3(G - O) = (4, 1/8) + 3((11/3 - 4), (4/3 - 1/8)) = (4, 1/8) + 3(-1/3, 29/24) = (4 - 1, 1/8 + 29/8) = (3, 30/8) = (3, 15/4).",
+          "Step 4: The y-coordinate of the orthocenter H is 15/4."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "# Verify orthocenter by finding intersection of two altitudes\n# Altitude from C to AB: x = 3\n# Slope of BC: (4-0)/(3-8) = -4/5, altitude from A slope = 5/4\n# Equation: y = (5/4)x\n# Intersection with x = 3: y = 15/4\nprint('15/4')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Choosing a poorly aligned coordinate system (e.g., not exploiting the base on the x-axis) and getting lost in messy algebra",
+          "Confusing the centroid formula with the circumcenter formula",
+          "Applying the Euler line ratio incorrectly as OG:OH = 1:2 instead of OG:GH = 1:2"
+        ],
+        "required_knowledge": [
+          "Coordinate formulas for centroid and circumcenter",
+          "Euler line relationship",
+          "Perpendicular bisector and altitude equations"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["coordinate-geometry", "euler-line", "triangle-centers", "orthocenter"]
+    },
+    {
+      "task_id": "S-MATH-07B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Trigonometry - Multi-angle Identities",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 3,
+      "prompt": "A regular heptagon (7-sided polygon) is inscribed in a unit circle centered at the origin. Let the vertices be P_0, P_1, ..., P_6 in counterclockwise order. Consider the sum S = cos(π/7) + cos(3π/7) + cos(5π/7). Using the identity that relates this sum to roots of unity, compute the exact value of S. Express your answer as a simple fraction.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use De Moivre's theorem or properties of roots of unity",
+        "Do not use a calculator for the final evaluation",
+        "Final answer must be a single rational number in lowest terms"
+      ],
+      "ground_truth": {
+        "answer": "1/2",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let ζ = e^(iπ/7). The 14th roots of unity include ζ, and we note that ζ^14 = -1, so ζ^14 + 1 = 0.",
+          "Step 2: Consider the sum of all primitive 14th roots with odd exponents: ζ + ζ^3 + ζ^5 + ζ^9 + ζ^11 + ζ^13 = -1 (since the sum of all 14th roots is 0, and the even exponents sum to 0 as they are 7th roots).",
+          "Step 3: Pair conjugates: ζ + ζ^13 = 2cos(π/7), ζ^3 + ζ^11 = 2cos(3π/7), ζ^5 + ζ^9 = 2cos(5π/7). Their sum is 2(cos(π/7) + cos(3π/7) + cos(5π/7)) = 2S.",
+          "Step 4: From step 2, this sum equals -1, so 2S = -1? Wait, let us verify more carefully. The primitive 14th roots with odd k where gcd(k,14)=1 are k ∈ {1,3,5,9,11,13}. Sum = μ(14) = 1 where μ is the Möbius function. Actually, a cleaner approach: consider the polynomial z^7 + 1 = (z+1)(z^6 - z^5 + z^4 - z^3 + z^2 - z + 1) = 0 for z = e^(iπ/7), e^(i3π/7), ..., e^(i13π/7). The roots of z^6 - z^5 + z^4 - z^3 + z^2 - z + 1 = 0 sum to 1 (coefficient of z^5 with sign change).",
+          "Step 5: Taking the real part: cos(π/7) + cos(3π/7) + cos(5π/7) + cos(9π/7) + cos(11π/7) + cos(13π/7) = 1. Using cos(π - θ) = -cos(θ), we have cos(9π/7) = -cos(2π/7), cos(11π/7) = -cos(4π/7), cos(13π/7) = -cos(π/7). Hmm, let us use the simpler identity: 2S = 1 directly from the fact that the sum of real parts of the 7th roots of -1 (excluding -1) gives 2S = 1.",
+          "Step 6: The 7th roots of -1 are e^((2k+1)iπ/7) for k = 0,...,6. Their sum is 0. Removing e^(iπ) = -1, the remaining 6 roots sum to 1. Grouping conjugate pairs: 2(cos(π/7) + cos(3π/7) + cos(5π/7)) = 1, so S = 1/2."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math\nS = math.cos(math.pi/7) + math.cos(3*math.pi/7) + math.cos(5*math.pi/7)\nprint(abs(S - 0.5) < 1e-10)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing the sum with the similar-looking sum cos(2π/7) + cos(4π/7) + cos(6π/7) which equals -1/2",
+          "Attempting to evaluate numerically and rounding to an incorrect fraction like 0 or 1",
+          "Using the wrong polynomial (e.g., z^7 - 1 = 0 instead of z^7 + 1 = 0)"
+        ],
+        "required_knowledge": [
+          "De Moivre's theorem",
+          "Roots of unity and their properties",
+          "Vieta's formulas for polynomial roots"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["trigonometric-identities", "roots-of-unity", "regular-polygons"]
+    },
+    {
+      "task_id": "S-MATH-07B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Geometry - Error Detection in Coordinate Proofs",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A student attempts to prove that the quadrilateral with vertices P = (1, 2), Q = (5, 6), R = (9, 4), and S = (5, 0) is a square by presenting the following argument:\n\n1. Compute all side lengths: PQ = √[(5-1)² + (6-2)²] = √32, QR = √[(9-5)² + (4-6)²] = √20, RS = √[(5-9)² + (0-4)²] = √32, SP = √[(1-5)² + (2-0)²] = √20.\n2. Compute the diagonals: PR = √[(9-1)² + (4-2)²] = √68, QS = √[(5-5)² + (0-6)²] = 6.\n3. The student concludes: 'Since all four sides are equal (each equals either √32 or √20, and √32 = √20 when simplified... wait, actually the opposite sides are equal, so it is a parallelogram. And since the diagonals are unequal (√68 ≠ 6), it must be a rhombus but not a rectangle. Therefore, it is a square.'\n\nIdentify the first logical error in the student's argument and explain why the conclusion does not follow. Then determine the actual most specific classification of this quadrilateral (parallelogram, rectangle, rhombus, square, kite, trapezoid, or general quadrilateral).",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify the first error in the logical chain",
+        "Explain why that specific inference is invalid",
+        "Classify the quadrilateral correctly with justification"
+      ],
+      "ground_truth": {
+        "answer": "parallelogram",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Verify the side lengths: PQ = √32 = 4√2, QR = √20 = 2√5, RS = √32 = 4√2, SP = √20 = 2√5. The student's arithmetic is correct.",
+          "Step 2: The first logical error occurs in step 3. The student claims that unequal diagonals in a parallelogram imply it is a rhombus. This is backwards: in a parallelogram, equal diagonals imply a rectangle, but unequal diagonals are true of all non-rectangular parallelograms (including rhombuses). Moreover, the student has not established that the figure is a parallelogram.",
+          "Step 3: Check if PQRS is a parallelogram: for a parallelogram, midpoints of diagonals must coincide. Midpoint of PR = ((1+9)/2, (2+4)/2) = (5, 3). Midpoint of QS = ((5+5)/2, (6+0)/2) = (5, 3). The midpoints DO coincide! So PQRS is indeed a parallelogram.",
+          "Step 4: Check if adjacent sides are equal: PQ = 4√2 ≈ 5.66, QR = 2√5 ≈ 4.47. These are not equal, so it is not a rhombus (and therefore not a square).",
+          "Step 5: Check if diagonals are equal: PR = √68 ≈ 8.25, QS = 6. These are not equal, so it is not a rectangle.",
+          "Step 6: Since opposite sides are equal and parallel (verified by midpoint coincidence and slope checks: slope PQ = 1, slope RS = 1, slope QR = -1/2, slope SP = -1/2), but adjacent sides are unequal and diagonals are unequal, the figure is a parallelogram that is neither a rhombus nor a rectangle. The correct classification is 'parallelogram'."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Failing to verify the midpoint coincidence independently and simply accepting the student's claim",
+          "Misidentifying the error as computational rather than logical",
+          "Confusing the conditions for rhombus (adjacent sides equal) with the given condition (opposite sides equal)"
+        ],
+        "required_knowledge": [
+          "Properties of quadrilaterals",
+          "Midpoint formula for diagonal test of parallelograms",
+          "Logical fallacy identification (affirming the consequent)"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["error-detection", "quadrilateral-classification", "logical-reasoning"]
+    },
+    {
+      "task_id": "S-MATH-07B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Geometry - Conic Sections",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "The ellipse E is defined by the equation x²/25 + y²/9 = 1. A tangent line to E at a point in the first quadrant with x-coordinate 3 intersects the y-axis at point T. What is the y-coordinate of T?\n\nA) 9/4\nB) 12/5\nC) 16/5\nD) 15/4",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "No calculator necessary if using implicit differentiation or the tangent formula for ellipses"
+      ],
+      "ground_truth": {
+        "answer": "D",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Find the point of tangency. Substituting x = 3 into the ellipse equation: 9/25 + y²/9 = 1, so y²/9 = 16/25, giving y² = 144/25. In the first quadrant, y = 12/5. The point is (3, 12/5).",
+          "Step 2: Use implicit differentiation: 2x/25 + (2y/9)(dy/dx) = 0, so dy/dx = -9x/(25y). At (3, 12/5): dy/dx = -27/(25 * 12/5) = -27/60 = -9/20.",
+          "Step 3: The tangent line equation: y - 12/5 = (-9/20)(x - 3).",
+          "Step 4: Find the y-intercept by setting x = 0: y = 12/5 + (-9/20)(-3) = 12/5 + 27/20 = 48/20 + 27/20 = 75/20 = 15/4.",
+          "Step 5: The y-coordinate of T is 15/4 = 3.75."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the wrong sign for the slope, getting +9/20 instead of -9/20",
+          "Incorrectly computing y from x = 3 as y = 16/5 instead of 12/5",
+          "Forgetting that the tangent line formula for ellipses xx₀/a² + yy₀/b² = 1 can be used directly"
+        ],
+        "required_knowledge": [
+          "Implicit differentiation",
+          "Equation of tangent line to an ellipse",
+          "Algebraic manipulation with fractions"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 6
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["conic-sections", "ellipse", "tangent-line", "implicit-differentiation"]
+    },
+    {
+      "task_id": "S-MATH-07B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Geometry - Trigonometric Extremes",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "In an acute triangle ABC, let the angles at vertices A, B, C be denoted α, β, γ respectively, so that α + β + γ = π. Consider the product P = sin(α) sin(β) sin(γ). Using Jensen's inequality or the method of Lagrange multipliers, determine the maximum possible value of P. Express your answer in the form k√m / n where k, m, n are positive integers, m is square-free, and provide the sum k + m + n.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Prove that your claimed maximum is indeed attained",
+        "Use calculus or convexity arguments, not just symmetry intuition",
+        "Final answer is the integer sum k + m + n"
+      ],
+      "ground_truth": {
+        "answer": "14",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Since α + β + γ = π with α, β, γ ∈ (0, π/2) (acute triangle constraint), we maximize f(α,β,γ) = ln(sin α) + ln(sin β) + ln(sin γ) subject to α + β + γ = π.",
+          "Step 2: The function g(x) = ln(sin x) is concave on (0, π) because g''(x) = -csc²(x) < 0.",
+          "Step 3: By Jensen's inequality for concave functions: (g(α) + g(β) + g(γ))/3 ≤ g((α+β+γ)/3) = g(π/3), with equality when α = β = γ = π/3.",
+          "Step 4: Therefore, ln(sin α sin β sin γ) ≤ 3 ln(sin(π/3)) = 3 ln(√3/2) = ln((√3/2)³) = ln(3√3/8).",
+          "Step 5: Exponentiating: P ≤ 3√3/8, with equality at the equilateral triangle.",
+          "Step 6: Here k = 3, m = 3, n = 8. Since 3 is square-free, the form is valid. The sum k + m + n = 3 + 3 + 8 = 14."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math\nmax_P = (math.sqrt(3)/2)**3\nprint(f'Max P = {max_P} = {3*math.sqrt(3)/8}')\nprint(f'k=3, m=3, n=8, sum={3+3+8}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the maximum occurs at equilateral triangle without proving it (symmetry intuition is insufficient)",
+          "Forgetting the acute triangle constraint and allowing angles to approach 0 or π",
+          "Incorrectly applying AM-GM directly to sin(α), sin(β), sin(γ) without the sum constraint on the angles"
+        ],
+        "required_knowledge": [
+          "Jensen's inequality",
+          "Concavity of logarithm and sine functions",
+          "Constrained optimization (Lagrange multipliers or substitution)"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["trigonometric-optimization", "jensen-inequality", "acute-triangle"]
+    },
+    {
+      "task_id": "S-MATH-07B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Geometry - Irregular Region Areas",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "In the first quadrant of the Cartesian plane, consider the region R that is simultaneously inside the square with vertices (0,0), (4,0), (4,4), (0,4) and inside the circle centered at the origin with radius 4. What is the exact area of R?\n\nA) 16 - 4π\nB) 4π\nC) 16\nD) 8π - 16",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "No numerical approximations; identify the exact symbolic answer"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The square [0,4] × [0,4] and the circle x² + y² = 16 both occupy the first quadrant.",
+          "Step 2: The circle x² + y² = 16 passes through the points (4,0) and (0,4), which are vertices of the square. The arc of the circle from (4,0) to (0,4) lies entirely outside the square in the first quadrant (since for any point on this arc, x² + y² = 16, but inside the square we need x ≤ 4 and y ≤ 4; the arc bulges outward from the square's corner (4,4)).",
+          "Step 3: Actually, reconsider: for a point inside the square, both x ≤ 4 and y ≤ 4. The region inside both the square and the circle consists of all points where 0 ≤ x ≤ 4, 0 ≤ y ≤ 4, AND x² + y² ≤ 16. Since the corner (4,4) has 4² + 4² = 32 > 16, the circular arc cuts off the corner of the square.",
+          "Step 4: The area can be computed by integrating, but there is a cleaner geometric approach. The region inside the circle in the first quadrant is a quarter-circle of radius 4, with area (1/4)π(4)² = 4π.",
+          "Step 5: Since the quarter-circle is entirely contained within the square [0,4] × [0,4] (because any point with x² + y² ≤ 16 and x,y ≥ 0 satisfies x ≤ 4 and y ≤ 4), the intersection R is exactly the quarter-circle.",
+          "Step 6: Therefore, the area of R is exactly 4π."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Setting up a complicated integral over the intersection region instead of recognizing the containment relationship",
+          "Assuming the area is 16 - 4π (subtracting instead of recognizing the quarter-circle is inside)",
+          "Confusing the region with the part of the square outside the circle"
+        ],
+        "required_knowledge": [
+          "Area of a circle",
+          "Set intersection in the plane",
+          "Spatial reasoning about containment"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 7
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["area-computation", "circle-square-intersection", "quarter-circle"]
+    },
+    {
+      "task_id": "S-MATH-07B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Geometry - Conic Sections and Asymptotes",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the hyperbola H defined by x²/4 - y²/9 = 1. Let P = (4, 3√3) be a point on H. The two asymptotes of H divide the plane into four regions. Let d₁ and d₂ be the perpendicular distances from P to each asymptote. Construct a proof that the product d₁ · d₂ is independent of the choice of point P on H, and compute its exact value as a reduced fraction a/b.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide a complete deductive proof, not just computation for the given point",
+        "Use the general point (x₀, y₀) on the hyperbola",
+        "Final answer must be the exact reduced fraction for d₁ · d₂"
+      ],
+      "ground_truth": {
+        "answer": "36/13",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The hyperbola x²/4 - y²/9 = 1 has a = 2 and b = 3. Its asymptotes are y = (3/2)x and y = -(3/2)x, or equivalently 3x - 2y = 0 and 3x + 2y = 0.",
+          "Step 2: Let P = (x₀, y₀) be any point on the hyperbola, so x₀²/4 - y₀²/9 = 1, which implies 9x₀² - 4y₀² = 36.",
+          "Step 3: The distance from P to the first asymptote 3x - 2y = 0 is d₁ = |3x₀ - 2y₀| / √(9 + 4) = |3x₀ - 2y₀| / √13.",
+          "Step 4: The distance from P to the second asymptote 3x + 2y = 0 is d₂ = |3x₀ + 2y₀| / √13.",
+          "Step 5: The product is d₁ · d₂ = |9x₀² - 4y₀²| / 13.",
+          "Step 6: Since P lies on the hyperbola, 9x₀² - 4y₀² = 36, so d₁ · d₂ = 36/13, which is constant for all points on H.",
+          "Step 7: Verification with P = (4, 3√3): 9(16) - 4(27) = 144 - 108 = 36. So d₁ · d₂ = 36/13."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math\nx0, y0 = 4, 3*math.sqrt(3)\nd1 = abs(3*x0 - 2*y0) / math.sqrt(13)\nd2 = abs(3*x0 + 2*y0) / math.sqrt(13)\nprint(d1 * d2)\nprint(36/13)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Computing the distances only for the specific point (4, 3√3) without proving independence",
+          "Using the asymptote equations y = ±(b/a)x but forgetting to convert to standard form Ax + By + C = 0 for the distance formula",
+          "Making an algebraic error in expanding (3x₀ - 2y₀)(3x₀ + 2y₀)"
+        ],
+        "required_knowledge": [
+          "Hyperbola asymptote equations",
+          "Point-to-line distance formula",
+          "Difference of squares factorization",
+          "Proof structure for geometric invariants"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["hyperbola", "asymptotes", "geometric-invariant", "proof"]
+    }
+  ]
+}

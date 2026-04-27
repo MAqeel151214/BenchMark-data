@@ -1,0 +1,409 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-06A",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Combinatorics \u2014 Generating Functions, Extremal, Ramsey Theory",
+    "generated_at": "2026-04-24T12:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-06A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Generating Functions \u2014 Composition and Coefficient Extraction",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the ordinary generating function for the sequence a_n = n (for n \u2265 1), which is A(y) = y / (1 - y)^2, and the generating function for the shifted Catalan numbers B(x) = (1 - \u221a(1 - 4x)) / 2.\n\nYou are asked to find the coefficient of x^10 in the composition A(B(x)). That is, compute [x^10] A(B(x)).\n\nYou may use the following facts without proof:\n\u2022 B(x) satisfies the functional equation B(x) = x + B(x)^2.\n\u2022 The coefficients of C(x) = (1 - \u221a(1 - 4x)) / (2x) = \u2211_{n\u22650} C_n x^n are the Catalan numbers C_n = (1/(n+1)) * binomial(2n, n).\n\u2022 For the generating function C(x), the coefficient [x^n] C(x)^k = (k / (2n + k)) * binomial(2n + k, n) for integers k \u2265 1 and n \u2265 0.\n\nShow your work and give the exact integer value.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show all algebraic steps explicitly",
+        "Final answer must be a single exact integer"
+      ],
+      "ground_truth": {
+        "answer": "41990",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Express B(x) in terms of the Catalan generating function. We have B(x) = x * C(x), where C(x) = (1 - sqrt(1 - 4x)) / (2x) = sum_{n\u22650} C_n x^n with C_n = (1/(n+1)) * binomial(2n, n).",
+          "Step 2: Substitute B(x) = x * C(x) into A(y) = y / (1 - y)^2. This gives A(B(x)) = x*C(x) / (1 - x*C(x))^2.",
+          "Step 3: Use the Catalan functional equation. Since C(x) = 1 + x*C(x)^2, we have 1 - x*C(x) = 1 / C(x). This follows by rearranging: x*C(x)^2 = C(x) - 1, so x*C(x) = (C(x) - 1) / C(x), and therefore 1 - x*C(x) = 1 / C(x).",
+          "Step 4: Simplify the composition. Substituting 1 - x*C(x) = 1/C(x) into A(B(x)) yields A(B(x)) = x*C(x) / (1/C(x))^2 = x*C(x)^3.",
+          "Step 5: Extract the target coefficient. We need [x^10] A(B(x)) = [x^10] x*C(x)^3 = [x^9] C(x)^3.",
+          "Step 6: Apply the generalized Catalan coefficient formula with n = 9 and k = 3: [x^9] C(x)^3 = (3 / (2*9 + 3)) * binomial(2*9 + 3, 9) = (3/21) * binomial(21, 9).",
+          "Step 7: Compute binomial(21, 9) = 293930 and multiply: (3/21) * 293930 = (1/7) * 293930 = 41990."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from math import comb; n=9; k=3; print(k * comb(2*n+k, n) // (2*n+k))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting that B(x) = x*C(x) and instead trying to compose A directly with C(x)",
+          "Failing to recognize the algebraic simplification 1 - x*C(x) = 1/C(x), leading to unnecessarily complex partial fraction decompositions",
+          "Incorrectly applying the coefficient extraction formula with wrong indices (e.g., using n=10, k=3 instead of n=9, k=3)"
+        ],
+        "required_knowledge": [
+          "Catalan number generating function and its functional equation",
+          "Formal power series composition rules",
+          "Generalized Catalan coefficient formula [x^n]C(x)^k = k/(2n+k) * binomial(2n+k, n)"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "generating-functions",
+        "catalan-numbers",
+        "coefficient-extraction",
+        "composition"
+      ]
+    },
+    {
+      "task_id": "S-MATH-06A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Extremal Combinatorics \u2014 Tur\u00e1n-type Bound",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Define ex(n, H) as the maximum number of edges in an n-vertex simple graph that does not contain H as a subgraph.\n\nProve that ex(17, K_5) = 108, where K_5 is the complete graph on 5 vertices. Your proof must:\n\n1. Exhibit a 17-vertex graph with 108 edges and no K_5 subgraph.\n2. Prove that no 17-vertex graph with 109 or more edges can be K_5-free.\n\nYou may use Tur\u00e1n's theorem and its standard proof techniques (weight shifting, induction, or convexity arguments), but you must apply them explicitly to the case n = 17 and r = 4 (since K_5 = K_{r+1} with r = 4). Do not merely state the general Tur\u00e1n formula.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Proof must be fully rigorous with all inequalities justified",
+        "The extremal construction must be explicitly described (partition sizes and all edge counts)",
+        "No reference to general Tur\u00e1n formula without deriving the specific numerical bound"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Construction): Partition the 17 vertices into 4 parts as equally as possible: one part has 5 vertices and three parts have 4 vertices each. This is the Tur\u00e1n graph T_4(17).",
+          "Step 2 (Construction edge count): The number of edges is the total number of pairs minus pairs within each part: C(17,2) - C(5,2) - 3*C(4,2) = 136 - 10 - 18 = 108. This graph is K_5-free because any 5 vertices must contain at least two from the same part (by pigeonhole, since there are only 4 parts), and vertices in the same part are non-adjacent.",
+          "Step 3 (Upper bound setup): Let G be a K_5-free graph on 17 vertices. By Tur\u00e1n's theorem, the extremal graph maximizing edges is the complete 4-partite graph with parts as equal as possible. We prove this directly via the weight-shifting argument.",
+          "Step 4 (Weight shifting): For any K_5-free graph G, define the 'deficiency' of a vertex v as d(v) = n-1-deg(v). By the standard Zykov symmetrization or convexity argument, if two non-adjacent vertices u, v have different degrees, replacing the lower-degree vertex's neighborhood with the higher-degree vertex's neighborhood does not create a K_5 and does not decrease the number of edges.",
+          "Step 5 (Equipartition optimality): The edge-maximizing K_5-free graph must therefore be complete multipartite. Since K_5-free means the graph is 4-colorable (complement is 4-clique-coverable), the maximum is achieved by the complete 4-partite graph. Among all 4-partite graphs on 17 vertices, edge count is maximized when parts are as equal as possible, because the function f(a,b,c,d) = sum_{i<j} a_i*a_j is Schur-convex and maximized at the most balanced partition.",
+          "Step 6 (Numerical verification): The balanced partition (5,4,4,4) gives 5*4 + 5*4 + 5*4 + 4*4 + 4*4 + 4*4 = 20+20+20+16+16+16 = 108. Any unbalanced partition, e.g. (6,4,4,3), gives 6*4+6*4+6*3+4*4+4*3+4*3 = 24+24+18+16+12+12 = 106 < 108. Thus 108 is the maximum.",
+          "Step 7 (Conclusion): Therefore ex(17, K_5) = 108."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Quoting the general Tur\u00e1n formula without proving the specific numerical value for n=17",
+          "Assuming the extremal graph is the Tur\u00e1n graph without proving why no other construction could achieve more edges",
+          "Arithmetic errors in computing the edge count of the 4-partite graph with partition sizes (5,4,4,4)"
+        ],
+        "required_knowledge": [
+          "Tur\u00e1n's theorem and the structure of Tur\u00e1n graphs",
+          "Zykov symmetrization or convexity argument for proving optimality of Tur\u00e1n graphs",
+          "Pigeonhole principle applied to multipartite graphs and clique containment"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "extremal-combinatorics",
+        "turan-theorem",
+        "clique-free-graphs",
+        "zykov-symmetrization"
+      ]
+    },
+    {
+      "task_id": "S-MATH-06A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Ramsey Theory \u2014 Exact Ramsey Number",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "The Ramsey number R(s,t) is the smallest integer n such that every 2-coloring of the edges of the complete graph K_n contains either a monochromatic red K_s or a monochromatic blue K_t.\n\nDetermine the exact value of R(3,4). Your answer must include:\n\n1. A proof that R(3,4) \u2264 9.\n2. An explicit construction of a red-blue edge coloring of K_8 that contains no red K_3 and no blue K_4.\n\nFor the construction, describe the coloring concretely: list the vertex set and specify which edges are red (the remaining edges are blue). Then verify that your coloring avoids both forbidden subgraphs.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "The upper bound proof must not rely on previously memorized values of R(3,4)",
+        "The K_8 construction must be explicitly described with a complete list of red edges",
+        "Final answer must state the exact integer value of R(3,4)"
+      ],
+      "ground_truth": {
+        "answer": "9",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Upper bound): Consider any red-blue coloring of K_9. Pick an arbitrary vertex v. By pigeonhole, v has at least 5 incident edges of the same color, say red, to vertices W = {w_1, ..., w_5}. If any edge among W is red, that edge together with v forms a red K_3. Otherwise, all edges among W are blue, and W contains 5 vertices with all-blue edges. Any 4 vertices from W form a blue K_4. Thus every 2-coloring of K_9 has a red K_3 or a blue K_4, so R(3,4) \u2264 9.",
+          "Step 2 (Lower bound construction): Label the vertices of K_8 as {0, 1, 2, 3, 4, 5, 6, 7} arranged on a regular octagon. Color an edge {i,j} red if and only if the cyclic distance min(|i-j|, 8-|i-j|) equals 1 or 4. That is, red edges are the 8-cycle (0,1), (1,2), ..., (7,0) together with the 4 diameters (0,4), (1,5), (2,6), (3,7). All remaining edges are blue.",
+          "Step 3 (Verify no red K_3): In the red subgraph, each vertex has degree 3 (two cycle neighbors and one diameter). The red graph is a union of an 8-cycle and a perfect matching. Any triangle would require three mutual distances of 1 or 4. Three vertices with pairwise cyclic distances in {1,4} cannot exist: if two vertices are at distance 1, the third must be at distance 1 from both (impossible on a cycle of length > 4) or at distance 4 from both (impossible since the two vertices at distance 1 have different diametric partners). Exhaustive check confirms no red triangle.",
+          "Step 4 (Verify no blue K_4): The blue edges are exactly those at cyclic distances 2 and 3. The blue graph is the complement of the red graph. A blue K_4 would require 4 vertices with all pairwise cyclic distances in {2,3}. Consider any 4 vertices. By pigeonhole on the octagon, some pair must be at distance 1 or 4 (since the maximum independent set in the circular-arc graph with arcs of length 4 has size 3). That pair is red, not blue. Thus no blue K_4 exists.",
+          "Step 5 (Conclusion): Since R(3,4) \u2264 9 and the K_8 construction shows R(3,4) > 8, we conclude R(3,4) = 9."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from itertools import combinations; n=8; red=set(); [red.add(tuple(sorted([i,(i+1)%n]))) for i in range(n)]; [red.add(tuple(sorted([i,i+n//2]))) for i in range(n//2)]; blue=set(tuple(sorted(e)) for e in combinations(range(n),2))-red; rt=any(all(tuple(sorted([a,b])) in red for a,b in combinations(tri,2)) for tri in combinations(range(n),3)); bk4=any(all(tuple(sorted([a,b])) in blue for a,b in combinations(quad,2)) for quad in combinations(range(n),4)); print('R(3,4)=9:', not rt and not bk4)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "In the upper bound proof, failing to consider the case where the majority color from the chosen vertex is blue instead of red",
+          "Claiming a construction without verifying both the no-red-triangle and no-blue-K_4 conditions",
+          "Using a K_8 construction that actually contains a forbidden subgraph (e.g., the pure cycle C_8, which has a blue K_4 on vertices 0,2,4,6)"
+        ],
+        "required_knowledge": [
+          "Definition of Ramsey numbers",
+          "Pigeonhole principle applied to edge colorings",
+          "Explicit construction of Ramsey-critical graphs"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "ramsey-theory",
+        "graph-coloring",
+        "exact-ramsey-number",
+        "critical-graphs"
+      ]
+    },
+    {
+      "task_id": "S-MATH-06A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "P\u00f3lya Enumeration \u2014 Burnside Counting with Product Group",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Let G = D_4 \u00d7 Z_2 be the direct product of the dihedral group of order 8 (the symmetry group of a square) and the cyclic group of order 2. The group G has order 16.\n\nConsider the action of G on the set X = {1,2,3,4} \u00d7 {1,2}, where:\n\u2022 D_4 acts naturally on {1,2,3,4} (the vertices of the square).\n\u2022 Z_2 acts on {1,2} by swapping the two elements.\n\u2022 The product action is (g, h) \u00b7 (x, z) = (g(x), h(z)).\n\nWe color the elements of X with two colors, A and B. Two colorings are considered equivalent if one can be obtained from the other by the action of some element of G.\n\nUsing Burnside's lemma, how many inequivalent colorings are there?\n\nA) 28\nB) 30\nC) 34\nD) 36",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Show the cycle structure or fixed-point count for each conjugacy class of G",
+        "Apply Burnside's lemma explicitly: (1/|G|) * \u03a3 |Fix(g)|"
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify conjugacy classes of D_4 \u00d7 Z_2. Since Z_2 is abelian and D_4 classes are C_1={id}, C_2={180\u00b0 rot}, C_3={90\u00b0, 270\u00b0}, C_4={vertex reflections}, C_5={edge reflections}, the product classes are C_i \u00d7 {e} and C_i \u00d7 {t}, with sizes: 1, 1, 2, 2, 2 for D_4 classes and 1, 1 for Z_2 classes.",
+          "Step 2: Compute fixed colorings for each class. A coloring is fixed by (g,h) iff it is constant on orbits of (g,h) acting on X. The number of fixed colorings equals 2^(number of orbits of (g,h) on X).",
+          "Step 3: For (id, e): 8 orbits (all 8 points fixed separately), so |Fix| = 2^8 = 256.",
+          "Step 4: For (id, t): 4 orbits (t pairs the two copies of {1,2,3,4}), so |Fix| = 2^4 = 16.",
+          "Step 5: For (180\u00b0, e): 4 orbits (180\u00b0 rotation pairs opposite vertices in each copy), so |Fix| = 2^4 = 16.",
+          "Step 6: For (180\u00b0, t): also 4 orbits, so |Fix| = 2^4 = 16.",
+          "Step 7: For (90\u00b0 or 270\u00b0, e): 2 orbits (each copy of vertices forms one 4-cycle), so |Fix| = 2^2 = 4.",
+          "Step 8: For (90\u00b0 or 270\u00b0, t): also 2 orbits, so |Fix| = 2^2 = 4.",
+          "Step 9: For (vertex reflection, e): 6 orbits (2 fixed vertices + 2 pairs in each copy), so |Fix| = 2^6 = 64.",
+          "Step 10: For (vertex reflection, t): 4 orbits, so |Fix| = 2^4 = 16.",
+          "Step 11: For (edge reflection, e): 4 orbits (2 pairs in each copy), so |Fix| = 2^4 = 16.",
+          "Step 12: For (edge reflection, t): 4 orbits, so |Fix| = 2^4 = 16.",
+          "Step 13: Apply Burnside: N = (1/16) * [1*256 + 1*16 + 1*16 + 1*16 + 2*4 + 2*4 + 2*64 + 2*16 + 2*16 + 2*16] = (1/16) * [256 + 16 + 16 + 16 + 8 + 8 + 128 + 32 + 32 + 32] = (1/16) * 544 = 34.",
+          "Step 14: Therefore the answer is C) 34."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "print((256 + 16 + 16 + 16 + 8 + 8 + 128 + 32 + 32 + 32) // 16)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating D_4 \u00d7 Z_2 as having only 5 conjugacy classes instead of 10 (forgetting the Z_2 factor doubles the classes)",
+          "Incorrectly counting orbits of (g,t) by assuming t always contributes a factor of 2 to the orbit count, without analyzing how g and t interact",
+          "Computing fixed points on X instead of on the set of colorings (i.e., using the number of fixed points instead of 2^(number of orbits))"
+        ],
+        "required_knowledge": [
+          "Burnside's lemma and orbit-counting",
+          "Conjugacy classes of D_4",
+          "Direct product group actions and their conjugacy structure"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "polya-enumeration",
+        "burnside-lemma",
+        "direct-product-groups",
+        "orbit-counting"
+      ]
+    },
+    {
+      "task_id": "S-MATH-06A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Generating Functions \u2014 Error Detection in Coefficient Extraction",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A student attempts to solve the following problem:\n\nLet F(x) = 1 / ((1 - x)^2 * (1 - 2x)). Find the exact coefficient of x^8 in the power series expansion of F(x).\n\nThe student's solution is:\n\n'Step 1: Use partial fractions. Write 1 / ((1-x)^2(1-2x)) = A/(1-x) + B/(1-x)^2 + C/(1-2x).\nStep 2: Clearing denominators: 1 = A(1-x)(1-2x) + B(1-2x) + C(1-x)^2.\nStep 3: Set x = 1: 1 = B(-1), so B = -1.\nStep 4: Set x = 1/2: 1 = C(1/4), so C = 4.\nStep 5: Set x = 0: 1 = A + B + C = A - 1 + 4, so A = -2.\nStep 6: Therefore F(x) = -2/(1-x) - 1/(1-x)^2 + 4/(1-2x).\nStep 7: The coefficient of x^n in -2/(1-x) is -2.\nStep 8: The coefficient of x^n in -1/(1-x)^2 is -(n+1).\nStep 9: The coefficient of x^n in 4/(1-2x) is 4 * 2^{n+1}.\nStep 10: So [x^8]F(x) = -2 - 9 + 4 * 2^9 = -11 + 2048 = 2037.'\n\nIdentify every error in this solution. For each error, state where it occurs, explain why it is wrong, and provide the correct reasoning. Then compute the correct value of [x^8]F(x).",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "List each error with a specific reference to the step number",
+        "Explain the correct mathematical reasoning for each identified error",
+        "Provide the correct final integer answer"
+      ],
+      "ground_truth": {
+        "answer": "1013",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Error identification): Steps 1-6 are actually correct. The partial fraction decomposition 1/((1-x)^2(1-2x)) = -2/(1-x) - 1/(1-x)^2 + 4/(1-2x) is algebraically valid.",
+          "Step 2 (Error identification): Step 7 is correct: [x^n](-2/(1-x)) = -2 for all n \u2265 0, since 1/(1-x) = sum_{n\u22650} x^n.",
+          "Step 3 (Error identification): Step 8 is correct: [x^n](-1/(1-x)^2) = -(n+1), since 1/(1-x)^2 = sum_{n\u22650} (n+1)x^n.",
+          "Step 4 (Critical error in Step 9): The student claims [x^n] 4/(1-2x) = 4 * 2^{n+1}. This is incorrect. The geometric series gives 1/(1-2x) = sum_{n\u22650} (2x)^n = sum_{n\u22650} 2^n x^n. Therefore [x^n] 1/(1-2x) = 2^n, and [x^n] 4/(1-2x) = 4 * 2^n. The student incorrectly used 2^{n+1} instead of 2^n, likely confusing the coefficient of 1/(1-2x) with the coefficient of x/(1-2x) or misremembering the formula.",
+          "Step 5 (Correct computation): Using the correct coefficient formula: [x^8]F(x) = [x^8](-2/(1-x)) + [x^8](-1/(1-x)^2) + [x^8](4/(1-2x)) = -2(1) - (8+1) + 4(2^8) = -2 - 9 + 4(256) = -11 + 1024 = 1013.",
+          "Step 6 (Verification via convolution): As an independent check, 1/(1-x)^2 = sum_{k\u22650} (k+1)x^k and 1/(1-2x) = sum_{j\u22650} 2^j x^j. Their product has [x^8] = sum_{k=0}^{8} (k+1) * 2^{8-k} = 1\u00b7256 + 2\u00b7128 + 3\u00b764 + 4\u00b732 + 5\u00b716 + 6\u00b78 + 7\u00b74 + 8\u00b72 + 9\u00b71 = 256 + 256 + 192 + 128 + 80 + 48 + 28 + 16 + 9 = 1013. This confirms the answer."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "print(sum((k+1)*(2**(8-k)) for k in range(9)))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Accepting the student's incorrect coefficient formula 2^{n+1} for 1/(1-2x) without verification",
+          "Confusing the coefficient of 1/(1-ax) with the coefficient of 1/(1-ax)^2 or x/(1-ax)",
+          "Arithmetic errors in computing 4 * 256 or combining terms"
+        ],
+        "required_knowledge": [
+          "Partial fraction decomposition with repeated linear factors",
+          "Coefficient extraction from standard generating functions",
+          "Convolution of sequences as a verification method"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": [
+        "generating-functions",
+        "error-detection",
+        "partial-fractions",
+        "coefficient-extraction"
+      ]
+    },
+    {
+      "task_id": "S-MATH-06A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "P\u00f3lya Enumeration \u2014 Error Detection in Cycle Index",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "A chemist is studying the rotational symmetries of the cubane molecule (C_8H_8), which has the geometry of a cube. The carbon atoms sit at the 8 vertices of a cube. The chemist models the vertices as the set V = {\u00b11}^3 = {(x,y,z) : x,y,z \u2208 {\u00b11}}.\n\nThe rotational symmetry group of the cube (the octahedral group O) has 24 elements and 5 conjugacy classes when acting on the 8 vertices:\n\u2022 Identity: 1 element, cycle type (1)^8\n\u2022 90\u00b0 rotations about face axes: 6 elements, cycle type (4)^2\n\u2022 180\u00b0 rotations about face axes: 3 elements, cycle type (2)^4\n\u2022 120\u00b0 rotations about vertex axes: 8 elements, cycle type (1)^2(3)^2\n\u2022 180\u00b0 rotations about edge axes: 6 elements, cycle type (2)^4\n\nThe chemist wants to count the number of distinct 2-colorings (say, red and blue) of the 8 vertices, where two colorings are equivalent if one can be rotated to match the other. The chemist attempts to apply P\u00f3lya's enumeration theorem.\n\nThe chemist's cycle index is:\nZ(r,b) = (1/24)[(r+b)^8 + 6(r+b)^2(r^4+b^4) + 3(r+b)^2(r^2+b^2)^2 + 8(r^3+b^3)^2 + 6(r^2+b^2)^3]\n\nand concludes the total number of inequivalent colorings is Z(1,1) = (1/24)[2^8 + 6\u00b72^2\u00b72^2 + 3\u00b72^2\u00b72^2 + 8\u00b72^2 + 6\u00b72^3] = (1/24)[256 + 96 + 48 + 32 + 48] = 480/24 = 20.\n\nFind all errors in the chemist's reasoning. For each error, identify which class or step is wrong, explain the correct mathematical principle, and compute the correct number of inequivalent 2-colorings of the 8 vertices of the cube under rotational symmetry.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify at least two distinct errors in the chemist's solution",
+        "Explain the correct cycle index computation for the octahedral group acting on vertices",
+        "Provide the correct total count of inequivalent 2-colorings"
+      ],
+      "ground_truth": {
+        "answer": "23",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Major error identification): The chemist has confused the action of the octahedral group on the 6 faces of the cube with its action on the 8 vertices. The cycle index provided is for the face action, not the vertex action. This is evidenced by the terms (r+b)^2(r^4+b^4) and (r+b)^2(r^2+b^2)^2, which contain factors of (r+b)^2 corresponding to the two faces fixed by rotations about a face axis. When acting on vertices, face-axis rotations do not fix any vertices.",
+          "Step 2 (Correct vertex cycle types): For the octahedral group acting on the 8 vertices of a cube:\n- Identity (1 element): cycle type (1)^8, fixed colorings = 2^8 = 256.\n- 90\u00b0 face rotation (6 elements): no fixed vertices, two 4-cycles, cycle type (4)^2, fixed colorings = 2^2 = 4.\n- 180\u00b0 face rotation (3 elements): no fixed vertices, four 2-cycles, cycle type (2)^4, fixed colorings = 2^4 = 16.\n- 120\u00b0 vertex rotation (8 elements): two fixed vertices (on the axis), two 3-cycles, cycle type (1)^2(3)^2, fixed colorings = 2^2\u00b72^2 = 16.\n- 180\u00b0 edge rotation (6 elements): no fixed vertices, four 2-cycles, cycle type (2)^4, fixed colorings = 2^4 = 16.",
+          "Step 3 (Error in arithmetic): The chemist's arithmetic is also inconsistent. Even using the face cycle index, the computation contains errors. For the term 6(r+b)^2(r^4+b^4) with r=b=1: 6\u00b72^2\u00b72^2 = 6\u00b74\u00b74 = 96, but the chemist later writes 96 in the sum. For 3(r+b)^2(r^2+b^2)^2: 3\u00b72^2\u00b72^2 = 48. For 8(r^3+b^3)^2: 8\u00b72^2 = 32. For 6(r^2+b^2)^3: 6\u00b72^3 = 48. Sum: 256 + 96 + 48 + 32 + 48 = 480. 480/24 = 20. The arithmetic is internally consistent, but based on the wrong cycle index.",
+          "Step 4 (Correct Burnside computation): Using the correct vertex cycle index:\nZ_O(r,b) = (1/24)[(r+b)^8 + 6(r^4+b^4)^2 + 3(r^2+b^2)^4 + 8(r+b)^2(r^3+b^3)^2 + 6(r^2+b^2)^4].\nAt r=b=1: (1/24)[2^8 + 6\u00b72^2 + 3\u00b72^4 + 8\u00b72^2\u00b72^2 + 6\u00b72^4] = (1/24)[256 + 24 + 48 + 128 + 96] = 552/24 = 23.",
+          "Step 5 (Verification): The 23 inequivalent colorings can also be enumerated by considering the possible distributions of red and blue vertices under symmetry: all-red (1), all-blue (1), 1-red-7-blue (1), 7-red-1-blue (1), 2-red-6-blue (3), 6-red-2-blue (3), 3-red-5-blue (3), 5-red-3-blue (3), 4-red-4-blue (7). Total: 2+2+6+6+7 = 23."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "print((256 + 24 + 48 + 128 + 96) // 24)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Failing to recognize that the chemist used face cycle types instead of vertex cycle types",
+          "Accepting the chemist's arithmetic without verifying the cycle index terms correspond to vertex permutations",
+          "Confusing the rotational octahedral group O with the full octahedral group O_h (order 48)"
+        ],
+        "required_knowledge": [
+          "Cycle index of the octahedral group for different actions (vertices, edges, faces)",
+          "P\u00f3lya enumeration theorem",
+          "Burnside's lemma"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": [
+        "polya-enumeration",
+        "error-detection",
+        "octahedral-group",
+        "cycle-index"
+      ]
+    },
+    {
+      "task_id": "S-MATH-06A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Ramsey Theory \u2014 Probabilistic Existence Bound",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 10,
+      "prompt": "A mathematician claims: 'There exists a 2-coloring of the edges of the complete graph K_{256} such that the coloring contains no monochromatic complete subgraph K_{17}.'\n\nProve this claim using the probabilistic method. Your proof must:\n\n1. Define the probability space precisely.\n2. Compute the expected number of monochromatic K_{17} subgraphs in a uniformly random 2-coloring, or equivalently, bound the probability that at least one monochromatic K_{17} exists.\n3. Show that this probability (or expectation) is strictly less than 1, and deduce the existence of a suitable coloring.\n\nYou may use the inequality C(n,k) \u2264 (en/k)^k and the bound 2^{136} > 10^{40} without proof, but all other steps must be justified.",
+      "prompt_format": "proof",
+      "constraints": [
+        "The probability space must be explicitly defined",
+        "The union bound or expectation argument must be applied correctly with all intermediate inequalities verified",
+        "The final conclusion must explicitly state why a positive probability implies existence"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (Probability space): Let \u03a9 be the set of all 2-colorings of the edges of K_{256}, where each edge is colored independently red or blue with probability 1/2. Thus |\u03a9| = 2^{C(256,2)} and each coloring has probability 2^{-C(256,2)}. This is our finite probability space.",
+          "Step 2 (Random variable): For each subset S of 17 vertices, let X_S be the indicator random variable that the subgraph induced by S is monochromatic (all red or all blue). Let X = \u03a3_S X_S be the total number of monochromatic K_{17} subgraphs.",
+          "Step 3 (Expectation of indicator): For a fixed set S of 17 vertices, there are C(17,2) = 136 edges. All edges are the same color with probability 2 * 2^{-136} = 2^{-135}, since there are 2 choices for the common color. Therefore E[X_S] = 2^{-135}.",
+          "Step 4 (Expectation of X): By linearity of expectation, E[X] = \u03a3_S E[X_S] = C(256, 17) * 2^{-135}.",
+          "Step 5 (Bound the binomial coefficient): Using C(n,k) \u2264 (en/k)^k, we have C(256, 17) \u2264 (e * 256 / 17)^{17}. Since e \u2248 2.718 and 256/17 \u2248 15.059, we get e*256/17 \u2248 40.93. Thus C(256,17) < (40.93)^{17}.",
+          "Step 6 (Compare with denominator): We need to show C(256,17) * 2^{-135} < 1, i.e., C(256,17) < 2^{135}. Taking 17th roots: C(256,17)^{1/17} < 2^{135/17} = 2^{7.94} \u2248 240. Since C(256,17)^{1/17} < 40.93 and 40.93 < 240, the inequality holds strongly.",
+          "Step 7 (Direct numerical verification): C(256,17) = 142,288,257,910,903,254,700,704,000 \u2248 1.42 \u00d7 10^{26}, while 2^{135} \u2248 4.36 \u00d7 10^{40}. The ratio C(256,17)/2^{135} \u2248 3.3 \u00d7 10^{-15}.",
+          "Step 8 (Union bound alternative): Let A be the event that there exists a monochromatic K_{17}. By the union bound, P(A) \u2264 \u03a3_S P(X_S = 1) = C(256,17) * 2^{-135} \u2248 3.3 \u00d7 10^{-15}.",
+          "Step 9 (Conclusion): Since P(A) < 1, the complement event A^c (no monochromatic K_{17}) has positive probability. Since the probability space is finite and uniform, A^c is non-empty. Therefore there exists at least one 2-coloring of K_{256} with no monochromatic K_{17}.",
+          "Step 10 (Ramsey context): This proves that the diagonal Ramsey number R(17,17) > 256, since R(k,k) is the smallest n such that every 2-coloring of K_n has a monochromatic K_k."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Defining the probability space on colorings of vertices instead of edges",
+          "Computing P(X_S = 1) = 2^{-136} instead of 2^{-135}, forgetting the factor of 2 for the two possible colors",
+          "Using the expectation argument without correctly concluding that E[X] < 1 implies existence of a coloring with X = 0 (the expectation argument requires non-negativity of X, which holds, but one must state it explicitly)"
+        ],
+        "required_knowledge": [
+          "Probabilistic method (Erd\u0151s)",
+          "Linearity of expectation",
+          "Union bound",
+          "Ramsey numbers and their probabilistic lower bounds"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": [
+        "ramsey-theory",
+        "probabilistic-method",
+        "expectation-argument",
+        "union-bound"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,391 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-07A",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Geometry — Euclidean, Coordinate, Trigonometric",
+    "generated_at": "2026-04-24T22:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-07A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Euclidean Geometry - Triangle Centers",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 2,
+      "prompt": "In triangle XYZ, the circumcenter O has coordinates (1, -2) and the centroid G has coordinates (4, 3). The orthocenter H lies on the line 2x - y = 7. Find the exact coordinates of the orthocenter H. Recall that O, G, and H are collinear on the Euler line and satisfy the vector relation OG : GH = 1 : 2.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Final answer must be a pair of exact coordinates (x, y)"
+      ],
+      "ground_truth": {
+        "answer": "(10, 13)",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Recall the Euler line property: for any triangle, the circumcenter O, centroid G, and orthocenter H are collinear, with G between O and H such that OG : GH = 1 : 2.",
+          "Step 2: Using the section formula, G divides the segment OH internally in the ratio OG : GH = 1 : 2. Therefore G = (2·O + 1·H) / (1 + 2) = (2O + H) / 3.",
+          "Step 3: Solving for H: 3G = 2O + H, so H = 3G - 2O.",
+          "Step 4: Substitute O = (1, -2) and G = (4, 3): H = 3·(4, 3) - 2·(1, -2) = (12, 9) - (2, -4) = (10, 13).",
+          "Step 5: Verify collinearity: The slope of OG is (3 - (-2))/(4 - 1) = 5/3. The slope of GH is (13 - 3)/(10 - 4) = 10/6 = 5/3. Same slope, so O, G, H are collinear.",
+          "Step 6: Verify the ratio OG : GH. Distance OG = √[(4-1)² + (3+2)²] = √[9 + 25] = √34. Distance GH = √[(10-4)² + (13-3)²] = √[36 + 100] = √136 = 2√34. Thus OG : GH = √34 : 2√34 = 1 : 2. ✓",
+          "Step 7: Verify the line constraint 2x - y = 7: 2(10) - 13 = 20 - 13 = 7. ✓"
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the wrong ratio formula, such as H = 2G - O instead of H = 3G - 2O",
+          "Arithmetic errors in vector subtraction: 3*(4,3) - 2*(1,-2) = (12,9) - (2,-4) = (10,13)",
+          "Forgetting that the centroid divides OH in ratio 1:2, not 2:1"
+        ],
+        "required_knowledge": [
+          "Euler line theorem",
+          "Section formula in coordinate geometry",
+          "Vector operations"
+        ],
+        "reasoning_depth": 2,
+        "estimated_human_time_minutes": 3
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["euler-line", "triangle-centers", "coordinate-geometry"]
+    },
+    {
+      "task_id": "S-MATH-07A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Coordinate Geometry - Locus",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 3,
+      "prompt": "A tracking beacon P moves in the plane such that its distance from base station A = (6, 2) is always exactly twice its distance from base station B = (-2, -4). The locus of P is a circle. Find the exact coordinates of the center (h, k) and the exact radius r of this circle.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Final answer must state the exact center (h, k) and exact radius r as fractions or integers"
+      ],
+      "ground_truth": {
+        "answer": "center (-14/3, -6), radius 20/3",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let P = (x, y). The condition is PA = 2·PB, which implies PA² = 4·PB².",
+          "Step 2: Compute PA² = (x - 6)² + (y - 2)² and PB² = (x + 2)² + (y + 4)².",
+          "Step 3: Set up the equation: (x - 6)² + (y - 2)² = 4[(x + 2)² + (y + 4)²].",
+          "Step 4: Expand: x² - 12x + 36 + y² - 4y + 4 = 4[x² + 4x + 4 + y² + 8y + 16].",
+          "Step 5: Left side: x² + y² - 12x - 4y + 40. Right side: 4x² + 16x + 16 + 4y² + 32y + 64 = 4x² + 4y² + 16x + 32y + 80.",
+          "Step 6: Bring all terms to one side: x² + y² - 12x - 4y + 40 - 4x² - 4y² - 16x - 32y - 80 = 0.",
+          "Step 7: Simplify: -3x² - 3y² - 28x - 36y - 40 = 0. Multiply by -1: 3x² + 3y² + 28x + 36y + 40 = 0.",
+          "Step 8: Divide by 3: x² + y² + (28/3)x + 12y + 40/3 = 0.",
+          "Step 9: Complete the square: (x + 14/3)² - (14/3)² + (y + 6)² - 36 + 40/3 = 0.",
+          "Step 10: Compute (14/3)² = 196/9. So (x + 14/3)² + (y + 6)² = 196/9 + 36 - 40/3 = 196/9 + 324/9 - 120/9 = 400/9.",
+          "Step 11: Therefore, the center is (-14/3, -6) and the radius is √(400/9) = 20/3.",
+          "Step 12: Verification using Apollonius formula: center = (A - k²B)/(1 - k²) with k = 2. Center = (A - 4B)/(-3) = (4B - A)/3 = ((-8, -16) - (6, 2))/3 = (-14, -18)/3 = (-14/3, -6). Distance AB = √[(8)² + (6)²] = √100 = 10. Radius = k·AB/|1 - k²| = 2·10/3 = 20/3. ✓"
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting to square both sides before expanding, leading to unsolvable radical equations",
+          "Sign errors when distributing the negative during expansion: especially -4[(x+2)² + (y+4)²]",
+          "Failing to divide by the coefficient of x² and y² before completing the square"
+        ],
+        "required_knowledge": [
+          "Apollonius circle (locus of points with constant distance ratio)",
+          "Distance formula",
+          "Completing the square for circle equations"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 5
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["locus", "apollonius-circle", "coordinate-geometry"]
+    },
+    {
+      "task_id": "S-MATH-07A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Coordinate Geometry - Conic Sections Tangency",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "Consider the ellipse E: x²/16 + y²/9 = 1. From the external point P = (5, 2), two distinct tangent lines are drawn to E. What is the product of the slopes of these two tangent lines?\nA) -1/2\nB) -5/9\nC) -3/4\nD) -7/9",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "No partial credit for reasoning without correct selection"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: A line through P = (5, 2) with slope m has equation y - 2 = m(x - 5), or y = mx + (2 - 5m).",
+          "Step 2: For the line y = mx + c to be tangent to the ellipse x²/16 + y²/9 = 1, the tangency condition is c² = 16m² + 9.",
+          "Step 3: Here c = 2 - 5m. Substituting: (2 - 5m)² = 16m² + 9.",
+          "Step 4: Expand: 4 - 20m + 25m² = 16m² + 9.",
+          "Step 5: Rearrange: 9m² - 20m + 4 - 9 = 0, so 9m² - 20m - 5 = 0.",
+          "Step 6: This is a quadratic in m. The two roots m₁ and m₂ are the slopes of the two tangents from P to the ellipse.",
+          "Step 7: By Vieta's formulas, the product of the roots is m₁·m₂ = c/a = -5/9.",
+          "Step 8: Verify that two distinct tangents exist: discriminant = (-20)² - 4(9)(-5) = 400 + 180 = 580 > 0. ✓",
+          "Step 9: The product of the slopes is -5/9, which corresponds to option B.",
+          "Step 10: Why other options are wrong: A) -1/2 might come from incorrectly using c² = a²m² + b² with wrong a,b values. C) -3/4 might come from computing sum instead of product: sum = 20/9. D) -7/9 might come from arithmetic error in constant term."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the wrong tangency condition c² = a²m² - b² (hyperbola form) instead of c² = a²m² + b² (ellipse form)",
+          "Confusing the product of slopes with the sum of slopes: sum = 20/9, which could be misread as an answer choice if improperly simplified",
+          "Algebraic error in expanding (2 - 5m)² as 4 - 10m + 25m² instead of 4 - 20m + 25m²"
+        ],
+        "required_knowledge": [
+          "Ellipse equation and tangent line condition",
+          "Vieta's formulas",
+          "Condition for line y = mx + c to be tangent to ellipse x²/a² + y²/b² = 1"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["conic-sections", "ellipse", "tangents", "vieta-formulas"]
+    },
+    {
+      "task_id": "S-MATH-07A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Coordinate Geometry - Region Counting",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "The region R consists of all points strictly between the parabola y = x² and the line y = 2x + 3. In other words, a point (x, y) is in R if and only if x² < y < 2x + 3 and the point lies between the two intersection points of the curves. How many points with integer coordinates (both x and y integers) lie in R?\nA) 4\nB) 5\nC) 6\nD) 7",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option",
+        "No partial credit for reasoning without correct selection"
+      ],
+      "ground_truth": {
+        "answer": "D",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Find the intersection points of y = x² and y = 2x + 3 by setting x² = 2x + 3.",
+          "Step 2: Rearrange: x² - 2x - 3 = 0, which factors as (x - 3)(x + 1) = 0.",
+          "Step 3: The intersection points are at x = -1 (y = 1) and x = 3 (y = 9). Between these x-values, the line is above the parabola.",
+          "Step 4: The region R exists for x ∈ (-1, 3), with x² < y < 2x + 3.",
+          "Step 5: Check integer x-values in this interval: x = 0, 1, 2.",
+          "Step 6: For x = 0: parabola gives y = 0, line gives y = 3. So 0 < y < 3, meaning integer y ∈ {1, 2}. Points: (0, 1), (0, 2).",
+          "Step 7: For x = 1: parabola gives y = 1, line gives y = 5. So 1 < y < 5, meaning integer y ∈ {2, 3, 4}. Points: (1, 2), (1, 3), (1, 4).",
+          "Step 8: For x = 2: parabola gives y = 4, line gives y = 7. So 4 < y < 7, meaning integer y ∈ {5, 6}. Points: (2, 5), (2, 6).",
+          "Step 9: Count all points: 2 + 3 + 2 = 7 points.",
+          "Step 10: Verify no other integer x values work: x = -1 and x = 3 are boundary points (excluded by 'strictly between'), and x = -2, 4 are outside the interval.",
+          "Step 11: The answer is 7, corresponding to option D."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Including boundary points (x = -1 or x = 3) in the count",
+          "Incorrectly computing the intersection points, e.g., solving x² = 2x + 3 as (x-1)(x-3) = 0",
+          "Missing that for x = 0, y = 0 is on the parabola boundary so y must be strictly greater than 0"
+        ],
+        "required_knowledge": [
+          "Intersection of parabola and line",
+          "Inequality regions",
+          "Systematic integer lattice counting"
+        ],
+        "reasoning_depth": 3,
+        "estimated_human_time_minutes": 6
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["parabola", "region-counting", "integer-lattice", "coordinate-geometry"]
+    },
+    {
+      "task_id": "S-MATH-07A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Trigonometric Geometry - Error Detection",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "A student attempts to solve the following problem: 'In triangle ABC, side a = BC = 8, side b = AC = 13, and angle C = 60°. Find the length of side c = AB.'\n\nThe student's solution is:\n1. By the Law of Cosines: c² = a² + b² - 2ab cos(C) = 64 + 169 - 2(8)(13)(0.5) = 233 - 104 = 129.\n2. So c = √129.\n3. Now check with Law of Sines: sin(A)/a = sin(C)/c, so sin(A) = 8·sin(60°)/√129 = 8·(√3/2)/√129 = 4√3/√129 = 4√(3/129) = 4√(1/43) = 4/√43.\n4. Then A = arcsin(4/√43).\n5. Similarly sin(B) = 13·sin(60°)/√129 = 13√3/(2√129) = 13√(3/516) = 13/(2√43).\n6. Check: A + B + C = arcsin(4/√43) + arcsin(13/(2√43)) + 60°.\n7. The student computes numerically: arcsin(4/√43) ≈ 37.5°, arcsin(13/(2√43)) ≈ 82.5°, sum = 37.5 + 82.5 + 60 = 180°. ✓\n\nThe student concludes c = √129 is correct. Identify the specific step where an error first occurs, explain why it is wrong, and provide the correct answer for c.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify the first step containing an error",
+        "Explain the mathematical flaw in that step",
+        "Provide the correct value of c"
+      ],
+      "ground_truth": {
+        "answer": "There is no error in the student's solution; c = √129 is correct.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Verify Step 1 (Law of Cosines): c² = 8² + 13² - 2(8)(13)cos(60°) = 64 + 169 - 208(0.5) = 233 - 104 = 129. This is correct.",
+          "Step 2: Verify Step 2: c = √129. Correct.",
+          "Step 3: Verify Step 3 (Law of Sines): sin(A) = a·sin(C)/c = 8·(√3/2)/√129 = 4√3/√129. Rationalize: 4√3/√129 = 4√3/√(3·43) = 4√3/(√3·√43) = 4/√43. The student's simplification is correct.",
+          "Step 4: Verify Step 5: sin(B) = b·sin(C)/c = 13·(√3/2)/√129 = 13√3/(2√129) = 13√3/(2√3·√43) = 13/(2√43). Correct.",
+          "Step 5: Verify Step 6-7 numerically and exactly: sin(A) = 4/√43, so cos(A) = √(1 - 16/43) = √(27/43) = 3√3/√43. Sin(B) = 13/(2√43), so cos(B) = √(1 - 169/172) = √(3/172) = √3/(2√43).",
+          "Step 6: Check sin(A+B) = sin(A)cos(B) + cos(A)sin(B) = (4/√43)(√3/(2√43)) + (3√3/√43)(13/(2√43)) = (4√3 + 39√3)/(2·43) = 43√3/86 = √3/2 = sin(120°) = sin(180° - 60°) = sin(C).",
+          "Step 7: Since A+B < 180° and sin(A+B) = sin(120°), we have A+B = 120°, confirming A+B+C = 180°.",
+          "Step 8: Every step in the student's solution is mathematically correct. The problem is designed as a critical-thinking trap: the evaluator must recognize that a solution framed as 'find the error' may in fact contain no error. The correct answer is c = √129."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Inventing a non-existent error due to confirmation bias (expecting an error because the prompt asks for one)",
+          "Incorrectly claiming the Law of Cosines was applied with the wrong angle (angle C is indeed between sides a and b)",
+          "Claiming arithmetic errors where none exist, such as miscalculating 2·8·13·0.5 = 104"
+        ],
+        "required_knowledge": [
+          "Law of Cosines",
+          "Law of Sines",
+          "Trigonometric identities",
+          "Critical evaluation of mathematical reasoning"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["error-detection", "law-of-cosines", "law-of-sines", "trigonometry", "critical-thinking"]
+    },
+    {
+      "task_id": "S-MATH-07A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Euclidean Geometry - Triangle Centers and Circumcircle",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Let ABC be an acute triangle with circumcenter O and orthocenter H. Let M be the midpoint of side BC, and let Q be the reflection of H across M. Prove that the points A, O, and Q are collinear, and that the segment AQ is a diameter of the circumcircle of triangle ABC.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide a complete rigorous proof",
+        "You may use standard vector identities for triangle centers without re-deriving them",
+        "Clearly state any auxiliary constructions or coordinate choices"
+      ],
+      "ground_truth": {
+        "answer": "Proof: Using vectors with O as origin, H = A + B + C. Then Q = 2M - H = B + C - (A + B + C) = -A. Thus Q is the antipode of A, making A, O, Q collinear and AQ a diameter.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Setup: Let O be the circumcenter of triangle ABC. Use vector notation with O as the origin. Let a, b, c denote the position vectors of vertices A, B, C respectively. Since O is the circumcenter, |a| = |b| = |c| = R (the circumradius).",
+          "Step 2: Key identity: For any triangle, the orthocenter H has position vector h = a + b + c when the circumcenter O is taken as the origin. This follows from the fact that the reflection of H across any side lies on the circumcircle, or from the Euler line properties.",
+          "Step 3: Midpoint M of BC has position vector m = (b + c)/2.",
+          "Step 4: Q is the reflection of H across M. By definition of reflection across a point, M is the midpoint of segment HQ. Therefore: q = 2m - h = 2·(b + c)/2 - (a + b + c) = b + c - a - b - c = -a.",
+          "Step 5: Since q = -a, the point Q has position vector exactly opposite to A with respect to O.",
+          "Step 6: Collinearity: The points A, O, Q lie on the line through O in the direction of vector a (since q = -a is a scalar multiple of a). Thus A, O, Q are collinear.",
+          "Step 7: Diameter property: The distance |AQ| = |a - q| = |a - (-a)| = |2a| = 2|a| = 2R. Since A and Q are on opposite sides of O and |AQ| = 2R, the segment AQ is a diameter of the circumcircle.",
+          "Step 8: Alternative synthetic proof (verification): Let A' be the antipode of A. Then ∠ABA' = 90° (angle in a semicircle). Since CF is an altitude, CF ⊥ AB, so CF ∥ BA'. Similarly, BE ⊥ AC and ∠ACA' = 90°, so BE ∥ CA'. Thus BHCA' is a parallelogram, meaning M (midpoint of BC) is also the midpoint of HA'. Therefore A' is the reflection of H over M, i.e., Q = A'."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the result requires coordinates or complex computations, when a clean vector proof suffices",
+          "Confusing the reflection of H over side BC with the reflection over midpoint M (a common misconception)",
+          "Attempting to use only synthetic geometry without recognizing the utility of the vector identity h = a + b + c",
+          "Failing to justify why |a| = R implies |AQ| = 2R is sufficient for AQ to be a diameter"
+        ],
+        "required_knowledge": [
+          "Circumcenter and orthocenter vector relation",
+          "Reflection across a point",
+          "Parallelogram properties",
+          "Angle in a semicircle theorem"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["proof", "orthocenter", "circumcenter", "antipode", "vector-geometry"]
+    },
+    {
+      "task_id": "S-MATH-07A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Coordinate Geometry - Region with Multiple Curves",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the region R in the first quadrant bounded by the three curves y = x² (parabola), y = 4/x² (hyperbola), and y = x + 5 (line). A point (a, b) lies strictly inside R, meaning it is not on any boundary curve. Find the sum of all integer values of a such that there exists at least one integer value of b with (a, b) strictly inside R.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "3",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Find all pairwise intersection points of the three boundary curves in the first quadrant.",
+          "Step 2: Parabola and hyperbola: x² = 4/x² gives x⁴ = 4, so x = √2 ≈ 1.414. Point: (√2, 2).",
+          "Step 3: Parabola and line: x² = x + 5 gives x² - x - 5 = 0. Positive root: x = (1 + √21)/2 ≈ 2.791. Point: ((1+√21)/2, (11+√21)/2).",
+          "Step 4: Hyperbola and line: 4/x² = x + 5 gives x³ + 5x² - 4 = 0. By numerical methods or the intermediate value theorem, there is a unique positive root x₀ ≈ 0.83 (between 0.8 and 0.85). Point: (x₀, x₀ + 5).",
+          "Step 5: Determine which curve is the upper boundary and which is the lower boundary in different intervals.",
+          "Step 6: For x just above x₀: the hyperbola y = 4/x² is above the parabola. The line y = x + 5 is above both. So the region R has lower boundary hyperbola and upper boundary line.",
+          "Step 7: At x = √2 ≈ 1.414, the parabola and hyperbola intersect at y = 2. For x > √2, the parabola rises above the hyperbola. So for x ∈ (√2, (1+√21)/2), the lower boundary is the parabola and the upper boundary is the line.",
+          "Step 8: The region R exists for x ∈ (x₀, (1+√21)/2) where x₀ ≈ 0.83 and (1+√21)/2 ≈ 2.79.",
+          "Step 9: Find integer values of a in this interval: a = 1 and a = 2. (Note: a = 0 is not in the first quadrant interior since x₀ > 0, and a = 3 is outside since 3 > 2.79.)",
+          "Step 10: For a = 1: Since 1 < √2, the lower bound is the hyperbola y = 4/1² = 4 and the upper bound is the line y = 1 + 5 = 6. So 4 < b < 6. The integer b = 5 satisfies this. Thus (1, 5) is strictly inside R.",
+          "Step 11: For a = 2: Since 2 > √2, the lower bound is the parabola y = 2² = 4 and the upper bound is the line y = 2 + 5 = 7. So 4 < b < 7. The integers b = 5 and b = 6 both satisfy this. Thus (2, 5) and (2, 6) are strictly inside R.",
+          "Step 12: Verify a = 1 is indeed greater than x₀: x₀ ≈ 0.83 < 1, so x = 1 is within the region's x-range. Also verify a = 2 is less than (1+√21)/2 ≈ 2.79, so x = 2 is within range.",
+          "Step 13: The valid integer values of a are 1 and 2. Their sum is 1 + 2 = 3.",
+          "Step 14: Verification: Check boundary exclusions. At a = 1, b = 4 is on hyperbola (excluded) and b = 6 is on line (excluded), so only b = 5 works. At a = 2, b = 4 is on parabola (excluded) and b = 7 is on line (excluded), so b = 5, 6 work."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using y = x + 2 instead of y = x + 5 due to misreading the problem (the prompt deliberately uses x + 5 to create a non-trivial region with integer points)",
+          "Failing to identify the transition point at x = √2 where the lower boundary switches from hyperbola to parabola",
+          "Including a = 0 as a valid integer without checking that x₀ ≈ 0.83 excludes it",
+          "Including boundary points like (1, 4), (1, 6), (2, 4), or (2, 7) which are on the boundary curves, not strictly inside"
+        ],
+        "required_knowledge": [
+          "Intersection of polynomial and rational curves",
+          "Careful inequality analysis with strict inequalities",
+          "Transition points in piecewise-defined regions",
+          "Numerical estimation of roots"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["region-analysis", "multiple-curves", "integer-points", "parabola", "hyperbola"]
+    }
+  ]
+}

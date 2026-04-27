@@ -1,0 +1,417 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-06B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Combinatorics — Generating Functions, Extremal, Ramsey Theory",
+    "generated_at": "2026-04-24T21:25:00+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-06B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Extremal Graph Theory",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A graph G has n = 13 vertices and contains no complete subgraph K_4 as a subgraph. Determine the maximum possible number of edges in G, and explicitly describe one graph achieving this maximum.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning using Turán's theorem",
+        "Final answer must include both the maximum edge count and the construction"
+      ],
+      "ground_truth": {
+        "answer": "56",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Apply Turán's theorem, which states that the maximum number of edges in an n-vertex graph not containing K_{r+1} is achieved by the Turán graph T(n,r), the complete r-partite graph with parts as equal as possible.",
+          "Step 2: For K_4-free graphs, set r = 3. The Turán graph T(13,3) is the complete 3-partite graph with partition sizes as equal as possible.",
+          "Step 3: Divide 13 into 3 parts as equally as possible: sizes 5, 4, 4 (since 13 = 5 + 4 + 4).",
+          "Step 4: Count edges in the complete 3-partite graph with parts of sizes 5, 4, 4. Edges exist between every pair of vertices in different parts, so total edges = total pairs minus pairs within same part = C(13,2) - C(5,2) - C(4,2) - C(4,2) = 78 - 10 - 6 - 6 = 56."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing the Turán graph construction for r parts with r = 3 instead of correctly setting r = 3 for K_4-free",
+          "Miscalculating the partition sizes or edge counts in multipartite graphs",
+          "Attempting to use Mantel's theorem (r=2 case) instead of general Turán"
+        ],
+        "required_knowledge": [
+          "Turán's theorem",
+          "Complete multipartite graphs",
+          "K_{r+1}-free extremal graphs"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["extremal-graph-theory", "turan", "clique-free"]
+    },
+    {
+      "task_id": "S-MATH-06B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Probabilistic Method",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider a set S of n = 47 points in the plane, no three collinear. Each pair of points is connected by a straight segment, and each segment is colored independently either crimson or azure with equal probability 1/2. A triangle formed by three points is called 'discordant' if its three sides are not all the same color. Prove that with strictly positive probability, at least 40% of all triangles formed by points in S are discordant. You may use that for any triangle, the probability it is discordant is 3/4.",
+      "prompt_format": "proof",
+      "constraints": [
+        "State the probability space explicitly",
+        "Use linearity of expectation or another rigorous probabilistic argument",
+        "Do not rely on asymptotic approximations"
+      ],
+      "ground_truth": {
+        "answer": "Proof completed: The expected number of discordant triangles is (3/4)*C(47,3) = (3/4)*16215 = 12161.25. Since the expected proportion is exactly 75% > 40%, there must exist at least one coloring where at least 40% are discordant.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define the probability space as all 2^{C(47,2)} possible colorings of the edges, each with probability 2^{-C(47,2)}.",
+          "Step 2: For each triangle T formed by three points, define indicator random variable X_T = 1 if T is discordant, 0 otherwise.",
+          "Step 3: Compute E[X_T] = P(T is discordant). A triangle has 3 edges, each colored independently crimson/azure. The triangle is monochromatic (not discordant) if all 3 edges are crimson (probability 1/8) or all 3 are azure (probability 1/8). Thus P(monochromatic) = 1/4, so P(discordant) = 3/4.",
+          "Step 4: Let X = sum over all triangles T of X_T. By linearity of expectation, E[X] = C(47,3) * (3/4) = 16215 * 0.75 = 12161.25.",
+          "Step 5: The total number of triangles is C(47,3) = 16215. The expected proportion of discordant triangles is E[X]/16215 = 3/4 = 0.75.",
+          "Step 6: If in every coloring the proportion of discordant triangles were < 40%, then E[X]/16215 < 0.4, contradicting E[X]/16215 = 0.75. Therefore, there exists at least one coloring where at least 40% of triangles are discordant."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Attempting to use Lovász Local Lemma unnecessarily when linearity of expectation suffices",
+          "Incorrectly computing the probability of discordant as 1/2 instead of 3/4",
+          "Confusing the existence guarantee with a high-probability statement"
+        ],
+        "required_knowledge": [
+          "Linearity of expectation",
+          "Probabilistic method (existence via expectation)",
+          "Indicator random variables"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["probabilistic-method", "linearity-of-expectation", "graph-coloring"]
+    },
+    {
+      "task_id": "S-MATH-06B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Generating Functions",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Let A(x) = 1 / (1 - 3x + 2x^2) be the ordinary generating function for sequence {a_n}. Find a closed-form formula for a_n in terms of n, and compute the exact value of a_12.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Use partial fraction decomposition",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "8191",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Factor the denominator: 1 - 3x + 2x^2 = (1 - x)(1 - 2x).",
+          "Step 2: Perform partial fraction decomposition: 1/((1-x)(1-2x)) = A/(1-x) + B/(1-2x).",
+          "Step 3: Solve for A and B: 1 = A(1-2x) + B(1-x). Setting x = 1: 1 = A(-1), so A = -1. Setting x = 1/2: 1 = B(1/2), so B = 2.",
+          "Step 4: Thus A(x) = -1/(1-x) + 2/(1-2x) = -sum_{n>=0} x^n + 2*sum_{n>=0} (2x)^n = sum_{n>=0} (2^{n+1} - 1) x^n.",
+          "Step 5: Therefore a_n = 2^{n+1} - 1.",
+          "Step 6: Compute a_12 = 2^{13} - 1 = 8192 - 1 = 8191."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def a_n(n): return 2**(n+1) - 1; print(a_n(12))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly factoring the quadratic denominator",
+          "Making sign errors in partial fraction coefficients",
+          "Using 2^n instead of 2^{n+1} in the final formula"
+        ],
+        "required_knowledge": [
+          "Ordinary generating functions",
+          "Partial fraction decomposition",
+          "Geometric series expansion"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["generating-functions", "partial-fractions", "recurrence-relation"]
+    },
+    {
+      "task_id": "S-MATH-06B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Ramsey Theory",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A researcher claims to have found a red-blue edge coloring of the complete graph K_8 with no monochromatic K_3. Evaluate this claim: is it possible? If not, prove why. If yes, provide an explicit coloring (describe which edges are red and which are blue). Your argument must be rigorous and not rely on computing power.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Use the pigeonhole principle and careful case analysis",
+        "Do not rely on exhaustive enumeration"
+      ],
+      "ground_truth": {
+        "answer": "Impossible: R(3,3) = 6, so any 2-coloring of K_6 contains a monochromatic K_3, and thus any 2-coloring of K_8 certainly does.",
+        "answer_type": "impossibility",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: It is a classical result that R(3,3) = 6, meaning any red-blue edge coloring of K_6 contains a monochromatic triangle (K_3).",
+          "Step 2: The proof for R(3,3) = 6: consider any vertex v in K_6. It has 5 edges incident to it. By pigeonhole principle, at least 3 of these edges are the same color, say red, connecting v to vertices a, b, c.",
+          "Step 3: If any edge among {a,b,c} is red, we have a red triangle. If all edges among {a,b,c} are blue, we have a blue triangle. Thus K_6 always contains a monochromatic K_3.",
+          "Step 4: Since K_8 contains K_6 as a subgraph, any coloring of K_8 induces a coloring of K_6, which must contain a monochromatic K_3.",
+          "Step 5: Therefore, the researcher's claim is false."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing R(3,3) with a larger Ramsey number",
+          "Attempting to construct a coloring of K_8 without proving it works",
+          "Incorrectly claiming R(3,3) > 6"
+        ],
+        "required_knowledge": [
+          "Ramsey numbers",
+          "Pigeonhole principle",
+          "Monochromatic subgraphs"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["ramsey-theory", "ramsey-number", "graph-coloring"]
+    },
+    {
+      "task_id": "S-MATH-06B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Pólya Enumeration Theorem",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider coloring the vertices of a regular hexagon with colors from the set {cobalt, vermilion, chartreuse}. Two colorings are considered identical if one can be obtained from the other by a symmetry of the hexagon (the dihedral group D_6, including rotations and reflections). Compute the exact number of distinct colorings.\n\nA) 86\nB) 89\nC) 92\nD) 95",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Use Burnside's lemma or Pólya enumeration",
+        "Select the correct option"
+      ],
+      "ground_truth": {
+        "answer": "C",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The symmetry group is D_6 with |D_6| = 12 elements: 6 rotations (including identity) and 6 reflections.",
+          "Step 2: Count colorings fixed by each group element using Burnside's lemma. For a coloring to be fixed by a group element g, all vertices in each cycle of g must have the same color.",
+          "Step 3: Identity (e): 6 cycles of length 1. Fixed colorings: 3^6 = 729.",
+          "Step 4: Rotation by 60° (r): 1 cycle of length 6. Fixed: 3^1 = 3.",
+          "Step 5: Rotation by 120° (r^2): 2 cycles of length 3. Fixed: 3^2 = 9.",
+          "Step 6: Rotation by 180° (r^3): 3 cycles of length 2. Fixed: 3^3 = 27.",
+          "Step 7: Rotation by 240° (r^4): 2 cycles of length 3. Fixed: 3^2 = 9.",
+          "Step 8: Rotation by 300° (r^5): 1 cycle of length 6. Fixed: 3^1 = 3.",
+          "Step 9: Reflections through opposite vertices (3 of them): each has 2 fixed vertices and 2 cycles of length 2. Fixed: 3^4 = 81 each. Total: 3 × 81 = 243.",
+          "Step 10: Reflections through midpoints of opposite edges (3 of them): each has 3 cycles of length 2. Fixed: 3^3 = 27 each. Total: 3 × 27 = 81.",
+          "Step 11: Apply Burnside: (729 + 3 + 9 + 27 + 9 + 3 + 243 + 81) / 12 = 1104 / 12 = 92."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "identity, r60, r120, r180, r240, r300 = 3**6, 3, 3**2, 3**3, 3**2, 3; refl_v = 3 * 3**4; refl_e = 3 * 3**3; print((identity + r60 + r120 + r180 + r240 + r300 + refl_v + refl_e) // 12)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting the reflections in D_6 and only using the cyclic group C_6",
+          "Incorrectly counting cycles for the two types of reflections",
+          "Arithmetic errors in summing and dividing by 12"
+        ],
+        "required_knowledge": [
+          "Burnside's lemma",
+          "Dihedral group D_6",
+          "Cycle decomposition of permutations"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["polya-enumeration", "burnside-lemma", "dihedral-group"]
+    },
+    {
+      "task_id": "S-MATH-06B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Lovász Local Lemma",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 10,
+      "prompt": "Let G be a graph with maximum degree Δ = 5. Prove that there exists a vertex coloring of G using at most 8 colors such that no color class contains a 3-vertex path (i.e., each color class is P_3-free, meaning it is a disjoint union of isolated vertices and isolated edges only). Use the Lovász Local Lemma (symmetric form suffices) to establish this. Assume the lemma: if events A_i each have P(A_i) ≤ p, each is independent of all but d others, and ep(d+1) ≤ 1, then P(no A_i occurs) > 0.",
+      "prompt_format": "proof",
+      "constraints": [
+          "Define the probability space explicitly (random coloring)",
+          "Identify the bad events and their dependency degree",
+          "Verify the LLL condition ep(d+1) ≤ 1 rigorously"
+      ],
+      "ground_truth": {
+        "answer": "Proof completed: Randomly color each vertex of G independently and uniformly from {1,...,8}. For each 3-vertex path P = (u,v,w) in G, define bad event A_P that u, v, and w all receive the same color. Then P(A_P) = 8 * (1/8)^3 = 1/64. A path P is dependent only on paths sharing at least one vertex with P. For P = (u,v,w): paths sharing u (excluding v,w) use 2 neighbors of u other than v, giving at most C(4,2) = 6 paths; similarly for w. Paths sharing v use 2 neighbors of v other than u,w, giving at most C(4,2) = 6 paths. Thus d ≤ 18. Then ep(d+1) = e * 19/64 ≈ 0.807 < 1. By the symmetric Lovász Local Lemma, P(no A_P occurs) > 0, so there exists an 8-coloring with no monochromatic P_3.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define the probability space: color each vertex of G independently and uniformly at random from the color set {1, 2, ..., 8}. There are 8^{|V(G)|} equally likely colorings.",
+          "Step 2: For each 3-vertex path P = (u,v,w) in G (where uv and vw are edges), define the bad event A_P that all three vertices u, v, w receive the same color.",
+          "Step 3: Compute P(A_P). There are 8 choices for the common color, and each vertex receives it with probability 1/8. Thus P(A_P) = 8 * (1/8)^3 = 1/64 = p.",
+          "Step 4: Determine the dependency degree d. Event A_P is independent of all events A_Q for paths Q that are vertex-disjoint from P. We count paths Q sharing at least one vertex with P = (u,v,w). Since Δ = 5, vertex u has at most 4 neighbors other than v. A path through u (not using v) chooses 2 neighbors from these 4, giving at most C(4,2) = 6 paths. Similarly for w. For v, paths through v (not using u or w) choose 2 neighbors from the at most 4 neighbors other than u,w, giving at most C(4,2) = 6 paths. Hence d ≤ 6 + 6 + 6 = 18.",
+          "Step 5: Verify the LLL condition: ep(d+1) = e * (1/64) * 19 = 19e/64 ≈ 2.71828 * 19/64 ≈ 0.807 < 1.",
+          "Step 6: Since ep(d+1) < 1, the symmetric Lovász Local Lemma applies. Therefore P(∩_{P} A_P^c) > 0, meaning there exists at least one coloring where no bad event A_P occurs.",
+          "Step 7: In such a coloring, no three vertices forming a path in G share the same color. Thus each color class contains no P_3, completing the proof."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Overestimating or underestimating the dependency degree d",
+          "Forgetting that paths can share endpoints without sharing edges",
+          "Assuming LLL applies without verifying the numerical condition",
+          "Confusing proper coloring with P_3-free color classes"
+        ],
+        "required_knowledge": [
+          "Lovász Local Lemma (symmetric form)",
+          "Dependency graphs",
+          "Path counting in bounded-degree graphs"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["lovasz-local-lemma", "graph-coloring", "probabilistic-method"]
+    },
+    {
+      "task_id": "S-MATH-06B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Generating Functions Composition",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "The generating function F(x) = 1 / sqrt(1 - 4x) is known to generate the central binomial coefficients C(2n,n). Let G(x) = x / (1 - x)^2, which generates the sequence of positive integers n. Consider the composition H(x) = F(G(x)). Find the coefficient of x^5 in H(x), i.e., [x^5] H(x).\n\nA) 1202\nB) 1362\nC) 1522\nD) 1682",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Work with series expansions up to x^5",
+        "Select the correct coefficient"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: G(x) = x/(1-x)^2 = x(1 + 2x + 3x^2 + 4x^3 + 5x^4 + 6x^5 + ...). So G(x) = x + 2x^2 + 3x^3 + 4x^4 + 5x^5 + O(x^6).",
+          "Step 2: F(y) = 1/sqrt(1-4y) = sum_{n>=0} C(2n,n) y^n = 1 + 2y + 6y^2 + 20y^3 + 70y^4 + 252y^5 + ...",
+          "Step 3: H(x) = F(G(x)) = 1 + 2*G(x) + 6*G(x)^2 + 20*G(x)^3 + 70*G(x)^4 + 252*G(x)^5 + ...",
+          "Step 4: We need [x^5] H(x). Contributions come from: 2*G(x) gives 2*5 = 10.",
+          "Step 5: From 6*G(x)^2: G(x)^2 = (x + 2x^2 + 3x^3 + 4x^4 + 5x^5)^2. The x^5 coefficient comes from: x*4x^4 + 2x^2*3x^3 + 3x^3*2x^2 + 4x^4*x = 4 + 6 + 6 + 4 = 20. Times 6 gives 120.",
+          "Step 6: From 20*G(x)^3: Need x^5 in G^3. G^3 = x^3 + 6x^4 + ... The x^5 coefficient: choose terms whose exponents sum to 5. Using (1,2,2): coefficient 1*2*2 = 4, with 3 permutations = 12. Using (1,1,3): coefficient 1*1*3 = 3, with 3 permutations = 9. Total 21. Times 20 = 420.",
+          "Step 7: From 70*G(x)^4: Need x^5 in G^4 = x^4*(1+2x+...)^4. Coefficient of x^1 in (1+2x+...)^4 is 8. So coefficient is 8. Times 70 = 560.",
+          "Step 8: From 252*G(x)^5: G^5 = x^5 + ..., so coefficient is 1. Times 252 = 252.",
+          "Step 9: Total: 10 + 120 + 420 + 560 + 252 = 1362."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp; x = sp.Symbol('x'); G = x/(1-x)**2; F = 1/sp.sqrt(1-4*x); H = sp.series(F.subs(x, G), x, 0, 6); print(sp.expand(H).coeff(x, 5))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting higher-order terms in the composition that contribute to x^5",
+          "Miscalculating the coefficient of x^5 in G(x)^k for various k",
+          "Arithmetic errors in summing contributions"
+        ],
+        "required_knowledge": [
+          "Formal power series composition",
+          "Central binomial coefficients",
+          "Cauchy product of series"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["generating-functions", "composition", "series-expansion"]
+    },
+    {
+      "task_id": "S-MATH-06B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Young Tableaux",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A researcher claims that for the partition λ = (4,3,2,1) of 10, the number of standard Young tableaux of shape λ is 768. Verify or refute this claim by computing the exact number using the hook-length formula. Show your work.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Apply the hook-length formula explicitly",
+        "Final answer must be a single integer"
+      ],
+      "ground_truth": {
+        "answer": "768",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: For partition λ = (4,3,2,1), draw the Young diagram with row lengths 4, 3, 2, 1.",
+          "Step 2: Compute hook lengths for each cell. For cell (i,j) in row i, column j: hook length = (λ_i - j) + (λ'_j - i) + 1, where λ' is the conjugate partition.",
+          "Step 3: Row 1 (4 cells): hooks at (1,1): (4-1)+(4-1)+1 = 7; (1,2): (4-2)+(3-1)+1 = 5; (1,3): (4-3)+(2-1)+1 = 3; (1,4): (4-4)+(1-1)+1 = 1.",
+          "Step 4: Row 2 (3 cells): hooks at (2,1): (3-1)+(4-2)+1 = 5; (2,2): (3-2)+(3-2)+1 = 3; (2,3): (3-3)+(2-2)+1 = 1.",
+          "Step 5: Row 3 (2 cells): hooks at (3,1): (2-1)+(4-3)+1 = 3; (3,2): (2-2)+(3-3)+1 = 1.",
+          "Step 6: Row 4 (1 cell): hook at (4,1): (1-1)+(4-4)+1 = 1.",
+          "Step 7: Hook lengths: 7,5,3,1 / 5,3,1 / 3,1 / 1. Product = 7*5*3*1*5*3*1*3*1*1 = 4725.",
+          "Step 8: By hook-length formula: f^λ = 10! / (product of hook lengths) = 3628800 / 4725 = 768.",
+          "Step 9: The researcher's claim is correct."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import math; hooks = [7,5,3,1,5,3,1,3,1,1]; print(math.factorial(10) // eval('*'.join(map(str,hooks))))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly computing hook lengths by forgetting the +1 or miscomputing arm/leg lengths",
+          "Arithmetic errors in computing the large factorial division",
+          "Confusing standard Young tableaux with semistandard ones"
+        ],
+        "required_knowledge": [
+          "Young tableaux",
+          "Hook-length formula",
+          "Partition conjugation"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["young-tableaux", "hook-length-formula", "algebraic-combinatorics"]
+    }
+  ]
+}

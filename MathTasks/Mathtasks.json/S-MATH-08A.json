@@ -1,0 +1,357 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-08A",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Geometry — Projective, Transformational, Higher-Dimensional",
+    "generated_at": "2026-04-25T01:03:19+05:00"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-08A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Projective geometry — cross-ratio and duality",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "In the Euclidean plane, four lines ℓ₁, ℓ₂, ℓ₃, ℓ₄ pass through the origin O(0,0) and have slopes 1, 2, 3, and 4 respectively. Let L be the transversal line x + 2y = 6. The four lines intersect L at four collinear points P₁, P₂, P₃, P₄, ordered so that Pᵢ corresponds to ℓᵢ.\n\n(a) Compute the exact cross-ratio (P₁, P₂; P₃, P₄) using any affine coordinate on L. Express your answer as a reduced fraction.\n\n(b) State the projective-geometric principle that guarantees this value is independent of the choice of transversal line.\n\n(c) Using the principle of projective duality, explain why the cross-ratio of four concurrent lines (taken as a pencil) equals the cross-ratio of their intersection points with any transversal that does not pass through their common intersection.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show explicit coordinate calculations for part (a)",
+        "For part (c), explain the dual configuration precisely: identify what the dual of the pencil of lines is, and what the dual of the transversal line is"
+      ],
+      "ground_truth": {
+        "answer": "4/3",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Find the intersection of each line ℓᵢ with L: x + 2y = 6. For ℓ₁ (y = x): x + 2x = 6 gives x = 2, so P₁ = (2, 2). For ℓ₂ (y = 2x): x + 4x = 6 gives x = 6/5, so P₂ = (6/5, 12/5). For ℓ₃ (y = 3x): x + 6x = 6 gives x = 6/7, so P₃ = (6/7, 18/7). For ℓ₄ (y = 4x): x + 8x = 6 gives x = 2/3, so P₄ = (2/3, 8/3).",
+          "Step 2: Parameterize L by x-coordinate (an affine coordinate along L). The directed distances between points are proportional to differences in x-coordinates because the map x ↦ (x, (6−x)/2) is an affine parametrization of L.",
+          "Step 3: Apply the cross-ratio formula (P₁, P₂; P₃, P₄) = ((x₃ − x₁)/(x₃ − x₂)) / ((x₄ − x₁)/(x₄ − x₂)). Substituting x₁ = 2, x₂ = 6/5, x₃ = 6/7, x₄ = 2/3 yields ((6/7 − 2)/(6/7 − 6/5)) / ((2/3 − 2)/(2/3 − 6/5)) = ((−8/7)/(−12/35)) / ((−4/3)/(−8/15)) = (40/12) / (60/24) = (10/3) / (5/2) = 4/3.",
+          "Step 4: The invariance principle is the projective invariance of cross-ratio: if four collinear points are projected from a point onto another line, their cross-ratio is preserved. Since all four lines meet at O, the intersections with any two transversals are related by projection from O, hence have the same cross-ratio.",
+          "Step 5: By projective duality in P², a pencil of concurrent lines (all passing through O) corresponds dually to a range of collinear points lying on the line o that is dual to O. Each line ℓᵢ dualizes to a point Lᵢ on o. The transversal L (not through O) dualizes to a point l not on o. The four intersection points Pᵢ = ℓᵢ ∩ L dualize to the four lines joining l to Lᵢ. The cross-ratio of the four lines through l in the dual plane equals the cross-ratio of the four points Lᵢ on o (by the same projection invariance in the dual plane). But cross-ratio is self-dual: the cross-ratio of four concurrent lines equals the cross-ratio of their dual points. Therefore the pencil cross-ratio equals the range cross-ratio on any transversal."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\nx1, x2, x3, x4 = 2, sp.Rational(6,5), sp.Rational(6,7), sp.Rational(2,3)\ncr = ((x3 - x1)/(x3 - x2)) / ((x4 - x1)/(x4 - x2))\nassert sp.simplify(cr) == sp.Rational(4,3)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Computing the cross-ratio of the slopes (1, 2, 3, 4) directly instead of the intersection points; the cross-ratio of slopes is not the same as the cross-ratio of the pencil",
+          "Forgetting that the cross-ratio formula requires directed distances along the line, and incorrectly using Euclidean distances in the plane",
+          "In the duality explanation, confusing the primal and dual roles: stating that the dual of a line is a point but then describing the dual of the pencil as a pencil rather than a range"
+        ],
+        "required_knowledge": [
+          "Definition and computation of cross-ratio for collinear points",
+          "Projective invariance of cross-ratio under projection",
+          "Principle of projective duality in P²: points ↔ lines, pencils ↔ ranges"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["projective-geometry", "cross-ratio", "duality", "pencil-of-lines"]
+    },
+    {
+      "task_id": "S-MATH-08A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Inversive geometry — circle inversion mapping",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "In the Euclidean plane, two circles are given:\nC₁ has center (0, 3) and radius 2.\nC₂ has center (0, 6) and radius 4.\n\nUnder a circle inversion I about the origin O = (0, 0) with power k² (i.e., I maps any point P ≠ O to the unique point P′ on the ray OP such that |OP| · |OP′| = k²), the image of circle C₁ is exactly the circle C₂.\n\nWhat is the value of k²?\n\nA) 5\nB) 10\nC) 15\nD) 20",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "No external tools or computation devices; select exactly one option"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Write the general equation of C₁. Center (0, 3), radius 2 gives x² + (y − 3)² = 4, which expands to x² + y² − 6y + 5 = 0.",
+          "Step 2: Apply the inversion formulas x′ = k²x/(x² + y²), y′ = k²y/(x² + y²), with inverse relations x = k²x′/(x′² + y′²), y = k²y′/(x′² + y′²).",
+          "Step 3: Substitute into the equation of C₁. Using x² + y² = k⁴/(x′² + y′²), we obtain (k⁴/(x′² + y′²)) − 6(k²y′/(x′² + y′²)) + 5 = 0.",
+          "Step 4: Multiply by (x′² + y′²) to clear denominators: 5(x′² + y′²) − 6k²y′ + k⁴ = 0, or x′² + y′² − (6k²/5)y′ + k⁴/5 = 0.",
+          "Step 5: Complete the square: x′² + (y′ − 3k²/5)² = (3k²/5)² − k⁴/5 = 9k⁴/25 − 5k⁴/25 = 4k⁴/25. Thus the image circle has center (0, 3k²/5) and radius 2k²/5.",
+          "Step 6: Match with C₂, which has center (0, 6) and radius 4. From center: 3k²/5 = 6, giving k² = 10. From radius: 2k²/5 = 4, also giving k² = 10. Both conditions are consistent."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "# Verify algebraically\n# C1: x^2 + y^2 - 6y + 5 = 0\n# Under inversion with k^2=10, image is:\n# 5(x'^2 + y'^2) - 60y' + 100 = 0\n# x'^2 + y'^2 - 12y' + 20 = 0\n# x'^2 + (y'-6)^2 = 16 -> center (0,6), radius 4. Matches C2."
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the center of C₁ maps to the center of C₂ under inversion; inversion does not preserve circle centers in general",
+          "Choosing the distance between centers (3) as the radius of inversion, confusing geometric distance with inversion power",
+          "Failing to expand the circle equation and instead trying to invert the center point directly, leading to distractor A (5 = 3² − 2²) or D (20 = 2·10)"
+        ],
+        "required_knowledge": [
+          "Formula for image of a circle under inversion",
+          "Algebraic manipulation of circle equations",
+          "Understanding that inversion about a point not on a circle maps it to another circle"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["inversive-geometry", "circle-inversion", "mapping", "algebraic-manipulation"]
+    },
+    {
+      "task_id": "S-MATH-08A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Geometric optimization — Steiner tree on five points",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider five points in the Euclidean plane:\nA = (0, 0), B = (2, 0), C = (2, 2), D = (0, 2), and E = (1, 1).\n\nA Euclidean Steiner tree on a finite set of points (terminals) is a connected graph of minimum total edge length whose vertices include all terminals and possibly additional Steiner points. Every Steiner point has degree exactly three, and the three incident edges meet at pairwise 120° angles.\n\nProve that the minimal Steiner tree on {A, B, C, D, E} has total length exactly 2 + 2√3. Your proof must:\n(i) Explicitly determine the coordinates of every Steiner point;\n(ii) Verify that the angle condition (120°) holds at each Steiner point;\n(iii) Prove that the terminal E = (1, 1) lies on a Steiner edge of the four-point tree for {A, B, C, D}, and explain why this implies the five-point Steiner tree has the same topology and total length as the four-point tree;\n(iv) Conclude that no alternative topology can yield a shorter total length.",
+      "prompt_format": "proof",
+      "constraints": [
+        "All coordinates and lengths must be derived from first principles, not cited from memory",
+        "The 120° angle condition must be verified explicitly using dot products or the law of cosines"
+      ],
+      "ground_truth": {
+        "answer": "2 + 2√3",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: By symmetry of the square {A, B, C, D}, any Steiner tree must have two Steiner points S₁ and S₂ lying on the vertical line x = 1. S₁ connects to A and B; S₂ connects to C and D; and S₁ connects to S₂.",
+          "Step 2: Apply the 120° condition at S₁. Triangle AS₁B is isosceles with base AB = 2 and apex angle ∠AS₁B = 120°. By the law of cosines: 2² = 2|S₁A|²(1 − cos 120°) = 2|S₁A|² · (3/2) = 3|S₁A|². Hence |S₁A| = |S₁B| = 2/√3 = 2√3/3.",
+          "Step 3: The height of S₁ above AB is √((2/√3)² − 1²) = √(4/3 − 1) = √(1/3) = √3/3. Thus S₁ = (1, √3/3). By symmetry across the horizontal midline y = 1, S₂ = (1, 2 − √3/3).",
+          "Step 4: Compute the length of the Steiner edge S₁S₂: |S₁S₂| = (2 − √3/3) − √3/3 = 2 − 2√3/3 = (6 − 2√3)/3.",
+          "Step 5: Total length of the four-point Steiner tree: L₄ = 4 · (2√3/3) + (6 − 2√3)/3 = (8√3 + 6 − 2√3)/3 = (6 + 6√3)/3 = 2 + 2√3.",
+          "Step 6: Verify that E = (1, 1) lies on the segment S₁S₂. Since √3/3 ≈ 0.577 and 2 − √3/3 ≈ 1.423, we have √3/3 < 1 < 2 − √3/3. Because S₁ and S₂ both have x-coordinate 1, the entire segment S₁S₂ is vertical at x = 1, and E = (1, 1) lies strictly between them.",
+          "Step 7: In the five-point Steiner tree, E can be inserted as a degree-2 vertex on the edge S₁S₂, splitting it into edges S₁E and ES₂. Since |S₁E| + |ES₂| = |S₁S₂| by collinearity, the total length remains exactly 2 + 2√3. The Steiner points S₁ and S₂ still have degree 3 (S₁ connects to A, B, E; S₂ connects to C, D, E), satisfying the Steiner condition.",
+          "Step 8: To see that no shorter tree exists, note that the Steiner tree on {A, B, C, D} is globally optimal for those four points (this is the classical Gilbert-Pollak solution for the square). Adding E on an existing Steiner edge cannot reduce the minimum, because any tree on five points restricts to a tree on {A, B, C, D} after deleting E and smoothing degree-2 vertices, yielding length at least L₄. Since we have achieved L₄, it is optimal."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": "import sympy as sp\n# Verify Steiner point coordinates and total length\ns1 = sp.Matrix([1, sp.sqrt(3)/3])\ns2 = sp.Matrix([1, 2 - sp.sqrt(3)/3])\nA = sp.Matrix([0, 0])\nB = sp.Matrix([2, 0])\nC = sp.Matrix([2, 2])\nD = sp.Matrix([0, 2])\nd1 = sp.sqrt((s1 - A).dot(s1 - A))\nd2 = sp.sqrt((s1 - B).dot(s1 - B))\nd3 = sp.sqrt((s2 - C).dot(s2 - C))\nd4 = sp.sqrt((s2 - D).dot(s2 - D))\nd5 = sp.sqrt((s2 - s1).dot(s2 - s1))\ntotal = sp.simplify(d1 + d2 + d3 + d4 + d5)\nassert total == 2 + 2*sp.sqrt(3)\n# Verify E lies on segment\nassert sp.sqrt(3)/3 < 1 < 2 - sp.sqrt(3)/3"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the minimal Steiner tree on five points must have three Steiner points, failing to recognize that E lies on an existing edge and therefore does not increase the number of Steiner points",
+          "Computing the minimum spanning tree instead of the Steiner tree, obtaining 4√2 ≈ 5.657 rather than 2 + 2√3 ≈ 5.464",
+          "Incorrectly placing Steiner points at the center of the square or at edge midpoints, violating the 120° angle condition"
+        ],
+        "required_knowledge": [
+          "Definition and properties of Euclidean Steiner trees (120° condition, degree-3 Steiner points)",
+          "Steiner tree for four vertices of a square",
+          "Geometric optimization and symmetry arguments"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["geometric-optimization", "steiner-tree", "fermat-point", "symmetry"]
+    },
+    {
+      "task_id": "S-MATH-08A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Inversive geometry — error detection in inversion argument",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "The following argument claims to deduce a property of orthogonal circles under inversion. Your task is to identify the first logical error in the argument, explain precisely why it is incorrect, and state what the correct conclusion should be.\n\nARGUMENT:\nConsider two circles C₁ and C₂ in the plane that intersect at two distinct points A and B. Let P be a point on the line AB but outside both circles. Consider a circle inversion I about P with arbitrary radius k. Since P lies on the line AB, and the points A and B also lie on the line AB, the points A and B are fixed by the inversion I. Therefore, the images C₁′ and C₂′ of C₁ and C₂ under I also pass through A and B. Because inversion preserves angles (it is conformal), the angle between C₁ and C₂ at A equals the angle between C₁′ and C₂′ at A. Hence, if C₁ and C₂ are orthogonal, then so are C₁′ and C₂′.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify the exact sentence containing the first error",
+        "Explain the correct behavior of points on a line through the inversion center",
+        "State the correct image points through which C₁′ and C₂′ pass"
+      ],
+      "ground_truth": {
+        "answer": "The first error is the sentence: 'Since P lies on the line AB, and the points A and B also lie on the line AB, the points A and B are fixed by the inversion I.' Points lying on a line through the center of inversion are NOT fixed by the inversion (unless they happen to lie on the circle of inversion, i.e., at distance exactly k from P). Under inversion about P with radius k, a point Q on ray PQ maps to Q′ on the same ray satisfying |PQ|·|PQ′| = k². Thus A maps to A′ and B maps to B′, where A′ and B′ are distinct from A and B in general. The correct conclusion is that C₁′ and C₂′ pass through A′ and B′ (the images of A and B), not through A and B themselves. The final conclusion that orthogonality is preserved is actually true, but the argument given to reach it is invalid because it relies on the false premise that A and B are fixed points.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Read the argument carefully. The first deductive claim after setup is: 'Since P lies on the line AB, and the points A and B also lie on the line AB, the points A and B are fixed by the inversion I.'",
+          "Step 2: Identify the logical gap: the argument implicitly assumes that being collinear with the inversion center implies being a fixed point. This is false. Collinearity only guarantees that the image lies on the same line; it does not guarantee that the point maps to itself.",
+          "Step 3: State the correct inversion behavior: for any point Q ≠ P, its image Q′ lies on ray PQ and satisfies |PQ|·|PQ′| = k². Therefore Q = Q′ if and only if |PQ|² = k², i.e., Q lies on the circle of inversion. Since A and B are arbitrary points on line AB (not necessarily at distance k from P), they are not fixed.",
+          "Step 4: Correct the deduction: C₁′ and C₂′ pass through A′ and B′, the images of A and B under I. The angle-preservation property of inversion is valid, but the angle at A′ (not A) on C₁′ equals the angle at A on C₁. The conclusion about orthogonality is serendipitously correct, but the reasoning is circular/invalid because it reasons about angles at the wrong points."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming the error is in the conformality statement ('inversion preserves angles') rather than in the fixed-point claim; inversion IS conformal, so this is not the first error",
+          "Stating that 'circles through the center of inversion map to lines' as the error, which is true in general but irrelevant here because the argument is about circles not through P",
+          "Missing that the conclusion happens to be true (orthogonality IS preserved under inversion) and incorrectly asserting that the final conclusion is false"
+        ],
+        "required_knowledge": [
+          "Definition of circle inversion and its action on points",
+          "Fixed points of inversion (only points on the circle of inversion)",
+          "Conformality of inversion (angle-preserving property)"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["inversive-geometry", "error-detection", "conformality", "fixed-points"]
+    },
+    {
+      "task_id": "S-MATH-08A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Three-dimensional geometry — dihedral angles in tetrahedra",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A tetrahedron T has vertices at the following coordinates in ℝ³:\nA = (0, 0, 0)\nB = (2, 0, 0)\nC = (1, 2, 0)\nD = (1, 1, 2)\n\nCompute the exact internal dihedral angle along the edge AB. Express your answer as a rational multiple of π (for example, π/3 or 3π/4). Show all steps: compute face normals, determine their outward orientation relative to the tetrahedron, compute the angle between outward normals, and convert to the internal dihedral angle.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Final answer must be expressed as a simple rational multiple of π",
+        "Must explicitly identify which normal direction is outward for each face"
+      ],
+      "ground_truth": {
+        "answer": "π/4",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the two faces sharing edge AB: face ABC and face ABD.",
+          "Step 2: Compute vectors for face ABC: AB→ = (2, 0, 0) and AC→ = (1, 2, 0). The normal is n₁ = AB→ × AC→ = (0, 0, 4).",
+          "Step 3: Compute vectors for face ABD: AB→ = (2, 0, 0) and AD→ = (1, 1, 2). The normal is n₂ = AB→ × AD→ = (0, −4, 4).",
+          "Step 4: Determine outward orientation. For face ABC, the centroid is (1, 2/3, 0). The vector from centroid to D = (1, 1, 2) is (0, 1/3, 2). Since n₁ = (0, 0, 4) has positive dot product with this vector, n₁ points toward the interior. The outward normal is n₁_out = (0, 0, −1) after normalization.",
+          "Step 5: For face ABD, the centroid is (1, 1/3, 2/3). The vector from centroid to C = (1, 2, 0) is (0, 5/3, −2/3). The normalized n₂ is (0, −1, 1)/√2. Its dot product with the vector to C is (−5/3 − 2/3)/√2 = −7/(3√2) < 0, so n₂ points away from C and is already outward: n₂_out = (0, −1, 1)/√2.",
+          "Step 6: Compute the cosine of the angle θ between outward normals: cos θ = n₁_out · n₂_out = (0)(0) + (0)(−1/√2) + (−1)(1/√2) = −1/√2 = −√2/2.",
+          "Step 7: Hence θ = arccos(−√2/2) = 3π/4 = 135°. The internal dihedral angle φ satisfies cos(π − φ) = cos θ, so π − φ = 3π/4, giving φ = π/4."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import numpy as np\nA = np.array([0., 0., 0.])\nB = np.array([2., 0., 0.])\nC = np.array([1., 2., 0.])\nD = np.array([1., 1., 2.])\nn1 = np.cross(B - A, C - A)\nn2 = np.cross(B - A, D - A)\nn1 = n1 / np.linalg.norm(n1)\nn2 = n2 / np.linalg.norm(n2)\nc1 = (A + B + C) / 3\nc2 = (A + B + D) / 3\nif np.dot(n1, D - c1) > 0: n1 = -n1\nif np.dot(n2, C - c2) > 0: n2 = -n2\ncos_angle = np.dot(n1, n2)\ninternal = np.pi - np.arccos(cos_angle)\nassert np.isclose(internal, np.pi / 4)"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the raw normals without checking orientation, obtaining arccos(√2/2) = π/4 as the angle between normals but failing to recognize this is the external angle, not the internal dihedral angle",
+          "Computing the angle between edge AB and a face normal instead of the angle between the two face normals",
+          "Forgetting to normalize the cross products, leading to incorrect cosine values"
+        ],
+        "required_knowledge": [
+          "Cross product for computing face normals of a tetrahedron",
+          "Definition of dihedral angle and the distinction between internal and external angles",
+          "Outward normal orientation test using the centroid and opposite vertex"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 22
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["3d-geometry", "dihedral-angle", "tetrahedron", "outward-normals"]
+    },
+    {
+      "task_id": "S-MATH-08A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Differential geometry — curvature of a parametric curve",
+      "bloom_level": "Create",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Let γ be the parametric curve in ℝ³ defined by\n\nr(t) = (t cos t,  t sin t,  t²)\n\nfor t ∈ ℝ.\n\n(a) Derive general expressions for the first and second derivatives r′(t) and r″(t).\n\n(b) Compute the cross product r′(t) × r″(t) and simplify it as much as possible.\n\n(c) Using the curvature formula κ(t) = |r′(t) × r″(t)| / |r′(t)|³, evaluate κ(√2). Express your final answer in the form a√b / c where a, b, c are positive integers, b is square-free, and gcd(a, c) = 1. Report the ordered triple (a, b, c).",
+      "prompt_format": "proof",
+      "constraints": [
+        "All symbolic simplifications must be shown explicitly; do not skip algebraic steps",
+        "The final answer must be the ordered triple (a, b, c) in lowest terms"
+      ],
+      "ground_truth": {
+        "answer": "(2, 165, 121)",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute r′(t) by differentiating each component: r′(t) = (cos t − t sin t,  sin t + t cos t,  2t).",
+          "Step 2: Compute r″(t) by differentiating again: r″(t) = (−2 sin t − t cos t,  2 cos t − t sin t,  2).",
+          "Step 3: Compute the cross product r′ × r″. The x-component is (sin t + t cos t)(2) − (2t)(2 cos t − t sin t) = 2 sin t + 2t cos t − 4t cos t + 2t² sin t = 2t² sin t − 2t cos t + 2 sin t. The y-component is (2t)(−2 sin t − t cos t) − (cos t − t sin t)(2) = −4t sin t − 2t² cos t − 2 cos t + 2t sin t = −2t² cos t − 2t sin t − 2 cos t. The z-component is (cos t − t sin t)(2 cos t − t sin t) − (−2 sin t − t cos t)(sin t + t cos t) = 2 cos² t − t sin t cos t − 2t sin t cos t + t² sin² t + 2 sin² t + 2t sin t cos t + t² cos² t = 2(cos² t + sin² t) + t²(sin² t + cos² t) − t sin t cos t = 2 + t².",
+          "Step 4: Simplify: r′ × r″ = (2(t² + 1) sin t − 2t cos t,  −2(t² + 1) cos t − 2t sin t,  t² + 2).",
+          "Step 5: Compute |r′|² = (cos t − t sin t)² + (sin t + t cos t)² + (2t)² = cos² t − 2t sin t cos t + t² sin² t + sin² t + 2t sin t cos t + t² cos² t + 4t² = 1 + t² + 4t² = 1 + 5t².",
+          "Step 6: At t = √2: |r′|² = 1 + 5(2) = 11, so |r′| = √11 and |r′|³ = 11√11.",
+          "Step 7: At t = √2, the z-component of the cross product is 4. The x-component is 6 sin(√2) − 2√2 cos(√2) and the y-component is −6 cos(√2) − 2√2 sin(√2). Compute |r′ × r″|² = (6 sin(√2) − 2√2 cos(√2))² + (−6 cos(√2) − 2√2 sin(√2))² + 16 = 36 sin²(√2) − 24√2 sin(√2)cos(√2) + 8 cos²(√2) + 36 cos²(√2) + 24√2 sin(√2)cos(√2) + 8 sin²(√2) + 16 = 44(sin² + cos²) + 16 = 44 + 16 = 60. Thus |r′ × r″| = √60 = 2√15.",
+          "Step 8: Therefore κ(√2) = 2√15 / (11√11) = 2√165 / 121. The ordered triple is (2, 165, 121)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import sympy as sp\nt = sp.sqrt(2)\nr1 = sp.Matrix([sp.cos(t) - t*sp.sin(t), sp.sin(t) + t*sp.cos(t), 2*t])\nr2 = sp.Matrix([-2*sp.sin(t) - t*sp.cos(t), 2*sp.cos(t) - t*sp.sin(t), 2])\ncross = r1.cross(r2)\nkappa = sp.sqrt(cross.dot(cross)) / sp.sqrt(r1.dot(r1))**3\nassert sp.simplify(kappa) == 2*sp.sqrt(165)/121"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting to include the factor of 2 in the z-component of r″(t), leading to an incorrect cross product",
+          "Computing |r′ × r″| by taking the absolute value of each component separately instead of the Euclidean norm",
+          "Failing to rationalize the denominator, leaving the answer as 2√15/(11√11) instead of 2√165/121"
+        ],
+        "required_knowledge": [
+          "Curvature formula for parametric space curves",
+          "Vector cross product and its geometric interpretation",
+          "Trigonometric identities (sin² + cos² = 1)"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["curvature", "parametric-curve", "differential-geometry", "cross-product"]
+    },
+    {
+      "task_id": "S-MATH-08A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Higher-dimensional projective geometry — dimensional analogy error",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "The following argument attempts to extend incidence theorems from the real projective plane P²(ℝ) to projective 3-space P³(ℝ) by direct analogy. Your task is to identify the specific false claim, explain with a concrete counterexample why it fails in three dimensions, and state the correct higher-dimensional replacement theorem.\n\nARGUMENT:\nIn the real projective plane P²(ℝ), the principle of duality states that every theorem about points and lines remains valid when we interchange the words 'point' and 'line'. This works because the dual of a point is a line and the dual of a line is a point.\n\nBy direct analogy, in projective 3-space P³(ℝ), the dual of a point is a plane and the dual of a line is a line. Therefore, any incidence theorem about points, lines, and planes in P² extends to P³ by replacing 'point' with 'plane' and keeping 'line' unchanged.\n\nFor example: since in P² two distinct points determine a unique line, in P³ two distinct planes determine a unique line. And since in P² two distinct lines always meet in exactly one point, it follows by analogy that in P³ two distinct lines always meet in exactly one point.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify the exact false sentence in the argument",
+        "Provide an explicit coordinate example of two lines in P³ that violate the false claim",
+        "State the correct necessary and sufficient condition for two lines in P³ to intersect"
+      ],
+      "ground_truth": {
+        "answer": "The false claim is: 'in P³ two distinct lines always meet in exactly one point.' In P³(ℝ), two distinct lines can be skew (non-coplanar), in which case they do not intersect at all. A concrete counterexample: in affine coordinates, take line L₁ through (0,0,0) and (1,0,0) (the x-axis), and line L₂ through (0,1,0) and (0,1,1). These lines are not parallel and do not intersect, because any point on L₁ has y-coordinate 0 while any point on L₂ has y-coordinate 1. In projective coordinates, L₁ = span{(1:0:0:0), (0:1:0:0)} and L₂ = span{(0:0:1:0), (0:0:1:1)}; solving for intersection gives no non-trivial solution. The correct statement is: in P³, two distinct lines meet if and only if they are coplanar (i.e., there exists a plane containing both); when they meet, they meet in exactly one point. The existence of skew lines is a fundamental feature distinguishing projective 3-space from the projective plane.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the false sentence in the argument: 'And since in P² two distinct lines always meet in exactly one point, it follows by analogy that in P³ two distinct lines always meet in exactly one point.'",
+          "Step 2: Explain the logical flaw: the argument assumes that because duality interchanges points and planes in P³, all incidence patterns from P² lift automatically. However, the dimension jump introduces new geometric possibilities that have no analogue in the plane.",
+          "Step 3: Provide a concrete counterexample. In affine coordinates embedded in P³, let L₁ = {(t, 0, 0) : t ∈ ℝ} ∪ {(1:0:0:0)} (the x-axis) and L₂ = {(0, 1, s) : s ∈ ℝ} ∪ {(0:0:1:0)}. These lines are not parallel (direction vectors (1,0,0) and (0,0,1) are linearly independent) and do not intersect (the system t = 0, 0 = 1, 0 = s has no solution).",
+          "Step 4: State the correct theorem: In P³(ℝ), two distinct lines intersect if and only if they are coplanar, meaning the four points defining the two lines (two on each line) are contained in some plane. Equivalently, their Plücker coordinates satisfy the Grassmann-Plücker relation with zero bilinear form. When two distinct lines in P³ are coplanar, they intersect in exactly one point; otherwise they are skew and disjoint."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Identifying the first sentence about duality as the error, when the duality principle in P³ is actually correct (point ↔ plane, line ↔ line)",
+          "Claiming that the error is 'two distinct planes determine a unique line,' which is actually TRUE in P³",
+          "Giving a counterexample of parallel lines in affine space without explaining how they become skew (non-intersecting and non-parallel) in projective space, or confusing skew lines with parallel lines"
+        ],
+        "required_knowledge": [
+          "Projective duality in P² and P³",
+          "Existence of skew lines in three-dimensional projective space",
+          "Incidence geometry: coplanarity condition for line intersection in P³"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["projective-geometry", "higher-dimensional", "skew-lines", "duality", "dimensional-analogy"]
+    }
+  ]
+}

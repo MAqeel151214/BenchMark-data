@@ -1,0 +1,403 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-05B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Combinatorics — Counting, Permutations, Inclusion-Exclusion",
+    "generated_at": "2026-04-24T10:15:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-05B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Recurrence Relations — Non-homogeneous with Distinct Roots",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 2,
+      "prompt": "Consider the sequence (a_n) defined by the recurrence relation a_n = 5a_{n-1} - 6a_{n-2} + 2 \\cdot 3^n for all integers n \\ge 2, with initial conditions a_0 = 2 and a_1 = 9. Compute the exact value of a_{10}.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the complete derivation of the closed-form solution",
+        "Final answer must be a single non-negative integer"
+      ],
+      "ground_truth": {
+        "answer": "2790663",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Solve the homogeneous part. The characteristic equation is r^2 - 5r + 6 = 0, which factors as (r - 2)(r - 3) = 0, giving roots r = 2 and r = 3. The homogeneous solution is a_n^{(h)} = A \\cdot 2^n + B \\cdot 3^n.",
+          "Step 2: Find a particular solution. Since the non-homogeneous term is 2 \\cdot 3^n and 3 is a simple root of the characteristic equation, we try a_n^{(p)} = P \\cdot n \\cdot 3^n. Substituting into the recurrence yields P = 6 after equating coefficients.",
+          "Step 3: The general solution is a_n = A \\cdot 2^n + B \\cdot 3^n + 6n \\cdot 3^n = A \\cdot 2^n + (B + 6n) \\cdot 3^n.",
+          "Step 4: Apply initial conditions. From a_0 = 2: A + B = 2. From a_1 = 9: 2A + 3(B + 6) = 9, which simplifies to 2A + 3B = -9. Solving gives A = 15 and B = -13.",
+          "Step 5: The closed form is a_n = 15 \\cdot 2^n + (6n - 13) \\cdot 3^n.",
+          "Step 6: Evaluate at n = 10: a_{10} = 15 \\cdot 2^{10} + (60 - 13) \\cdot 3^{10} = 15 \\cdot 1024 + 47 \\cdot 59049 = 15360 + 2775303 = 2790663."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "def verify():\n    def a(n):\n        if n == 0: return 2\n        if n == 1: return 9\n        return 5*a(n-1) - 6*a(n-2) + 2*(3**n)\n    return a(10) == 2790663\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Trying a_n^{(p)} = P \\cdot 3^n without the factor of n, which fails because 3 is already a root of the characteristic equation",
+          "Sign error when solving the linear system for A and B, leading to incorrect constants",
+          "Arithmetic mistake when computing 3^{10} or 2^{10}"
+        ],
+        "required_knowledge": [
+          "Solving linear non-homogeneous recurrence relations",
+          "Method of undetermined coefficients with polynomial multiplier for resonant forcing terms",
+          "Characteristic equation for second-order linear recurrences"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 4
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["recurrence-relation", "non-homogeneous", "characteristic-equation", "closed-form"]
+    },
+    {
+      "task_id": "S-MATH-05B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Pigeonhole Principle — Graph Independence Number",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Easy",
+      "difficulty_score": 3,
+      "prompt": "Let S be any subset of {1, 2, 3, ..., 150} containing exactly 85 distinct integers. Prove that there exist two distinct elements x, y \\in S such that |x - y| \\in {10, 25}.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "The proof must explicitly define the pigeonholes and justify why 85 elements force the conclusion",
+        "Do not use advanced graph theory terminology; the argument should be elementary"
+      ],
+      "ground_truth": {
+        "answer": "Proof: partition the residues modulo 5 into five chains. Within each residue class, vertices form a graph with edges connecting elements at distance 10 or 25. The maximum independent set in each of the five isomorphic components has size 13. Therefore the largest subset of {1,...,150} with no two elements differing by 10 or 25 has size 5*13 = 65. Since 85 > 65, any 85-element subset must contain a pair at distance 10 or 25.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Observe that both 10 and 25 are multiples of 5, so the relation 'differ by 10 or 25' splits the set {1,...,150} into 5 independent structures, one for each residue class modulo 5.",
+          "Step 2: Within each residue class r (mod 5), the elements are r, r+5, r+10, ..., forming an arithmetic progression with difference 5. Two elements in this class differ by 10 or 25 exactly when their indices in this progression differ by 2 or 5.",
+          "Step 3: The problem reduces to finding the maximum subset of a 30-vertex path-like structure where no two chosen vertices are at distance 2 or 5. Using dynamic programming or careful case analysis, the maximum such subset has size 13.",
+          "Step 4: Since there are 5 such residue classes and each contributes at most 13 vertices to an independent set, the maximum size of a subset of {1,...,150} with no pair at distance 10 or 25 is 5 * 13 = 65.",
+          "Step 5: By the pigeonhole principle (equivalently, since 85 > 65), any subset of size 85 must contain at least one pair at distance 10 or 25."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "def verify():\n    from functools import lru_cache\n    total = 0\n    for r in range(1, 6):\n        vals = [x for x in range(1, 151) if x % 5 == r % 5]\n        k = len(vals)\n        @lru_cache(maxsize=None)\n        def dp(i, mask):\n            if i == k: return 0\n            can_take = not ((i >= 2 and (mask & (1 << 3))) or (i >= 5 and (mask & (1 << 0))))\n            res = dp(i+1, ((mask << 1) & 0b11111))\n            if can_take:\n                res = max(res, 1 + dp(i+1, ((mask << 1) & 0b11111) | 1))\n            return res\n        total += dp(0, 0)\n    return total == 65\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using residue classes modulo 10 or 25 separately, which fails because a pair might differ by 10 in one class and 25 in another without being caught by a single modulus",
+          "Incorrectly assuming the maximum independent set is simply floor(n/2) without accounting for the combined constraints of differences 10 and 25",
+          "Overlooking that the structure is determined by gcd(10, 25) = 5, leading to 5 disconnected components"
+        ],
+        "required_knowledge": [
+          "Pigeonhole principle",
+          "Graph independence number",
+          "Residue classes and modular arithmetic",
+          "Dynamic programming on paths"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 8
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["pigeonhole-principle", "graph-theory", "independence-number", "modular-arithmetic"]
+    },
+    {
+      "task_id": "S-MATH-05B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Multi-step Counting — Restricted Permutations",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "How many permutations (p_1, p_2, ..., p_{12}) of the set {1, 2, ..., 12} satisfy both of the following conditions?\n\n(1) No odd integer appears in its natural position: for each odd k \\in {1, 3, 5, 7, 9, 11}, we have p_k \\neq k.\n\n(2) The even integers 2, 4, and 6 do not appear in positions 2, 4, and 6 respectively: p_2 \\neq 2, p_4 \\neq 4, and p_6 \\neq 6.\n\nNote: There are no restrictions on where 8, 10, or 12 may appear.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Provide a clear counting argument; inclusion-exclusion or recursive counting are both acceptable",
+        "Final answer must be a single non-negative integer"
+      ],
+      "ground_truth": {
+        "answer": "224406930",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: There are 9 restricted position-value pairs: (1,1), (2,2), (3,3), (4,4), (5,5), (6,6), (7,7), (9,9), (11,11). We need permutations that avoid all 9 of these fixed points.",
+          "Step 2: Apply the principle of inclusion-exclusion (PIE). Let A_i be the set of permutations where the i-th restriction is violated. We compute the size of the union and subtract from 12!.",
+          "Step 3: For any k specific restrictions, the number of permutations violating all k is (12 - k)!. This is because fixing k positions reduces the problem to permuting the remaining 12 - k elements freely.",
+          "Step 4: By PIE: valid count = sum_{k=0}^{9} (-1)^k * C(9,k) * (12 - k)!.",
+          "Step 5: Compute the sum: 12! - 9*11! + 36*10! - 84*9! + 126*8! - 126*7! + 84*6! - 36*5! + 9*4! - 3! = 479001600 - 32659200 + 130636800 - 30481920 + 5080320 - 635040 + 60480 - 4320 + 216 - 6 = 224406930."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "from functools import lru_cache\ndef verify():\n    n = 12\n    forbidden = {1: {1}, 2: {2}, 3: {3}, 4: {4}, 5: {5}, 6: {6}, 7: {7}, 8: set(), 9: {9}, 10: set(), 11: {11}, 12: set()}\n    @lru_cache(maxsize=None)\n    def dp(pos, used_mask):\n        if pos > n: return 1\n        total = 0\n        for num in range(1, n+1):\n            if not (used_mask & (1 << (num-1))):\n                if num not in forbidden[pos]:\n                    total += dp(pos+1, used_mask | (1 << (num-1)))\n        return total\n    return dp(1, 0) == 224406930\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating the 6 odd-odd restrictions and the 3 even-even restrictions as having different weights in PIE",
+          "Forgetting that the even numbers 8, 10, 12 have no restrictions and incorrectly including them in the forbidden set",
+          "Computing C(12,k) instead of C(9,k) because there are 12 total positions rather than 9 restricted pairs"
+        ],
+        "required_knowledge": [
+          "Inclusion-exclusion principle",
+          "Derangements and restricted permutations",
+          "Factorial computations"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["inclusion-exclusion", "restricted-permutations", "derangement", "multi-step-counting"]
+    },
+    {
+      "task_id": "S-MATH-05B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Recurrence Relations — From Combinatorial Conditions",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "For each positive integer n, let a_n denote the number of subsets of {1, 2, ..., n} that contain no three consecutive integers. (For example, when n = 4, the subset {1, 3, 4} is allowed, but {2, 3, 4} is not.) It can be shown that a_n satisfies a simple linear recurrence relation. Using this recurrence, compute the exact value of a_{15}.",
+      "prompt_format": "open_ended",
+      "constraints": [
+          "First derive the recurrence relation and state it explicitly",
+          "Then solve for a_{15} using the recurrence; final answer must be a single non-negative integer"
+      ],
+      "ground_truth": {
+        "answer": "10609",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Derive the recurrence by conditioning on the largest element n. Consider whether n is in the subset: If n is not in S, then S is any valid subset of {1, ..., n-1} giving a_{n-1} possibilities. If n is in S but n-1 is not, then S without n is any valid subset of {1, ..., n-2} giving a_{n-2} possibilities. If both n and n-1 are in S, then n-2 must not be in S to avoid three consecutive. So S without {n, n-1} is any valid subset of {1, ..., n-3} giving a_{n-3} possibilities.",
+          "Step 2: By the sum rule, a_n = a_{n-1} + a_{n-2} + a_{n-3} for n >= 3.",
+          "Step 3: Establish base cases: a_0 = 1 (empty set), a_1 = 2 (empty set and {1}), a_2 = 4 (empty set, {1}, {2}, {1,2}).",
+          "Step 4: Compute iteratively: a_3 = 7, a_4 = 13, a_5 = 24, a_6 = 44, a_7 = 81, a_8 = 149, a_9 = 274, a_10 = 504, a_11 = 927, a_12 = 1705, a_13 = 3136, a_14 = 5768, a_15 = 10609."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "def verify():\n    a = [1, 2, 4]\n    for i in range(3, 16):\n        a.append(a[-1] + a[-2] + a[-3])\n    count = 0\n    for mask in range(1 << 15):\n        valid = True\n        for i in range(13):\n            if (mask >> i) & 1 and (mask >> (i+1)) & 1 and (mask >> (i+2)) & 1:\n                valid = False\n                break\n        if valid:\n            count += 1\n    return a[15] == 10609 and count == 10609\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Deriving a_n = a_{n-1} + a_{n-2} by forgetting the case where both n and n-1 are in the subset",
+          "Using incorrect base cases (e.g., a_2 = 3 by excluding {1,2})",
+          "Confusing 'no three consecutive' with 'no two consecutive', which gives the Fibonacci recurrence"
+        ],
+        "required_knowledge": [
+          "Setting up recurrence relations from combinatorial constraints",
+          "Tribonacci-like recurrences",
+          "Case analysis in combinatorial counting"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["recurrence-relation", "combinatorial-enumeration", "subset-constraints", "case-analysis"]
+    },
+    {
+      "task_id": "S-MATH-05B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection — Flawed Inclusion-Exclusion",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 4,
+      "prompt": "A student attempts to solve the following problem using the principle of inclusion-exclusion:\n\nProblem: How many permutations of {1, 2, ..., 8} have 1 not in position 1, 2 not in position 2, and 3 not in position 3?\n\nThe student's solution is:\n\n'Let A_i be the set of permutations where element i is in position i. We want 8! - |A_1 \\cup A_2 \\cup A_3|. By inclusion-exclusion:\n|A_1 \\cup A_2 \\cup A_3| = C(3,1) \\cdot 7! - C(3,2) \\cdot 5! + C(3,3) \\cdot 3! = 3 \\cdot 5040 - 3 \\cdot 120 + 6 = 15120 - 360 + 6 = 14766.\nTherefore the answer is 8! - 14766 = 40320 - 14766 = 25554.'\n\nThe student's final answer of 25554 is incorrect. Identify the specific error in the student's work, explain why it is wrong, and provide the correct numerical answer.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "State the specific line or step where the error occurs",
+        "Explain what the correct reasoning should be at that step",
+        "Provide the correct numerical answer"
+      ],
+      "ground_truth": {
+        "answer": "The student incorrectly computes the pairwise intersection size as 5! instead of 6! and the triple intersection as 3! instead of 5!. Fixing two elements in their natural positions leaves 6 remaining elements to permute, giving 6! for each pairwise intersection. Fixing all three leaves 5 elements, giving 5! for the triple intersection. The correct PIE computation is 3*7! - 3*6! + 5! = 15120 - 2160 + 120 = 13080, so the answer is 8! - 13080 = 27240.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify that the student computes |A_i \\cap A_j| = 5! and |A_1 \\cap A_2 \\cap A_3| = 3!.",
+          "Step 2: Explain that when two elements are fixed in their natural positions, there are 6 remaining elements to permute, so |A_i \\cap A_j| = 6! = 720, not 5! = 120.",
+          "Step 3: Explain that when three elements are fixed, there are 5 remaining elements, so |A_1 \\cap A_2 \\cap A_3| = 5! = 120, not 3! = 6.",
+          "Step 4: Compute the correct inclusion-exclusion: |A_1 \\cup A_2 \\cup A_3| = 3*5040 - 3*720 + 120 = 15120 - 2160 + 120 = 13080.",
+          "Step 5: The correct answer is 40320 - 13080 = 27240."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Identifying the wrong line as erroneous, such as claiming the PIE formula itself is wrong rather than the specific factorial values",
+          "Noticing the factorial error but failing to explain why the remaining count is 6! or 5!",
+          "Recalculating with the student's wrong values and concluding the answer is 25554"
+        ],
+        "required_knowledge": [
+          "Principle of inclusion-exclusion",
+          "Counting permutations with fixed points",
+          "Factorial arithmetic"
+        ],
+        "reasoning_depth": 4,
+        "estimated_human_time_minutes": 6
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["error-detection", "inclusion-exclusion", "derangement", "factorial-counting"]
+    },
+    {
+      "task_id": "S-MATH-05B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Multi-step Counting — Jumbled Permutations",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "A permutation (p_1, p_2, ..., p_8) of {1, 2, ..., 8} is called jumbled if it satisfies both of the following conditions:\n\n(i) It is a derangement: p_i \\neq i for all i = 1, ..., 8.\n\n(ii) No two adjacent entries in the permutation are consecutive integers: |p_i - p_{i+1}| \\neq 1 for all i = 1, ..., 7.\n\nHow many jumbled permutations of {1, 2, ..., 8} exist?\n\nChoose the correct answer:\n\nA) 1442\nB) 1695\nC) 1854\nD) 2016",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one letter (A, B, C, or D)",
+        "No written explanation is required"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let D_n be the number of derangements of n elements. D_8 = 14833. This is too many to enumerate directly, so we need a smarter approach or inclusion-exclusion combined with adjacency constraints.",
+          "Step 2: Use inclusion-exclusion on the adjacency constraints. Let B_i be the set of derangements where |p_i - p_{i+1}| = 1 for some specific i. We need to count derangements avoiding all B_i.",
+          "Step 3: Alternatively, use direct enumeration with pruning or recursive counting. The total number of permutations of 8 is 40320. We can systematically subtract those with fixed points or adjacent consecutive pairs.",
+          "Step 4: A more efficient approach is to generate all permutations and filter. Using a computer or careful hand enumeration: iterate over all 8! = 40320 permutations, check derangement condition (p_i != i for all i), and check no adjacent consecutive integers (|p_i - p_{i+1}| != 1 for all i).",
+          "Step 5: The exact count is 1695.\n\nWhy the distractors are wrong:\n- A) 1442: This is approximately D_8 / 10 but too low; it undercounts by missing some valid permutations where non-consecutive adjacencies are incorrectly excluded.\n- C) 1854: This is D_6, the number of derangements of 6 elements, a common misremembered value.\n- D) 2016: This is C(8,4) * C(8,4) / 2, an arbitrary combinatorial expression that does not correspond to any natural counting of these permutations."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "from itertools import permutations\ndef verify():\n    count = 0\n    for perm in permutations(range(1, 9)):\n        if any(perm[i] == i+1 for i in range(8)):\n            continue\n        valid = True\n        for i in range(7):\n            if abs(perm[i] - perm[i+1]) == 1:\n                valid = False\n                break\n        if valid:\n            count += 1\n    return count == 1695\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Computing only derangements (14833) and forgetting the adjacency constraint entirely",
+          "Using inclusion-exclusion but overcounting intersections of adjacency events because adjacent pairs can overlap",
+          "Confusing the condition with 'no two consecutive values appear anywhere in the permutation' rather than just not being adjacent"
+        ],
+        "required_knowledge": [
+          "Derangements",
+          "Inclusion-exclusion with complex overlapping constraints",
+          "Permutation enumeration and pruning"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["derangement", "adjacency-constraints", "multiple-choice", "inclusion-exclusion"]
+    },
+    {
+      "task_id": "S-MATH-05B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Pigeonhole Principle — Modular Sum-Difference",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Prove the following statement: For any set S of 7 distinct integers, there exist two distinct elements x, y \\in S such that either x + y is divisible by 10 or x - y is divisible by 10.\n\nYour proof should be purely combinatorial and should explicitly construct the pigeonholes used.",
+      "prompt_format": "proof",
+      "constraints": [
+        "The proof must explicitly define the pigeonholes and show that 7 elements force the conclusion",
+        "No appeal to advanced theorems; the argument should use only elementary reasoning"
+      ],
+      "ground_truth": {
+        "answer": "Proof: Consider the residues of the 7 integers modulo 10. Partition the 10 residue classes into 6 pigeonholes: {0}, {5}, {1,9}, {2,8}, {3,7}, {4,6}. With 7 integers and 6 pigeonholes, by the pigeonhole principle at least two integers fall into the same pigeonhole. If they both fall into {0}, their difference is divisible by 10. If they both fall into {5}, their difference is divisible by 10. If they both fall into {r, 10-r} for some r in {1,2,3,4}, then either they have the same residue (so their difference is divisible by 10) or they have residues r and 10-r (so their sum is divisible by 10). In all cases, the conclusion holds.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Consider residues modulo 10. There are 10 possible residues: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9.",
+          "Step 2: Partition these 10 residues into 6 pigeonholes: H_0 = {0}, H_5 = {5}, and H_r = {r, 10-r} for r = 1, 2, 3, 4. This gives {{0}, {5}, {1,9}, {2,8}, {3,7}, {4,6}}.",
+          "Step 3: With 7 distinct integers, by the pigeonhole principle at least two must fall into the same pigeonhole (since there are only 6 pigeonholes).",
+          "Step 4: Case analysis on which pigeonhole contains two integers:\n- If both are in H_0 = {0}: both are divisible by 10, so their difference is divisible by 10.\n- If both are in H_5 = {5}: both have residue 5 mod 10, so their difference is divisible by 10.\n- If both are in H_r = {r, 10-r} for some r in {1,2,3,4}: either both have residue r (difference divisible by 10), both have residue 10-r (difference divisible by 10), or one has residue r and the other has residue 10-r (sum divisible by 10).",
+          "Step 5: In every possible case, either the sum or the difference of the two integers is divisible by 10, completing the proof."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "from itertools import combinations\ndef verify():\n    def check_set(s):\n        for x, y in combinations(s, 2):\n            if (x + y) % 10 == 0 or (x - y) % 10 == 0:\n                return True\n        return False\n    for subset in combinations(range(1, 31), 7):\n        if not check_set(subset):\n            return False\n    return True\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using only 5 pigeonholes (e.g., residue classes 0-4) which fails because two numbers in the same class don't necessarily have sum or difference divisible by 10",
+          "Trying to use the standard pigeonhole on 10 residue classes directly, which requires 11 elements to guarantee a repeated residue (difference divisible by 10) but doesn't address the sum condition",
+          "Constructing pigeonholes of size 2 arbitrarily without ensuring the sum/difference property holds within each hole"
+        ],
+        "required_knowledge": [
+          "Pigeonhole principle",
+          "Modular arithmetic",
+          "Case analysis",
+          "Constructive proof techniques"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 18
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["pigeonhole-principle", "proof", "modular-arithmetic", "sum-difference"]
+    },
+    {
+      "task_id": "S-MATH-05B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Recurrence Relations — Repeated Roots with Resonant Forcing",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Consider the sequence defined by a_n = 4a_{n-1} - 4a_{n-2} + 2^n for n \\ge 2, with initial conditions a_0 = 1 and a_1 = 4.\n\nChoose the correct closed-form expression for a_n:\n\nA) a_n = (1 + n^2) \\cdot 2^{n-1}\nB) a_n = (2 + n + n^2) \\cdot 2^{n-1}\nC) a_n = (1 + n + n^2) \\cdot 2^n\nD) a_n = (2 + 2n + n^2) \\cdot 2^{n-1}",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one letter (A, B, C, or D)",
+        "No written explanation is required"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Solve the homogeneous part. The characteristic equation is r^2 - 4r + 4 = 0, which factors as (r - 2)^2 = 0, giving a repeated root r = 2. The homogeneous solution is a_n^{(h)} = (A + Bn) \\cdot 2^n.",
+          "Step 2: Find a particular solution. Since the non-homogeneous term is 2^n and 2 is a double root of the characteristic equation, we must multiply by n^2 and try a_n^{(p)} = P \\cdot n^2 \\cdot 2^n.",
+          "Step 3: Substitute a_n^{(p)} into the recurrence. After dividing by 2^{n-2} and simplifying, we obtain 4Pn^2 = 8P(n-1)^2 - 4P(n-2)^2 + 4. Expanding: 4Pn^2 = 8P(n^2 - 2n + 1) - 4P(n^2 - 4n + 4) + 4 = 4Pn^2 - 8P + 4. Equating constant terms gives -8P + 4 = 0, so P = 1/2.",
+          "Step 4: The particular solution is (1/2) \\cdot n^2 \\cdot 2^n = n^2 \\cdot 2^{n-1}. The general solution is a_n = (A + Bn) \\cdot 2^n + n^2 \\cdot 2^{n-1}.",
+          "Step 5: Apply initial conditions. From a_0 = 1: A \\cdot 1 = 1, so A = 1. From a_1 = 4: (1 + B) \\cdot 2 + 1 \\cdot 2^0 = 2 + 2B + 1 = 3 + 2B = 4, so B = 1/2.",
+          "Step 6: Substitute A and B: a_n = (1 + n/2) \\cdot 2^n + n^2 \\cdot 2^{n-1} = 2^n + n \\cdot 2^{n-1} + n^2 \\cdot 2^{n-1} = (2 + n + n^2) \\cdot 2^{n-1}. This matches option B.",
+          "Step 7: Verify with n = 2: recurrence gives a_2 = 4*4 - 4*1 + 4 = 16. Formula gives (2 + 2 + 4) \\cdot 2 = 8 \\cdot 2 = 16. Check."
+        ],
+        "verification_method": "code_execution",
+        "verification_code": "def verify():\n    def a(n):\n        if n == 0: return 1\n        if n == 1: return 4\n        return 4*a(n-1) - 4*a(n-2) + 2**n\n    def formula(n):\n        return (2 + n + n*n) * (2**(n-1))\n    for n in range(10):\n        if a(n) != formula(n):\n            return False\n    return True\nprint(verify())"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Trying a_n^{(p)} = P \\cdot 2^n without the n^2 factor, which fails because 2 is a double root",
+          "Using a_n^{(p)} = P \\cdot n \\cdot 2^n (single power of n) instead of n^2, which is insufficient for a double root",
+          "Arithmetic error in solving for P, such as forgetting the +4 constant term from the RHS 2^n = 4 \\cdot 2^{n-2}",
+          "Sign or algebra error when solving the linear system for A and B"
+        ],
+        "required_knowledge": [
+          "Linear recurrence relations with repeated roots",
+          "Method of undetermined coefficients with resonant forcing terms",
+          "Determining the correct polynomial multiplier for particular solutions"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["recurrence-relation", "repeated-roots", "resonant-forcing", "multiple-choice"]
+    }
+  ]
+}

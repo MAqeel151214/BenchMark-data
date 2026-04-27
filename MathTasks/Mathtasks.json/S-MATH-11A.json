@@ -1,0 +1,401 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-11A",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Applied Mathematics — Physics Modeling (Mechanics, Thermodynamics, Fluid Dynamics)",
+    "generated_at": "2026-04-25T09:19:37Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-11A-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Classical Mechanics — Coupled Oscillators",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Three identical masses m = 2.0 kg are connected in a line by two identical springs with spring constant k = 50 N/m. Let the horizontal displacements from equilibrium of the masses be x_1(t), x_2(t), x_3(t). The first mass is attached to a fixed wall on its left by a spring k, and the third mass is attached to a fixed wall on its right by a spring k. The middle two springs connect mass 1 to mass 2, and mass 2 to mass 3. The equations of motion are: m * d²x_1/dt² = -k*x_1 + k*(x_2 - x_1), m * d²x_2/dt² = -k*(x_2 - x_1) + k*(x_3 - x_2), m * d²x_3/dt² = -k*(x_3 - x_2) - k*x_3. Find the three normal mode angular frequencies ω (in rad/s) of this system. Express your answer as the sum ω_1 + ω_2 + ω_3, rounded to two decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the matrix formulation and eigenvalue calculation",
+        "Final answer must be a single numerical value with units rad/s"
+      ],
+      "ground_truth": {
+        "answer": "20.14",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 0.01,
+        "solution_steps": [
+          "Step 1: Rewrite the equations of motion in matrix form M * d²x/dt² = -K * x, where M = m*I₃ and K = k*[[2,-1,0],[-1,2,-1],[0,-1,2]].",
+          "Step 2: The normal mode frequencies satisfy det(K - ω²M) = 0, or equivalently det(K - λM) = 0 where λ = ω².",
+          "Step 3: Compute det([[2k-λm, -k, 0], [-k, 2k-λm, -k], [0, -k, 2k-λm]]) = 0.",
+          "Step 4: Expand the determinant: (2k-λm)[(2k-λm)² - k²] + k[-k(2k-λm)] = (2k-λm)[(2k-λm)² - 2k²] = 0.",
+          "Step 5: Let u = 2k - λm. Then u(u² - 2k²) = 0, giving u = 0, u = k√2, u = -k√2.",
+          "Step 6: For u = 0: λ = 2k/m = 50, so ω_2 = √50 ≈ 7.071 rad/s.",
+          "Step 7: For u = k√2: λ = (2k - k√2)/m = k(2-√2)/m ≈ 14.645, so ω_1 = √(k(2-√2)/m) ≈ 3.827 rad/s.",
+          "Step 8: For u = -k√2: λ = (2k + k√2)/m = k(2+√2)/m ≈ 85.355, so ω_3 = √(k(2+√2)/m) ≈ 9.240 rad/s.",
+          "Step 9: Sum = √(50-25√2) + √50 + √(50+25√2) = 5√(2-√2) + 5√2 + 5√(2+√2).",
+          "Step 10: Numerically: 5×0.7654 + 5×1.4142 + 5×1.8478 = 3.827 + 7.071 + 9.239 = 20.137. Rounded to two decimal places: 20.14 rad/s."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import numpy as np; m=2.0; k=50.0; M=np.diag([m,m,m]); K=np.array([[2*k,-k,0],[-k,2*k,-k],[0,-k,2*k]]); eigvals = np.linalg.eigvals(np.linalg.inv(M) @ K); freqs = np.sqrt(np.sort(eigvals.real)); print(round(np.sum(freqs), 2))"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly constructing the stiffness matrix by missing one of the spring connections (e.g., forgetting the wall springs on the outer masses)",
+          "Arithmetic errors in expanding the 3x3 determinant, especially sign errors on the off-diagonal terms",
+          "Solving for λ but forgetting to take the square root to get ω"
+        ],
+        "required_knowledge": [
+          "Normal mode analysis of coupled oscillators",
+          "Generalized eigenvalue problem Kv = λMv",
+          "Determinant calculation for tridiagonal matrices"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["coupled-oscillators", "normal-modes", "eigenvalue-problem", "matrix-methods"]
+    },
+    {
+      "task_id": "S-MATH-11A-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Fluid Dynamics — Dimensional Analysis",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "An engineer claims that the power P required to drive a propeller depends on: the propeller diameter D, the fluid density ρ, the fluid viscosity μ, the angular velocity Ω, and the speed of sound c in the fluid. The dimensions are: [P] = ML²T⁻³, [D] = L, [ρ] = ML⁻³, [μ] = ML⁻¹T⁻¹, [Ω] = T⁻¹, [c] = LT⁻¹. The engineer proposes the dimensionless relationship: P/(ρ·D⁵·Ω³) = f(Re, Ma) where Re = ρ·D²·Ω/μ is the Reynolds number and Ma = D·Ω/c is the Mach number. However, a junior engineer argues that the correct relationship should be P/(ρ·D⁵·Ω³) = f(Re, Ma, ρ·D³·Ω/μ). Which of the following statements is correct?\n\nA) The senior engineer is correct; the junior engineer's extra group ρ·D³·Ω/μ is dimensionless and independent.\nB) The senior engineer is correct; the junior engineer's extra group ρ·D³·Ω/μ has dimensions of length, not dimensionless.\nC) The junior engineer is correct; there are 4 independent dimensionless groups because the rank of the dimensional matrix is 2.\nD) The junior engineer is correct; ρ·D³·Ω/μ is a valid modified Reynolds number that captures additional physics.",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Apply Buckingham Pi theorem step by step",
+        "Show the dimensional matrix and its rank",
+        "Select exactly one option"
+      ],
+      "ground_truth": {
+        "answer": "B",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Identify the physical variables: P, D, ρ, μ, Ω, c. Total n = 6 variables.",
+          "Step 2: Identify the fundamental dimensions involved: M (mass), L (length), T (time). Total k = 3 fundamental dimensions.",
+          "Step 3: Construct the dimensional matrix with rows for M, L, T and columns for P, D, ρ, μ, Ω, c:",
+          "       P   D   ρ   μ   Ω   c",
+          "   M   1   0   1   1   0   0",
+          "   L   2   1  -3  -1   0   1",
+          "   T  -3   0   0  -1  -1  -1",
+          "Step 4: Compute the rank of this matrix. The three rows are linearly independent since ρ contributes M but not T, Ω contributes T but not M, and D contributes L independently. Rank r = 3.",
+          "Step 5: By Buckingham Pi theorem, the number of independent dimensionless groups is n - r = 6 - 3 = 3.",
+          "Step 6: The senior engineer proposes 2 independent groups (Re, Ma) plus one dependent group P/(ρD⁵Ω³), giving 3 groups total in a functional relationship. This is correct.",
+          "Step 7: Check the junior engineer's extra group: [ρ·D³·Ω/μ] = (ML⁻³)(L³)(T⁻¹)/(ML⁻¹T⁻¹) = M⁰L¹T⁰ = L. This has dimensions of length, NOT dimensionless!",
+          "Step 8: Option A is wrong because ρ·D³·Ω/μ is not dimensionless. Option C is wrong because the rank is 3, not 2. Option D is wrong because ρ·D³·Ω/μ is not dimensionless and not a valid Pi group.",
+          "Step 9: Option B correctly identifies that the senior engineer is right and the junior engineer's group has dimensions of length."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming the junior engineer is correct because ρ·D³·Ω/μ looks like it could be a modified Reynolds number (Option D)",
+          "Incorrectly computing the dimensional matrix rank as 2 instead of 3 (Option C)",
+          "Forgetting to verify that the proposed groups are actually dimensionless before counting them (Option A)"
+        ],
+        "required_knowledge": [
+          "Buckingham Pi theorem",
+          "Dimensional analysis and dimensional matrices",
+          "Rank calculation of dimensional matrices"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["dimensional-analysis", "buckingham-pi", "fluid-dynamics", "multiple-choice"]
+    },
+    {
+      "task_id": "S-MATH-11A-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Classical Mechanics — Rigid Body Rotation",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A uniform solid cylinder of mass M = 8.0 kg and radius R = 0.30 m rolls without slipping down an inclined plane that makes an angle θ = 25° with the horizontal. The coefficient of static friction is μ_s = 0.40. The moment of inertia of a solid cylinder about its central axis is I = (1/2)MR². The acceleration due to gravity is g = 9.8 m/s². Using Newton's second law for translation (F = ma) and rotation (τ = Iα), determine the time in seconds it takes for the cylinder to roll a distance s = 5.0 m along the incline, starting from rest. Express your answer to two decimal places.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Derive the linear acceleration from first principles using both translational and rotational equations",
+        "Verify that the no-slip condition is maintained (static friction sufficient)",
+        "Final answer must include correct units"
+      ],
+      "ground_truth": {
+        "answer": "1.90",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 0.01,
+        "solution_steps": [
+          "Step 1: Draw free body diagram. Forces along the incline: Mg·sin(θ) down the incline, static friction f_s up the incline. Normal force N = Mg·cos(θ).",
+          "Step 2: Translational Newton's second law: Ma = Mg·sin(θ) - f_s.",
+          "Step 3: Rotational equation: τ = f_s·R = Iα = (1/2)MR²·α.",
+          "Step 4: No-slip condition: a = α·R, so α = a/R.",
+          "Step 5: Substitute into rotational equation: f_s·R = (1/2)MR²·(a/R) = (1/2)MR·a, so f_s = (1/2)Ma.",
+          "Step 6: Substitute f_s into translational equation: Ma = Mg·sin(θ) - (1/2)Ma, so (3/2)Ma = Mg·sin(θ), giving a = (2/3)g·sin(θ).",
+          "Step 7: Compute a = (2/3)(9.8)sin(25°) = (2/3)(9.8)(0.4226) ≈ 2.761 m/s².",
+          "Step 8: Verify no-slip condition: f_s = (1/2)Ma = (1/2)(8.0)(2.761) ≈ 11.04 N. Maximum static friction: f_s,max = μ_s·N = 0.40·(8.0)(9.8)cos(25°) = 0.40·78.4·0.9063 ≈ 28.42 N. Since 11.04 < 28.42, no-slip is maintained.",
+          "Step 9: Use kinematic equation s = (1/2)at² (starting from rest), so t = √(2s/a) = √(2·5.0/2.761) = √(10/2.761) = √3.622 ≈ 1.903 s.",
+          "Step 10: Rounding to two decimal places: 1.90 s."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math; M=8.0; R=0.30; theta=math.radians(25); mu_s=0.40; g=9.8; s=5.0; a=(2/3)*g*math.sin(theta); f_s=0.5*M*a; N=M*g*math.cos(theta); t=math.sqrt(2*s/a); print(f'a={a:.4f}, f_s={f_s:.4f}, f_max={mu_s*N:.4f}, t={t:.2f}')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using a = g·sin(θ) as if there were no rotation (forgetting the rotational inertia effect)",
+          "Assuming kinetic friction instead of static friction for rolling without slipping",
+          "Failing to verify that the required static friction does not exceed μ_s·N, which would invalidate the solution"
+        ],
+        "required_knowledge": [
+          "Newton's second law for rotation",
+          "Rolling without slipping kinematic constraint",
+          "Static friction in rolling motion"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 10
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["rigid-body-rotation", "rolling-motion", "newtonian-mechanics", "kinematics"]
+    },
+    {
+      "task_id": "S-MATH-11A-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Thermodynamics — Stability Analysis",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider a thermodynamic system with Helmholtz free energy F(V, T) = -a/V + bV²/2 - cT ln(V/V₀) where a, b, c, V₀ are positive constants, V is volume, and T is temperature. The pressure is given by P = -(∂F/∂V)_T. At equilibrium, the system sits at a volume where P equals the external pressure P_ext (taken as zero for this analysis). Prove that for temperatures T > T_c where T_c = 2a/(cV_c) and V_c = (a/b)^(1/3), the equilibrium is locally stable. Specifically, show that (∂²F/∂V²)_T > 0 at the equilibrium volume when T > T_c. Your proof should clearly identify the critical temperature T_c and show the condition under which stability holds.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Compute the first and second partial derivatives of F with respect to V explicitly",
+        "Find the equilibrium volume by setting P = 0",
+        "Show algebraically that (∂²F/∂V²)_T > 0 at the equilibrium volume for all T > T_c"
+      ],
+      "ground_truth": {
+        "answer": "For T > T_c = 2a/(cV_c) where V_c = (a/b)^(1/3), the equilibrium satisfies (∂²F/∂V²)_T = 2b - a/V³ > 0, proving local stability.",
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Compute the first partial derivative of F with respect to V: ∂F/∂V = a/V² + bV - cT/V.",
+          "Step 2: The pressure is P = -(∂F/∂V)_T = -a/V² - bV + cT/V.",
+          "Step 3: At equilibrium with P_ext = 0, set P = 0: cT/V = a/V² + bV. Multiply by V² to obtain cTV = a + bV³.",
+          "Step 4: The critical volume V_c satisfies V_c³ = a/b (so that bV_c³ = a). Substituting into the equilibrium condition at T = T_c gives cT_cV_c = 2a, hence T_c = 2a/(cV_c).",
+          "Step 5: Compute the second partial derivative: ∂²F/∂V² = -2a/V³ + b + cT/V².",
+          "Step 6: Evaluate at V = V_c: ∂²F/∂V²|_{V_c} = -2a/V_c³ + b + cT/V_c² = -2b + b + cT/V_c² = -b + cT/V_c² = (c/V_c²)(T - T_c/2).",
+          "Step 7: Note that V_c is the equilibrium volume only at T = T_c. For general T, the equilibrium volume V_eq(T) satisfies cTV_eq = a + bV_eq³.",
+          "Step 8: At general equilibrium, substitute cT = (a + bV³)/V into ∂²F/∂V²: ∂²F/∂V² = -2a/V³ + b + (a + bV³)/V³ = 2b - a/V³.",
+          "Step 9: Stability requires 2b - a/V³ > 0, i.e., V³ > a/(2b) = V_c³/2, or V > V_c/2^(1/3).",
+          "Step 10: From implicit differentiation of cTV = a + bV³, dV/dT = cV/(cT - 3bV²) > 0 near V_c, so V increases with T.",
+          "Step 11: At T = T_c, V = V_c > V_c/2^(1/3), so ∂²F/∂V²|_{V_c} = b > 0. For T > T_c, V > V_c, so ∂²F/∂V² = 2b - a/V³ > 2b - a/V_c³ = b > 0. Thus the equilibrium is locally stable for all T ≥ T_c, and strictly stable for T > T_c."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly computing the derivative of -a/V as -a/V² instead of +a/V²",
+          "Assuming V_c is the equilibrium volume for all T, rather than only at T = T_c",
+          "Failing to substitute the equilibrium condition into the second derivative before evaluating stability"
+        ],
+        "required_knowledge": [
+          "Thermodynamic stability criteria (∂²F/∂V² > 0)",
+          "Helmholtz free energy and its relationship to pressure",
+          "Implicit differentiation and critical point analysis"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 22
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["thermodynamics", "stability-analysis", "helmholtz-free-energy", "proof"]
+    },
+    {
+      "task_id": "S-MATH-11A-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Fluid Dynamics — Poiseuille Flow",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Viscous incompressible fluid flows steadily through a horizontal cylindrical pipe of radius R = 0.02 m and length L = 10 m. The pressure drop along the pipe is ΔP = 500 Pa. The dynamic viscosity is μ = 0.1 Pa·s. For steady, fully developed, axisymmetric flow in a pipe, the Navier-Stokes equation reduces to: (1/r) * d/dr(r * dv/dr) = (1/μ) * dP/dx, where v(r) is the axial velocity, r is the radial coordinate, and dP/dx = -ΔP/L is the constant pressure gradient. The boundary conditions are: v(R) = 0 (no-slip at wall) and dv/dr|_{r=0} = 0 (symmetry at centerline). Solve this boundary value problem to find the maximum velocity v_max at the centerline (r = 0). Express your answer in m/s to three significant figures.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Solve the differential equation analytically step by step",
+        "Apply both boundary conditions explicitly",
+        "Final answer must be in m/s with three significant figures"
+      ],
+      "ground_truth": {
+        "answer": "0.0500",
+        "answer_type": "numerical_tolerance",
+        "tolerance": 0.0001,
+        "solution_steps": [
+          "Step 1: The ODE is (1/r) d/dr(r dv/dr) = (1/μ)(dP/dx) = -ΔP/(μL) = -500/(0.1 × 10) = -500.",
+          "Step 2: Multiply both sides by r: d/dr(r dv/dr) = -500r.",
+          "Step 3: Integrate once: r dv/dr = -250r² + C₁.",
+          "Step 4: Apply boundary condition at r = 0: dv/dr|_{r=0} = 0. As r → 0, the left side r dv/dr → 0. The right side → C₁. Thus C₁ = 0.",
+          "Step 5: With C₁ = 0: r dv/dr = -250r², so dv/dr = -250r.",
+          "Step 6: Integrate again: v(r) = -125r² + C₂.",
+          "Step 7: Apply no-slip boundary condition: v(R) = 0, so 0 = -125(0.02)² + C₂ = -125(0.0004) + C₂ = -0.05 + C₂. Thus C₂ = 0.05 m/s.",
+          "Step 8: The velocity profile is v(r) = 0.05(1 - r²/R²) m/s where R² = 0.0004 m².",
+          "Step 9: The maximum velocity occurs at r = 0: v_max = v(0) = C₂ = 0.05 m/s = 5.00 × 10⁻² m/s.",
+          "Step 10: Three significant figures: 0.0500 m/s."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "R=0.02; L=10; dP=500; mu=0.1; v_max = dP*R**2/(4*mu*L); print(f'v_max = {v_max:.4f} m/s')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting the factor of 1/r in the cylindrical coordinate Laplacian, leading to an incorrect integration",
+          "Setting C₁ = 0 without justification or incorrectly handling the r = 0 boundary condition",
+          "Using the plane channel flow formula v_max = ΔP h²/(8μL) instead of cylindrical pipe flow formula v_max = ΔP R²/(4μL)"
+        ],
+        "required_knowledge": [
+          "Cylindrical coordinate ODEs",
+          "No-slip boundary conditions",
+          "Poiseuille flow derivation"
+        ],
+        "reasoning_depth": 5,
+        "estimated_human_time_minutes": 12
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["navier-stokes", "poiseuille-flow", "boundary-value-problem", "viscous-flow"]
+    },
+    {
+      "task_id": "S-MATH-11A-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Classical Mechanics — Noether's Theorem",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Consider a particle of mass m moving in a plane with coordinates (x, y) under a central potential V(r) where r = √(x² + y²). The Lagrangian is L = (1/2)m(ẋ² + ẏ²) - V(r), where ẋ = dx/dt and ẏ = dy/dt. A student attempts to prove conservation of angular momentum using Noether's theorem with the infinitesimal rotation: x → x + εy, y → y - εx, where ε is an infinitesimal parameter. The student computes δL = εm(ẋẏ - ẋẏ) + ε(y∂V/∂x - x∂V/∂y) and claims this is zero because ∂V/∂x = (x/r)V'(r) and ∂V/∂y = (y/r)V'(r), making the potential term vanish. However, the student then incorrectly concludes that the conserved quantity is Q = m(ẋy - xẏ). Identify the error in the student's derivation of the conserved quantity and provide the CORRECT expression for the Noether charge Q that is conserved. Your answer should be a single mathematical expression for Q.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify the specific mathematical error in the student's application of Noether's theorem",
+        "Derive the correct Noether charge using the standard formula Q = Σ p_i δq_i where δL = 0 for this symmetry",
+        "Your final answer should be just the expression for Q"
+      ],
+      "ground_truth": {
+        "answer": "m(xẏ - yẋ)",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The infinitesimal transformation is δx = εy, δy = -εx, with δt = 0.",
+          "Step 2: The variations of velocities are: δẋ = d/dt(δx) = εẏ, δẏ = d/dt(δy) = -εẋ.",
+          "Step 3: The variation of the Lagrangian is: δL = mẋ·δẋ + mẏ·δẏ - (∂V/∂x)δx - (∂V/∂y)δy = mẋ(εẏ) + mẏ(-εẋ) - εy(∂V/∂x) + εx(∂V/∂y).",
+          "Step 4: The kinetic terms: εm(ẋẏ - ẏẋ) = 0. The potential terms: ε[-y(x/r)V'(r) + x(y/r)V'(r)] = 0. So δL = 0 exactly.",
+          "Step 5: The conjugate momenta are p_x = ∂L/∂ẋ = mẋ and p_y = ∂L/∂ẏ = mẏ.",
+          "Step 6: The Noether charge is Q = p_x δx + p_y δy = mẋ(εy) + mẏ(-εx) = εm(ẋy - ẏx) = εm(yẋ - xẏ).",
+          "Step 7: The standard angular momentum is L_z = x p_y - y p_x = m(xẏ - yẋ). The Noether charge Q = -εL_z, confirming that L_z = m(xẏ - yẋ) is conserved.",
+          "Step 8: The student's error: They wrote Q = m(ẋy - xẏ) = m(yẋ - xẏ). But the correct conserved quantity (angular momentum) is L_z = m(xẏ - yẋ) = -m(yẋ - xẏ) = -m(ẋy - xẏ). The student has a sign error.",
+          "Step 9: Alternatively, the student might have meant to write the standard angular momentum expression but got the sign wrong in the Noether charge formula, possibly by using δy = +εx instead of -εx or by misordering the terms."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Confusing the generator of rotation with the angular momentum expression, leading to sign errors",
+          "Not computing δẋ and δẏ carefully as total time derivatives of the coordinate variations",
+          "Assuming Q = Σ p_i δq_i without checking whether δL requires a boundary term F"
+        ],
+        "required_knowledge": [
+          "Noether's theorem for point symmetries",
+          "Canonical momenta and Noether charge formula",
+          "Angular momentum as the generator of rotations"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["noether-theorem", "angular-momentum", "lagrangian-mechanics", "symmetry"]
+    },
+    {
+      "task_id": "S-MATH-11A-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Orbital Mechanics — Differential Equations",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "A satellite of mass m orbits a planet of mass M >> m. The gravitational force magnitude is F = GMm/r² where G = 6.674 × 10⁻¹¹ N·m²/kg², M = 5.972 × 10²⁴ kg (Earth's mass), and m is negligible. In polar coordinates (r, θ) in the orbital plane, the equations of motion are: (1) d²r/dt² - r(dθ/dt)² = -GM/r², and (2) r²(dθ/dt) = h = constant (conservation of angular momentum per unit mass). Let u = 1/r. Using the chain rule with d/dt = (dθ/dt)(d/dθ) = (h/r²)(d/dθ) = hu²(d/dθ), derive the differential equation for u(θ). Then, solve it to find the orbital period T in seconds for a circular orbit with radius r = 7.0 × 10⁶ m. Express your answer in hours, rounded to the nearest integer.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Derive the Binet equation for u(θ) explicitly from the substitution",
+        "Show all steps of the chain rule application",
+        "Final answer must be in hours, rounded to the nearest integer"
+      ],
+      "ground_truth": {
+        "answer": "2",
+        "answer_type": "exact_integer",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: From equation (2): dθ/dt = h/r² = hu².",
+          "Step 2: Compute dr/dt = d(1/u)/dt = (-1/u²)(du/dt) = (-1/u²)(du/dθ)(dθ/dt) = (-1/u²)(du/dθ)(hu²) = -h(du/dθ).",
+          "Step 3: Compute d²r/dt² = d/dt(-h du/dθ) = -h d/dt(du/dθ) = -h (d²u/dθ²)(dθ/dt) = -h (d²u/dθ²)(hu²) = -h²u²(d²u/dθ²).",
+          "Step 4: Substitute into equation (1): -h²u²(d²u/dθ²) - (1/u)(hu²)² = -GMu².",
+          "Step 5: Simplify: -h²u²(d²u/dθ²) - h²u³ = -GMu².",
+          "Step 6: Divide by -h²u²: d²u/dθ² + u = GM/h². This is the Binet equation.",
+          "Step 7: For a circular orbit, r = constant, so u = constant = u₀. Then d²u/dθ² = 0, and u₀ = GM/h².",
+          "Step 8: For circular motion: h = r²(dθ/dt) = r²ω where ω = dθ/dt = 2π/T.",
+          "Step 9: From u₀ = 1/r = GM/h² = GM/(r⁴ω²), we get ω² = GM/r³.",
+          "Step 10: Thus T² = (2π)²r³/(GM), which is Kepler's third law for circular orbits.",
+          "Step 11: Compute T = 2π√(r³/(GM)) = 2π√((7.0×10⁶)³/(6.674×10⁻¹¹ × 5.972×10²⁴)).",
+          "Step 12: r³ = 343 × 10¹⁸ = 3.43 × 10²⁰ m³.",
+          "Step 13: GM = 6.674×10⁻¹¹ × 5.972×10²⁴ ≈ 3.986 × 10¹⁴ m³/s².",
+          "Step 14: r³/(GM) = 3.43×10²⁰/3.986×10¹⁴ ≈ 8.605 × 10⁵ s².",
+          "Step 15: √(r³/(GM)) ≈ √860500 ≈ 927.6 s.",
+          "Step 16: T = 2π × 927.6 ≈ 5826 s.",
+          "Step 17: Convert to hours: 5826/3600 ≈ 1.618 hours.",
+          "Step 18: Rounded to the nearest integer: 2 hours."
+        ],
+        "verification_method": "numerical",
+        "verification_code": "import math; G=6.674e-11; M=5.972e24; r=7.0e6; T=2*math.pi*math.sqrt(r**3/(G*M)); print(f'T = {T:.1f} s = {T/3600:.3f} hours')"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly applying the chain rule when computing d²r/dt², especially missing the factor of dθ/dt from the second derivative",
+          "Assuming h = √(GMr) for general orbits without deriving it for the circular case",
+          "Using the simple formula T = 2πr/v with v = √(GM/r) without showing the derivation from the Binet equation"
+        ],
+        "required_knowledge": [
+          "Polar coordinate equations of motion",
+          "Binet equation derivation",
+          "Kepler's third law from Newtonian mechanics"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["orbital-mechanics", "binet-equation", "keplers-laws", "differential-equations"]
+    }
+  ]
+}

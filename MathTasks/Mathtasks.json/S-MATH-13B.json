@@ -1,0 +1,427 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-13B",
+    "generator_model": "gpt-5.3-codex",
+    "category": "MATHEMATICA",
+    "subcategory": "Proof-Based Mathematics — Real Analysis, Point-Set Topology",
+    "generated_at": "2026-04-26T00:00:00Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-13B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Product Topology, Compact Codomain, Closed Graph",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let X be an arbitrary topological space and K a compact Hausdorff space. For a function f: X -> K define its graph Gamma_f = {(x, f(x)) : x in X} subset X x K (product topology). Prove the equivalence:\n(1) f is continuous.\n(2) Gamma_f is closed in X x K.\n\nYou must prove BOTH directions. In the converse direction, you may not assume X is Hausdorff. You must explicitly justify any projection-closedness claim from compactness.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Do not use nets or filters",
+        "Use only open/closed-set definitions and compactness",
+        "Every implication step must name the theorem or definition used"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Assume f is continuous. Define F: X x K -> K x K by F(x, y) = (f(x), y). F is continuous because f and identity_K are continuous and product maps preserve continuity.",
+          "Step 2: Since K is Hausdorff, the diagonal Delta_K = {(u, u): u in K} is closed in K x K.",
+          "Step 3: Gamma_f = F^{-1}(Delta_K), so Gamma_f is closed in X x K as the preimage of a closed set under a continuous map.",
+          "Step 4: Assume Gamma_f is closed. Let C subset K be closed. Need to show f^{-1}(C) is closed in X.",
+          "Step 5: Gamma_f intersect (X x C) is closed in X x C (subspace topology), because Gamma_f is closed in X x K and X x C is a subspace.",
+          "Step 6: C is compact (closed subset of compact K). Projection p_X: X x C -> X is a closed map because the second factor C is compact.",
+          "Step 7: f^{-1}(C) = p_X(Gamma_f intersect (X x C)). Therefore f^{-1}(C) is closed in X.",
+          "Step 8: Preimages of closed sets are closed, hence f is continuous. This proves (2) -> (1)."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using the diagonal argument without verifying Hausdorffness of K",
+          "Projecting a closed set from X x K to X without compactness assumptions",
+          "Assuming X must be Hausdorff in the converse direction"
+        ],
+        "required_knowledge": [
+          "Diagonal characterization of Hausdorff spaces",
+          "Closed-map property of projection with compact factor",
+          "Product topology and subspace topology"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["topology", "continuity", "product-topology", "compactness", "closed-graph"]
+    },
+    {
+      "task_id": "S-MATH-13B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection: Quantifier Order and Measurability",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Two proofs are given below. Each contains a subtle logical error. For each proof: identify the exact invalid line, explain the quantifier/theorem misuse precisely, and provide a corrected theorem statement with a valid proof sketch.\n\nProof A (continuity via pointwise convergence):\nClaim: If f_n: [0,1] -> R are continuous and f_n -> f pointwise, then f is continuous.\nArgument: Fix x0 and epsilon>0. Choose N so that |f_N(x)-f(x)|<epsilon/3 for all x in [0,1]. By continuity of f_N at x0 choose delta so |x-x0|<delta implies |f_N(x)-f_N(x0)|<epsilon/3. Then |f(x)-f(x0)| <= |f(x)-f_N(x)| + |f_N(x)-f_N(x0)| + |f_N(x0)-f(x0)| < epsilon. So f is continuous.\n\nProof B (measurability via DCT):\nClaim: If f_n are measurable and f_n -> f pointwise on [0,1], then f is measurable because by DCT, integral_A f = lim_n integral_A f_n for every measurable A, and thus f must be measurable.\nArgument: Since |f_n| <= g for some g with finite improper integral on [0,1], DCT applies and therefore f is measurable.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "You must address both proofs A and B",
+        "For A, explicitly identify the quantifier-order error",
+        "For B, explain why the stated DCT usage is circular/invalid for measurability"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (A error): The line 'choose N so that |f_N(x)-f(x)|<epsilon/3 for all x' is not justified by pointwise convergence. Pointwise gives N depending on x, not one N valid for all x.",
+          "Step 2 (A fix): Correct theorem: uniform convergence of continuous f_n implies continuity of limit. Then one N works globally, and the epsilon/3 argument is valid.",
+          "Step 3 (A alternative): Pointwise convergence can fail to preserve continuity; e.g., f_n(x)=x^n on [0,1], limit is discontinuous at x=1.",
+          "Step 4 (B error): DCT cannot be used to prove measurability of f itself in this way; DCT assumes the limit function is measurable (or at least that the integrals involved are meaningful in the measurable framework). The argument is circular.",
+          "Step 5 (B second error): 'finite improper integral' is not equivalent to Lebesgue integrability in the required DCT sense unless explicitly verified. Domination hypothesis is not established rigorously.",
+          "Step 6 (B fix): Correct measurability proof uses preimages: for any a in R, {f>a} = union_{m>=1} intersection_{n>=m} {f_n > a-1/m}. RHS is measurable from measurability of f_n, hence f measurable.",
+          "Step 7: Optionally after measurability is established and true L1 domination is verified, DCT may be applied for integral convergence."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Replacing pointwise quantifiers with uniform quantifiers silently",
+          "Assuming DCT can establish measurability instead of requiring it",
+          "Treating improper-Riemann finiteness as automatic Lebesgue domination"
+        ],
+        "required_knowledge": [
+          "Pointwise vs uniform convergence",
+          "Continuity of uniform limits",
+          "Measurability of pointwise limits",
+          "Exact hypotheses of Dominated Convergence Theorem"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "misleading_pattern"
+      },
+      "tags": ["error-detection", "real-analysis", "quantifiers", "measurability", "dominated-convergence"]
+    },
+    {
+      "task_id": "S-MATH-13B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Error Detection: Sequential Compactness and Path-Connectedness",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Analyze the following two flawed proofs. For each, identify the exact invalid inference and repair the statement (either by adding hypotheses or giving a counterexample).\n\nProof C (compactness):\nClaim: In any topological space, sequential compactness implies compactness.\nArgument: Let every sequence have a convergent subsequence. If an open cover had no finite subcover, recursively choose x_n outside the union of the first n cover-sets. Then (x_n) has a convergent subsequence x_{n_k} -> x. Pick an open set U from the cover containing x. Eventually x_{n_k} in U, contradiction. Therefore compact.\n\nProof D (connectedness):\nClaim: Every connected subspace of R^2 is path-connected.\nArgument: Let A subset R^2 be connected and take p,q in A. Since A is connected, p and q lie in the same component; by definition of component there is a continuous path from p to q in A. So A is path-connected.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "You must address both Proof C and Proof D",
+        "For each, provide a corrected theorem statement",
+        "For each false claim, provide one explicit counterexample with justification"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (C error): The recursive 'choose x_n outside first n sets' argument assumes a countable indexing of the cover and ignores uncountable covers; this only interacts with countable subcovers.",
+          "Step 2 (C deeper issue): Even when countable selection is possible, sequential compactness does not imply compactness in arbitrary spaces (equivalence needs first-countability/metric-like hypotheses).",
+          "Step 3 (C counterexample): The ordinal space [0, omega_1) with order topology is sequentially compact but not compact. Non-compactness: cover {[0,alpha): alpha<omega_1} has no finite subcover. Sequential compactness follows because any sequence has countable range with countable supremum < omega_1 and thus a convergent subsequence.",
+          "Step 4 (C corrected theorem): In metric spaces (more generally first-countable countably compact settings), sequential compactness and compactness coincide.",
+          "Step 5 (D error): The proof confuses connected component with path component. A connected component is maximal connected set, not maximal path-connected set.",
+          "Step 6 (D counterexample): The closed topologist's sine curve T = {(x,sin(1/x)):x>0} union ({0}x[-1,1]) is connected but not path-connected.",
+          "Step 7 (D corrected theorem): Every open connected subset of R^n is path-connected; connected subsets of R^n in general need not be path-connected."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming all open covers can be reduced to sequences",
+          "Using metric-space equivalences in non-metrizable spaces",
+          "Equating connected components with path components"
+        ],
+        "required_knowledge": [
+          "Compactness vs sequential compactness",
+          "Ordinal topology example [0,omega_1)",
+          "Connectedness vs path-connectedness",
+          "Topologist's sine curve"
+        ],
+        "reasoning_depth": 11,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["error-detection", "compactness", "sequential-compactness", "connectedness", "path-connectedness"]
+    },
+    {
+      "task_id": "S-MATH-13B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Quotient Spaces and Separation Axioms",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "True or False (justify rigorously):\n\nClaim: If q: X -> Y is a quotient map, X is Hausdorff, and every fiber q^{-1}({y}) is compact, then Y must be Hausdorff.\n\nYou must either prove the claim or give a fully explicit counterexample (including the topology on X, the equivalence relation or map q, and a proof that Y is not Hausdorff).",
+      "prompt_format": "true_false_justify",
+      "constraints": [
+        "Your justification must explicitly verify quotient-map conditions",
+        "If false, you must show two points in Y cannot be separated by disjoint open sets",
+        "No appeals to unnamed folklore examples"
+      ],
+      "ground_truth": {
+        "answer": "False",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let X = R x {0,1} with product topology (R usual, {0,1} discrete). X is Hausdorff.",
+          "Step 2: Define equivalence relation: (x,0) ~ (x,1) for x != 0, while (0,0) and (0,1) remain distinct classes.",
+          "Step 3: Let q: X -> Y = X/~ be the quotient map. Fibers are either two-point sets {(x,0),(x,1)} for x!=0 or singletons at the two origins. All fibers are finite, hence compact.",
+          "Step 4: Show Y is not Hausdorff. Let o0=q(0,0), o1=q(0,1). Suppose U,V are open neighborhoods of o0,o1 in Y. Then q^{-1}(U), q^{-1}(V) are open neighborhoods of (0,0),(0,1) in X.",
+          "Step 5: By product topology, these preimages contain sets of form I x {0} and J x {1} with 0 in I intersect J (I,J open intervals). Choose x in I intersect J, x!=0.",
+          "Step 6: Then (x,0) in q^{-1}(U) and (x,1) in q^{-1}(V), but q(x,0)=q(x,1). So U intersect V != empty. Hence o0,o1 cannot be separated by disjoint open sets.",
+          "Step 7: Therefore Y is not Hausdorff. Claim is false."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming compact fibers force closed equivalence relation automatically",
+          "Forgetting to verify non-separability of the two origin classes explicitly",
+          "Confusing quotient of Hausdorff with closed-map images of compact spaces"
+        ],
+        "required_knowledge": [
+          "Quotient topology",
+          "Hausdorff separation",
+          "Finite sets are compact",
+          "Line with doubled origin construction"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["true-false", "quotient-space", "hausdorff", "separation-axioms", "counterexample"]
+    },
+    {
+      "task_id": "S-MATH-13B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Counterexample Construction: Connected but Not Path-Connected",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Open-ended construction task.\nConstruct an explicit subspace Y of R^2 that is connected but not path-connected. Your construction must be complete (formula-level definition), and your justification must include:\n(1) a proof of connectedness,\n(2) a proof that at least two specific points cannot be joined by a path in Y.\n\nYou are not allowed to cite the result as known; prove both properties directly.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "You must define Y explicitly as a set",
+        "You must name two explicit points with no connecting path",
+        "Proof must avoid algebraic topology tools"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "rubric",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (one valid construction): Y = {(x, sin(1/x)): 0<x<=1} union ({0} x [-1,1]) (closed topologist's sine curve).",
+          "Step 2 (connectedness): G={(x,sin(1/x)):0<x<=1} is continuous image of connected (0,1], hence connected. Y = closure(G) in R^2, and closure of a connected set is connected.",
+          "Step 3 (pick points): p=(0,0), q=(1,sin(1)).",
+          "Step 4 (path obstruction setup): Assume gamma:[0,1]->Y with gamma(0)=p, gamma(1)=q. Let t0 = sup{t : first-coordinate of gamma(t)=0}.",
+          "Step 5 (oscillation contradiction): For t>t0 close to t0, first-coordinate is >0, so points lie on graph part and second-coordinate equals sin(1/x(t)). As x(t)->0+, values sin(1/x(t)) oscillate between -1 and 1 without limit, contradicting continuity of gamma at t0.",
+          "Step 6: Therefore no such path exists. Y is connected but not path-connected."
+        ],
+        "verification_method": "rubric_based",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Claiming connected implies path-connected in subspaces of R^2",
+          "Using only a picture-based argument without continuity contradiction",
+          "Forgetting to prove connectedness via closure of connected graph"
+        ],
+        "required_knowledge": [
+          "Connectedness under continuous images",
+          "Closure of connected sets",
+          "Path definition and continuity obstruction",
+          "Oscillation of sin(1/x) near 0"
+        ],
+        "reasoning_depth": 9,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["open-ended", "counterexample", "connectedness", "path-connectedness", "subspace-topology"]
+    },
+    {
+      "task_id": "S-MATH-13B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Analyze: Pointwise Limits vs Riemann Integrability",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Construct a uniformly bounded sequence of continuous functions (f_n) on [0,1] whose pointwise limit is not Riemann integrable.\n\nRequired deliverables:\n(1) Explicit construction of a closed nowhere-dense set F subset [0,1] with positive Lebesgue measure (you may use a fat Cantor construction).\n(2) Explicit continuous f_n using F.\n(3) Proof of pointwise convergence to f = 1_F.\n(4) Proof that f is not Riemann integrable.\n\nAll four parts are mandatory.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Each f_n must be continuous and satisfy |f_n|<=1",
+        "Pointwise convergence proof must treat x in F and x notin F separately",
+        "Non-integrability proof must explicitly identify discontinuity set"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let F be a fat Cantor set in [0,1] with m(F)>0 and empty interior. Let F_n be decreasing finite unions of closed intervals with F = intersection_n F_n.",
+          "Step 2: Define f_n(x)=max(0, 1 - n*dist(x,F_n)). Since distance to closed set is continuous, each f_n is continuous and 0<=f_n<=1.",
+          "Step 3: If x in F, then x in F_n for all n, so dist(x,F_n)=0 and f_n(x)=1 for all n.",
+          "Step 4: If x notin F, then for large n, x notin F_n and d_n:=dist(x,F_n)>0. Hence f_n(x)<=1/(1+n*d_n) style decay; directly from definition f_n(x)=0 once n*d_n>=1. Therefore f_n(x)->0.",
+          "Step 5: Therefore f_n -> 1_F pointwise.",
+          "Step 6: Discontinuity set of 1_F equals boundary(F). Since F is closed with empty interior, boundary(F)=F.",
+          "Step 7: m(F)>0, so discontinuity set has positive measure. By Lebesgue criterion for Riemann integrability, 1_F is not Riemann integrable."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using standard Cantor set (measure zero), giving a Riemann-integrable limit",
+          "Not proving empty interior of F, so discontinuity characterization is incomplete",
+          "Claiming uniform convergence instead of pointwise convergence"
+        ],
+        "required_knowledge": [
+          "Fat Cantor sets",
+          "Distance functions to closed sets",
+          "Lebesgue criterion for Riemann integrability",
+          "Pointwise convergence arguments"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "irrelevant_info"
+      },
+      "tags": ["real-analysis", "riemann-integrability", "fat-cantor", "pointwise-limit", "continuous-functions"]
+    },
+    {
+      "task_id": "S-MATH-13B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Homeomorphisms, Compactness, Separation",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Prove the theorem and then stress-test it:\n\n(A) Theorem: If X is compact, Y is Hausdorff, and f: X -> Y is a continuous bijection, then f is a homeomorphism.\n\n(B) Sharpness test: Show Hausdorffness of Y is essential by constructing a concrete counterexample when Y is not Hausdorff. Your counterexample must give explicit X, Y, and continuous bijection f that is not a homeomorphism.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Part (A) must prove continuity of inverse via closed sets or compact sets",
+        "Part (B) must explicitly define the topology on Y",
+        "Counterexample must have X compact"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1 (A): Let C subset X be closed. Since X compact, C compact. Continuous image f(C) is compact in Y.",
+          "Step 2 (A): In Hausdorff spaces compact subsets are closed, so f(C) is closed in Y. Therefore f is closed.",
+          "Step 3 (A): A bijective closed map has continuous inverse. Hence f^{-1}:Y->X is continuous and f is a homeomorphism.",
+          "Step 4 (B construction): Let underlying set S be any infinite compact Hausdorff space (e.g., Cantor set). Let X=S with its usual compact Hausdorff topology tau_X.",
+          "Step 5 (B): Define Y=(S, tau_Y) where tau_Y={emptyset, S} (indiscrete topology). Identity map id: X->Y is continuous because preimages of emptyset and S are open in X.",
+          "Step 6 (B): id is bijective but not a homeomorphism: inverse id^{-1}:Y->X is not continuous since many open sets of X are not open in Y.",
+          "Step 7: Therefore Hausdorffness of Y is essential."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Proving only injective continuity and forgetting continuity of inverse",
+          "Using compact-implies-closed without Hausdorff codomain",
+          "Giving a non-compact domain in the sharpness counterexample"
+        ],
+        "required_knowledge": [
+          "Compactness and closed maps",
+          "Hausdorff separation and compact subsets",
+          "Definition of homeomorphism",
+          "Indiscrete topology"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["homeomorphism", "compactness", "hausdorff", "separation-axioms", "counterexample"]
+    },
+    {
+      "task_id": "S-MATH-13B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Counterexample Construction: Nowhere Differentiable on a Specific Set",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let C be the middle-thirds Cantor set in [0,1]. Construct a function F: R -> R that is continuous everywhere and differentiable nowhere on C.\n\nYou may assume the existence of one continuous nowhere-differentiable function W: R -> R.\n\nYour task is to give an explicit formula for F in terms of W and C, and prove:\n(1) F is continuous on R.\n(2) For every c in C, F is not differentiable at c.\n\nNo credit for choosing F=W directly; your construction must nontrivially involve C.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Construction must explicitly involve the set C",
+        "Proof must handle every c in C, not just a dense subset",
+        "Do not use measure-theory black boxes"
+      ],
+      "ground_truth": {
+        "answer": null,
+        "answer_type": "proof",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let d(x,C)=inf{|x-y|:y in C}. Define F(x)=W(x)+d(x,C)^2.",
+          "Step 2: d(x,C) is continuous (1-Lipschitz) for closed C, so d(x,C)^2 is continuous. Sum of continuous functions implies F continuous on R.",
+          "Step 3: Fix c in C. Then d(c,C)=0. Show d(x,C)^2 is differentiable at c with derivative 0: |d(c+h,C)^2-d(c,C)^2|/|h| = d(c+h,C)^2/|h| <= |h| -> 0, since d(c+h,C) <= |h|.",
+          "Step 4: Suppose F were differentiable at c. Since d(\u00b7,C)^2 is differentiable at c, difference W = F - d(\u00b7,C)^2 would be differentiable at c (difference of differentiable functions).",
+          "Step 5: This contradicts the assumption that W is nowhere differentiable. Hence F is not differentiable at c.",
+          "Step 6: c was arbitrary in C, so F is differentiable nowhere on C."
+        ],
+        "verification_method": "formal_proof",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Using distance function d(x,C) instead of d(x,C)^2 and failing to prove differentiability at points of C",
+          "Forgetting to justify Lipschitz continuity of distance to a closed set",
+          "Claiming contradiction with W without proving differentiability transfer through subtraction"
+        ],
+        "required_knowledge": [
+          "Distance-to-set function properties",
+          "Differentiability algebra rules",
+          "Cantor set as closed subset of R",
+          "Nowhere-differentiable function existence"
+        ],
+        "reasoning_depth": 8,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["counterexample", "cantor-set", "differentiability", "continuous-functions", "construction"]
+    }
+  ]
+}

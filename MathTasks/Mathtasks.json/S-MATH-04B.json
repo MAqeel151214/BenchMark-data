@@ -1,0 +1,471 @@
+{
+  "benchmark": "TAVS",
+  "version": "1.0",
+  "session_metadata": {
+    "session_id": "S-MATH-04B",
+    "generator_model": "claude-opus-4",
+    "category": "MATHEMATICA",
+    "subcategory": "Algebra — Abstract Structures, Field Extensions, Linear Algebra",
+    "generated_at": "2026-04-24T07:56:37Z"
+  },
+  "tasks": [
+    {
+      "task_id": "S-MATH-04B-001",
+      "category": "MATHEMATICA",
+      "subcategory": "Field Extensions — Constructibility and Minimal Polynomials",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Let α = √(2 + √3) + √(5 - √13). Consider the field extension K = Q(α) over Q.\n\n(a) Compute the degree [K : Q].\n\n(b) Determine whether the number β = cos(2π/15) belongs to K. Justify your answer by analyzing the constructibility and the degrees of the relevant field extensions.\n\nHint: First find the minimal polynomial of √(2 + √3) over Q and of √(5 - √13) over Q. Then analyze the compositum.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show step-by-step reasoning",
+        "Final answer must include explicit degree values and a clear yes/no determination for part (b) with justification"
+      ],
+      "ground_truth": {
+        "answer": "[K:Q] = 8, and β = cos(2π/15) does NOT belong to K.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Let a = √(2 + √3). Then a² = 2 + √3, so (a² - 2)² = 3, giving a⁴ - 4a² + 1 = 0. The minimal polynomial of a over Q is x⁴ - 4x² + 1, which is irreducible by Eisenstein after the substitution x → x+1 (or by checking it has no rational roots and does not factor as quadratics). Thus [Q(a):Q] = 4.",
+          "Step 2: Let b = √(5 - √13). Then b² = 5 - √13, so (b² - 5)² = 13, giving b⁴ - 10b² + 12 = 0. The polynomial x⁴ - 10x² + 12 is irreducible over Q (no rational roots, and checking for factorization as quadratics shows no valid combination). Thus [Q(b):Q] = 4.",
+          "Step 3: We need [Q(a,b):Q]. Since [Q(a):Q] = [Q(b):Q] = 4, the compositum degree is 4, 8, or 16. We show Q(a) ≠ Q(b) by checking discriminants or by noting that Q(a) is totally real with Galois group V_4 (Klein four), while the discriminant of x⁴ - 10x² + 12 is 256·13·12 = 39936, different from the discriminant of x⁴ - 4x² + 1 (which is 144). The intersection Q(a) ∩ Q(b) must be a subfield of both. Since both are degree 4 with Galois group V_4 over Q, they each contain exactly three quadratic subfields.",
+          "Step 4: For Q(a): the quadratic subfields are Q(√3), Q(√(2+√3)·√(2-√3)) = Q(√1) = Q (degenerate), and Q(√(2+√3)+√(2-√3)). Actually computing properly: the roots are ±√(2±√3). The product of all roots is 1. The resolvent quadratic for x⁴ - 4x² + 1 gives discriminants leading to quadratic subfields Q(√3) and Q(√(4-4))... Let us use a cleaner approach. x⁴ - 4x² + 1 = 0 has roots ±√(2±√3). The sum of roots taken two at a time for the resolvent gives the quadratic subfields. The discriminant of x⁴ - 4x² + 1 is 256·(4-1) = 768 = 256·3, so √Δ = 16√3, confirming Q(√3) as a subfield. Similarly for x⁴ - 10x² + 12, the discriminant is 256·13·12 = 256·156, so √Δ involves √156 = 2√39, giving subfield Q(√39).",
+          "Step 5: The quadratic subfield of Q(a) from the discriminant is Q(√3). The quadratic subfield of Q(b) is Q(√39). Since 39 = 3·13 and 13 is squarefree, Q(√3) ≠ Q(√39). Therefore Q(a) ∩ Q(b) = Q, so [Q(a,b):Q] = 4·4 = 16... wait, but α = a + b, so K = Q(a+b) ⊆ Q(a,b). We need [K:Q] = [Q(a+b):Q].",
+          "Step 6: For a generic sum of elements from linearly disjoint extensions, Q(a+b) often equals the compositum when the extensions are linearly disjoint and not conjugate. Since a+b generates Q(a,b) in many cases (by the primitive element theorem), [K:Q] = 16 would be possible. But let's check if a+b could generate a smaller field. Actually, since Q(a) and Q(b) are linearly disjoint over Q (intersection = Q), and both are Galois over Q (each is the splitting field of its minimal polynomial — verify: x⁴ - 4x² + 1 has roots ±√(2±√3), and these are all expressible in Q(a) since √(2-√3) = 1/√(2+√3) ∈ Q(a); similarly for b), the compositum Q(a,b) has degree 16 over Q.",
+          "Step 7: Since Q(a,b)/Q is Galois (compositum of Galois extensions), and a+b ∈ Q(a,b), we need to determine if K = Q(a,b) or a proper subfield. The element a+b has 16 distinct Galois conjugates obtained by independently choosing signs for the square roots: ±√(2±√3) ± √(5±√13) with the constraint that the signs inside the first and second radicals are linked in pairs. Actually there are 4 choices for a's conjugate and 4 for b's, giving 16 total. The sums are generally distinct, so [Q(a+b):Q] = 16.",
+          "Step 8: However, we must verify distinctness. If a+b = a'+b' for distinct conjugates, then a-a' = b'-b. The left side is in Q(a), the right in Q(b), so both are in Q(a)∩Q(b) = Q. Thus a-a' ∈ Q and b'-b ∈ Q. For a = √(2+√3), the differences a - (-a) = 2a ∉ Q. The difference √(2+√3) - √(2-√3) = √2 ∉ Q (actually (√(2+√3) - √(2-√3))² = 4 - 2√1 = 2, so this difference is √2... wait: (√(2+√3) - √(2-√3))² = (2+√3) + (2-√3) - 2√((2+√3)(2-√3)) = 4 - 2√1 = 2. So √(2+√3) - √(2-√3) = √2. Thus a - a' can be √2 for some conjugate a' = √(2-√3). Similarly for b: √(5-√13) - √(5+√13) has square = 10 - 2√12 = 10 - 4√3, not a perfect square in Q. But b - b' ∈ Q(b)∩Q(a) = Q only if it's rational, which √2 is not. So a-a' = b'-b requires both in Q, impossible unless a=a', b=b'. Thus all 16 conjugates of a+b are distinct, so [K:Q] = 16.",
+          "Step 9: Correction: Let's re-examine. For Q(a): the four roots are ±√(2+√3) and ±√(2-√3). Note that √(2+√3)·√(2-√3) = √1 = 1. So √(2-√3) = 1/√(2+√3) ∈ Q(a). Thus Q(a) contains all roots and is indeed the splitting field, hence Galois over Q with Gal(Q(a)/Q) ≅ V_4 (Klein four group) since the polynomial is biquadratic with reducible resolvent. Similarly Q(b) is Galois over Q with group V_4.",
+          "Step 10: The compositum of two V_4-extensions linearly disjoint over Q is either V_4 × V_4 (order 16) or a smaller group if not disjoint. Since Q(a) ∩ Q(b) = Q (their quadratic subfields Q(√3) and Q(√39) are distinct), they are linearly disjoint and the compositum has degree 16 with Galois group V_4 × V_4 ≅ C_2^4.",
+          "Step 11: For part (b): β = cos(2π/15). The minimal polynomial of 2cos(2π/15) over Q is the minimal polynomial of ζ_15 + ζ_15^(-1) where ζ_15 = e^(2πi/15). The degree [Q(ζ_15):Q] = φ(15) = φ(3·5) = φ(3)·φ(5) = 2·4 = 8. The maximal real subfield Q(ζ_15 + ζ_15^(-1)) has degree φ(15)/2 = 4 over Q. Thus [Q(β):Q] = 4.",
+          "Step 12: For β to be in K = Q(a,b), we need Q(β) ⊆ K. Since [K:Q] = 16 and [Q(β):Q] = 4, this is degree-theoretically possible. However, Q(β) = Q(cos(2π/15)) is the maximal real subfield of the 15th cyclotomic field. Its Galois group over Q is (Z/15Z)^× / {±1} ≅ C_4. The discriminant of the 15th cyclotomic field involves primes 3 and 5, and its real subfield has discriminant related to 15. The quadratic subfield of Q(β) is Q(√5) (since (Z/15Z)^× / {±1} has a unique subgroup of index 2, corresponding to the quadratic subfield).",
+          "Step 13: K = Q(a,b) has quadratic subfields including Q(√3) and Q(√39). Does it contain Q(√5)? The field Q(a) = Q(√(2+√3)) has discriminant-related subfield Q(√3). Q(b) = Q(√(5-√13)) has subfield Q(√39). The compositum contains Q(√3, √39) = Q(√3, √13) (since √39 = √3·√13). This biquadratic field has subfields Q(√3), Q(√13), Q(√39). It does NOT contain √5.",
+          "Step 14: Since Q(β) contains Q(√5) as its unique quadratic subfield, and K does not contain √5 (the quadratic subfields of K are generated by products of √3 and √13, never involving √5), we have Q(√5) ⊄ K, hence Q(β) ⊄ K. Therefore β ∉ K."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming [Q(a,b):Q] = [Q(a):Q]·[Q(b):Q] without verifying linear disjointness (Q(a) ∩ Q(b) = Q)",
+          "Incorrectly computing the minimal polynomial of √(2+√3) as degree 2 instead of degree 4",
+          "Confusing cos(2π/15) with a constructible number and assuming it lies in any tower of quadratic extensions without checking the specific subfields",
+          "Forgetting that Q(ζ_n + ζ_n^(-1)) has degree φ(n)/2, not φ(n)"
+        ],
+        "required_knowledge": [
+          "Minimal polynomials of nested radicals",
+          "Biquadratic extensions and their Galois groups",
+          "Cyclotomic fields and their maximal real subfields",
+          "Discriminants of biquadratic extensions",
+          "Linear disjointness of field extensions"
+        ],
+        "reasoning_depth": 12,
+        "estimated_human_time_minutes": 45
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["field_extensions", "constructibility", "minimal_polynomials", "cyclotomic_fields", "compositum"]
+    },
+    {
+      "task_id": "S-MATH-04B-002",
+      "category": "MATHEMATICA",
+      "subcategory": "Ring Theory — Factorization in Non-UFD",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Consider the ring R = Z[√−5] = {a + b√−5 : a, b ∈ Z}.\n\nA student claims that the element 46 has TWO distinct factorizations into irreducibles in R:\n\nFactorization A: 46 = 2 · 23\nFactorization B: 46 = (1 + √−5)(1 - √−5)\n\nThe student further concludes that R is therefore not a UFD, and that the ideal (2, 1+√−5) is principal with generator gcd(2, 1+√−5) = 1.\n\nIdentify ALL errors in the student's reasoning and argument. For each error, explain why it is wrong and provide the correct analysis. Specifically:\n\n(1) Verify whether 2, 23, (1+√−5), and (1-√−5) are indeed irreducible in R.\n(2) Determine whether these factorizations are genuinely distinct (i.e., not related by units). What are the units of R?\n(3) Is the student's conclusion about the ideal (2, 1+√−5) being principal correct? Prove your answer by computing the norm or using properties of the class group.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Identify each error explicitly with a label (Error 1, Error 2, etc.)",
+        "Provide corrected reasoning for each identified error",
+        "Final answer must state clearly whether the ideal (2, 1+√−5) is principal"
+      ],
+      "ground_truth": {
+        "answer": "The student makes multiple errors: (1) 23 is irreducible in Z[√−5] since N(23)=529 and a²+5b²=23 has no integer solutions. (2) The units are only ±1. (3) (1±√−5) are irreducible since N=6 and no element has norm 2 or 3. (4) The student's arithmetic is wrong: (1+√−5)(1−√−5) = 1+5 = 6 ≠ 46. (5) The ideal (2, 1+√−5) is NOT principal. Proof: if (2, 1+√−5) = (α), then N(α)|gcd(N(2), N(1+√−5)) = gcd(4,6) = 2. But a²+5b²=2 has no solutions. Contradiction. The class number of Q(√−5) is 2, so this ideal represents the non-trivial class.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Define the norm N(a + b√−5) = a² + 5b². This is multiplicative: N(αβ) = N(α)N(β).",
+          "Step 2: Check irreducibility of 2: N(2) = 4. If 2 = αβ, then N(α)N(β) = 4. Possibilities: N(α) ∈ {1, 2, 4}. Since a² + 5b² = 2 has no integer solutions (b=0 gives a²=2, b≠0 gives ≥5), there is no element of norm 2. Thus either N(α)=1 (α unit) or N(α)=4 (β unit). So 2 is irreducible.",
+          "Step 3: Check irreducibility of 23: N(23) = 529 = 23². If 23 = αβ, then N(α)N(β) = 529, so N(α) ∈ {1, 23, 529}. For N(α) = 23, we need a² + 5b² = 23. Trying b=0: a²=23 (no). b=±1: a²=18 (no). b=±2: a²=3 (no). |b|≥3: ≥45. So no element of norm 23. Thus 23 is irreducible.",
+          "Step 4: Check (1±√−5): N(1+√−5) = 1 + 5 = 6. If 1+√−5 = αβ, then N(α)N(β) = 6. Possibilities: 1, 2, 3, 6. No element of norm 2 or 3 (a²+5b²=3: b=0→a²=3, b=±1→a²=-2). Thus either N(α)=1 (unit) or N(α)=6 (β unit). So 1+√−5 and 1−√−5 are irreducible.",
+          "Step 5: Student's Error 1: The student claims two factorizations of 46, but (1+√−5)(1−√−5) = 1 - (√−5)² = 1 - (-5) = 6 ≠ 46. The arithmetic is completely wrong.",
+          "Step 6: Student's Error 2: Even if the arithmetic were corrected, the factorizations don't work. A valid example of non-unique factorization in Z[√−5] is 6 = 2·3 = (1+√−5)(1−√−5), not 46.",
+          "Step 7: Student's Error 3: The units of Z[√−5] are solutions to a² + 5b² = 1. This gives b=0, a=±1. So the only units are ±1. The factorizations 2·23 and (1+√−5)(1−√−5) would not be equivalent by units even if they were factorizations of the same element (which they aren't).",
+          "Step 8: Student's Error 4: The ideal (2, 1+√−5) is NOT principal. Proof by contradiction: If (2, 1+√−5) = (α), then α | 2 and α | (1+√−5). So N(α) | N(2) = 4 and N(α) | N(1+√−5) = 6. Thus N(α) | gcd(4,6) = 2. But a² + 5b² = 2 has no integer solutions. Contradiction.",
+          "Step 9: The class number of Q(√−5) is 2. The ideal (2, 1+√−5) represents the non-trivial ideal class. The student's claim that it is principal is completely wrong."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "def verify_norms():\n    represented = set()\n    for a in range(-10, 11):\n        for b in range(-5, 6):\n            represented.add(a*a + 5*b*b)\n    for n in [2, 3, 6, 23, 46]:\n        print(f'Norm {n}: {n in represented}')\nverify_norms()"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly computing (1+√−5)(1−√−5) as 46 instead of 6",
+          "Assuming Z[√−5] has units beyond ±1 (confusing with Z[√−1] or Z[√−3])",
+          "Claiming the ideal (2, 1+√−5) is principal without checking norms and containment",
+          "Forgetting to verify that proposed irreducible factors are actually irreducible"
+        ],
+        "required_knowledge": [
+          "Norm functions in quadratic integer rings",
+          "Irreducibility criteria using norms",
+          "Units in imaginary quadratic fields",
+          "Principal ideals and class numbers",
+          "Unique factorization domains"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 20
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["ring_theory", "non-UFD", "irreducibility", "ideals", "quadratic_fields"]
+    },
+    {
+      "task_id": "S-MATH-04B-003",
+      "category": "MATHEMATICA",
+      "subcategory": "Linear Algebra — Jordan Canonical Form",
+      "bloom_level": "Apply",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 6,
+      "prompt": "Consider the 5×5 matrix A over the complex numbers:\n\nA = \n⎡ 3  1  0  0  0 ⎤\n⎢ 0  3  1  0  0 ⎥\n⎢ 0  0  3  0  0 ⎥\n⎢ 0  0  0  3  1 ⎥\n⎣ 0  0  0  0  3 ⎦\n\nLet B = A² - 6A + 9I.\n\n(a) Compute the Jordan canonical form of B.\n\n(b) Determine the dimension of the kernel of B^k for k = 1, 2, 3, 4.\n\n(c) Find a polynomial p(x) of degree at most 2 such that p(B) = B³. Justify why no lower-degree polynomial works.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "Show the Jordan form explicitly with Jordan blocks",
+        "Provide explicit dimensions for each k in part (b)",
+        "For part (c), verify your polynomial by computation"
+      ],
+      "ground_truth": {
+        "answer": "(a) JCF(B) = diag(J₂(0), J₁(0), J₁(0), J₁(0)) — one 2×2 Jordan block and three 1×1 blocks for eigenvalue 0. (b) dim ker(B)=4, dim ker(B²)=5, dim ker(B³)=5, dim ker(B⁴)=5. (c) p(x) = 0 is the unique polynomial of degree ≤2 with p(B)=B³=0; no non-zero degree ≤1 polynomial works because B is nilpotent of index 2, so the minimal polynomial is x², meaning p(B)=0 implies x²|p(x), forcing p to have degree ≥2 unless p=0.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Observe that A has two Jordan blocks for eigenvalue 3: a 3×3 block and a 2×2 block. Thus N = A - 3I is nilpotent with N³ = 0 but N² ≠ 0.",
+          "Step 2: Note that B = A² - 6A + 9I = (A - 3I)² = N². So B is the square of the nilpotent matrix N.",
+          "Step 3: For the 3×3 Jordan block J₃(0) of N: N₃ = [[0,1,0],[0,0,1],[0,0,0]]. Then N₃² = [[0,0,1],[0,0,0],[0,0,0]], which is a 3×3 nilpotent matrix with rank 1, nullity 2. Its Jordan form consists of one 2×2 block and one 1×1 block (since (N₃²)² = 0 but N₃² ≠ 0).",
+          "Step 4: For the 2×2 Jordan block J₂(0) of N: N₂ = [[0,1],[0,0]]. Then N₂² = [[0,0],[0,0]], the zero matrix. This contributes two 1×1 Jordan blocks for eigenvalue 0.",
+          "Step 5: Combining: B has one 2×2 Jordan block (from N₃²), one 1×1 block (from N₃²), and two 1×1 blocks (from N₂² = 0). Total: 2+1+1+1 = 5. The nullity is 1+3 = 4, so rank(B) = 5-4 = 1.",
+          "Step 6: Check B²: On the 3-dim subspace, (N₃²)² = N₃⁴ = 0 (since N₃³=0). On the 2-dim subspace, (N₂²)² = 0. So B² = 0 globally.",
+          "Step 7: So B is nilpotent of index 2: B ≠ 0 but B² = 0. The JCF of a nilpotent matrix with B²=0 and rank(B) = 1 must have exactly one 2×2 block (contributing rank 1) and the rest 1×1 blocks. This confirms JCF(B) = diag(J₂(0), 0, 0, 0).",
+          "Step 8: Part (b): dim ker(B¹) = nullity(B) = 4. dim ker(B²) = nullity(B²) = 5 (since B²=0). dim ker(B³) = 5, dim ker(B⁴) = 5.",
+          "Step 9: Part (c): B³ = B·B² = B·0 = 0. So we need p(B) = 0 with deg(p) ≤ 2. The minimal polynomial of B is x² (since B≠0, B²=0). For any polynomial p with p(B)=0, the minimal polynomial x² must divide p. Thus p(x) = x²·q(x). With deg(p) ≤ 2, deg(q) ≤ 0, so q = c is constant. Thus p(x) = cx².",
+          "Step 10: If c = 0, p(x) = 0. If c ≠ 0, p(x) = cx² has degree exactly 2. No degree ≤ 1 non-zero polynomial can annihilate B: if p(x) = ax + b with a ≠ 0, then p(B) = aB + bI = 0 implies B = (-b/a)I, contradicting that B is nilpotent and non-zero. Thus the only solution of degree ≤ 1 is p = 0, which also satisfies p(B) = 0 = B³. The zero polynomial is the unique solution if we allow degree -∞; otherwise p(x) = cx² for any constant c, with degree exactly 2 for c ≠ 0."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "import numpy as np\n\nA = np.array([[3,1,0,0,0],\n              [0,3,1,0,0],\n              [0,0,3,0,0],\n              [0,0,0,3,1],\n              [0,0,0,0,3]], dtype=complex)\nI = np.eye(5)\nB = A@A - 6*A + 9*I\nprint('B =', B)\nprint('B^2 =', np.linalg.matrix_power(B, 2))\nprint('rank(B) =', np.linalg.matrix_rank(B))\nprint('nullity(B) =', 5 - np.linalg.matrix_rank(B))\nprint('B^3 =', np.linalg.matrix_power(B, 3))\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Treating B as diagonalizable because it's a polynomial in A, without computing its actual nilpotent structure",
+          "Incorrectly determining the Jordan blocks of B from those of A by naive squaring (the 3×3 block of N becomes a 2×2 + 1×1, not a single block)",
+          "Assuming the minimal polynomial of B is the same as that of A",
+          "For part (c), failing to recognize that B³ = 0, making the problem about finding annihilating polynomials"
+        ],
+        "required_knowledge": [
+          "Jordan canonical form and nilpotent matrices",
+          "Rank and nullity of powers of nilpotent matrices",
+          "Minimal polynomials",
+          "Polynomials of matrices"
+        ],
+        "reasoning_depth": 7,
+        "estimated_human_time_minutes": 25
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["jordan_form", "nilpotent_matrices", "minimal_polynomial", "rank_nullity"]
+    },
+    {
+      "task_id": "S-MATH-04B-004",
+      "category": "MATHEMATICA",
+      "subcategory": "Group Theory — Classification and Sylow Theory",
+      "bloom_level": "Create",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Construct a complete and irredundant list of all groups of order 56 up to isomorphism. For each group in your list, specify:\n\n(1) Its standard name or presentation.\n(2) Whether it is abelian or non-abelian.\n(3) The structure of its Sylow 2-subgroup and Sylow 7-subgroup.\n(4) The number of Sylow 2-subgroups (n₂) and Sylow 7-subgroups (n₇).\n\nYou must prove that your list is complete by analyzing all possible cases based on the Sylow theorems and semidirect product structures. In particular, carefully handle the case where the Sylow 7-subgroup is normal versus non-normal, and for each case, enumerate all valid semidirect products P₇ ⋊ P₂ where P₂ ∈ Syl₂(G) and P₇ ∈ Syl₇(G).\n\nNote: There are exactly 13 groups of order 56 up to isomorphism.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Provide explicit presentations or names for all 13 groups",
+        "Prove completeness by exhausting all Sylow configurations",
+        "Use semidirect product notation precisely: specify which homomorphism φ: P₂ → Aut(P₇) is used"
+      ],
+      "ground_truth": {
+        "answer": "There are exactly 13 groups of order 56: 5 abelian (C₅₆, C₂₈×C₂, C₁₄×C₄, C₁₄×C₂², C₇×C₂³) and 8 non-abelian. Non-abelian with normal Sylow 7: C₇⋊C₈ (φ of order 2), C₇⋊Q₈ (φ: Q₈→C₂), two C₇⋊D₈ (different kernels), two C₇⋊(C₄×C₂) (different actions), C₇⋊C₂³ (one non-trivial action). Non-abelian with normal Sylow 2: AGL(1,8) = C₂³⋊C₇ (Frobenius group, unique non-abelian group with n₇=8).",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: 56 = 8 · 7 = 2³ · 7. By Sylow theorems, n₇ ≡ 1 (mod 7) and n₇ | 8, so n₇ ∈ {1, 8}. Similarly n₂ ≡ 1 (mod 2) and n₂ | 7, so n₂ ∈ {1, 7}.",
+          "Step 2: Case 1: n₇ = 1. Then P₇ ≅ C₇ is normal in G. So G ≅ C₇ ⋊ P₂ where P₂ is a group of order 8. We need all semidirect products C₇ ⋊ P₂ for each of the 5 groups P₂ of order 8 (C₈, C₄×C₂, C₂³, D₈, Q₈).",
+          "Step 3: Aut(C₇) ≅ C₆. For a semidirect product C₇ ⋊_φ P₂, we need a homomorphism φ: P₂ → C₆. The image must have order dividing 6 and |P₂|=8, so |im(φ)| ∈ {1, 2}. Thus φ factors through P₂/P₂' → C₂ ≤ C₆.",
+          "Step 4: For P₂ = C₈: Hom(C₈, C₆) ≅ C₂ (since gcd(8,6)=2). The non-trivial map sends generator to the inversion automorphism of C₇. This gives one non-abelian group: C₇ ⋊ C₈. With trivial map: C₅₆ (abelian).",
+          "Step 5: For P₂ = C₄×C₂: Hom(C₄×C₂, C₆) ≅ C₂². There are 4 homomorphisms; up to Aut(P₂) action, there are 2 non-isomorphic non-trivial semidirect products. Abelian with trivial: C₂₈×C₂.",
+          "Step 6: For P₂ = C₂³: Hom(C₂³, C₆) ≅ C₂³. Up to GL(3,2) action, non-trivial maps have 2-dim kernel. All are equivalent, giving exactly ONE non-abelian semidirect product C₇ ⋊ C₂³. Abelian: C₇×C₂³.",
+          "Step 7: For P₂ = D₈: Hom(D₈, C₆) ≅ C₂² (via abelianization D₈/[D₈,D₈] ≅ C₂²). Up to Aut(D₈), there are 2 non-isomorphic non-trivial semidirect products (kernel can be rotation subgroup or Klein four, but the two Klein four cases are conjugate). Abelian: C₁₄×C₄? No, D₈ gives C₇×D₈ which is abelian? No, C₇×D₈ is direct product, abelian only if D₈ is... D₈ is non-abelian, so C₇×D₈ is non-abelian. Wait, with trivial action it's direct product, which is non-abelian. The abelian groups must come from abelian P₂. So abelian groups: C₅₆, C₂₈×C₂, C₁₄×C₄, C₁₄×C₂², C₇×C₂³. That's 5.",
+          "Step 8: For P₂ = Q₈: Hom(Q₈, C₆) ≅ C₂². Up to Aut(Q₈) ≅ S₄, all non-trivial maps are equivalent (kernels are the three cyclic subgroups ⟨i⟩,⟨j⟩,⟨k⟩, conjugate under Aut(Q₈)). So exactly ONE non-abelian C₇ ⋊ Q₈.",
+          "Step 9: Summarizing n₇=1: Abelian: 5 groups. Non-abelian: C₇⋊C₈ (1), C₇⋊(C₄×C₂) (2), C₇⋊C₂³ (1), C₇⋊D₈ (2), C₇⋊Q₈ (1) = 7 non-abelian. Total: 12.",
+          "Step 10: Case 2: n₇ = 8. Then P₇ is NOT normal. By Sylow counting, there are 8·6 = 48 elements of order 7. This leaves 56-48 = 8 elements for Sylow 2-subgroups, so n₂ = 1. Thus P₂ is normal in G.",
+          "Step 11: So G ≅ P₂ ⋊ C₇. For each P₂ of order 8, we need Hom(C₇, Aut(P₂)). |Aut(C₈)| = 4, 7∤4 so only trivial. |Aut(C₄×C₂)| = 8, 7∤8. |Aut(D₈)| = 8, 7∤8. |Aut(Q₈)| = 24, 7∤24.",
+          "Step 12: For P₂ = C₂³: |Aut(C₂³)| = |GL(3,2)| = 168. 7 | 168, so there are non-trivial homomorphisms C₇ → GL(3,2). All embeddings of C₇ are conjugate in GL(3,2) (Sylow 7-subgroups are conjugate). Up to Aut(C₇), there is exactly ONE non-abelian semidirect product: the Frobenius group AGL(1,8) = C₂³ ⋊ C₇, also called the affine group of the field F₈.",
+          "Step 13: The other P₂ give only trivial action, yielding abelian groups already counted. So n₇=8 contributes exactly 1 new group: AGL(1,8).",
+          "Step 14: Total: 5 abelian + 7 non-abelian with n₇=1 + 1 non-abelian with n₇=8 = 13 groups."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Missing the case n₇=8 where the Sylow 2-subgroup is normal, leading to only 12 groups instead of 13",
+          "Confusing isomorphic semidirect products when different homomorphisms have conjugate images under Aut(P₂)",
+          "Assuming all semidirect products with D₈ give isomorphic groups (there are actually 2 non-isomorphic ones)",
+          "Forgetting that Hom(P₂, C₆) depends on the abelianization P₂/P₂', not on P₂ itself"
+        ],
+        "required_knowledge": [
+          "Sylow theorems",
+          "Semidirect products and classification by homomorphisms",
+          "Automorphism groups of groups of order 8",
+          "Abelianization and Schur's lemma",
+          "Frobenius groups and AGL(1,q)"
+        ],
+        "reasoning_depth": 14,
+        "estimated_human_time_minutes": 60
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["group_theory", "sylow_theorems", "semidirect_products", "classification", "groups_of_order_56"]
+    },
+    {
+      "task_id": "S-MATH-04B-005",
+      "category": "MATHEMATICA",
+      "subcategory": "Group Theory — Classification and Sylow Counting",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Medium",
+      "difficulty_score": 5,
+      "prompt": "Let G be a finite group of order 12. Exactly one of the following four statements is TRUE. Select the true statement and provide a complete justification, proving that the other three are false by giving explicit counterexamples among the groups of order 12.\n\nA) If G has exactly 3 elements of order 2, then G ≅ A₄.\n\nB) If G is non-abelian and has a normal subgroup of order 3, then G ≅ D₁₂.\n\nC) If G has a unique subgroup of order 4, then G is cyclic.\n\nD) If G has exactly 8 elements of order 3, then G ≅ A₄.\n\nRecall that there are exactly 5 groups of order 12 up to isomorphism: the cyclic group C₁₂, the abelian group C₆ × C₂, the alternating group A₄, the dihedral group D₁₂, and the dicyclic group Dic₁₂ (also denoted Q₁₂).",
+      "prompt_format": "multiple_choice",
+      "constraints": [
+        "Select exactly one option A, B, C, or D",
+        "Prove the selected statement is true",
+        "For each false statement, give an explicit counterexample group of order 12 and verify it satisfies the hypothesis but not the conclusion"
+      ],
+      "ground_truth": {
+        "answer": "D",
+        "answer_type": "multiple_choice_letter",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The 5 groups of order 12 are: C₁₂ (cyclic), C₆×C₂ (abelian), A₄ (non-abelian, no normal C₃), D₁₂ (non-abelian, normal C₆), and Dic₁₂ (non-abelian, presentation ⟨a,b | a⁶=1, b²=a³, bab⁻¹=a⁻¹⟩).",
+          "Step 2: Analyze A: 'If G has exactly 3 elements of order 2, then G ≅ A₄.' A₄ does have exactly 3 elements of order 2 (the double transpositions). However, C₆×C₂ also has exactly 3 elements of order 2: (3,0), (0,1), (3,1). Since C₆×C₂ ≇ A₄, this is a counterexample. Thus A is FALSE.",
+          "Step 3: Analyze B: 'If G is non-abelian and has a normal subgroup of order 3, then G ≅ D₁₂.' D₁₂ does have a normal subgroup of order 3 (⟨r²⟩ in ⟨r⟩ ≅ C₆). However, Dic₁₂ also has a normal subgroup of order 3: ⟨a²⟩ = {1, a², a⁴}, and conjugation by b sends a² to a⁻² = a⁴ ∈ ⟨a²⟩. Since Dic₁₂ ≇ D₁₂ (Dic₁₂ has 6 elements of order 4, D₁₂ has none), Dic₁₂ is a counterexample. Thus B is FALSE.",
+          "Step 4: Analyze C: 'If G has a unique subgroup of order 4, then G is cyclic.' By Sylow's theorem, subgroups of order 4 are Sylow 2-subgroups. In A₄, there is a unique subgroup of order 4, namely the Klein four-group V₄ = {id, (12)(34), (13)(24), (14)(23)}. But A₄ is not cyclic. Thus C is FALSE.",
+          "Step 5: Analyze D: 'If G has exactly 8 elements of order 3, then G ≅ A₄.' In a group of order 12, elements of order 3 come in pairs {g, g⁻¹}. The number of such elements is even. By Sylow's theorem, n₃ ∈ {1, 4}. If n₃ = 1, there are exactly 2 elements of order 3. If n₃ = 4, there are 4·2 = 8 elements of order 3. So 8 elements of order 3 implies n₃ = 4, i.e., 4 Sylow 3-subgroups.",
+          "Step 6: Check which groups of order 12 have 8 elements of order 3. C₁₂: elements of order 3 are a⁴, a⁸ — 2 elements. C₆×C₂: similarly 2. D₁₂: r² and r⁴ have order 3 — 2 elements. Dic₁₂: a² and a⁴ have order 3 — 2 elements. A₄: the 8 three-cycles — 8 elements. Thus only A₄ has 8 elements of order 3. D is TRUE."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "# Verify element orders in groups of order 12\nfrom itertools import product\n\n# C6 x C2\nC6_C2 = list(product(range(6), range(2)))\ndef add_C6C2(a,b):\n    return ((a[0]+b[0])%6, (a[1]+b[1])%2)\ndef order_C6C2(g):\n    g2 = g\n    for o in range(1,13):\n        if g2 == (0,0):\n            return o\n        g2 = add_C6C2(g2, g)\n    return None\n\norders = [order_C6C2(g) for g in C6_C2 if g != (0,0)]\nprint('C6xC2 order counts:', {o: orders.count(o) for o in set(orders)})\n\n# A4 - elements are even permutations of 4 letters\nfrom sympy.combinatorics import Permutation\nA4 = [p for p in Permutation.generate_afull(4) if p.signature() == 1]\nprint('A4 size:', len(A4))\norder_A4 = [p.order() for p in A4 if p.order() != 1]\nprint('A4 order counts:', {o: order_A4.count(o) for o in set(order_A4)})\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Forgetting that C₆×C₂ also has 3 elements of order 2, making A false",
+          "Not knowing Dic₁₂ exists as a third non-abelian group of order 12, making B false",
+          "Assuming unique subgroup of order 4 implies cyclic without checking A₄",
+          "Confusing n₃ = 4 with other group invariants and not verifying the count of elements of order 3 in each group"
+        ],
+        "required_knowledge": [
+          "Sylow theorems for counting subgroups",
+          "Classification of groups of small order",
+          "Element orders in cyclic, abelian, and non-abelian groups",
+          "Dicyclic groups",
+          "Normal subgroups and quotient structures"
+        ],
+        "reasoning_depth": 6,
+        "estimated_human_time_minutes": 15
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["group_theory", "sylow_theorems", "classification", "element_orders", "multiple_choice"]
+    },
+    {
+      "task_id": "S-MATH-04B-006",
+      "category": "MATHEMATICA",
+      "subcategory": "Field Extensions — Splitting Fields and Galois Groups",
+      "bloom_level": "Understand",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 7,
+      "prompt": "Let f(x) = x⁶ - 2x³ + 2 ∈ Q[x].\n\n(a) Show that f(x) is irreducible over Q.\n\n(b) Determine the splitting field K of f(x) over Q, and compute [K : Q].\n\n(c) Describe the Galois group Gal(K/Q) up to isomorphism: identify it as a familiar group (dihedral, symmetric, cyclic, etc.) and justify your identification by analyzing the action on the roots.",
+      "prompt_format": "proof",
+      "constraints": [
+        "Use Eisenstein's criterion or a suitable substitution for irreducibility",
+        "Explicitly construct the splitting field by adjoining specific elements to Q",
+        "Determine the Galois group structure through its action on roots, not just by order counting"
+      ],
+      "ground_truth": {
+        "answer": "f is irreducible by Eisenstein at p=2. The splitting field is K = Q(α, ζ₃) where α³ = 1+i and ζ₃ = e^(2πi/3). [K:Q] = 12. Gal(K/Q) ≅ D₁₂ (dihedral group of order 12, isomorphic to S₃ × C₂).",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Eisenstein's criterion at p=2 applies directly to f(x) = x⁶ - 2x³ + 2. The leading coefficient 1 is not divisible by 2. All other coefficients (0, 0, -2, 0, 0, 2) are divisible by 2. The constant term 2 is divisible by 2 but not by 4. Thus f is irreducible over Q.",
+          "Step 2: Let y = x³. Then f(x) = y² - 2y + 2 = 0 gives y = (2 ± √(4-8))/2 = 1 ± i. So the roots satisfy x³ = 1+i or x³ = 1-i.",
+          "Step 3: Let α be a root with α³ = 1+i. The three roots with x³ = 1+i are α, αζ₃, αζ₃² where ζ₃ = e^(2πi/3). Similarly if β³ = 1-i, the roots are β, βζ₃, βζ₃².",
+          "Step 4: Note that (1+i)(1-i) = 2, so (αβ)³ = 2. Also note that i = α³ - 1 ∈ Q(α), so Q(α) contains i. Since Q(α) has degree 6 over Q and contains i, we have [Q(α):Q(i)] = 3.",
+          "Step 5: Does Q(α) contain ζ₃? If so, Q(α) would contain Q(i, ζ₃) which has degree 4 over Q (since i and √-3 generate independent quadratic extensions). But 4 does not divide [Q(α):Q] = 6, contradiction. Thus ζ₃ ∉ Q(α).",
+          "Step 6: The splitting field is K = Q(α, ζ₃). Since ζ₃ satisfies x²+x+1 = 0, we have [K:Q(α)] = 2. Therefore [K:Q] = [K:Q(α)][Q(α):Q] = 2·6 = 12.",
+          "Step 7: Gal(K/Q) has order 12. K/Q(ζ₃) is a degree-6 extension. Since ζ₃ ∈ Q(ζ₃), the extension K/Q(ζ₃) is obtained by adjoining cube roots of 1+i and 1-i. The Galois group Gal(K/Q(ζ₃)) acts on the two sets of cube roots independently, giving a group of order 6 isomorphic to S₃.",
+          "Step 8: Complex conjugation fixes Q but sends ζ₃ to ζ₃² and swaps the two cubics (since it sends 1+i to 1-i). This gives an outer automorphism of order 2 that does not commute with the S₃ action in a direct product way.",
+          "Step 9: The Galois group is therefore a semidirect product S₃ ⋊ C₂ of order 12. There are two groups of order 12 with this structure: S₃ × C₂ and D₁₂. These are actually isomorphic: D₁₂ ≅ S₃ × C₂ ≅ D₆ × C₂. Thus Gal(K/Q) ≅ D₁₂, the dihedral group of order 12.",
+          "Step 10: To verify: D₁₂ has a normal C₆ (the rotations), and S₃ × C₂ has a normal C₃ × {0} with quotient C₂ × C₂. Wait, these don't match. Let me be more careful. D₁₂ = ⟨r,s | r⁶=s²=1, srs=r⁻¹⟩ has center ⟨r³⟩ ≅ C₂ and quotient D₁₂/⟨r³⟩ ≅ D₆ ≅ S₃. S₃ × C₂ has center C₂ and quotient S₃. Since both are center-by-S₃, they are isomorphic. Explicit isomorphism: map r ↦ ((123), c) and s ↦ ((12), 0)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "from sympy import *\nx = symbols('x')\nf = x**6 - 2*x**3 + 2\nprint('Irreducible over Q?', factor(f))\nprint('At p=2:', factor(f, modulus=2))  # Should be x^6\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Failing to recognize that x⁶ - 2x³ + 2 is directly Eisenstein at p=2 without substitution",
+          "Incorrectly computing the degree of the splitting field as 6 instead of 12 by forgetting to adjoin ζ₃",
+          "Confusing the Galois group with C₁₂ or A₄ instead of D₁₂",
+          "Assuming Q(α) is Galois over Q without checking if it contains all conjugates"
+        ],
+        "required_knowledge": [
+          "Eisenstein's criterion",
+          "Splitting fields of polynomials of the form f(x^n)",
+          "Galois groups of solvable polynomials",
+          "Dihedral groups and semidirect products",
+          "Field degrees and tower law"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 40
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["galois_theory", "splitting_fields", "irreducibility", "dihedral_group", "cyclotomic_fields"]
+    },
+    {
+      "task_id": "S-MATH-04B-007",
+      "category": "MATHEMATICA",
+      "subcategory": "Modules over PIDs and Canonical Forms",
+      "bloom_level": "Analyze",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 9,
+      "prompt": "Let T be a linear operator on a 5-dimensional vector space V over the field F = R. Suppose the characteristic polynomial of T is c_T(x) = (x² + 1)²(x - 2) and the minimal polynomial is m_T(x) = (x² + 1)(x - 2).\n\n(a) Determine all possible rational canonical forms of T over R. For each possibility, specify the companion matrix blocks and their sizes.\n\n(b) For EACH rational canonical form you found in (a), determine whether T is diagonalizable over C. If not, compute its Jordan canonical form over C and compare the sizes of the Jordan blocks with the invariant factors from the rational canonical form.\n\n(c) Now suppose V is regarded as an R[x]-module via T. Decompose V as a direct sum of cyclic R[x]-modules, explicitly identifying the invariant factors and elementary divisors. Compute the index [V : R[x]·v] where v is a cyclic vector for V, or prove that no cyclic vector exists.\n\n(d) Determine the dimension of the centralizer C(T) = {S ∈ End(V) : ST = TS} as a real vector space.",
+      "prompt_format": "open_ended",
+      "constraints": [
+        "List every possible rational canonical form explicitly with block sizes",
+        "Part (c) must use the structure theorem for finitely generated modules over a PID",
+        "Part (d) requires computing the dimension from the invariant factors, not just guessing"
+      ],
+      "ground_truth": {
+        "answer": "(a) Unique RCF: companion((x²+1)(x-2)) ⊕ companion(x²+1), i.e., one 3×3 block and one 2×2 block. (b) Over C, x²+1=(x-i)(x+i). Minimal polynomial has distinct linear factors, so T is diagonalizable over C: JCF = diag(i, -i, 2, i, -i). (c) V ≅ R[x]/((x²+1)(x-2)) ⊕ R[x]/((x²+1)). Invariant factors: (x²+1)(x-2), (x²+1). Elementary divisors: (x²+1), (x²+1), (x-2). No cyclic vector exists (2 invariant factors > 1). (d) dim C(T) = 9.",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: The rational canonical form is determined by invariant factors d₁ | d₂ | ... | d_k where d_k = m_T and ∏ d_i = c_T. Here m_T = (x²+1)(x-2), c_T = (x²+1)²(x-2).",
+          "Step 2: Since d_k = (x²+1)(x-2) and the product must equal (x²+1)²(x-2), we need exactly one more invariant factor d_{k-1} such that d_{k-1}·d_k = c_T and d_{k-1} | d_k. So d_{k-1} = (x²+1), which indeed divides d_k. Thus there is exactly ONE rational canonical form: companion((x²+1)(x-2)) ⊕ companion(x²+1), i.e., a 3×3 block and a 2×2 block.",
+          "Step 3: The companion matrix of (x²+1)(x-2) = x³ - 2x² + x - 2 is [[0,0,2],[1,0,-1],[0,1,2]]. The companion matrix of x²+1 is [[0,-1],[1,0]].",
+          "Step 4: Over C, x²+1 = (x-i)(x+i). The companion matrix of x²+1 is similar to diag(i, -i) over C. The companion matrix of (x²+1)(x-2) is similar to diag(i, -i, 2) over C since the minimal polynomial has distinct linear factors over C. Thus T is diagonalizable over C with eigenvalues i, -i (multiplicity 2 each) and 2 (multiplicity 1).",
+          "Step 5: The Jordan form over C is diag(i, -i, 2, i, -i) — five 1×1 Jordan blocks. This is consistent with T being diagonalizable over C.",
+          "Step 6: As an R[x]-module, V ≅ R[x]/((x²+1)(x-2)) ⊕ R[x]/((x²+1)) by the structure theorem for finitely generated modules over a PID (here PID = R[x]).",
+          "Step 7: The elementary divisors over R[x] are the prime power factors of the invariant factors: (x²+1), (x-2), (x²+1). So the elementary divisors are (x²+1), (x²+1), (x-2).",
+          "Step 8: V is not a cyclic R[x]-module because it requires 2 generators (the number of invariant factors is 2 > 1). A cyclic vector would exist iff there is only one invariant factor, i.e., iff the RCF is a single companion block. Since we have two blocks, no cyclic vector exists.",
+          "Step 9: For the centralizer dimension: For a linear operator with invariant factors d₁ | d₂ | ... | d_k, the dimension of C(T) over the field F is ∑_{i=1}^k ∑_{j=1}^k deg(gcd(d_i, d_j)). This is a standard result (see Jacobson or Hoffman-Kunze).",
+          "Step 10: With d₁ = x²+1 (degree 2) and d₂ = (x²+1)(x-2) (degree 3): gcd(d₁,d₁) = x²+1, deg=2. gcd(d₁,d₂) = x²+1, deg=2. gcd(d₂,d₁) = x²+1, deg=2. gcd(d₂,d₂) = (x²+1)(x-2), deg=3. Sum = 2+2+2+3 = 9.",
+          "Step 11: Alternative verification: C(T) consists of polynomials in T when T is cyclic, but T is not cyclic here. The centralizer is isomorphic to End_{R[x]}(V) ≅ End_{R[x]}(R[x]/d₁ ⊕ R[x]/d₂). The ring Hom(R[x]/d₁, R[x]/d₂) ≅ R[x]/gcd(d₁,d₂) = R[x]/(x²+1), dimension 2 over R. Similarly Hom(R[x]/d₂, R[x]/d₁) ≅ R[x]/gcd(d₂,d₁), dimension 2. End(R[x]/d₁) ≅ R[x]/d₁, dimension 2. End(R[x]/d₂) ≅ R[x]/d₂, dimension 3. Total 2+2+2+3 = 9."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": null
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Assuming multiple rational canonical forms exist when the invariant factors are uniquely determined by c_T and m_T",
+          "Claiming T is not diagonalizable over C because the RCF has blocks larger than 1×1, forgetting that over C the irreducible quadratic splits",
+          "Incorrectly computing the centralizer dimension as deg(m_T) = 3 or as n = 5",
+          "Asserting a cyclic vector exists without checking the number of invariant factors"
+        ],
+        "required_knowledge": [
+          "Rational canonical form and invariant factors",
+          "Structure theorem for finitely generated modules over PIDs",
+          "Companion matrices",
+          "Jordan canonical form over algebraically closed fields",
+          "Centralizer of a linear operator"
+        ],
+        "reasoning_depth": 11,
+        "estimated_human_time_minutes": 35
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": false,
+        "perturbation_type": null
+      },
+      "tags": ["rational_canonical_form", "modules_over_PID", "invariant_factors", "centralizer", "companion_matrix"]
+    },
+    {
+      "task_id": "S-MATH-04B-008",
+      "category": "MATHEMATICA",
+      "subcategory": "Ring Theory — Quotient Rings and Homomorphisms",
+      "bloom_level": "Evaluate",
+      "difficulty_tier": "Hard",
+      "difficulty_score": 8,
+      "prompt": "Consider the ring R = Z[x] and the ideal I = (x³ - x + 1, 5).\n\nA student claims:\n\n(1) R/I ≅ F₅[x]/(x³ - x + 1).\n(2) Since x³ - x + 1 has no roots in F₅ (checked by evaluating at 0,1,2,3,4), it is irreducible over F₅.\n(3) Therefore F₅[x]/(x³ - x + 1) is a field with 5³ = 125 elements, so I is a maximal ideal of R.\n(4) Consequently, the quotient ring S = Z[x]/(x³ - x + 1) has characteristic 0 and is an integral domain, and the natural map φ: S → R/I is a ring isomorphism.\n\nYour task: Identify ALL errors in this chain of reasoning. For each erroneous claim, explain precisely why it is wrong and provide the correct statement. Then answer:\n\n(a) What is the correct structure of R/I? Is it a field? If so, how many elements does it have? If not, what is its structure as a ring?\n\n(b) Is the ideal I = (x³ - x + 1, 5) maximal in Z[x]? Prime?\n\n(c) Is S = Z[x]/(x³ - x + 1) an integral domain? Is it a PID? Justify.\n\n(d) What is the kernel of the natural map ψ: Z[x] → F₅[x]/(x³ - x + 1)? Express it in terms of I or other generators if needed.",
+      "prompt_format": "error_detection",
+      "constraints": [
+        "Label each identified error as Error 1, Error 2, etc.",
+        "For parts (a)-(d), give definitive yes/no answers with justification",
+        "Do not assume standard results without verifying hypotheses"
+      ],
+      "ground_truth": {
+        "answer": "Errors: (1) Claim (1) is CORRECT. (2) Claim (2) is WRONG: f(3) = 27-3+1 = 25 ≡ 0 (mod 5), so x=3 is a root. The polynomial factors as (x+2)(x²+3x+3) in F₅[x]. (3) Claim (3) is WRONG: since the polynomial is reducible, F₅[x]/(x³-x+1) ≅ F₅ × F₂₅ by CRT, not a field. (4) Claim (4) is WRONG on multiple counts: R/I is finite of characteristic 5, S is infinite of characteristic 0, so they cannot be isomorphic. Answers: (a) R/I ≅ F₅ × F₂₅, not a field, 125 elements. (b) I is neither maximal nor prime. (c) S is an integral domain (x³-x+1 irreducible over Q), and is a PID (discriminant -23 is squarefree, class number 1). (d) ker(ψ) = I = (5, x³-x+1).",
+        "answer_type": "exact_string",
+        "tolerance": null,
+        "solution_steps": [
+          "Step 1: Error 1 analysis: Claim (1) R/I ≅ F₅[x]/(x³-x+1) is actually CORRECT. By the third isomorphism theorem: Z[x]/(5, x³-x+1) ≅ (Z[x]/(5))/((5, x³-x+1)/(5)) ≅ F₅[x]/(x³-x+1).",
+          "Step 2: Error 2: The student claims x³-x+1 has no roots in F₅. Evaluating: f(0)=1, f(1)=1, f(2)=8-2+1=7≡2, f(3)=27-3+1=25≡0, f(4)=64-4+1=61≡1. So f(3)=0! The student made an arithmetic error. In F₅[x], x³-x+1 = (x+2)(x²+3x+3).",
+          "Step 3: Error 3: The student concludes x³-x+1 is irreducible over F₅ because it has degree 3 and 'no roots.' But f(3)=0, so it is REDUCIBLE. A degree-3 polynomial over a field is irreducible iff it has no roots.",
+          "Step 4: Error 4: The student claims F₅[x]/(x³-x+1) is a field with 125 elements. Since x³-x+1 is reducible, the quotient has zero divisors. Specifically, (x+2)(x²+3x+3) ≡ 0 in the quotient, but neither factor is 0.",
+          "Step 5: Error 5: The student concludes I is maximal. Since R/I is not a field, I is NOT maximal. I is not even prime because R/I has zero divisors.",
+          "Step 6: Error 6: The student claims φ: S → R/I is a ring isomorphism. This is impossible because S = Z[x]/(x³-x+1) is infinite (characteristic 0), while R/I ≅ F₅[x]/(x³-x+1) is finite with 125 elements.",
+          "Step 7: Part (a): By CRT, since x+2 and x²+3x+3 are coprime in F₅[x] (verify: x²+3x+3 at x=3 gives 9+9+3=21≡1≠0), we have F₅[x]/((x+2)(x²+3x+3)) ≅ F₅[x]/(x+2) × F₅[x]/(x²+3x+3) ≅ F₅ × F₂₅. This has 5·25 = 125 elements and is not a field.",
+          "Step 8: Part (b): I is NOT maximal (quotient is not a field). I is NOT prime (quotient has zero divisors, e.g., (x+2) and (x²+3x+3) are non-zero zero divisors).",
+          "Step 9: Part (c): S = Z[x]/(x³-x+1) ≅ Z[α] where α is a root of x³-x+1. Over Q, x³-x+1 is irreducible (no rational roots: ±1 give 1≠0). Thus (x³-x+1) is prime in Q[x], so Q[x]/(x³-x+1) is a field, and S is an order in this number field. S is an integral domain. The discriminant of x³-x+1 is -23 (squarefree), so S = O_{Q(α)} is the full ring of integers. The Minkowski bound is < 2, so the class number is 1. Thus S is a PID.",
+          "Step 10: Part (d): The natural map ψ: Z[x] → F₅[x]/(x³-x+1) has kernel exactly I = (5, x³-x+1). This follows from the first isomorphism theorem and the identification R/I ≅ F₅[x]/(x³-x+1)."
+        ],
+        "verification_method": "exact_match",
+        "verification_code": "# Verify polynomial evaluation and factorization in F_5\ndef eval_f5(x):\n    return (x**3 - x + 1) % 5\n\nfor x in range(5):\n    print(f'f({x}) = {eval_f5(x)}')\n\n# Check: (x+2)(x^2+3x+3) in F_5\ndef mul_f5():\n    # (x+2)(x^2+3x+3) = x^3 + 3x^2 + 3x + 2x^2 + 6x + 6 = x^3 + 5x^2 + 9x + 6\n    # In F_5: 5=0, 9=4, 6=1\n    return (0, 4, 1)  # coefficients of x^2, x, constant... wait, it's x^3 + 0x^2 + 4x + 1\nprint('Expected f(x)=x^3+4x+1 in F_5:', mul_f5())\n"
+      },
+      "meta_reasoning": {
+        "common_errors": [
+          "Incorrectly evaluating f(3) = 27-3+1 = 25 ≡ 0 (mod 5) as non-zero",
+          "Assuming degree-3 polynomial with no roots is irreducible without checking roots correctly",
+          "Concluding maximality without verifying the quotient is a field",
+          "Confusing Z[x]/(f) with F_p[x]/(f) and claiming an isomorphism between infinite and finite rings"
+        ],
+        "required_knowledge": [
+          "Quotient rings and the third isomorphism theorem",
+          "Irreducibility criteria over finite fields",
+          "Prime and maximal ideals in polynomial rings",
+          "Chinese Remainder Theorem for polynomials",
+          "Orders in number fields and integral domains"
+        ],
+        "reasoning_depth": 10,
+        "estimated_human_time_minutes": 30
+      },
+      "perturbation_notes": {
+        "is_unsolvable": false,
+        "has_red_herrings": true,
+        "perturbation_type": "red_herring"
+      },
+      "tags": ["quotient_rings", "irreducibility", "finite_fields", "maximal_ideals", "error_detection"]
+    }
+  ]
+}
